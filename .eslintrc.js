@@ -3,6 +3,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
+    'plugin:react/recommended',
     'prettier/@typescript-eslint',
     // 'plugin:jsx-a11y/recommended'
   ],
@@ -13,9 +14,10 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'react'],
   env: {
     browser: true,
+    node: true,
     es6: true
   },
   rules: {
@@ -57,5 +59,8 @@ module.exports = {
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
+    'react/jsx-uses-vars': [2],
+    'react/jsx-key': [0],
+    'react/prop-types': [0],
   }
 }
