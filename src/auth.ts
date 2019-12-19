@@ -68,7 +68,6 @@ export const authenticate = ({
     }
   );
 
-  // @ts-ignore
   const popup = popupCenter({});
 
   setupListener({ popup, authRequest, finished, dataVaultURL, userSession });

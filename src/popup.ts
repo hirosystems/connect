@@ -1,5 +1,5 @@
 interface PopupOptions {
-  url: string;
+  url?: string;
   title?: string;
   w?: number;
   h?: number;
