@@ -54,7 +54,7 @@ interface ScreenAction {
 
 interface IScreenTemplate {
   title: string | React.ElementType;
-  pretitle: string | React.ElementType;
+  pretitle?: string | React.ElementType;
   body?: (string | JSX.Element)[];
   back?: () => void;
   action?: ScreenAction | ScreenAction[];
