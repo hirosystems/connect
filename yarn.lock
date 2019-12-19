@@ -730,8 +730,10 @@
   resolved "https://registry.yarnpkg.com/@blockstack/prettier-config/-/prettier-config-0.0.3.tgz#2ef0eeb9f06cea73b069ac3d1abdbd9f6ccf97d7"
   integrity sha512-SmNPAaozcG+41enJHSH/4DL9vg3snNPzLOAeo6WbX4rIPiMygNJVo1hdknDUP8fdn4niwvL/9k746N5yTRThAA==
 
-"@blockstack/ui@file:../blockstack-ui":
-  version "1.0.0-alpha.20"
+"@blockstack/ui@^1.0.0-alpha.22":
+  version "1.0.0-alpha.22"
+  resolved "https://registry.yarnpkg.com/@blockstack/ui/-/ui-1.0.0-alpha.22.tgz#2bda7162d4b46f7dd75302ab819716b2a4492536"
+  integrity sha512-2Cr3d8lWKS5m7ENRqUGns8bKwnK1DxCDmc9eOTG4+IN2su7zNzs4Eu4lVRhs86uyaF8zYYfEpCxspZuQtOpe8Q==
   dependencies:
     "@styled-system/css" "5.1.4"
     "@types/color" "^3.0.0"
