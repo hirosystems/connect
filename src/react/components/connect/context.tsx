@@ -3,11 +3,12 @@ import { AuthOptions } from '../../../auth';
 
 const MODAL_OPEN = 'modal/open';
 const MODAL_CLOSE = 'modal/close';
+const UPDATE_AUTH_OPTIONS = 'data/update-auth-options';
 const SCREENS_INTRO = 'screens/intro';
 const SCREENS_HOW_IT_WORKS = 'screens/how-it-works';
 const SCREENS_SIGN_IN = 'screens/sign-in';
 
-type Action = { type: string };
+type Action = { type: string; payload?: any };
 
 type Dispatch = (action: Action) => void;
 
@@ -29,7 +30,10 @@ const initialState = {
   }
 };
 
-const connectReducer = (state: State, { type }: { type: string }) => {
+const connectReducer = (
+  state: State,
+  { type, payload }: { type: string; payload?: any }
+) => {
   switch (type) {
     case MODAL_OPEN: {
       return { ...state, isOpen: true };
@@ -53,6 +57,16 @@ const connectReducer = (state: State, { type }: { type: string }) => {
       return {
         ...state,
         screen: SCREENS_SIGN_IN
+      };
+    }
+
+    case UPDATE_AUTH_OPTIONS: {
+      return {
+        ...state,
+        authOptions: {
+          ...state.authOptions,
+          ...payload
+        }
       };
     }
 
@@ -93,5 +107,6 @@ export {
   MODAL_CLOSE,
   SCREENS_INTRO,
   SCREENS_HOW_IT_WORKS,
-  SCREENS_SIGN_IN
+  SCREENS_SIGN_IN,
+  UPDATE_AUTH_OPTIONS
 };

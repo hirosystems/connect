@@ -22,6 +22,20 @@ export interface AuthOptions {
   };
 }
 
+// To allow the ability to on-the-fly pass any of these keys to update the state
+export interface OptionalAuthOptions {
+  redirectTo?: string;
+  manifestPath?: string;
+  finished?: (data: FinishedData) => void;
+  vaultUrl?: string;
+  sendToSignIn?: boolean;
+  userSession?: UserSession;
+  appDetails?: {
+    name?: string;
+    icon?: string;
+  };
+}
+
 export const authenticate = ({
   redirectTo,
   manifestPath,
