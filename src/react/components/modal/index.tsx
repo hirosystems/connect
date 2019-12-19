@@ -8,13 +8,17 @@ import {
   Box,
   Text
 } from '@blockstack/ui';
-import ChevronRightIcon from 'mdi-react/ChevronRightIcon';
+// import ChevronRightIcon from 'mdi-react/ChevronRightIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { useHover } from 'use-events';
 import { Logo } from '../logo';
-import { Intro } from '../intro';
-import { AppIcon } from '../app-icon';
+import { Intro } from '../screens/intro';
+import { HowItWorks } from '../screen/how-it-works';
+import { ContinueWithDataVault } from '../screen/sign-in';
+// import { AppIcon } from '../app-icon';
 import { useConnect } from '../../hooks/useConnect';
+import { SCREENS_HOW_IT_WORKS, SCREENS_SIGN_IN } from '../connect/context';
+// import { useAppDetails } from '../../hooks/useAppDetails';x
 
 interface HeaderTitleProps {
   title: string;
@@ -34,9 +38,8 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
 );
 
 interface IModalHeader {
-  appIcon?: string;
   title: string;
-  close?: () => void;
+  close?: boolean;
   hideIcon?: boolean;
 }
 
@@ -57,13 +60,9 @@ const ModalHeaderCloseButtom = (props: any) => {
   );
 };
 
-const ModalHeader = ({
-  appIcon,
-  title,
-  hideIcon,
-  close,
-  ...rest
-}: IModalHeader) => {
+const ModalHeader = ({ title, hideIcon, close, ...rest }: IModalHeader) => {
+  // const { icon } = useAppDetails();
+
   return (
     <Flex
       p={[4, 5]}
@@ -76,12 +75,11 @@ const ModalHeader = ({
       {...rest}
     >
       <Flex align="center">
-        {appIcon ? <AppIcon src={appIcon} alt="replace with app name" /> : null}
-        {appIcon ? (
-          <Box pr={1} pl={2} color="ink.300">
-            <ChevronRightIcon size={20} />
-          </Box>
-        ) : null}
+        {/*{icon ? (*/}
+        {/*  <Box pr={1} pl={2} color="ink.300">*/}
+        {/*    <ChevronRightIcon size={20} />*/}
+        {/*  </Box>*/}
+        {/*) : null}*/}
         <HeaderTitle hideIcon={hideIcon} title={title} />
       </Flex>
       {close ? <ModalHeaderCloseButtom onClick={close} /> : null}
@@ -89,24 +87,40 @@ const ModalHeader = ({
   );
 };
 
+const RenderScreen: React.FC = () => {
+  const { screen } = useConnect();
+  switch (screen) {
+    case SCREENS_HOW_IT_WORKS: {
+      return <HowItWorks />;
+    }
+    case SCREENS_SIGN_IN: {
+      return (
+        <Box width="100%">
+          <ContinueWithDataVault />
+        </Box>
+      );
+    }
+    default: {
+      return <Intro />;
+    }
+  }
+};
+
 const Modal = () => {
-  const { isOpen } = useConnect();
+  const { isOpen, screen } = useConnect();
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
       <BlockstackModal
         headerComponent={
           <ModalHeader
-            appIcon={
-              'https://appco.imgix.net/apps/409b27e0-5c04-48e0-b9a2-7a6e92cce4f6?fit=clip&h=180&w=180'
-            }
-            close={() => console.log('close')}
-            title={'Data Vault'}
+            close
+            title={screen === SCREENS_SIGN_IN ? 'Sign In' : 'Data Vault'}
           />
         }
         isOpen={isOpen}
       >
-        <Intro />
+        <RenderScreen />
       </BlockstackModal>
     </ThemeProvider>
   );

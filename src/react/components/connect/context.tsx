@@ -1,30 +1,61 @@
 import React, { useReducer, createContext } from 'react';
 import { AuthOptions } from '../../../auth';
 
-type Action = { type: 'open' } | { type: 'close' };
+const MODAL_OPEN = 'modal/open';
+const MODAL_CLOSE = 'modal/close';
+const SCREENS_INTRO = 'screens/intro';
+const SCREENS_HOW_IT_WORKS = 'screens/how-it-works';
+const SCREENS_SIGN_IN = 'screens/sign-in';
+
+type Action = { type: string };
+
 type Dispatch = (action: Action) => void;
-type State = { isOpen: boolean; authOptions: AuthOptions };
+
+type State = { isOpen: boolean; screen: string; authOptions: AuthOptions };
 
 const initialState = {
   isOpen: false,
+  screen: SCREENS_INTRO,
   authOptions: {
     redirectTo: '',
     manifestPath: '',
     finished: () => null,
     vaultUrl: undefined,
-    sendToSignIn: false
+    sendToSignIn: false,
+    appDetails: {
+      name: '',
+      icon: ''
+    }
   }
 };
 
-// @ts-ignore
-const connectReducer = (state, { type }) => {
+const connectReducer = (state: State, { type }: { type: string }) => {
   switch (type) {
-    case 'open': {
-      return { isOpen: true };
+    case MODAL_OPEN: {
+      return { ...state, isOpen: true };
     }
-    case 'close': {
-      return { isOpen: false };
+    case MODAL_CLOSE: {
+      return { ...state, isOpen: false };
     }
+    case SCREENS_INTRO: {
+      return {
+        ...state,
+        screen: SCREENS_INTRO
+      };
+    }
+    case SCREENS_HOW_IT_WORKS: {
+      return {
+        ...state,
+        screen: SCREENS_HOW_IT_WORKS
+      };
+    }
+    case SCREENS_SIGN_IN: {
+      return {
+        ...state,
+        screen: SCREENS_SIGN_IN
+      };
+    }
+
     default: {
       throw new Error(`Unhandled action type: ${type}`);
     }
@@ -57,5 +88,10 @@ export {
   connectReducer,
   ConnectContext,
   ConnectDispatchContext,
-  ConnectProvider
+  ConnectProvider,
+  MODAL_OPEN,
+  MODAL_CLOSE,
+  SCREENS_INTRO,
+  SCREENS_HOW_IT_WORKS,
+  SCREENS_SIGN_IN
 };

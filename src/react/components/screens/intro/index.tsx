@@ -1,23 +1,37 @@
 import React from 'react';
 import { Box, Stack } from '@blockstack/ui';
-import { ScreenTemplate } from '../screen';
-import { CheckList } from '../checklist';
-import { Link } from '../link';
-import { AppIcon } from '../app-icon';
-import { authenticate } from '../../../auth';
-import { useConnect } from '../../hooks/useConnect';
+import { ScreenTemplate } from '../../screen';
+import { CheckList } from '../../checklist';
+import { Link } from '../../link';
+import { AppIcon } from '../../app-icon';
+import { authenticate } from '../../../../auth';
+import { useConnect } from '../../../hooks/useConnect';
+import { Logo } from '../../logo';
+import { useAppDetails } from '../../../hooks/useAppDetails';
+
+const AppElement = ({
+  name,
+  icon,
+  ...rest
+}: {
+  name: string;
+  icon: string;
+}) => (
+  <Box mx="auto" size="78px" position="relative" {...rest}>
+    <Box position="absolute" top="-4px" right="-4px">
+      <Logo />
+    </Box>
+    <AppIcon size="78px" src={icon} alt={name} borderRadius="0" />
+  </Box>
+);
 
 const Intro = () => {
-  const { name, icon } = {
-    name: 'test app',
-    icon:
-      'https://appco.imgix.net/apps/409b27e0-5c04-48e0-b9a2-7a6e92cce4f6?fit=clip&h=180&w=180'
-  };
-  const { authOptions } = useConnect();
+  const { doGoToHowItWorksScreen, authOptions } = useConnect();
+  const { name, icon } = useAppDetails();
   return (
     <>
       <ScreenTemplate
-        before={<AppIcon mx="auto" size="78px" src={icon} alt={name} />}
+        before={<AppElement name={name} icon={icon} />}
         textAlign="center"
         noMinHeight
         title={`Use ${name} privately and securely with Data Vault`}
@@ -34,7 +48,6 @@ const Intro = () => {
         action={{
           label: 'Create Data Vault',
           onClick: () => {
-            // doTrack(INTRO_CREATE);
             authenticate(authOptions);
           }
         }}
@@ -50,7 +63,7 @@ const Intro = () => {
               </Link>
               <Link
                 onClick={() => {
-                  console.log('show screen');
+                  doGoToHowItWorksScreen();
                 }}
               >
                 How Data Vault works

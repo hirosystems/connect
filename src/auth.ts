@@ -16,7 +16,7 @@ export interface AuthOptions {
   vaultUrl?: string;
   sendToSignIn?: boolean;
   userSession?: UserSession;
-  appDetails?: {
+  appDetails: {
     name: string;
     icon: string;
   };
@@ -54,9 +54,8 @@ export const authenticate = ({
     }
   );
 
-
-  const popup = popupCenter({
-  });
+  // @ts-ignore
+  const popup = popupCenter({});
 
   setupListener({ popup, authRequest, finished, dataVaultURL, userSession });
 };

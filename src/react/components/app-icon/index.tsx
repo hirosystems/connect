@@ -8,7 +8,7 @@ interface AppIconProps {
 }
 
 const AppIcon: React.FC<AppIconProps & BoxProps> = ({ src, alt, ...rest }) => (
-  <Box borderRadius="6px" overflow="hidden" bg="ink.200" size={6} {...rest}>
+  <Box borderRadius="6px" overflow="hidden" size={6} {...rest}>
     <Image src={src} alt={alt} title={alt} loading="lazy" />
   </Box>
 );

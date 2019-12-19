@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Flex, Box, Spinner, Stack } from '@blockstack/ui';
-import { Title, Body, BackLink } from '../typography';
+import { Title, Pretitle, Body, BackLink } from '../typography';
 import { BoxProps } from '@blockstack/ui/dist/box';
 import { Link } from '../link';
 
@@ -54,6 +54,7 @@ interface ScreenAction {
 
 interface IScreenTemplate {
   title: string | React.ElementType;
+  pretitle: string | React.ElementType;
   body?: (string | JSX.Element)[];
   back?: () => void;
   action?: ScreenAction | ScreenAction[];
@@ -64,8 +65,17 @@ interface IScreenTemplate {
   noMinHeight?: boolean;
 }
 
-const MainContent = ({ title, body }: { title: any; body: any }) => (
+const MainContent = ({
+  pretitle,
+  title,
+  body
+}: {
+  pretitle: any;
+  title: any;
+  body: any;
+}) => (
   <Stack spacing={2}>
+    {pretitle && <Pretitle>{pretitle}</Pretitle>}
     <Title>{title}</Title>
     <Stack spacing={[3, 4]}>
       {body && body.length
@@ -74,7 +84,8 @@ const MainContent = ({ title, body }: { title: any; body: any }) => (
     </Stack>
   </Stack>
 );
-const Actions = ({ action }: { action: any }) =>
+
+const Actions = ({ action }: { action?: ScreenAction | ScreenAction[] }) =>
   action ? (
     Array.isArray(action) ? (
       <Flex justify="space-between" align="center">
@@ -104,9 +115,11 @@ const Actions = ({ action }: { action: any }) =>
       </Box>
     )
   ) : null;
+
 const ScreenTemplate = ({
   before,
   title,
+  pretitle,
   body,
   action,
   after,
@@ -129,7 +142,7 @@ const ScreenTemplate = ({
       >
         <BackLink onClick={back} />
         {before ? before : null}
-        <MainContent title={title} body={body} />
+        <MainContent pretitle={pretitle} title={title} body={body} />
         <Actions action={action} />
         {after ? after : null}
         <Footer content={footer} />
