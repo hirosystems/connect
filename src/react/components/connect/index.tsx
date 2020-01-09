@@ -10,7 +10,7 @@ import { AuthOptions } from '../../../auth';
  * const auth = {
       manifestPath: '/static/manifest.json',
       redirectTo: '/',
-      finished: () => {
+      finished: ({userSession}) => {
         doFinishSignIn();
       },
       vaultUrl,
@@ -22,7 +22,6 @@ import { AuthOptions } from '../../../auth';
  *
  * <Connect authOptions={authOptions} />
  */
-
 const Connect = ({
   authOptions,
   children

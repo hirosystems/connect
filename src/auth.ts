@@ -1,7 +1,8 @@
 import { UserSession, AppConfig } from 'blockstack';
+import './types';
 import { popupCenter } from './popup';
 
-const dataVaultHost = 'https://vault.hankstoever.com';
+const defaultVaultURL = 'https://vault.hankstoever.com';
 
 interface FinishedData {
   authResponse: string;
@@ -22,30 +23,15 @@ export interface AuthOptions {
   };
 }
 
-// To allow the ability to on-the-fly pass any of these keys to update the state
-export interface OptionalAuthOptions {
-  redirectTo?: string;
-  manifestPath?: string;
-  finished?: (data: FinishedData) => void;
-  vaultUrl?: string;
-  sendToSignIn?: boolean;
-  userSession?: UserSession;
-  appDetails?: {
-    name?: string;
-    icon?: string;
-  };
-}
-
-export const authenticate = ({
+export const authenticate = async ({
   redirectTo,
   manifestPath,
   finished,
   vaultUrl,
   sendToSignIn = false,
   userSession,
-  appDetails
+  appDetails,
 }: AuthOptions) => {
-  const dataVaultURL = new URL(vaultUrl || dataVaultHost);
   if (!userSession) {
     const appConfig = new AppConfig(
       ['store_write', 'publish_data'],
@@ -67,12 +53,14 @@ export const authenticate = ({
     undefined,
     {
       sendToSignIn,
-      appDetails
+      appDetails,
     }
   );
 
+  const extensionURL = await window.BlockstackProvider?.getURL();
+  const dataVaultURL = new URL(extensionURL || vaultUrl || defaultVaultURL);
   const popup = popupCenter({
-    url: `${dataVaultURL.origin}/actions.html?authRequest=${authRequest}`
+    url: `${dataVaultURL.origin}/actions.html?authRequest=${authRequest}`,
   });
 
   setupListener({ popup, authRequest, finished, dataVaultURL, userSession });
@@ -97,14 +85,14 @@ const setupListener = ({
   authRequest,
   finished,
   dataVaultURL,
-  userSession
+  userSession,
 }: ListenerParams) => {
   const interval = setInterval(() => {
     if (popup) {
       try {
         popup.postMessage(
           {
-            authRequest
+            authRequest,
           },
           dataVaultURL.origin
         );
@@ -125,7 +113,7 @@ const setupListener = ({
         await userSession.handlePendingSignIn(authResponse);
         finished({
           authResponse,
-          userSession
+          userSession,
         });
       }
       window.removeEventListener('message', receiveMessageCallback);

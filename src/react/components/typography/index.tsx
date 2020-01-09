@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text, Box } from '@blockstack/ui';
+import { Text, Box, BoxProps } from '@blockstack/ui';
 import ChevronLeftIcon from 'mdi-react/ChevronLeftIcon';
-import { BoxProps } from '@blockstack/ui/dist/box';
 
 const Title: React.FC = props => (
   <Text

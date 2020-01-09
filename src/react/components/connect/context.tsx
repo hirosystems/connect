@@ -1,12 +1,14 @@
 import React, { useReducer, createContext } from 'react';
 import { AuthOptions } from '../../../auth';
 
-const MODAL_OPEN = 'modal/open';
-const MODAL_CLOSE = 'modal/close';
-const UPDATE_AUTH_OPTIONS = 'data/update-auth-options';
-const SCREENS_INTRO = 'screens/intro';
-const SCREENS_HOW_IT_WORKS = 'screens/how-it-works';
-const SCREENS_SIGN_IN = 'screens/sign-in';
+enum States {
+  MODAL_OPEN = 'modal/open',
+  MODAL_CLOSE = 'modal/close',
+  UPDATE_AUTH_OPTIONS = 'data/update-auth-options',
+  SCREENS_INTRO = 'screens/intro',
+  SCREENS_HOW_IT_WORKS = 'screens/how-it-works',
+  SCREENS_SIGN_IN = 'screens/sign-in',
+}
 
 type Action = { type: string; payload?: any };
 
@@ -14,9 +16,9 @@ type Dispatch = (action: Action) => void;
 
 type State = { isOpen: boolean; screen: string; authOptions: AuthOptions };
 
-const initialState = {
+const initialState: State = {
   isOpen: false,
-  screen: SCREENS_INTRO,
+  screen: States.SCREENS_INTRO,
   authOptions: {
     redirectTo: '',
     manifestPath: '',
@@ -25,9 +27,9 @@ const initialState = {
     sendToSignIn: false,
     appDetails: {
       name: '',
-      icon: ''
-    }
-  }
+      icon: '',
+    },
+  },
 };
 
 const connectReducer = (
@@ -35,38 +37,38 @@ const connectReducer = (
   { type, payload }: { type: string; payload?: any }
 ) => {
   switch (type) {
-    case MODAL_OPEN: {
+    case States.MODAL_OPEN: {
       return { ...state, isOpen: true };
     }
-    case MODAL_CLOSE: {
+    case States.MODAL_CLOSE: {
       return { ...state, isOpen: false };
     }
-    case SCREENS_INTRO: {
+    case States.SCREENS_INTRO: {
       return {
         ...state,
-        screen: SCREENS_INTRO
+        screen: States.SCREENS_INTRO,
       };
     }
-    case SCREENS_HOW_IT_WORKS: {
+    case States.SCREENS_HOW_IT_WORKS: {
       return {
         ...state,
-        screen: SCREENS_HOW_IT_WORKS
+        screen: States.SCREENS_HOW_IT_WORKS,
       };
     }
-    case SCREENS_SIGN_IN: {
+    case States.SCREENS_SIGN_IN: {
       return {
         ...state,
-        screen: SCREENS_SIGN_IN
+        screen: States.SCREENS_SIGN_IN,
       };
     }
 
-    case UPDATE_AUTH_OPTIONS: {
+    case States.UPDATE_AUTH_OPTIONS: {
       return {
         ...state,
         authOptions: {
           ...state.authOptions,
-          ...payload
-        }
+          ...payload,
+        },
       };
     }
 
@@ -82,7 +84,7 @@ const ConnectDispatchContext = createContext<Dispatch | undefined>(undefined);
 
 const ConnectProvider = ({
   authOptions,
-  children
+  children,
 }: {
   authOptions: AuthOptions;
   children: any;
@@ -103,10 +105,5 @@ export {
   ConnectContext,
   ConnectDispatchContext,
   ConnectProvider,
-  MODAL_OPEN,
-  MODAL_CLOSE,
-  SCREENS_INTRO,
-  SCREENS_HOW_IT_WORKS,
-  SCREENS_SIGN_IN,
-  UPDATE_AUTH_OPTIONS
+  States,
 };

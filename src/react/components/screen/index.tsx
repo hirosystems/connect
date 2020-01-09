@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button, Flex, Box, Spinner, Stack } from '@blockstack/ui';
+import { Button, Flex, Box, Spinner, Stack, BoxProps } from '@blockstack/ui';
 import { Title, Pretitle, Body, BackLink } from '../typography';
-import { BoxProps } from '@blockstack/ui/dist/box';
 import { Link } from '../link';
 
 const Footer = ({ content }: { content: any }) =>

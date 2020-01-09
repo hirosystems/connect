@@ -13,7 +13,7 @@ export const popupCenter = ({
   url,
   title = defaultTitle,
   w = defaultWidth,
-  h = defaultHeight
+  h = defaultHeight,
 }: PopupOptions) => {
   const dualScreenLeft = window.screenLeft || window.screenX;
   const dualScreenTop = window.screenTop || window.screenY;
@@ -32,10 +32,10 @@ export const popupCenter = ({
   const top = (height - h) / 2 / systemZoom + dualScreenTop;
   const options = {
     scrollbars: 'no',
-    width: w / systemZoom,
-    height: h / systemZoom,
+    width: w,
+    height: h,
     top: top,
-    left: left
+    left: left,
   };
   const optionsString = Object.keys(options).map(key => {
     return `${key}=${options[key as keyof typeof options]}`;

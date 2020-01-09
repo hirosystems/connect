@@ -6,19 +6,16 @@ import {
   CSSReset,
   Flex,
   Box,
-  Text
+  Text,
 } from '@blockstack/ui';
-// import ChevronRightIcon from 'mdi-react/ChevronRightIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { useHover } from 'use-events';
 import { Logo } from '../logo';
 import { Intro } from '../screens/intro';
 import { HowItWorks } from '../screen/how-it-works';
 import { ContinueWithDataVault } from '../screen/sign-in';
-// import { AppIcon } from '../app-icon';
 import { useConnect } from '../../hooks/useConnect';
-import { SCREENS_HOW_IT_WORKS, SCREENS_SIGN_IN } from '../connect/context';
-// import { useAppDetails } from '../../hooks/useAppDetails';x
+import { States } from '../connect/context';
 
 interface HeaderTitleProps {
   title: string;
@@ -27,7 +24,7 @@ interface HeaderTitleProps {
 
 const HeaderTitle: React.FC<HeaderTitleProps> = ({
   hideIcon = false,
-  title
+  title,
 }) => (
   <Flex align="center">
     {hideIcon ? null : <Logo mr={2} />}
@@ -90,10 +87,10 @@ const ModalHeader = ({ title, hideIcon, close, ...rest }: IModalHeader) => {
 const RenderScreen: React.FC = () => {
   const { screen } = useConnect();
   switch (screen) {
-    case SCREENS_HOW_IT_WORKS: {
+    case States.SCREENS_HOW_IT_WORKS: {
       return <HowItWorks />;
     }
-    case SCREENS_SIGN_IN: {
+    case States.SCREENS_SIGN_IN: {
       return (
         <Box width="100%">
           <ContinueWithDataVault />
@@ -115,7 +112,7 @@ const Modal = () => {
         headerComponent={
           <ModalHeader
             close
-            title={screen === SCREENS_SIGN_IN ? 'Sign In' : 'Data Vault'}
+            title={screen === States.SCREENS_SIGN_IN ? 'Sign In' : 'Data Vault'}
           />
         }
         isOpen={isOpen}

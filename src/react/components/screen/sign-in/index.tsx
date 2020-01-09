@@ -24,7 +24,7 @@ const ContinueWithDataVault: React.FC = props => {
       bg={hovered ? 'rgba(0,0,0,0.02)' : 'white'}
       transform={hovered ? 'translateY(-2px)' : 'none'}
       onClick={() => {
-        authenticate(authOptions);
+        authenticate({ ...authOptions, sendToSignIn: true });
       }}
       {...bind}
       {...props}
