@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Flex, Box, Spinner, Stack, BoxProps } from '@blockstack/ui';
-import { Title, Pretitle, Body, BackLink } from '../typography';
+import { Title, Pretitle, Body } from '../typography';
 import { Link } from '../link';
 
 const Footer = ({ content }: { content: any }) =>
@@ -49,6 +49,7 @@ interface ScreenAction {
   href?: string;
   disabled?: boolean;
   variant?: string;
+  isLoading?: boolean;
 }
 
 interface IScreenTemplate {
@@ -67,7 +68,7 @@ interface IScreenTemplate {
 const MainContent = ({
   pretitle,
   title,
-  body
+  body,
 }: {
   pretitle: any;
   title: any;
@@ -95,7 +96,11 @@ const Actions = ({ action }: { action?: ScreenAction | ScreenAction[] }) =>
                 {a.label}
               </Link>
             ) : (
-              <Button onClick={a.onClick} isDisabled={a.disabled}>
+              <Button
+                onClick={a.onClick}
+                isDisabled={a.disabled}
+                isLoading={a.isLoading}
+              >
                 {a.label}
               </Button>
             )}
@@ -103,11 +108,12 @@ const Actions = ({ action }: { action?: ScreenAction | ScreenAction[] }) =>
         ))}
       </Flex>
     ) : (
-      <Box py={[4, 6]}>
+      <Box pt={5}>
         <Button
           width="100%"
           onClick={action.onClick}
           isDisabled={action.disabled}
+          isLoading={action.isLoading}
         >
           {action.label}
         </Button>
@@ -122,7 +128,6 @@ const ScreenTemplate = ({
   body,
   action,
   after,
-  back,
   footer,
   isLoading,
   noMinHeight = false,
@@ -139,12 +144,15 @@ const ScreenTemplate = ({
         style={{ pointerEvents: isLoading ? 'none' : 'unset' }}
         {...rest}
       >
-        <BackLink onClick={back} />
         {before ? before : null}
         <MainContent pretitle={pretitle} title={title} body={body} />
-        <Actions action={action} />
+        <Box px={5}>
+          <Actions action={action} />
+        </Box>
         {after ? after : null}
-        <Footer content={footer} />
+        <Box px={5} pb={5}>
+          <Footer content={footer} />
+        </Box>
       </Stack>
     </>
   );

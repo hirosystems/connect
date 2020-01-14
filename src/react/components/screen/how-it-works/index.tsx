@@ -7,25 +7,25 @@ import { useConnect } from '../../../hooks/useConnect';
 
 const howDataVaultWorks = (appName: string) => [
   {
-    body: `Usually, apps store your data on their servers for their own use. Data Vault isolates your encrypted data from use by others so that apps like ${appName} (and even Data Vault) can’t use it.`
+    body: `Usually, apps store your data on their servers for their own use. Data Vault isolates your encrypted data from use by others so that apps like ${appName} (and even Data Vault) can’t use it.`,
   },
   {
     icon: <EncryptionIcon />,
     title: 'Encryption',
     body:
-      'Data Vault’s encryption locks your app data into codes that only you can open using a Secret Key that you control. This lock and key keeps everything you do private.'
+      'Data Vault’s encryption locks your app data into codes that only you can open using a Secret Key that you control. This lock and key keeps everything you do private.',
   },
   {
     icon: <BlockchainIcon />,
     title: 'Blockchain technology',
     body:
-      'The Secret Key to your Data Vault is made using a blockchain. The blockchain ensures that only you have the key and that no one can take it from you. Your data is private, for your own use, and safe from misuse by app creators.'
+      'The Secret Key to your Data Vault is made using a blockchain. The blockchain ensures that only you have the key and that no one can take it from you. Your data is private, for your own use, and safe from misuse by app creators.',
   },
   {
     icon: <AppsIcon />,
     title: 'Over 300 apps use Data Vault',
-    body: 'Data Vault is free to use with over 300 apps.'
-  }
+    body: 'Data Vault is free to use with over 300 apps.',
+  },
 ];
 
 const HowItWorks: React.FC = () => {
@@ -37,10 +37,9 @@ const HowItWorks: React.FC = () => {
       <ScreenTemplate
         pretitle="How it works"
         title={`Data Vault keeps what you do in ${name} private`}
-        noMinHeight
         body={howDataVaultWorks(name).map(
           ({ title, body, icon: Icon }, key) => (
-            <Box key={key}>
+            <Box px={5} key={key}>
               <Stack spacing={3}>
                 {Icon && (
                   <Box size="24px" color="blue" borderRadius="8px">
@@ -48,7 +47,7 @@ const HowItWorks: React.FC = () => {
                   </Box>
                 )}
                 {title && <Text fontWeight="semibold">{title}</Text>}
-                <Text>{body}</Text>
+                <Text pb={2}>{body}</Text>
               </Stack>
             </Box>
           )
@@ -56,8 +55,9 @@ const HowItWorks: React.FC = () => {
         action={{
           label: 'Create your Data Vault',
           onClick: () => {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             authenticate(authOptions);
-          }
+          },
         }}
       />
     </>

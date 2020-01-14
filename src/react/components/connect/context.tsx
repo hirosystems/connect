@@ -32,10 +32,7 @@ const initialState: State = {
   },
 };
 
-const connectReducer = (
-  state: State,
-  { type, payload }: { type: string; payload?: any }
-) => {
+const connectReducer = (state: State, { type, payload }: { type: string; payload?: any }) => {
   switch (type) {
     case States.MODAL_OPEN: {
       return { ...state, isOpen: true };
@@ -82,28 +79,13 @@ const ConnectContext = createContext<State>(initialState);
 
 const ConnectDispatchContext = createContext<Dispatch | undefined>(undefined);
 
-const ConnectProvider = ({
-  authOptions,
-  children,
-}: {
-  authOptions: AuthOptions;
-  children: any;
-}) => {
+const ConnectProvider = ({ authOptions, children }: { authOptions: AuthOptions; children: any }) => {
   const [state, dispatch] = useReducer(connectReducer, initialState);
   return (
     <ConnectContext.Provider value={{ ...state, authOptions }}>
-      <ConnectDispatchContext.Provider value={dispatch}>
-        {children}
-      </ConnectDispatchContext.Provider>
+      <ConnectDispatchContext.Provider value={dispatch}>{children}</ConnectDispatchContext.Provider>
     </ConnectContext.Provider>
   );
 };
 
-export {
-  initialState,
-  connectReducer,
-  ConnectContext,
-  ConnectDispatchContext,
-  ConnectProvider,
-  States,
-};
+export { initialState, connectReducer, ConnectContext, ConnectDispatchContext, ConnectProvider, States };

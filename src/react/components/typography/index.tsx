@@ -4,6 +4,7 @@ import ChevronLeftIcon from 'mdi-react/ChevronLeftIcon';
 
 const Title: React.FC = props => (
   <Text
+    px={5}
     width="100%"
     fontWeight="medium"
     fontSize={['20px', '24px']}
@@ -14,13 +15,15 @@ const Title: React.FC = props => (
 
 const Pretitle: React.FC = props => (
   <Text
+    px={5}
+    pt={5}
     width="100%"
     fontWeight="medium"
     fontSize={['11px']}
     lineHeight={['20px']}
     color="ink.600"
     style={{
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
     }}
     {...props}
   />

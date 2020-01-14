@@ -1,36 +1,43 @@
 import React from 'react';
-import { Flex, Box, Text, Stack } from '@blockstack/ui';
-import CheckIcon from 'mdi-react/CheckIcon';
-
-/**
- * This renders a list of items with a checkmark to their left
- */
-
-const Checkmark: React.FC = props => (
-  <Box transform="translateY(-2px)" color="ink.300" mr={2} pt={1} {...props}>
-    <CheckIcon size={18} />
-  </Box>
-);
+import { Flex, Box, Text } from '@blockstack/ui';
 
 const Item: React.FC = ({ children }) => (
-  <Text fontSize="14px" color="ink.600">
+  <Text fontSize="14px" color="ink.900">
     {children}
   </Text>
 );
-
+type Item = {
+  icon: any;
+  text: any;
+};
 interface CheckListProps {
-  items: string[];
+  items: Item[];
 }
 
-const CheckList: React.FC<CheckListProps> = ({ items, ...rest }) => (
-  <Stack spacing={3} {...rest}>
-    {items.map((text, key) => (
-      <Flex align="flex-start" textAlign="left" key={key}>
-        <Checkmark />
-        <Item>{text}</Item>
-      </Flex>
-    ))}
-  </Stack>
+const CheckList: React.FC<CheckListProps> = ({ items }) => (
+  <>
+    {items.map((item, key) => {
+      const Icon = item.icon;
+      const { text } = item;
+      return (
+        <Flex
+          px={5}
+          pb={3}
+          pt={key === 0 ? 0 : 3}
+          borderBottom={items.length - 1 !== key ? '1px solid' : 'unset'}
+          borderColor="inherit"
+          align="center"
+          textAlign="left"
+          key={key}
+        >
+          <Box color="blue" pr={3}>
+            <Icon />
+          </Box>
+          <Item>{text}</Item>
+        </Flex>
+      );
+    })}
+  </>
 );
 
 export { CheckList };

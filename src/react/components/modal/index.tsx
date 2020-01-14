@@ -9,6 +9,7 @@ import {
   Text,
 } from '@blockstack/ui';
 import CloseIcon from 'mdi-react/CloseIcon';
+import ChevronLeftIcon from 'mdi-react/ChevronLeftIcon';
 import { useHover } from 'use-events';
 import { Logo } from '../logo';
 import { Intro } from '../screens/intro';
@@ -37,12 +38,13 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
 interface IModalHeader {
   title: string;
   close?: boolean;
+  back?: any;
   hideIcon?: boolean;
 }
 
-const ModalHeaderCloseButtom = (props: any) => {
+const ModalHeaderIconButton = (props: any) => {
   const [hover, bind] = useHover();
-  const { doCloseDataVault } = useConnect();
+  const Icon = props.icon;
 
   return (
     <Box
@@ -50,36 +52,49 @@ const ModalHeaderCloseButtom = (props: any) => {
       opacity={hover ? 1 : 0.5}
       {...bind}
       {...props}
-      onClick={doCloseDataVault}
     >
-      <CloseIcon size={20} />
+      <Icon size={20} />
     </Box>
   );
 };
 
-const ModalHeader = ({ title, hideIcon, close, ...rest }: IModalHeader) => {
-  // const { icon } = useAppDetails();
+const ModalHeader = ({
+  title,
+  back,
+  hideIcon,
+  close,
+  ...rest
+}: IModalHeader) => {
+  const { doCloseDataVault, doChangeScreen } = useConnect();
 
   return (
     <Flex
       p={[4, 5]}
-      borderBottom="1px solid"
-      borderBottomColor="inherit"
       borderRadius={['unset', '6px 6px 0 0']}
       bg="white"
       align="center"
       justify="space-between"
+      position="relative"
+      borderBottom={back ? '1px solid' : 'unset'}
+      borderBottomColor="inherit"
       {...rest}
     >
-      <Flex align="center">
-        {/*{icon ? (*/}
-        {/*  <Box pr={1} pl={2} color="ink.300">*/}
-        {/*    <ChevronRightIcon size={20} />*/}
-        {/*  </Box>*/}
-        {/*) : null}*/}
+      {back ? (
+        <ModalHeaderIconButton
+          onClick={() => doChangeScreen(back)}
+          icon={ChevronLeftIcon}
+        />
+      ) : null}
+      <Flex
+        align="center"
+        mx={back ? 'auto' : 'unset'}
+        transform={back ? 'translateX(-15px)' : 'unset'}
+      >
         <HeaderTitle hideIcon={hideIcon} title={title} />
       </Flex>
-      {close ? <ModalHeaderCloseButtom onClick={close} /> : null}
+      {close ? (
+        <ModalHeaderIconButton icon={CloseIcon} onClick={doCloseDataVault} />
+      ) : null}
     </Flex>
   );
 };
@@ -112,6 +127,11 @@ const Modal = () => {
         headerComponent={
           <ModalHeader
             close
+            back={
+              screen === States.SCREENS_HOW_IT_WORKS
+                ? States.SCREENS_INTRO
+                : undefined
+            }
             title={screen === States.SCREENS_SIGN_IN ? 'Sign In' : 'Data Vault'}
           />
         }

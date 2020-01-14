@@ -12,7 +12,7 @@ const Image: React.FC<ImageProps> = ({ ...props }) => {
     <img
       style={{
         maxWidth: '100%',
-        display: 'block'
+        display: 'block',
       }}
       {...props}
     />

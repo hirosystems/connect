@@ -22,13 +22,7 @@ import { AuthOptions } from '../../../auth';
  *
  * <Connect authOptions={authOptions} />
  */
-const Connect = ({
-  authOptions,
-  children
-}: {
-  authOptions: AuthOptions;
-  children: any;
-}) => {
+const Connect = ({ authOptions, children }: { authOptions: AuthOptions; children: any }) => {
   return (
     <ConnectProvider authOptions={authOptions}>
       <Modal />

@@ -33,10 +33,7 @@ export const authenticate = async ({
   appDetails,
 }: AuthOptions) => {
   if (!userSession) {
-    const appConfig = new AppConfig(
-      ['store_write', 'publish_data'],
-      document.location.href
-    );
+    const appConfig = new AppConfig(['store_write', 'publish_data'], document.location.href);
     // eslint-disable-next-line no-param-reassign
     userSession = new UserSession({ appConfig });
   }
@@ -80,13 +77,7 @@ interface ListenerParams {
   userSession: UserSession;
 }
 
-const setupListener = ({
-  popup,
-  authRequest,
-  finished,
-  dataVaultURL,
-  userSession,
-}: ListenerParams) => {
+const setupListener = ({ popup, authRequest, finished, dataVaultURL, userSession }: ListenerParams) => {
   const interval = setInterval(() => {
     if (popup) {
       try {
@@ -97,9 +88,7 @@ const setupListener = ({
           dataVaultURL.origin
         );
       } catch (error) {
-        console.warn(
-          '[Blockstack] Unable to send ping to authentication service'
-        );
+        console.warn('[Blockstack] Unable to send ping to authentication service');
         clearInterval(interval);
       }
     }
