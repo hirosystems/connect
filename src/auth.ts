@@ -40,6 +40,9 @@ export const authenticate = async ({
     // eslint-disable-next-line no-param-reassign
     userSession = new UserSession({ appConfig });
   }
+  if (userSession.isUserSignedIn()) {
+    userSession.signUserOut();
+  }
   const transitKey = userSession.generateAndStoreTransitKey();
   const authRequest = userSession.makeAuthRequest(
     transitKey,
@@ -87,12 +90,19 @@ const setupListener = ({
 }: ListenerParams) => {
   const interval = setInterval(() => {
     if (popup) {
-      popup.postMessage(
-        {
-          authRequest
-        },
-        dataVaultURL.origin
-      );
+      try {
+        popup.postMessage(
+          {
+            authRequest
+          },
+          dataVaultURL.origin
+        );
+      } catch (error) {
+        console.warn(
+          '[Blockstack] Unable to send ping to authentication service'
+        );
+        clearInterval(interval);
+      }
     }
   }, 100);
 
@@ -101,9 +111,6 @@ const setupListener = ({
     if (data.authRequest === authRequest) {
       if (finished) {
         const { authResponse } = data;
-        if (userSession.isUserSignedIn()) {
-          userSession.signUserOut();
-        }
         await userSession.handlePendingSignIn(authResponse);
         finished({
           authResponse,
