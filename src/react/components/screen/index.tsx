@@ -5,12 +5,7 @@ import { Link } from '../link';
 
 const Footer = ({ content }: { content: any }) =>
   content ? (
-    <Flex
-      fontSize={['12px', '14px']}
-      color="ink.600"
-      fontWeight="medium"
-      justify="space-between"
-    >
+    <Flex fontSize={['12px', '14px']} color="ink.600" fontWeight="medium" justify="space-between">
       {content}
     </Flex>
   ) : null;
@@ -33,10 +28,7 @@ const LoadingOverlay = ({ isLoading }: { isLoading: boolean | undefined }) => {
       style={{ pointerEvents: isLoading ? 'unset' : 'none' }}
       opacity={isLoading ? 1 : 0}
     >
-      <Box
-        transition="500ms all"
-        transform={isLoading ? 'none' : 'translateY(10px)'}
-      >
+      <Box transition="500ms all" transform={isLoading ? 'none' : 'translateY(10px)'}>
         <Spinner size="xl" thickness="3px" color="blue" />
       </Box>
     </Flex>
@@ -65,22 +57,12 @@ interface IScreenTemplate {
   noMinHeight?: boolean;
 }
 
-const MainContent = ({
-  pretitle,
-  title,
-  body,
-}: {
-  pretitle: any;
-  title: any;
-  body: any;
-}) => (
+const MainContent = ({ pretitle, title, body }: { pretitle: any; title: any; body: any }) => (
   <Stack spacing={2}>
     {pretitle && <Pretitle>{pretitle}</Pretitle>}
     <Title>{title}</Title>
     <Stack spacing={[3, 4]}>
-      {body && body.length
-        ? body.map((text: any, key: number) => <Body key={key}>{text}</Body>)
-        : body}
+      {body && body.length ? body.map((text: any, key: number) => <Body key={key}>{text}</Body>) : body}
     </Stack>
   </Stack>
 );
@@ -96,11 +78,7 @@ const Actions = ({ action }: { action?: ScreenAction | ScreenAction[] }) =>
                 {a.label}
               </Link>
             ) : (
-              <Button
-                onClick={a.onClick}
-                isDisabled={a.disabled}
-                isLoading={a.isLoading}
-              >
+              <Button onClick={a.onClick} isDisabled={a.disabled} isLoading={a.isLoading}>
                 {a.label}
               </Button>
             )}
@@ -109,12 +87,7 @@ const Actions = ({ action }: { action?: ScreenAction | ScreenAction[] }) =>
       </Flex>
     ) : (
       <Box pt={5}>
-        <Button
-          width="100%"
-          onClick={action.onClick}
-          isDisabled={action.disabled}
-          isLoading={action.isLoading}
-        >
+        <Button width="100%" onClick={action.onClick} isDisabled={action.disabled} isLoading={action.isLoading}>
           {action.label}
         </Button>
       </Box>
@@ -146,13 +119,15 @@ const ScreenTemplate = ({
       >
         {before ? before : null}
         <MainContent pretitle={pretitle} title={title} body={body} />
-        <Box px={5}>
+        <Box px={5} pb={!footer && !after ? 6 : 0}>
           <Actions action={action} />
         </Box>
         {after ? after : null}
-        <Box px={5} pb={5}>
-          <Footer content={footer} />
-        </Box>
+        {footer && (
+          <Box px={5} pb={5}>
+            <Footer content={footer} />
+          </Box>
+        )}
       </Stack>
     </>
   );

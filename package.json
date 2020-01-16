@@ -23,7 +23,7 @@
   },
   "prettier": "@blockstack/prettier-config",
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.8.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@blockstack/prettier-config": "^0.0.5",
     "@types/jest": "^24.0.25",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
@@ -32,9 +32,12 @@
     "bundlesize": "^0.18.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-flowtype": "^4.6.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
-    "husky": "^4.0.7",
+    "husky": "^4.0.9",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -46,7 +49,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@blockstack/ui": "^1.0.0-alpha.23",
+    "@blockstack/ui": "^1.0.0-alpha.24",
     "mdi-react": "^6.5.0",
     "styled-components": "^5.0.0",
     "use-events": "^1.4.1"

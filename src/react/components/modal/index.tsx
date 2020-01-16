@@ -1,18 +1,11 @@
 import React from 'react';
-import {
-  Modal as BlockstackModal,
-  ThemeProvider,
-  theme,
-  CSSReset,
-  Flex,
-  Box,
-  Text,
-} from '@blockstack/ui';
+import { Modal as BlockstackModal, ThemeProvider, theme, CSSReset, Flex, Box, Text } from '@blockstack/ui';
 import CloseIcon from 'mdi-react/CloseIcon';
 import ChevronLeftIcon from 'mdi-react/ChevronLeftIcon';
 import { useHover } from 'use-events';
 import { Logo } from '../logo';
 import { Intro } from '../screens/intro';
+import { Finished } from '../screens/finished';
 import { HowItWorks } from '../screen/how-it-works';
 import { ContinueWithDataVault } from '../screen/sign-in';
 import { useConnect } from '../../hooks/useConnect';
@@ -23,10 +16,7 @@ interface HeaderTitleProps {
   hideIcon?: boolean;
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({
-  hideIcon = false,
-  title,
-}) => (
+const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon = false, title }) => (
   <Flex align="center">
     {hideIcon ? null : <Logo mr={2} />}
     <Text fontWeight="bold" fontSize={'12px'}>
@@ -47,24 +37,13 @@ const ModalHeaderIconButton = (props: any) => {
   const Icon = props.icon;
 
   return (
-    <Box
-      cursor={hover ? 'pointer' : 'unset'}
-      opacity={hover ? 1 : 0.5}
-      {...bind}
-      {...props}
-    >
+    <Box cursor={hover ? 'pointer' : 'unset'} opacity={hover ? 1 : 0.5} {...bind} {...props}>
       <Icon size={20} />
     </Box>
   );
 };
 
-const ModalHeader = ({
-  title,
-  back,
-  hideIcon,
-  close,
-  ...rest
-}: IModalHeader) => {
+const ModalHeader = ({ title, back, hideIcon, close, ...rest }: IModalHeader) => {
   const { doCloseDataVault, doChangeScreen } = useConnect();
 
   return (
@@ -79,22 +58,11 @@ const ModalHeader = ({
       borderBottomColor="inherit"
       {...rest}
     >
-      {back ? (
-        <ModalHeaderIconButton
-          onClick={() => doChangeScreen(back)}
-          icon={ChevronLeftIcon}
-        />
-      ) : null}
-      <Flex
-        align="center"
-        mx={back ? 'auto' : 'unset'}
-        transform={back ? 'translateX(-15px)' : 'unset'}
-      >
+      {back ? <ModalHeaderIconButton onClick={() => doChangeScreen(back)} icon={ChevronLeftIcon} /> : null}
+      <Flex align="center" mx={back ? 'auto' : 'unset'} transform={back ? 'translateX(-15px)' : 'unset'}>
         <HeaderTitle hideIcon={hideIcon} title={title} />
       </Flex>
-      {close ? (
-        <ModalHeaderIconButton icon={CloseIcon} onClick={doCloseDataVault} />
-      ) : null}
+      {close ? <ModalHeaderIconButton icon={CloseIcon} onClick={doCloseDataVault} /> : null}
     </Flex>
   );
 };
@@ -102,12 +70,15 @@ const ModalHeader = ({
 const RenderScreen: React.FC = () => {
   const { screen } = useConnect();
   switch (screen) {
+    case States.SCREENS_FINISHED: {
+      return <Finished />;
+    }
     case States.SCREENS_HOW_IT_WORKS: {
       return <HowItWorks />;
     }
     case States.SCREENS_SIGN_IN: {
       return (
-        <Box width="100%">
+        <Box width="100%" p={5}>
           <ContinueWithDataVault />
         </Box>
       );
@@ -127,11 +98,7 @@ const Modal = () => {
         headerComponent={
           <ModalHeader
             close
-            back={
-              screen === States.SCREENS_HOW_IT_WORKS
-                ? States.SCREENS_INTRO
-                : undefined
-            }
+            back={screen === States.SCREENS_HOW_IT_WORKS ? States.SCREENS_INTRO : undefined}
             title={screen === States.SCREENS_SIGN_IN ? 'Sign In' : 'Data Vault'}
           />
         }

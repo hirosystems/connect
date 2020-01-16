@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { authenticate, AuthOptions } from '../../auth';
+import { authenticate, AuthOptions, FinishedData } from '../../auth';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 
 const useConnectDispatch = () => {
@@ -11,7 +11,7 @@ const useConnectDispatch = () => {
 };
 
 const useConnect = () => {
-  const { isOpen, screen, authOptions } = useContext(ConnectContext);
+  const { isOpen, isAuthenticating, authData, screen, authOptions } = useContext(ConnectContext);
   const dispatch = useConnectDispatch();
 
   const doUpdateAuthOptions = (payload: Partial<AuthOptions>) => {
@@ -22,9 +22,31 @@ const useConnect = () => {
   const doGoToIntroScreen = () => doChangeScreen(States.SCREENS_INTRO);
   const doGoToHowItWorksScreen = () => doChangeScreen(States.SCREENS_HOW_IT_WORKS);
   const doGoToSignInScreen = () => doChangeScreen(States.SCREENS_SIGN_IN);
+  const doGoToFinishedScreen = () => doChangeScreen(States.SCREENS_FINISHED);
 
-  const doOpenDataVault = (signIn?: boolean, authOptions?: Partial<AuthOptions>) => {
-    signIn && doGoToSignInScreen();
+  const doStartAuth = () => dispatch({ type: States.START_AUTH });
+  const doFinishAuth = (payload: FinishedData) => {
+    doGoToFinishedScreen();
+    dispatch({ type: States.FINISH_AUTH, payload });
+  };
+  const doCancelAuth = () => dispatch({ type: States.CANCEL_AUTH });
+
+  const doOpenDataVault = (signIn?: boolean, opts?: Partial<AuthOptions>) => {
+    if (signIn) {
+      const options = {
+        ...authOptions,
+        ...opts,
+        finished: (payload: FinishedData) => {
+          doFinishAuth(payload);
+          authOptions.finished && authOptions.finished(payload);
+        },
+        sendToSignIn: true,
+      };
+      doStartAuth();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      authenticate(options);
+      return;
+    }
     authOptions && doUpdateAuthOptions(authOptions);
     dispatch({ type: States.MODAL_OPEN });
   };
@@ -35,6 +57,8 @@ const useConnect = () => {
 
   return {
     isOpen,
+    isAuthenticating,
+    authData,
     authOptions,
     screen,
     doOpenDataVault,
@@ -43,6 +67,9 @@ const useConnect = () => {
     doGoToIntroScreen,
     doGoToHowItWorksScreen,
     doGoToSignInScreen,
+    doCancelAuth,
+    doStartAuth,
+    doFinishAuth,
     authenticate,
   };
 };

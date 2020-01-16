@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ['test-app/', 'node_modules/'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -12,13 +13,13 @@ module.exports = {
     ecmaVersion: '2018',
     sourceType: 'module',
     project: './tsconfig.json',
-    tsconfigRootDir: __dirname
+    tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint', 'react'],
   env: {
     browser: true,
     node: true,
-    es6: true
+    es6: true,
   },
   rules: {
     quotes: [2, 'single', { avoidEscape: true }],
@@ -33,13 +34,13 @@ module.exports = {
       {
         multiline: {
           delimiter: 'semi',
-          requireLast: true
+          requireLast: true,
         },
         singleline: {
           delimiter: 'semi',
-          requireLast: false
-        }
-      }
+          requireLast: false,
+        },
+      },
     ],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/array-type': 'error',
@@ -62,5 +63,5 @@ module.exports = {
     'react/jsx-uses-vars': [2],
     'react/jsx-key': [0],
     'react/prop-types': [0],
-  }
-}
+  },
+};

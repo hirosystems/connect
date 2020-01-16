@@ -37,21 +37,19 @@ const HowItWorks: React.FC = () => {
       <ScreenTemplate
         pretitle="How it works"
         title={`Data Vault keeps what you do in ${name} private`}
-        body={howDataVaultWorks(name).map(
-          ({ title, body, icon: Icon }, key) => (
-            <Box px={5} key={key}>
-              <Stack spacing={3}>
-                {Icon && (
-                  <Box size="24px" color="blue" borderRadius="8px">
-                    {Icon && Icon}
-                  </Box>
-                )}
-                {title && <Text fontWeight="semibold">{title}</Text>}
-                <Text pb={2}>{body}</Text>
-              </Stack>
-            </Box>
-          )
-        )}
+        body={howDataVaultWorks(name).map(({ title, body, icon: Icon }, key) => (
+          <Box px={5} key={key}>
+            <Stack spacing={3}>
+              {Icon && (
+                <Box size="24px" color="blue" borderRadius="8px">
+                  {Icon && Icon}
+                </Box>
+              )}
+              {title && <Text fontWeight="semibold">{title}</Text>}
+              <Text pb={2}>{body}</Text>
+            </Stack>
+          </Box>
+        ))}
         action={{
           label: 'Create your Data Vault',
           onClick: () => {

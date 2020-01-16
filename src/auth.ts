@@ -4,7 +4,7 @@ import { popupCenter } from './popup';
 
 const defaultVaultURL = 'https://vault.hankstoever.com';
 
-interface FinishedData {
+export interface FinishedData {
   authResponse: string;
   userSession: UserSession;
 }
@@ -13,7 +13,7 @@ export interface AuthOptions {
   // The URL you want the user to be redirected to after authentication.
   redirectTo: string;
   manifestPath: string;
-  finished?: (data: FinishedData) => void;
+  finished?: (payload: FinishedData) => void;
   vaultUrl?: string;
   sendToSignIn?: boolean;
   userSession?: UserSession;
@@ -72,7 +72,7 @@ interface FinishedEventData {
 interface ListenerParams {
   popup: Window | null;
   authRequest: string;
-  finished?: (data: FinishedData) => void;
+  finished?: (payload: FinishedData) => void;
   dataVaultURL: URL;
   userSession: UserSession;
 }

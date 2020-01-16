@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, BoxProps, Stack } from '@blockstack/ui';
-import { ScreenTemplate } from '../../screen';
-import { CheckList } from '../../checklist';
-import { Link } from '../../link';
-import { AppIcon } from '../../app-icon';
-import { authenticate } from '../../../../auth';
-import { useConnect } from '../../../hooks/useConnect';
-import { Logo } from '../../logo';
-import { useAppDetails } from '../../../hooks/useAppDetails';
-import { AppsIcon, EncryptionIcon } from '../../vector';
+import { ScreenTemplate } from '../screen';
+import { CheckList } from '../checklist';
+import { Link } from '../link';
+import { AppIcon } from '../app-icon';
+import { authenticate } from '../../../auth';
+import { useConnect } from '../../hooks/useConnect';
+import { Logo } from '../logo';
+import { useAppDetails } from '../../hooks/useAppDetails';
+import { AppsIcon, EncryptionIcon } from '../vector';
 
 const AppElement = ({
   name,
@@ -27,9 +27,9 @@ const AppElement = ({
 );
 
 const Intro = () => {
-  const { doGoToHowItWorksScreen, authOptions } = useConnect();
+  const { doGoToHowItWorksScreen, doFinishAuth, doStartAuth, isAuthenticating, authOptions } = useConnect();
   const { name, icon } = useAppDetails();
-  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <ScreenTemplate
@@ -55,11 +55,17 @@ const Intro = () => {
         ]}
         action={{
           label: 'Create Data Vault',
-          isLoading: loading,
+          isLoading: isAuthenticating,
           onClick: () => {
-            setLoading(true);
+            doStartAuth();
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            authenticate(authOptions);
+            authenticate({
+              ...authOptions,
+              finished: payload => {
+                authOptions.finished && authOptions.finished(payload);
+                doFinishAuth(payload);
+              },
+            });
           },
         }}
         footer={
@@ -67,8 +73,16 @@ const Intro = () => {
             <Stack spacing={4} isInline>
               <Link
                 onClick={() => {
+                  doStartAuth();
                   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  authenticate({ ...authOptions, sendToSignIn: true });
+                  authenticate({
+                    ...authOptions,
+                    finished: payload => {
+                      authOptions.finished && authOptions.finished(payload);
+                      doFinishAuth(payload);
+                    },
+                    sendToSignIn: true,
+                  });
                 }}
               >
                 Sign in to Data Vault
