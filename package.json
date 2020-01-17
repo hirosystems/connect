@@ -11,6 +11,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "dev": "cd test-app && yarn start",
     "test": "tsdx test",
     "lint": "eslint --ext .ts,.tsx ./src/ -f unix",
     "lint:fix": "eslint --ext .ts,.tsx ./src/ -f unix --fix",
