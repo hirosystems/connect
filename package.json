@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/auth.esm.js",
   "typings": "dist/index.d.ts",
-  "unpkg": "dist/connect.cjs.production.min.js",
+  "unpkg": "dist/bundle.js",
   "files": [
     "dist"
   ],
