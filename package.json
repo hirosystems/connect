@@ -1,6 +1,6 @@
 {
   "name": "@blockstack/connect",
-  "version": "0.3.0-beta.3",
+  "version": "0.3.0-beta.4",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/auth.esm.js",
@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build --format cjs,esm,umd",
+    "build": "tsdx build --format cjs,esm,umd && yarn build:web",
+    "build:web": "NODE_ENV=production webpack",
     "dev": "cd test-app && yarn start",
     "test": "tsdx test",
     "lint": "eslint --ext .ts,.tsx ./src/ -f unix",
@@ -27,11 +28,14 @@
   "prettier": "@blockstack/prettier-config",
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@blockstack/prettier-config": "^0.0.5",
     "@types/jest": "^24.0.25",
     "@types/react-dom": "^16.9.4",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
+    "babel-loader": "^8.0.6",
     "blockstack": "^19.3.0",
     "bundlesize": "^0.18.0",
     "eslint": "^6.8.0",
@@ -47,7 +51,9 @@
     "react-dom": "^16.12.0",
     "tsdx": "^0.12.3",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   },
   "publishConfig": {
     "access": "public"
