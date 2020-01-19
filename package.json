@@ -1,6 +1,6 @@
 {
   "name": "@blockstack/connect",
-  "version": "0.3.0-beta.2",
+  "version": "0.3.0-beta.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/auth.esm.js",
@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --format cjs,esm,umd",
     "dev": "cd test-app && yarn start",
     "test": "tsdx test",
     "lint": "eslint --ext .ts,.tsx ./src/ -f unix",
