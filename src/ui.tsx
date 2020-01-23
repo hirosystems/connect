@@ -23,11 +23,3 @@ export const showBlockstackConnect = (authOptions: AuthOptions) => {
     baseDiv
   );
 };
-
-declare global {
-  interface Window {
-    showBlockstackConnect?: typeof showBlockstackConnect;
-  }
-}
-
-window.showBlockstackConnect = showBlockstackConnect;
