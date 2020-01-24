@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, BoxProps } from '@blockstack/ui';
+import { Box, BoxProps, Button } from '@blockstack/ui';
 
 import { AppIcon } from '../app-icon';
 
@@ -33,14 +33,11 @@ export const Finished = () => {
         title={`${name} has been connected to your Data Vault`}
         body={[`Everything you do in ${name} will be private, secure, and only accessible with your Secret Key.`]}
       />
-      <ScreenActions
-        action={{
-          label: 'Close',
-          onClick() {
-            doCloseDataVault();
-          },
-        }}
-      />
+      <ScreenActions>
+        <Button width="100%" onClick={() => doCloseDataVault()}>
+          Close
+        </Button>
+      </ScreenActions>
     </Screen>
   );
 };

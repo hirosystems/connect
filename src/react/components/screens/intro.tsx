@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, BoxProps, Stack } from '@blockstack/ui';
+import { Box, BoxProps, Stack, Button } from '@blockstack/ui';
 
 import { CheckList } from '../checklist';
 import { Link } from '../link';
@@ -36,7 +36,6 @@ export const Intro = () => {
     <Screen noMinHeight textAlign="center">
       <AppElement mt={5} name={name} icon={icon} />
       <ScreenBody
-        fullWidth
         title={`Use ${name} privately and securely with Data Vault`}
         body={[
           'Create your Data Vault to continue.',
@@ -55,11 +54,11 @@ export const Intro = () => {
           />,
         ]}
       />
-      <ScreenActions
-        action={{
-          label: 'Create Data Vault',
-          isLoading: isAuthenticating,
-          onClick: () => {
+      <ScreenActions>
+        <Button
+          width="100%"
+          isLoading={isAuthenticating}
+          onClick={() => {
             doStartAuth();
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             authenticate({
@@ -69,9 +68,11 @@ export const Intro = () => {
                 doFinishAuth(payload);
               },
             });
-          },
-        }}
-      />
+          }}
+        >
+          Create Data Vault
+        </Button>
+      </ScreenActions>
       <ScreenFooter>
         <Stack spacing={4} mb={6} isInline>
           <Link

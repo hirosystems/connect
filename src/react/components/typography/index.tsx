@@ -8,7 +8,6 @@ const Title: React.FC = props => (
 
 const Pretitle: React.FC = props => (
   <Text
-    px={5}
     pt={5}
     width="100%"
     fontWeight="medium"

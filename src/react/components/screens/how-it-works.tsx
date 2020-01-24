@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Stack } from '@blockstack/ui';
+import { Box, Text, Stack, Button } from '@blockstack/ui';
 
 import { useAppDetails } from '../../hooks/useAppDetails';
 import { BlockchainIcon, AppsIcon, EncryptionIcon } from '../vector';
@@ -40,7 +40,7 @@ export const HowItWorks: React.FC = () => {
         pretitle="How it works"
         title={`Data Vault keeps what you do in ${name} private`}
         body={howDataVaultWorks(name).map(({ title, body, icon: Icon }, key) => (
-          <Box px={5} key={key}>
+          <Box px={0} key={key}>
             <Stack spacing={3}>
               {Icon && (
                 <Box size="24px" color="blue" borderRadius="8px">
@@ -53,15 +53,17 @@ export const HowItWorks: React.FC = () => {
           </Box>
         ))}
       />
-      <ScreenActions
-        action={{
-          label: 'Create your Data Vault',
-          onClick: () => {
+      <ScreenActions>
+        <Button
+          width="100%"
+          onClick={() => {
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             authenticate(authOptions);
-          },
-        }}
-      ></ScreenActions>
+          }}
+        >
+          Create your Data Vault
+        </Button>
+      </ScreenActions>
     </Screen>
   );
 };
