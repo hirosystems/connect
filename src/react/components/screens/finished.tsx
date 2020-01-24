@@ -40,7 +40,7 @@ const Finished = () => {
           label: 'Close',
           onClick() {
             doCloseDataVault();
-          }
+          },
         }}
       />
     </Screen>

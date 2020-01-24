@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Text, Stack } from '@blockstack/ui';
 
-import { useAppDetails } from '../../../hooks/useAppDetails';
-import { BlockchainIcon, AppsIcon, EncryptionIcon } from '../../vector';
-import { useConnect } from '../../../hooks/useConnect';
+import { useAppDetails } from '../../hooks/useAppDetails';
+import { BlockchainIcon, AppsIcon, EncryptionIcon } from '../vector';
+import { useConnect } from '../../hooks/useConnect';
 
-import { Screen, ScreenBody, ScreenActions } from '../index';
+import { Screen, ScreenBody, ScreenActions } from '../screen/index';
 
 const howDataVaultWorks = (appName: string) => [
   {

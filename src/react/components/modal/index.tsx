@@ -6,8 +6,8 @@ import { useHover } from 'use-events';
 import { Logo } from '../logo';
 import { Intro } from '../screens/intro';
 import { Finished } from '../screens/finished';
-import { HowItWorks } from '../screen/how-it-works';
-import { ContinueWithDataVault } from '../screen/sign-in';
+import { HowItWorks } from '../screens/how-it-works';
+import { ContinueWithDataVault } from '../screens/sign-in';
 import { useConnect } from '../../hooks/useConnect';
 import { States } from '../connect/context';
 
@@ -25,7 +25,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon = false, title }) =>
   </Flex>
 );
 
-interface IModalHeader {
+interface ModalHeader {
   title: string;
   close?: boolean;
   back?: any;
@@ -43,7 +43,7 @@ const ModalHeaderIconButton = (props: any) => {
   );
 };
 
-const ModalHeader = ({ title, back, hideIcon, close, ...rest }: IModalHeader) => {
+const ModalHeader = ({ title, back, hideIcon, close, ...rest }: ModalHeader) => {
   const { doCloseDataVault, doChangeScreen } = useConnect();
 
   return (
