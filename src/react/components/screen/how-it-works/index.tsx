@@ -1,9 +1,11 @@
 import React from 'react';
-import { ScreenTemplate } from '../index';
 import { Box, Text, Stack } from '@blockstack/ui';
+
 import { useAppDetails } from '../../../hooks/useAppDetails';
 import { BlockchainIcon, AppsIcon, EncryptionIcon } from '../../vector';
 import { useConnect } from '../../../hooks/useConnect';
+
+import { Screen, ScreenBody, ScreenActions } from '../index';
 
 const howDataVaultWorks = (appName: string) => [
   {
@@ -28,13 +30,13 @@ const howDataVaultWorks = (appName: string) => [
   },
 ];
 
-const HowItWorks: React.FC = () => {
+export const HowItWorks: React.FC = () => {
   const { name } = useAppDetails();
   const { authenticate, authOptions } = useConnect();
 
   return (
-    <>
-      <ScreenTemplate
+    <Screen>
+      <ScreenBody
         pretitle="How it works"
         title={`Data Vault keeps what you do in ${name} private`}
         body={howDataVaultWorks(name).map(({ title, body, icon: Icon }, key) => (
@@ -50,6 +52,8 @@ const HowItWorks: React.FC = () => {
             </Stack>
           </Box>
         ))}
+      />
+      <ScreenActions
         action={{
           label: 'Create your Data Vault',
           onClick: () => {
@@ -57,9 +61,7 @@ const HowItWorks: React.FC = () => {
             authenticate(authOptions);
           },
         }}
-      />
-    </>
+      ></ScreenActions>
+    </Screen>
   );
 };
-
-export { HowItWorks };
