@@ -8,14 +8,12 @@ import { Logo } from '../logo';
 import { useAppDetails } from '../../hooks/useAppDetails';
 import { Screen, ScreenBody, ScreenActions } from '../screen';
 
-const AppElement = ({
-  name,
-  icon,
-  ...rest
-}: BoxProps & {
+interface AppElementProps extends BoxProps {
   name: string;
   icon: string;
-}) => (
+}
+
+const AppElement = ({ name, icon, ...rest }: AppElementProps) => (
   <Box mx="auto" size="70px" position="relative" {...rest}>
     <Box position="absolute" top="-4px" right="-4px">
       <Logo />
@@ -24,7 +22,7 @@ const AppElement = ({
   </Box>
 );
 
-const Finished = () => {
+export const Finished = () => {
   const { doCloseDataVault } = useConnect();
   const { name, icon } = useAppDetails();
 
@@ -46,5 +44,3 @@ const Finished = () => {
     </Screen>
   );
 };
-
-export { Finished };

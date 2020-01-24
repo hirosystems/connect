@@ -36,10 +36,11 @@ export const Intro = () => {
     <Screen noMinHeight textAlign="center">
       <AppElement mt={5} name={name} icon={icon} />
       <ScreenBody
+        fullWidth
         title={`Use ${name} privately and securely with Data Vault`}
         body={[
           'Create your Data Vault to continue.',
-          <Box mx="auto" width="100%" height="1px" bg="#E5E5EC" />,
+          <Box mx="auto" mb={2} width="100%" height="1px" bg="#E5E5EC" />,
           <CheckList
             items={[
               {
@@ -72,7 +73,7 @@ export const Intro = () => {
         }}
       />
       <ScreenFooter>
-        <Stack spacing={4} isInline>
+        <Stack spacing={4} mb={6} isInline>
           <Link
             onClick={() => {
               doStartAuth();
