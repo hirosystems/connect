@@ -19,10 +19,10 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon, title }) => (
   </Flex>
 );
 
-interface ScreenHeaderProps {
+export interface ScreenHeaderProps {
   appDetails?: {
-    name?: string;
-    icon?: string;
+    name: string;
+    icon: string;
   };
   title?: string | JSX.Element;
   close?: () => void;
@@ -35,7 +35,7 @@ export const ScreenHeader = ({ appDetails, title = 'Data Vault', hideIcon = fals
   let appName = name;
   let appIcon = icon;
 
-  if(appDetails){
+  if (appDetails) {
     appName = appDetails.name;
     appIcon = appDetails.icon;
   }
