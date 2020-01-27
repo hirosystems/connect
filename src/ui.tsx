@@ -7,9 +7,12 @@ const Base: React.FC = () => {
   const { doOpenDataVault } = useConnect();
 
   useEffect(() => {
+    // add a small delay before triggering the modal, to properly allow
+    // animations to show
+    const delay = 10;
     setTimeout(() => {
       doOpenDataVault();
-    }, 10);
+    }, delay);
   }, []);
 
   return <div />;
