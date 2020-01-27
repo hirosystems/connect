@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Flex, Text } from '@blockstack/ui';
 import ChevronRightIcon from 'mdi-react/ChevronRightIcon';
+import { useAppDetails } from '../../hooks/useAppDetails';
 import { Logo } from '../logo';
 import { AppIcon } from '../app-icon';
 
@@ -19,16 +20,13 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon, title }) => (
 );
 
 interface ScreenHeaderProps {
-  app?: {
-    icon: string;
-    name: string;
-  };
   title?: string | JSX.Element;
   close?: () => void;
   hideIcon?: boolean;
 }
 
-export const ScreenHeader = ({ app, title = 'Data Vault', hideIcon = false, ...rest }: ScreenHeaderProps) => {
+export const ScreenHeader = ({ title = 'Data Vault', hideIcon = false, ...rest }: ScreenHeaderProps) => {
+  const { name, icon } = useAppDetails();
   return (
     <Flex
       p={[4, 5]}
@@ -42,8 +40,8 @@ export const ScreenHeader = ({ app, title = 'Data Vault', hideIcon = false, ...r
       {...rest}
     >
       <Flex align="center">
-        {!hideIcon && app ? <AppIcon src={app.icon} alt={app.name || 'loading'} /> : null}
-        {!hideIcon && app ? (
+        {!hideIcon ? <AppIcon src={icon} alt={name || 'loading'} /> : null}
+        {!hideIcon ? (
           <Box pr={1} pl={2} color="ink.300">
             <ChevronRightIcon size={20} />
           </Box>
