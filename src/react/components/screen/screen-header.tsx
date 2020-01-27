@@ -20,13 +20,26 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon, title }) => (
 );
 
 interface ScreenHeaderProps {
+  appDetails?: {
+    name?: string;
+    icon?: string;
+  };
   title?: string | JSX.Element;
   close?: () => void;
   hideIcon?: boolean;
 }
 
-export const ScreenHeader = ({ title = 'Data Vault', hideIcon = false, ...rest }: ScreenHeaderProps) => {
+export const ScreenHeader = ({ appDetails, title = 'Data Vault', hideIcon = false, ...rest }: ScreenHeaderProps) => {
   const { name, icon } = useAppDetails();
+
+  let appName = name;
+  let appIcon = icon;
+
+  if(appDetails){
+    appName = appDetails.name;
+    appIcon = appDetails.icon;
+  }
+
   return (
     <Flex
       p={[4, 5]}
@@ -40,7 +53,7 @@ export const ScreenHeader = ({ title = 'Data Vault', hideIcon = false, ...rest }
       {...rest}
     >
       <Flex align="center">
-        {!hideIcon ? <AppIcon src={icon} alt={name || 'loading'} /> : null}
+        {!hideIcon ? <AppIcon src={appIcon} alt={appName || 'loading'} /> : null}
         {!hideIcon ? (
           <Box pr={1} pl={2} color="ink.300">
             <ChevronRightIcon size={20} />
