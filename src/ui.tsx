@@ -7,7 +7,9 @@ const Base: React.FC = () => {
   const { doOpenDataVault } = useConnect();
 
   useEffect(() => {
-    doOpenDataVault();
+    setTimeout(() => {
+      doOpenDataVault();
+    }, 10);
   }, []);
 
   return <div />;
