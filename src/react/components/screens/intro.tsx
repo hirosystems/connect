@@ -36,6 +36,7 @@ export const Intro = () => {
     <Screen noMinHeight textAlign="center">
       <AppElement mt={5} name={name} icon={icon} />
       <ScreenBody
+        fullWidth
         title={`Use ${name} privately and securely with Data Vault`}
         body={[
           'Create your Data Vault to continue.',

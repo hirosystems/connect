@@ -37,7 +37,7 @@ const ModalHeaderIconButton = (props: any) => {
   const Icon = props.icon;
 
   return (
-    <Box cursor={hover ? 'pointer' : 'unset'} opacity={hover ? 1 : 0.5} {...bind} {...props}>
+    <Box as="button" cursor={hover ? 'pointer' : 'unset'} opacity={hover ? 1 : 0.5} {...bind} {...props}>
       <Icon size={20} />
     </Box>
   );
