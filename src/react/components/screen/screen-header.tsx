@@ -9,7 +9,7 @@ interface HeaderTitleProps {
   hideIcon?: boolean;
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon = false, title }) => (
+const HeaderTitle: React.FC<HeaderTitleProps> = ({ hideIcon, title }) => (
   <Flex align="center">
     {hideIcon ? null : <Logo mr={2} />}
     <Text fontWeight="bold" fontSize={'12px'}>
