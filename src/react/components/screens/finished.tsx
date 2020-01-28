@@ -33,7 +33,7 @@ export const Finished = () => {
         title={`${name} has been connected to your Data Vault`}
         body={[`Everything you do in ${name} will be private, secure, and only accessible with your Secret Key.`]}
       />
-      <ScreenActions>
+      <ScreenActions pb={6}>
         <Button width="100%" onClick={() => doCloseDataVault()}>
           Close
         </Button>
