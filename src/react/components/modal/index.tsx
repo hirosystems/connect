@@ -58,8 +58,7 @@ const ModalHeader = ({ title, back, hideIcon, close, ...rest }: ModalHeader) => 
 
   return (
     <Flex
-      pt={4}
-      px={4}
+      p={4}
       borderRadius={['unset', '6px 6px 0 0']}
       bg="white"
       align="center"
