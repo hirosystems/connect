@@ -3,7 +3,7 @@ import React from 'react';
 import { Stack, BoxProps, StackProps } from '@blockstack/ui';
 import { ScreenLoader } from './screen-loader';
 
-interface ScreenBodyProps extends BoxProps, StackProps {
+interface ScreenBodyProps extends BoxProps, Omit<StackProps, 'children'> {
   noMinHeight?: boolean;
   isLoading?: boolean;
 }
