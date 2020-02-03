@@ -82,6 +82,7 @@ export const Intro = () => {
       <ScreenFooter>
         <Stack spacing={4} isInline>
           <Link
+            color="blue"
             onClick={() => {
               doStartAuth();
               // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -98,6 +99,7 @@ export const Intro = () => {
             Sign in to Data Vault
           </Link>
           <Link
+            color="blue"
             onClick={() => {
               doGoToHowItWorksScreen();
             }}
