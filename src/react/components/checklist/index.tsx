@@ -30,7 +30,7 @@ const CheckList: React.FC<CheckListProps> = ({ items }) => (
           textAlign="left"
           key={key}
         >
-          <Box color="blue" pr={3}>
+          <Box color="blue" alignSelf="stretch" mt={1} mr={4}>
             <Icon />
           </Box>
           <Item>{text}</Item>

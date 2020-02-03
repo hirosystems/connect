@@ -40,7 +40,7 @@ export const Intro = () => {
         mb={4}
         title={`Use ${name} privately and securely with Data Vault`}
         body={[
-          <Box mx="auto" width="100%" height="1px" bg="#E5E5EC" />,
+          <Box mx="auto" width="100%" height="1px" bg="#E5E5EC" mb={1} />,
           <Box mb={2}>
             <CheckList
               items={[
