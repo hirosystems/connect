@@ -33,15 +33,15 @@ export const Intro = () => {
   const { name, icon } = useAppDetails();
 
   return (
-    <Screen noMinHeight textAlign="center">
-      <AppElement mt={8} name={name} icon={icon} />
+    <Screen noMinHeight spacing={0} textAlign="center">
+      <AppElement mt={8} mb={4} name={name} icon={icon} />
       <ScreenBody
         fullWidth
-        mb={4}
+        mt={4}
         title={`Use ${name} privately and securely with Data Vault`}
         body={[
-          <Box mx="auto" width="100%" height="1px" bg="#E5E5EC" mb={1} />,
-          <Box mb={2}>
+          <Box mt={4} mx="auto" width="100%" height="1px" bg="#E5E5EC" />,
+          <Box>
             <CheckList
               items={[
                 {
@@ -64,6 +64,7 @@ export const Intro = () => {
       <ScreenActions>
         <Button
           width="100%"
+          mt={2}
           onClick={() => {
             doStartAuth();
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -80,7 +81,7 @@ export const Intro = () => {
         </Button>
       </ScreenActions>
       <ScreenFooter>
-        <Stack spacing={4} isInline>
+        <Stack mt={5} spacing={4} isInline>
           <Link
             color="blue"
             onClick={() => {
