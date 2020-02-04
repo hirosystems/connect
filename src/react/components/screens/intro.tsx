@@ -33,7 +33,7 @@ export const Intro = () => {
   const { name, icon } = useAppDetails();
 
   return (
-    <Screen noMinHeight spacing={0} textAlign="center">
+    <Screen noMinHeight textAlign="center">
       <AppElement mt={8} mb={4} name={name} icon={icon} />
       <ScreenBody
         fullWidth

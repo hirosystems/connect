@@ -22,7 +22,7 @@ export const Finished = () => {
   const { name, icon } = useAppDetails();
 
   return (
-    <Screen spacing={0} textAlign="center" noMinHeight>
+    <Screen textAlign="center" noMinHeight>
       <FinishedIcon mt={10} name={name} icon={icon} />
       <ScreenBody
         title={`${name} has been connected to your Data Vault`}

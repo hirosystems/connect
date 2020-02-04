@@ -32,7 +32,7 @@ export const HowItWorks: React.FC = () => {
   const { authenticate, authOptions } = useConnect();
 
   return (
-    <Screen spacing={0}>
+    <Screen>
       <ScreenBody
         pretitle="How it works"
         title={`Data Vault keeps what you do in ${name} private`}
