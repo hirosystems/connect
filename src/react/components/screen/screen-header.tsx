@@ -50,7 +50,6 @@ export const ScreenHeader = ({
   return (
     <Flex
       p={[4, 5]}
-      mb={6}
       height="56px"
       borderBottom="1px solid"
       borderBottomColor="inherit"
