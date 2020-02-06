@@ -39,7 +39,7 @@ export const Intro = () => {
         fullWidth
         mt={4}
         body={[
-          <Title>Use {name} privately and securely with Data Vault</Title>,
+          <Title>{name} works with Data Vault to guarantee your privacy</Title>,
           <Box mt={4} mx="auto" width="100%" height="1px" bg="#E5E5EC" />,
           <Box>
             <CheckList
