@@ -6,7 +6,6 @@ import { Link } from '../link';
 import { AppIcon } from '../app-icon';
 import { authenticate } from '../../../auth';
 import { useConnect } from '../../hooks/useConnect';
-// import { Logo } from '../logo';
 import { useAppDetails } from '../../hooks/useAppDetails';
 import { AppsIcon, EncryptionIcon } from '../vector';
 import { Title } from '../typography';
