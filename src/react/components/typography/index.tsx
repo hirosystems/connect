@@ -19,5 +19,4 @@ const Pretitle: React.FC = props => (
 );
 const Body: React.FC = props => <Text fontSize="14px" lineHeight="20px" {...props} />;
 
-
 export { Pretitle, Title, Body };
