@@ -30,7 +30,7 @@ const howDataVaultWorks = [
 
 export const HowItWorks: React.FC = () => {
   const { name } = useAppDetails();
-  const { authenticate, authOptions } = useConnect();
+  const { authenticate, authOptions, doStartAuth, doFinishAuth } = useConnect();
 
   return (
     <Screen>
@@ -65,8 +65,15 @@ export const HowItWorks: React.FC = () => {
           size="md"
           mt={6}
           onClick={() => {
+            doStartAuth();
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            authenticate(authOptions);
+            authenticate({
+              ...authOptions,
+              finished: payload => {
+                authOptions.finished && authOptions.finished(payload);
+                doFinishAuth(payload);
+              },
+            });
           }}
         >
           Create your Data Vault

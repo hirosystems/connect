@@ -13,7 +13,6 @@ import { Screen, ScreenBody, ScreenActions, ScreenFooter } from '../screen';
 import { UnionLine } from '../icons/union-line';
 import { PadlockIcon } from '../icons/padlock';
 
-
 const AppElement = ({
   name,
   icon,
