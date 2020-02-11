@@ -4,7 +4,6 @@ import { Flex, Box, BoxProps, Stack, Button } from '@blockstack/ui';
 import { CheckList } from '../checklist';
 import { Link } from '../link';
 import { AppIcon } from '../app-icon';
-import { authenticate } from '../../../auth';
 import { useConnect } from '../../hooks/useConnect';
 import { useAppDetails } from '../../hooks/useAppDetails';
 import { AppsIcon, EncryptionIcon } from '../vector';
@@ -31,7 +30,7 @@ const AppElement = ({
 );
 
 export const Intro = () => {
-  const { doGoToHowItWorksScreen, doFinishAuth, doStartAuth, authOptions } = useConnect();
+  const { doGoToHowItWorksScreen, doAuth } = useConnect();
   const { name, icon } = useAppDetails();
 
   return (
@@ -64,42 +63,13 @@ export const Intro = () => {
         ]}
       />
       <ScreenActions>
-        <Button
-          size="md"
-          width="100%"
-          mt={2}
-          onClick={() => {
-            doStartAuth();
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            authenticate({
-              ...authOptions,
-              finished: payload => {
-                authOptions.finished && authOptions.finished(payload);
-                doFinishAuth(payload);
-              },
-            });
-          }}
-        >
+        <Button width="100%" size="md" mt={2} onClick={() => doAuth()}>
           Create Data Vault
         </Button>
       </ScreenActions>
       <ScreenFooter>
         <Stack mt={5} spacing={4} isInline>
-          <Link
-            color="blue"
-            onClick={() => {
-              doStartAuth();
-              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-              authenticate({
-                ...authOptions,
-                finished: payload => {
-                  authOptions.finished && authOptions.finished(payload);
-                  doFinishAuth(payload);
-                },
-                sendToSignIn: true,
-              });
-            }}
-          >
+          <Link color="blue" onClick={() => doAuth({ sendToSignIn: true })}>
             Sign in to Data Vault
           </Link>
           <Link
