@@ -1,6 +1,9 @@
 # `@blockstack/connect`
 
+## This package now lives in https://github.com/blockstack/ux/tree/master/packages/connect
+
 A library for building excellent user experiences with [Blockstack](https://blockstack.org/).
+
 
 <!-- TOC depthFrom:2 -->
 
