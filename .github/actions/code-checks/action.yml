@@ -12,16 +12,3 @@ runs:
     - name: Typecheck
       run: yarn typecheck
       shell: bash
-    - name: App unit tests
-      run: yarn test:unit
-      shell: bash
-      working-directory: packages/app
-    - name: Build extension
-      run: sh build-ext.sh
-      shell: bash
-    - name: Build web apps
-      run: yarn lerna run prod:web --parallel
-      shell: bash
-    - name: Setup screenshots
-      shell: bash
-      run: mkdir packages/app/tests/screenshots
