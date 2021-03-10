@@ -11,12 +11,10 @@ jobs:
       - name: Check for secret
         id: is_not_fork
         env:
-          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          STABLE_WALLET_BRANCH: ${{ secrets.STABLE_WALLET_BRANCH }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "Is a fork: ${{ env.WEB_EXT_API_KEY == '' }}"
-          echo "::set-output name=is_not_fork::${{ env.WEB_EXT_API_KEY != '' }}"
-          echo "::set-output name=stable_wallet_branch::${{ env.STABLE_WALLET_BRANCH }}"
+          echo "Is a fork: ${{ env.NPM_TOKEN == '' }}"
+          echo "::set-output name=is_not_fork::${{ env.NPM_TOKEN != '' }}"
 
   commitlint:
     runs-on: ubuntu-latest
