@@ -2,8 +2,9 @@
   "name": "@stacks/connect-react",
   "version": "5.0.5",
   "scripts": {
-    "build": "yarn build:modules",
+    "build": "concurrently 'yarn build:modules' 'yarn types'",
     "build:modules": "tsdx build --format cjs,esm,umd",
+    "types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "dev": "cd ../test-app && yarn start",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint \"src/**/*.{ts,tsx}\"",
@@ -13,14 +14,14 @@
     "prepublishOnly": "yarn build",
     "start": "tsdx watch",
     "test": "tsdx test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --project tsconfig.json --noEmit"
   },
-  "prettier": "@blockstack/prettier-config",
+  "prettier": "@stacks/prettier-config",
   "publishConfig": {
     "access": "public"
   },
   "sideEffects": false,
-  "typings": "dist/connect-react/src/index.d.ts",
+  "typings": "dist/types/index.d.ts",
   "bundlesize": [
     {
       "path": "./dist/**/*.js",
@@ -28,30 +29,28 @@
     }
   ],
   "dependencies": {
-    "@stacks/auth": "^1.0.2",
-    "@stacks/connect": "^5.0.5",
-    "jsontokens": "^3.0.0"
+    "@stacks/auth": "^1.2.3",
+    "@stacks/connect": "^5.0.4",
+    "esbuild": "^0.9.3",
+    "jsontokens": "^3.0.0",
+    "rollup-plugin-esbuild": "^3.0.2"
   },
   "devDependencies": {
-    "@babel/helper-validator-identifier": "^7.9.5",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "@babel/preset-typescript": "^7.9.0",
-    "@blockstack/eslint-config": "^1.0.3",
-    "@blockstack/prettier-config": "^0.0.6",
-    "@types/jest": "^25.2.1",
-    "@types/react-dom": "^16.9.6",
-    "@types/styled-components": "^5.1.0",
-    "babel-loader": "^8.1.0",
-    "bundlesize": "^0.18.0",
-    "husky": "^4.2.1",
-    "prettier": "^2.0.5",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "rollup-plugin-peer-deps-external": "^2.2.2",
-    "terser-webpack-plugin": "^2.3.5",
+    "@babel/helper-validator-identifier": "^7.12.11",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.8",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/jest": "^26.0.21",
+    "@types/react-dom": "^17.0.2",
+    "@types/styled-components": "^5.1.9",
+    "bundlesize": "^0.18.1",
+    "concurrently": "^6.0.0",
+    "husky": "^5.1.3",
+    "prettier": "^2.2.1",
+    "rollup": "^2.41.4",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "tsdx": "^0.14.1",
-    "tslib": "^1.10.0"
+    "tslib": "^2.1.0"
   },
   "files": [
     "dist"
@@ -60,7 +59,8 @@
   "main": "dist/index.js",
   "module": "dist/connect-react.esm.js",
   "peerDependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@stacks/connect": "^5.0.4",
+    "react": "^16.x || 17.x",
+    "react-dom": "^16.x || 17.x"
   }
 }

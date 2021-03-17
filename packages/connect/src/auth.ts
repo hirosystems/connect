@@ -1,12 +1,14 @@
 import { AppConfig, UserSession } from '@stacks/auth';
 import type { AuthOptions } from './types';
-import packageJson from '../package.json';
+
 import { getStacksProvider } from './utils';
 
 export const defaultAuthURL = 'https://app.blockstack.org';
 
+const version = __VERSION__;
+
 if (typeof window !== 'undefined') {
-  window.__CONNECT_VERSION__ = packageJson.version;
+  window.__CONNECT_VERSION__ = version;
 }
 
 export const isMobile = () => {
@@ -17,10 +19,7 @@ export const isMobile = () => {
   if (/iPad|iPhone|iPod/.test(ua)) {
     return true;
   }
-  if (/windows phone/i.test(ua)) {
-    return true;
-  }
-  return false;
+  return /windows phone/i.test(ua);
 };
 
 /**
@@ -69,7 +68,7 @@ export const authenticate = (authOptions: AuthOptions) => {
     {
       sendToSignIn,
       appDetails,
-      connectVersion: packageJson.version,
+      connectVersion: version,
     }
   );
 

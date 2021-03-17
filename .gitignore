@@ -5,7 +5,6 @@ tests/screenshots/*
 .next/
 .idea/
 .DS_Store
-dist/
 .rts2_cache_cjs/
 .rts2_cache_esm/
 .rts2_cache_umd/
@@ -31,20 +30,21 @@ log.txt
 *.sublime-workspace
 
 .stencil/
-.idea/
 .vscode/
 .sass-cache/
 .versions/
-node_modules/
+
 $RECYCLE.BIN/
 
-.DS_Store
+
 Thumbs.db
 UserInterfaceState.xcuserstate
-.env
+
 
 yalc.lock
 .yalc
+.yarn
+.yarnrc
 
 packages/connect-ui/connect
 

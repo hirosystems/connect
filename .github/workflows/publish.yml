@@ -9,7 +9,7 @@ jobs:
   publish_npm:
     name: Publish production NPM packages
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, 'chore(release)')"
+    if: "contains(github.event.head_commit.message, 'Version Packages')"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,4 +34,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - name: Publish
-        run: yarn lerna publish from-package --conventional-commits --yes
+        run: yarn lerna publish from-package --yes

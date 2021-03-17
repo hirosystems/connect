@@ -1,7 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const peerDepsExternal = require('rollup-plugin-peer-deps-external');
 const esbuild = require('rollup-plugin-esbuild');
 const path = require('path');
+const { version } = require('./package.json');
+const replace = require('@rollup/plugin-replace');
 
 module.exports = {
   rollup(config, options) {
@@ -18,7 +18,15 @@ module.exports = {
       return plugin;
     });
 
-    config.plugins.push(peerDepsExternal());
+    config.plugins = [
+      ...config.plugins,
+      replace({
+        preventAssignment: true,
+        values: {
+          __VERSION__: JSON.stringify(version),
+        },
+      }),
+    ];
 
     if (options.format === 'esm') {
       config = { ...config, preserveModules: true };
