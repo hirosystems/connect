@@ -1,28 +1,31 @@
 {
-  "include": ["src"],
+  "include": [
+    "src",
+    "types"
+  ],
   "compilerOptions": {
-    "target": "es5",
     "module": "esnext",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "importHelpers": true,
     "declaration": true,
+    "composite": true,
     "sourceMap": true,
-    "rootDir": "../",
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "jsx": "react",
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "outDir": "./dist/types"
   }
 }

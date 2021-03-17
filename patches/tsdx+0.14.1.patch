@@ -1,0 +1,17 @@
+diff --git a/node_modules/tsdx/dist/createRollupConfig.js b/node_modules/tsdx/dist/createRollupConfig.js
+index d6d9378..1844b20 100644
+--- a/node_modules/tsdx/dist/createRollupConfig.js
++++ b/node_modules/tsdx/dist/createRollupConfig.js
+@@ -43,9 +43,9 @@ async function createRollupConfig(opts, outputNum) {
+         // Tell Rollup which packages to ignore
+         external: (id) => {
+             // bundle in polyfills as TSDX can't (yet) ensure they're installed as deps
+-            if (id.startsWith('regenerator-runtime')) {
+-                return false;
+-            }
++            // if (id.startsWith('regenerator-runtime')) {
++            //     return false;
++            // }
+             return utils_1.external(id);
+         },
+         // Rollup has treeshaking by default, but we can optimize it further...

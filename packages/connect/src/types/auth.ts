@@ -9,6 +9,8 @@ declare global {
   interface Window {
     __CONNECT_VERSION__?: string;
   }
+
+  const __VERSION__: string;
 }
 
 export interface AuthOptions {

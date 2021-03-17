@@ -9,6 +9,9 @@ runs:
     - name: Lint
       run: yarn lint
       shell: bash
+    - name: Generate types
+      run: yarn types
+      shell: bash
     - name: Typecheck
       run: yarn typecheck
       shell: bash
