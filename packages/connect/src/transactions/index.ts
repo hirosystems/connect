@@ -88,16 +88,21 @@ const openTransactionPopup = ({ token, options }: TransactionPopup) => {
   if (!provider) {
     throw new Error('Stacks Wallet not installed.');
   }
-  void provider.transactionRequest(token).then(data => {
-    const finishedCallback = options.finished || options.onFinish;
-    const { txRaw } = data;
-    const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
-    const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
-    finishedCallback?.({
-      ...data,
-      stacksTransaction,
+  void provider
+    .transactionRequest(token)
+    .then(data => {
+      const finishedCallback = options.finished || options.onFinish;
+      const { txRaw } = data;
+      const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
+      const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
+      finishedCallback?.({
+        ...data,
+        stacksTransaction,
+      });
+    })
+    .catch(error => {
+      console.error('[Connect] Error during transaction request', error);
     });
-  });
 
   if (true) return;
 };

@@ -73,18 +73,19 @@ export const authenticate = (authOptions: AuthOptions) => {
     }
   );
 
-  try {
-    void provider.authenticationRequest(authRequest).then(async authResponse => {
+  void provider
+    .authenticationRequest(authRequest)
+    .then(async authResponse => {
       await userSession.handlePendingSignIn(authResponse);
       const success = onFinish || finished;
       success?.({
         authResponse,
         userSession,
       });
+    })
+    .catch(error => {
+      onCancel?.(error);
     });
-  } catch (error) {
-    onCancel?.(error);
-  }
 };
 
 export const getUserData = async (userSession?: UserSession) => {

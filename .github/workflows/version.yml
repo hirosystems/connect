@@ -34,7 +34,7 @@ jobs:
   version:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'chore(release)')"
-    needs: [integration_tests, code_checks]
+    needs: [code_checks]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
