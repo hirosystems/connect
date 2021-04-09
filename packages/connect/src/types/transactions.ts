@@ -25,6 +25,7 @@ export interface TxBase {
   senderKey?: string;
   /** @deprecated `unused - only included for compatibility with @stacks/transactions` */
   nonce?: number;
+  sponsored?: boolean;
 }
 
 export interface FinishedTxPayload {
