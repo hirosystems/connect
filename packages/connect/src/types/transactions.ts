@@ -29,12 +29,12 @@ export interface TxBase {
 }
 
 export interface FinishedTxPayload {
-  txId: string;
+  txId?: string;
   txRaw: string;
 }
 
 export interface FinishedTxData extends FinishedTxPayload {
-  txId: string;
+  txId?: string;
   txRaw: string;
   stacksTransaction: StacksTransaction;
 }
