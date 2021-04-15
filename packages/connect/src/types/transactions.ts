@@ -25,12 +25,18 @@ export interface TxBase {
   senderKey?: string;
   /** @deprecated `unused - only included for compatibility with @stacks/transactions` */
   nonce?: number;
-  sponsored?: boolean;
 }
 
-export interface FinishedTxPayload {
-  txId?: string;
+export interface SponsoredFinishedTxPayload {
   txRaw: string;
+}
+
+export interface SponsoredFinishedTxData extends SponsoredFinishedTxPayload {
+  stacksTransaction: StacksTransaction;
+}
+
+export interface FinishedTxPayload extends SponsoredFinishedTxPayload {
+  txId: string;
 }
 
 export interface FinishedTxData extends FinishedTxPayload {
@@ -62,17 +68,34 @@ export interface ContractCallBase extends TxBase {
   functionArgs: (string | ClarityValue)[];
 }
 
-export interface ContractCallOptions extends ContractCallBase {
+export interface OptionsBase {
   /**
    * @deprecated Authentication is no longer supported through a hosted
    * version. Users must install an extension.
    */
   authOrigin?: string;
   userSession?: UserSession;
-  /** @deprecated use `onFinish` */
-  finished?: (data: FinishedTxData) => void;
-  onFinish?: (data: FinishedTxData) => void;
 }
+
+export type SponsoredFinished = (data: SponsoredFinishedTxData) => void;
+export type Finished = (data: FinishedTxData) => void;
+
+export interface SponsoredOptionsBase extends TxBase, OptionsBase {
+  sponsored: true;
+  /** @deprecated use `onFinish` */
+  finished?: SponsoredFinished;
+  onFinish?: SponsoredFinished;
+}
+
+export interface RegularOptionsBase extends TxBase, OptionsBase {
+  /** @deprecated use `onFinish` */
+  finished?: Finished;
+  onFinish?: Finished;
+}
+
+export type ContractCallOptions =
+  | (ContractCallBase & SponsoredOptionsBase)
+  | (ContractCallBase & RegularOptionsBase);
 
 export interface ContractCallArgument {
   type: ContractCallArgumentType;
@@ -93,19 +116,11 @@ export interface ContractDeployBase extends TxBase {
   codeBody: string;
 }
 
-export interface ContractDeployOptions extends ContractDeployBase {
-  /**
-   * @deprecated Authentication is no longer supported through a hosted
-   * version. Users must install an extension.
-   */
-  authOrigin?: string;
-  userSession?: UserSession;
-  /** @deprecated use `onFinish` */
-  finished?: (data: FinishedTxData) => void;
-  onFinish?: (data: FinishedTxData) => void;
-}
+export type ContractDeployOptions =
+  | (ContractDeployBase & RegularOptionsBase)
+  | (ContractDeployBase & SponsoredOptionsBase);
 
-export interface ContractDeployPayload extends ContractDeployOptions {
+export interface ContractDeployPayload extends ContractDeployBase {
   publicKey: string;
   txType: TransactionTypes.ContractDeploy;
 }
@@ -120,19 +135,11 @@ export interface STXTransferBase extends TxBase {
   memo?: string;
 }
 
-export interface STXTransferOptions extends STXTransferBase {
-  /**
-   * @deprecated Authentication is no longer supported through a hosted
-   * version. Users must install an extension.
-   */
-  authOrigin?: string;
-  userSession?: UserSession;
-  /** @deprecated use `onFinish` */
-  finished?: (data: FinishedTxData) => void;
-  onFinish?: (data: FinishedTxData) => void;
-}
+export type STXTransferOptions =
+  | (STXTransferBase & RegularOptionsBase)
+  | (STXTransferBase & SponsoredOptionsBase);
 
-export interface STXTransferPayload extends STXTransferOptions {
+export interface STXTransferPayload extends STXTransferBase {
   publicKey: string;
   txType: TransactionTypes.STXTransfer;
   amount: string;
