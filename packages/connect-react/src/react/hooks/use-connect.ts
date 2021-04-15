@@ -10,6 +10,12 @@ import {
   openSTXTransfer,
   showBlockstackConnect,
   FinishedData,
+  ContractCallRegularOptions,
+  ContractCallSponsoredOptions,
+  ContractDeployRegularOptions,
+  ContractDeploySponsoredOptions,
+  STXTransferRegularOptions,
+  STXTransferSponsoredOptions,
 } from '@stacks/connect';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 
@@ -69,22 +75,33 @@ export const useConnect = () => {
     });
   };
 
-  const doContractCall = (options: ContractCallOptions) =>
-    openContractCall({
+  function doContractCall(options: ContractCallRegularOptions): Promise<void>;
+  function doContractCall(options: ContractCallSponsoredOptions): Promise<void>;
+  function doContractCall(options: ContractCallOptions): Promise<void>;
+  function doContractCall(options: ContractCallOptions) {
+    return openContractCall({
       ...options,
       authOrigin: authOptions.authOrigin,
       appDetails: authOptions.appDetails,
     });
+  }
 
-  const doContractDeploy = (options: ContractDeployOptions) =>
-    openContractDeploy({
+  function doContractDeploy(options: ContractDeployRegularOptions): Promise<void>;
+  function doContractDeploy(options: ContractDeploySponsoredOptions): Promise<void>;
+  function doContractDeploy(options: ContractDeployOptions): Promise<void>;
+  function doContractDeploy(options: ContractDeployOptions) {
+    return openContractDeploy({
       ...options,
       authOrigin: authOptions.authOrigin,
       appDetails: authOptions.appDetails,
     });
+  }
 
-  const doSTXTransfer = (options: STXTransferOptions) =>
-    openSTXTransfer({
+  function doSTXTransfer(options: STXTransferRegularOptions): Promise<void>;
+  function doSTXTransfer(options: STXTransferSponsoredOptions): Promise<void>;
+  function doSTXTransfer(options: STXTransferOptions): Promise<void>;
+  function doSTXTransfer(options: STXTransferOptions) {
+    return openSTXTransfer({
       ...options,
       authOrigin: authOptions.authOrigin,
       appDetails: authOptions.appDetails,
