@@ -88,14 +88,15 @@ export interface SponsoredOptionsBase extends TxBase, OptionsBase {
 }
 
 export interface RegularOptionsBase extends TxBase, OptionsBase {
+  sponsored?: false;
   /** @deprecated use `onFinish` */
   finished?: Finished;
   onFinish?: Finished;
 }
 
-export type ContractCallOptions =
-  | (ContractCallBase & SponsoredOptionsBase)
-  | (ContractCallBase & RegularOptionsBase);
+export type ContractCallRegularOptions = ContractCallBase & RegularOptionsBase;
+export type ContractCallSponsoredOptions = ContractCallBase & SponsoredOptionsBase;
+export type ContractCallOptions = ContractCallRegularOptions | ContractCallSponsoredOptions;
 
 export interface ContractCallArgument {
   type: ContractCallArgumentType;
@@ -116,9 +117,9 @@ export interface ContractDeployBase extends TxBase {
   codeBody: string;
 }
 
-export type ContractDeployOptions =
-  | (ContractDeployBase & RegularOptionsBase)
-  | (ContractDeployBase & SponsoredOptionsBase);
+export type ContractDeployRegularOptions = ContractDeployBase & RegularOptionsBase;
+export type ContractDeploySponsoredOptions = ContractDeployBase & SponsoredOptionsBase;
+export type ContractDeployOptions = ContractDeployRegularOptions | ContractDeploySponsoredOptions;
 
 export interface ContractDeployPayload extends ContractDeployBase {
   publicKey: string;
@@ -135,9 +136,9 @@ export interface STXTransferBase extends TxBase {
   memo?: string;
 }
 
-export type STXTransferOptions =
-  | (STXTransferBase & RegularOptionsBase)
-  | (STXTransferBase & SponsoredOptionsBase);
+export type STXTransferRegularOptions = STXTransferBase & RegularOptionsBase;
+export type STXTransferSponsoredOptions = STXTransferBase & SponsoredOptionsBase;
+export type STXTransferOptions = STXTransferRegularOptions | STXTransferSponsoredOptions;
 
 export interface STXTransferPayload extends STXTransferBase {
   publicKey: string;

@@ -11,6 +11,12 @@ import {
   STXTransferPayload,
   TransactionPayload,
   TransactionTypes,
+  STXTransferSponsoredOptions,
+  STXTransferRegularOptions,
+  ContractDeployRegularOptions,
+  ContractDeploySponsoredOptions,
+  ContractCallRegularOptions,
+  ContractCallSponsoredOptions,
 } from '../types/transactions';
 import {
   serializeCV,
@@ -178,11 +184,23 @@ async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   return openTransactionPopup({ token, options });
 }
 
-export const openContractCall = async (options: ContractCallOptions) =>
-  generateTokenAndOpenPopup(options, makeContractCallToken);
+export function openContractCall(options: ContractCallRegularOptions): Promise<void>;
+export function openContractCall(options: ContractCallSponsoredOptions): Promise<void>;
+export function openContractCall(options: ContractCallOptions): Promise<void>;
+export function openContractCall(options: ContractCallOptions) {
+  return generateTokenAndOpenPopup(options, makeContractCallToken);
+}
 
-export const openContractDeploy = async (options: ContractDeployOptions) =>
-  generateTokenAndOpenPopup(options, makeContractDeployToken);
+export function openContractDeploy(options: ContractDeployRegularOptions): Promise<void>;
+export function openContractDeploy(options: ContractDeploySponsoredOptions): Promise<void>;
+export function openContractDeploy(options: ContractDeployOptions): Promise<void>;
+export function openContractDeploy(options: ContractDeployOptions) {
+  return generateTokenAndOpenPopup(options, makeContractDeployToken);
+}
 
-export const openSTXTransfer = async (options: STXTransferOptions) =>
-  generateTokenAndOpenPopup(options, makeSTXTransferToken);
+export function openSTXTransfer(options: STXTransferRegularOptions): Promise<void>;
+export function openSTXTransfer(options: STXTransferSponsoredOptions): Promise<void>;
+export function openSTXTransfer(options: STXTransferOptions): Promise<void>;
+export function openSTXTransfer(options: STXTransferOptions) {
+  return generateTokenAndOpenPopup(options, makeSTXTransferToken);
+}
