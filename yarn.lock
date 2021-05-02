@@ -3066,13 +3066,6 @@
   dependencies:
     cross-fetch "^3.0.6"
 
-"@stacks/connect-ui@^2.17.19":
-  version "2.17.19"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-2.17.19.tgz#69998d21ecd93b41037e4b6c04752c28eeb59a46"
-  integrity sha512-UEN6GmnOTUiZY0ZvfmsF1BpsAZROgQ/MZkV7rnIybQ8mcdUQxMsJPkerf6wfwxvSpCPcEoHW020zrXooklZ2kg==
-  dependencies:
-    "@stencil/core" "^1.17.3"
-
 "@stacks/encryption@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-1.0.1.tgz#4a8015933363f739bafcd3b1aa3747bb03cae2d0"
