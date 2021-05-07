@@ -34,8 +34,6 @@ export interface FinishedTxPayload {
 }
 
 export interface FinishedTxData extends FinishedTxPayload {
-  txId?: string;
-  txRaw: string;
   stacksTransaction: StacksTransaction;
 }
 
