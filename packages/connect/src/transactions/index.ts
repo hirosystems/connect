@@ -17,6 +17,8 @@ import {
   ContractDeploySponsoredOptions,
   ContractCallRegularOptions,
   ContractCallSponsoredOptions,
+  SponsoredFinishedTxPayload,
+  FinishedTxPayload,
 } from '../types/transactions';
 import {
   serializeCV,
@@ -101,8 +103,16 @@ const openTransactionPopup = ({ token, options }: TransactionPopup) => {
       const { txRaw } = data;
       const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
       const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
+      if ('sponsored' in options && options.sponsored) {
+        const finishedCallback = options.onFinish || options.finished;
+        finishedCallback?.({
+          ...(data as SponsoredFinishedTxPayload),
+          stacksTransaction,
+        });
+        return;
+      }
       finishedCallback?.({
-        ...data,
+        ...(data as FinishedTxPayload),
         stacksTransaction,
       });
     })
@@ -180,7 +190,7 @@ async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   const token = await makeTokenFn({
     ...getDefaults(options),
     ...options,
-  });
+  } as T);
   return openTransactionPopup({ token, options });
 }
 
