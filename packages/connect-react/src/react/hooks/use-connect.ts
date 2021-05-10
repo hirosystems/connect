@@ -106,6 +106,7 @@ export const useConnect = () => {
       authOrigin: authOptions.authOrigin,
       appDetails: authOptions.appDetails,
     });
+  }
 
   return {
     isOpen,
