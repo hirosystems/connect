@@ -1,4 +1,4 @@
-import { FinishedTxPayload } from './transactions';
+import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
 export interface StacksProvider {
   /** @deprecated */
@@ -8,7 +8,7 @@ export interface StacksProvider {
    *
    * @param payload - a JSON web token representing a transaction request
    */
-  transactionRequest(payload: string): Promise<FinishedTxPayload>;
+  transactionRequest(payload: string): Promise<FinishedTxPayload | SponsoredFinishedTxPayload>;
   /**
    * Make an authentication request
    *
