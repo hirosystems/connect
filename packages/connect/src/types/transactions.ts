@@ -107,6 +107,7 @@ export interface ContractCallPayload extends ContractCallBase {
   txType: TransactionTypes.ContractCall;
   publicKey: string;
   functionArgs: string[];
+  sponsored?: boolean;
 }
 
 /**
@@ -124,6 +125,7 @@ export type ContractDeployOptions = ContractDeployRegularOptions | ContractDeplo
 export interface ContractDeployPayload extends ContractDeployBase {
   publicKey: string;
   txType: TransactionTypes.ContractDeploy;
+  sponsored?: boolean;
 }
 
 /**
@@ -144,6 +146,7 @@ export interface STXTransferPayload extends STXTransferBase {
   publicKey: string;
   txType: TransactionTypes.STXTransfer;
   amount: string;
+  sponsored?: boolean;
 }
 
 /**
