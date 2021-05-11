@@ -4,6 +4,9 @@ import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './extension-util';
 import { StacksIcon } from './assets/stacks-icon';
 
+const CHROME_STORE_URL =
+  'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj';
+
 @Component({
   tag: 'connect-modal',
   styleUrl: 'modal.scss',
@@ -59,7 +62,11 @@ export class Modal {
                   <button
                     class="button"
                     onClick={() => {
-                      window.open('https://www.hiro.so/wallet/install-web', '_blank');
+                      if (browser === 'Chrome') {
+                        window.open(CHROME_STORE_URL, '_blank');
+                      } else {
+                        window.open('https://www.hiro.so/wallet/install-web', '_blank');
+                      }
                       this.openedInstall = true;
                     }}
                   >
