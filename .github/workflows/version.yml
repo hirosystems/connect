@@ -12,7 +12,7 @@ env:
 jobs:
   code_checks:
     name: Code checks
-    if: "!contains(github.event.head_commit.message, 'Version Packages')"
+    if: "!contains(github.event.head_commit.message, 'chore: version packages')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,7 +33,7 @@ jobs:
 
   version:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'Version Packages')"
+    if: "!contains(github.event.head_commit.message, 'chore: version packages')"
     needs: [ code_checks ]
     steps:
       - name: Checkout
@@ -53,5 +53,8 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Create Release Pull Request
         uses: changesets/action@640c4a5d646991720131ef3b6e0e63220de5dddf
+        with:
+          title: "chore: version packages"
+          commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
