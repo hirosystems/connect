@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.0
+
+### Minor Changes
+
+- [#115](https://github.com/blockstack/connect/pull/115) [`b6e77d9`](https://github.com/blockstack/connect/commit/b6e77d94cb5496352c469e88af07e399066b40e7) Thanks [@aulneau](https://github.com/aulneau)! - Updates the main and module paths for cjs and esm builds
+
 ## 5.0.6
 
 ### Patch Changes
