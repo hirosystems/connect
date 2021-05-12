@@ -16,6 +16,7 @@ export interface TxBase {
   postConditions?: (string | PostCondition)[];
   network?: StacksNetwork;
   anchorMode?: AnchorMode;
+  attachment?: string;
   /**
    * Provide the Stacks Wallet with a suggested account to sign this transaction with.
    * This is set by default if a `userSession` option is provided.
