@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.1
+
+### Patch Changes
+
+- [#109](https://github.com/blockstack/connect/pull/109) [`b0ccf13`](https://github.com/blockstack/connect/commit/b0ccf13673f0d56c18c986469fce8e34c63cf177) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This changes the path for downloading the chrome web wallet to be the chrome store
+
 ## 5.1.0
 
 ### Minor Changes
