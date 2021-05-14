@@ -1,5 +1,12 @@
 # Change Log
 
+## 7.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`dcb1ef4`](https://github.com/blockstack/connect/commit/dcb1ef431c2bfad68bc8c1d2ea897e5184428b5b)]:
+  - @stacks/connect@5.2.0
+
 ## 6.0.0
 
 ### Patch Changes

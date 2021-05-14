@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.2.0
+
+### Minor Changes
+
+- [#119](https://github.com/blockstack/connect/pull/119) [`dcb1ef4`](https://github.com/blockstack/connect/commit/dcb1ef431c2bfad68bc8c1d2ea897e5184428b5b) Thanks [@aulneau](https://github.com/aulneau)! - This fixes the import used for the defineCustomElement stencil method.
+
 ## 5.1.0
 
 ### Minor Changes
