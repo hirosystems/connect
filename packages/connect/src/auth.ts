@@ -83,7 +83,8 @@ export const authenticate = (authOptions: AuthOptions) => {
       });
     })
     .catch(error => {
-      onCancel?.(error);
+      console.error('[Connect] Error during auth request', error);
+      onCancel?.();
     });
 };
 

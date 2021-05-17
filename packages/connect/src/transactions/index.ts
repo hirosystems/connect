@@ -103,6 +103,7 @@ const openTransactionPopup = ({ token, options }: TransactionPopup) => {
       const { txRaw } = data;
       const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
       const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
+
       if ('sponsored' in options && options.sponsored) {
         const finishedCallback = options.onFinish || options.finished;
         finishedCallback?.({
@@ -118,6 +119,7 @@ const openTransactionPopup = ({ token, options }: TransactionPopup) => {
     })
     .catch(error => {
       console.error('[Connect] Error during transaction request', error);
+      options.onCancel?.();
     });
 
   if (true) return;

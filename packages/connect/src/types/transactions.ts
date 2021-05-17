@@ -30,6 +30,7 @@ export interface TxBase {
 
 export interface SponsoredFinishedTxPayload {
   txRaw: string;
+  cancel: boolean;
 }
 
 export interface SponsoredFinishedTxData extends SponsoredFinishedTxPayload {
@@ -38,6 +39,7 @@ export interface SponsoredFinishedTxData extends SponsoredFinishedTxPayload {
 
 export interface FinishedTxPayload extends SponsoredFinishedTxPayload {
   txId: string;
+  cancel: boolean;
 }
 
 export interface FinishedTxData extends FinishedTxPayload {
@@ -80,12 +82,14 @@ export interface OptionsBase {
 
 export type SponsoredFinished = (data: SponsoredFinishedTxData) => void;
 export type Finished = (data: FinishedTxData) => void;
+export type Canceled = () => void;
 
 export interface SponsoredOptionsBase extends TxBase, OptionsBase {
   sponsored: true;
   /** @deprecated use `onFinish` */
   finished?: SponsoredFinished;
   onFinish?: SponsoredFinished;
+  onCancel?: Canceled;
 }
 
 export interface RegularOptionsBase extends TxBase, OptionsBase {
@@ -93,6 +97,7 @@ export interface RegularOptionsBase extends TxBase, OptionsBase {
   /** @deprecated use `onFinish` */
   finished?: Finished;
   onFinish?: Finished;
+  onCancel?: Canceled;
 }
 
 export type ContractCallRegularOptions = ContractCallBase & RegularOptionsBase;
