@@ -6,6 +6,7 @@ import { StacksIcon } from './assets/stacks-icon';
 
 const CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj';
+const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/stacks-wallet/';
 
 @Component({
   tag: 'connect-modal',
@@ -64,6 +65,8 @@ export class Modal {
                     onClick={() => {
                       if (browser === 'Chrome') {
                         window.open(CHROME_STORE_URL, '_blank');
+                      } else if (browser === 'Firefox') {
+                        window.open(FIREFOX_STORE_URL, '_blank');
                       } else {
                         window.open('https://www.hiro.so/wallet/install-web', '_blank');
                       }
