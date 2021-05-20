@@ -1,4 +1,4 @@
-import { Component, h, Prop, Event, EventEmitter, State } from '@stencil/core';
+import { Component, h, Prop, State, Element } from '@stencil/core';
 import { CloseIcon } from './assets/close-icon';
 import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './extension-util';
@@ -16,29 +16,23 @@ const CHROME_STORE_URL =
 export class Modal {
   @Prop() authOptions: AuthOptions;
 
-  @Event()
-  handleCloseModal: EventEmitter;
-
   @State()
-  openedInstall: boolean;
+  hasOpenedInstall: boolean;
 
-  handleOpenedInstall() {
-    this.openedInstall = true;
+  @Element() modalEl: HTMLElement;
+
+  handleCloseModal() {
+    this.modalEl.remove();
   }
 
   render() {
     const browser = getBrowser();
-    const handleContainerClick = (event: MouseEvent) => {
-      const target = event.target as HTMLDivElement;
-      if (target.className?.includes && target.className.includes('modal-container')) {
-        this.handleCloseModal.emit();
-      }
-    };
+
     return (
-      <div class="modal-container" onClick={handleContainerClick}>
+      <div class="modal-container">
         <div class="modal-body">
           <div class="modal-top">
-            <CloseIcon onClick={() => this.handleCloseModal.emit()} />
+            <CloseIcon onClick={() => this.handleCloseModal()} />
           </div>
           <div class="modal-content">
             <div>
@@ -53,7 +47,7 @@ export class Modal {
                 {this.authOptions.appDetails.name}.
                 {browser ? ` Add it to ${browser} to continue.` : ''}
               </div>
-              {this.openedInstall ? (
+              {this.hasOpenedInstall ? (
                 <div class="intro-subtitle pxl">
                   After installing Stacks Wallet, reload this page and sign in.
                 </div>
@@ -67,7 +61,7 @@ export class Modal {
                       } else {
                         window.open('https://www.hiro.so/wallet/install-web', '_blank');
                       }
-                      this.openedInstall = true;
+                      this.hasOpenedInstall = true;
                     }}
                   >
                     <span>Install Stacks Wallet</span>
