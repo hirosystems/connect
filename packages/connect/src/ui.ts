@@ -18,10 +18,6 @@ export const showConnect = (authOptions: AuthOptions) => {
       element.remove();
     }
   };
-  element.addEventListener('onCloseModal', () => {
-    document.removeEventListener('keydown', handleEsc);
-    element.remove();
-  });
   document.addEventListener('keydown', handleEsc);
 };
 

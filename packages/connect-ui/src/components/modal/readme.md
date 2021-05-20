@@ -12,13 +12,6 @@
 | `authOptions` | --        |             | `AuthOptions` | `undefined` |
 
 
-## Events
-
-| Event              | Description | Type               |
-| ------------------ | ----------- | ------------------ |
-| `handleCloseModal` |             | `CustomEvent<any>` |
-
-
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
