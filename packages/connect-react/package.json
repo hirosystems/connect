@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect-react",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "scripts": {
     "build": "concurrently 'yarn build:modules' 'yarn types'",
     "build:modules": "tsdx build --format cjs,esm,umd",
@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "@stacks/auth": "^1.2.3",
-    "@stacks/connect": "^5.3.0",
+    "@stacks/connect": "^5.4.0",
     "esbuild": "^0.9.3",
     "jsontokens": "^3.0.0",
     "rollup-plugin-esbuild": "^3.0.2"
@@ -59,7 +59,7 @@
   "main": "dist/index.js",
   "module": "dist/connect-react.esm.js",
   "peerDependencies": {
-    "@stacks/connect": "^5.3.0",
+    "@stacks/connect": "^5.4.0",
     "react": "^16.x || 17.x",
     "react-dom": "^16.x || 17.x"
   }

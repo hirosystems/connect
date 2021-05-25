@@ -1,5 +1,12 @@
 # Change Log
 
+## 9.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`480f720`](https://github.com/blockstack/connect/commit/480f7200791613052315036534ed142a6377f11d)]:
+  - @stacks/connect@5.4.0
+
 ## 8.0.0
 
 ### Patch Changes
