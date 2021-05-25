@@ -1,5 +1,18 @@
 # Change Log
 
+## 5.3.0
+
+### Minor Changes
+
+- [#122](https://github.com/blockstack/connect/pull/122) [`09be9fc`](https://github.com/blockstack/connect/commit/09be9fc5bdb1ee34763c2bbbfa927875a07cb66a) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This adds calling an onCancel callback when the auth and transaction requests fail.
+
+### Patch Changes
+
+- [#125](https://github.com/blockstack/connect/pull/125) [`107908d`](https://github.com/blockstack/connect/commit/107908dd78faae2d92673ec6eb7c0963e1052f51) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This fixes closing the modal that prompts users to install the stacks wallet.
+
+- Updated dependencies [[`f21e8fb`](https://github.com/blockstack/connect/commit/f21e8fbbb03d5057235d116aced914eaafc1a293), [`107908d`](https://github.com/blockstack/connect/commit/107908dd78faae2d92673ec6eb7c0963e1052f51)]:
+  - @stacks/connect-ui@5.1.2
+
 ## 5.2.0
 
 ### Minor Changes

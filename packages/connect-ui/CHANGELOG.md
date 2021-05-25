@@ -1,5 +1,13 @@
 # Change Log
 
+## 5.1.2
+
+### Patch Changes
+
+- [#124](https://github.com/blockstack/connect/pull/124) [`f21e8fb`](https://github.com/blockstack/connect/commit/f21e8fbbb03d5057235d116aced914eaafc1a293) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This changes the path for downloading the firefox web wallet to be the firefox store
+
+* [#125](https://github.com/blockstack/connect/pull/125) [`107908d`](https://github.com/blockstack/connect/commit/107908dd78faae2d92673ec6eb7c0963e1052f51) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This fixes closing the modal that prompts users to install the stacks wallet.
+
 ## 5.1.1
 
 ### Patch Changes
