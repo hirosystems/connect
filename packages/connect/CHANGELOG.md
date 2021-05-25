@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.4.0
+
+### Minor Changes
+
+- [#129](https://github.com/blockstack/connect/pull/129) [`480f720`](https://github.com/blockstack/connect/commit/480f7200791613052315036534ed142a6377f11d) Thanks [@aulneau](https://github.com/aulneau)! - This update fixes the path used to import `defineCustomElement`.
+
 ## 5.3.0
 
 ### Minor Changes
