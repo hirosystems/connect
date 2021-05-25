@@ -1,5 +1,6 @@
 import { AppConfig, UserSession } from '@stacks/auth';
-import type { AuthOptions } from './types';
+import { decodeToken } from 'jsontokens';
+import type { AuthOptions, AuthResponsePayload } from './types';
 
 import { getStacksProvider } from './utils';
 
@@ -37,7 +38,7 @@ export const getOrCreateUserSession = (userSession?: UserSession): UserSession =
   return userSession;
 };
 
-export const authenticate = (authOptions: AuthOptions) => {
+export const authenticate = async (authOptions: AuthOptions) => {
   const provider = getStacksProvider();
   if (!provider) {
     throw new Error('Unable to authenticate without Stacks Wallet extension');
@@ -46,7 +47,6 @@ export const authenticate = (authOptions: AuthOptions) => {
   const {
     redirectTo = '/',
     manifestPath,
-    finished,
     onFinish,
     onCancel,
     sendToSignIn = false,
@@ -72,13 +72,16 @@ export const authenticate = (authOptions: AuthOptions) => {
     }
   );
 
-  void provider
+  await provider
     .authenticationRequest(authRequest)
     .then(async authResponse => {
       await userSession.handlePendingSignIn(authResponse);
-      const success = onFinish || finished;
-      success?.({
+      const token = decodeToken(authResponse);
+      const payload = token?.payload;
+      const authResponsePayload = (payload as unknown) as AuthResponsePayload;
+      onFinish?.({
         authResponse,
+        authResponsePayload,
         userSession,
       });
     })
