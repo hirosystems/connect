@@ -1,6 +1,6 @@
 import { authenticate } from './auth';
 import type { AuthOptions } from './types/auth';
-import { defineCustomElements } from '@stacks/connect-ui/dist/custom-elements';
+import { defineCustomElements } from '@stacks/connect-ui';
 import { getStacksProvider } from './utils';
 
 export const showConnect = (authOptions: AuthOptions) => {
