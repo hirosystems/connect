@@ -30,7 +30,6 @@ export interface TxBase {
 
 export interface SponsoredFinishedTxPayload {
   txRaw: string;
-  cancel: boolean;
 }
 
 export interface SponsoredFinishedTxData extends SponsoredFinishedTxPayload {
@@ -39,7 +38,6 @@ export interface SponsoredFinishedTxData extends SponsoredFinishedTxPayload {
 
 export interface FinishedTxPayload extends SponsoredFinishedTxPayload {
   txId: string;
-  cancel: boolean;
 }
 
 export interface FinishedTxData extends FinishedTxPayload {
