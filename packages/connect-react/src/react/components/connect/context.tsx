@@ -1,5 +1,5 @@
 import React, { useReducer, createContext } from 'react';
-import { AuthOptions, FinishedData } from '@stacks/connect';
+import { AuthOptions, FinishedAuthData } from '@stacks/connect';
 import { UserSession } from '@stacks/auth';
 
 enum States {
@@ -13,7 +13,7 @@ type Dispatch = (action: Action) => void;
 type State = {
   isOpen: boolean;
   isAuthenticating: boolean;
-  authData?: FinishedData;
+  authData?: FinishedAuthData;
   authOptions: AuthOptions;
   userSession?: UserSession;
 };
@@ -26,7 +26,7 @@ const initialState: State = {
   authOptions: {
     redirectTo: '',
     manifestPath: '',
-    finished: () => null,
+    onFinish: () => null,
     authOrigin: undefined,
     sendToSignIn: false,
     appDetails: {

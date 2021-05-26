@@ -84,16 +84,12 @@ export type Canceled = () => void;
 
 export interface SponsoredOptionsBase extends TxBase, OptionsBase {
   sponsored: true;
-  /** @deprecated use `onFinish` */
-  finished?: SponsoredFinished;
   onFinish?: SponsoredFinished;
   onCancel?: Canceled;
 }
 
 export interface RegularOptionsBase extends TxBase, OptionsBase {
   sponsored?: false;
-  /** @deprecated use `onFinish` */
-  finished?: Finished;
   onFinish?: Finished;
   onCancel?: Canceled;
 }
