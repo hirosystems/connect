@@ -54,6 +54,7 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "tsdx": "^0.14.1",
     "typescript": "4.2.3",
     "yalc": "^1.0.0-pre.50"
   },
@@ -65,8 +66,7 @@
     "is-regex": "^1.1.2",
     "jsx-ast-utils": "^3.2.0",
     "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0",
-    "tsdx": "^0.14.1"
+    "postinstall-postinstall": "^2.1.0"
   },
   "resolutions": {
     "tsdx": "^0.14.1"
