@@ -9,13 +9,13 @@ import {
   openContractDeploy,
   openSTXTransfer,
   showBlockstackConnect,
-  FinishedData,
   ContractCallRegularOptions,
   ContractCallSponsoredOptions,
   ContractDeployRegularOptions,
   ContractDeploySponsoredOptions,
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
+  FinishedAuthData,
 } from '@stacks/connect';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 
@@ -31,7 +31,7 @@ export const useConnect = () => {
   const { isOpen, isAuthenticating, authData, authOptions, userSession } = useContext(
     ConnectContext
   );
-  const finishedCallback = authOptions.onFinish || authOptions.finished;
+
   const dispatch = useConnectDispatch();
 
   const doUpdateAuthOptions = (payload: Partial<AuthOptions>) => {
@@ -48,9 +48,8 @@ export const useConnect = () => {
       const _options: AuthOptions = {
         ...authOptions,
         ...options,
-        finished: undefined,
-        onFinish: (payload: FinishedData) => {
-          finishedCallback?.(payload);
+        onFinish: (payload: FinishedAuthData) => {
+          authOptions.onFinish?.(payload);
         },
         sendToSignIn: true,
       };
@@ -64,13 +63,13 @@ export const useConnect = () => {
     }
     authOptions && doUpdateAuthOptions(authOptions);
   };
+
   const doAuth = (options: Partial<AuthOptions> = {}) => {
     void authenticate({
       ...authOptions,
       ...options,
-      finished: undefined,
-      onFinish: (payload: FinishedData) => {
-        finishedCallback?.(payload);
+      onFinish: (payload: FinishedAuthData) => {
+        authOptions.onFinish?.(payload);
       },
     });
   };

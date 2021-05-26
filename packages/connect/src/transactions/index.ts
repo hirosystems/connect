@@ -91,38 +91,33 @@ const signPayload = async (payload: TransactionPayload, privateKey: string) => {
   } as any);
 };
 
-const openTransactionPopup = ({ token, options }: TransactionPopup) => {
+const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
   const provider = getStacksProvider();
   if (!provider) {
     throw new Error('Stacks Wallet not installed.');
   }
-  void provider
-    .transactionRequest(token)
-    .then(data => {
-      const finishedCallback = options.finished || options.onFinish;
-      const { txRaw } = data;
-      const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
-      const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
 
-      if ('sponsored' in options && options.sponsored) {
-        const finishedCallback = options.onFinish || options.finished;
-        finishedCallback?.({
-          ...(data as SponsoredFinishedTxPayload),
-          stacksTransaction,
-        });
-        return;
-      }
-      finishedCallback?.({
-        ...(data as FinishedTxPayload),
+  try {
+    const txResponse = await provider.transactionRequest(token);
+    const { txRaw } = txResponse;
+    const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
+    const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
+
+    if ('sponsored' in options && options.sponsored) {
+      options.onFinish?.({
+        ...(txResponse as SponsoredFinishedTxPayload),
         stacksTransaction,
       });
-    })
-    .catch(error => {
-      console.error('[Connect] Error during transaction request', error);
-      options.onCancel?.();
+      return;
+    }
+    options.onFinish?.({
+      ...(txResponse as FinishedTxPayload),
+      stacksTransaction,
     });
-
-  if (true) return;
+  } catch (error) {
+    console.error('[Connect] Error during transaction request', error);
+    options.onCancel?.();
+  }
 };
 
 export const makeContractCallToken = async (options: ContractCallOptions) => {

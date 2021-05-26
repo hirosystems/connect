@@ -72,23 +72,21 @@ export const authenticate = async (authOptions: AuthOptions) => {
     }
   );
 
-  await provider
-    .authenticationRequest(authRequest)
-    .then(async authResponse => {
-      await userSession.handlePendingSignIn(authResponse);
-      const token = decodeToken(authResponse);
-      const payload = token?.payload;
-      const authResponsePayload = (payload as unknown) as AuthResponsePayload;
-      onFinish?.({
-        authResponse,
-        authResponsePayload,
-        userSession,
-      });
-    })
-    .catch(error => {
-      console.error('[Connect] Error during auth request', error);
-      onCancel?.();
+  try {
+    const authResponse = await provider.authenticationRequest(authRequest);
+    await userSession.handlePendingSignIn(authResponse);
+    const token = decodeToken(authResponse);
+    const payload = token?.payload;
+    const authResponsePayload = (payload as unknown) as AuthResponsePayload;
+    onFinish?.({
+      authResponse,
+      authResponsePayload,
+      userSession,
     });
+  } catch (error) {
+    console.error('[Connect] Error during auth request', error);
+    onCancel?.();
+  }
 };
 
 export const getUserData = async (userSession?: UserSession) => {
