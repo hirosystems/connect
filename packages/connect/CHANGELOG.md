@@ -1,5 +1,15 @@
 # Change Log
 
+## 5.5.0
+
+### Minor Changes
+
+- [#132](https://github.com/blockstack/connect/pull/132) [`af31f53`](https://github.com/blockstack/connect/commit/af31f530552ba3d506ab2371f6dc5dad47f178aa) Thanks [@pgray-hiro](https://github.com/pgray-hiro)! - This update moves `tsdx` and other dependencies to the correct category of `devDependencies`, fixing a downstream issue in the todos example app.
+
+### Patch Changes
+
+- [#133](https://github.com/blockstack/connect/pull/133) [`8e3d021`](https://github.com/blockstack/connect/commit/8e3d021d7f33f55f79a40b1e439c10f0c5dae8d1) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This removes the cancel boolean added to the tx response because it is not needed.
+
 ## 5.4.0
 
 ### Minor Changes

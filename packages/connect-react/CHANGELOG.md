@@ -1,5 +1,12 @@
 # Change Log
 
+## 10.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`8e3d021`](https://github.com/blockstack/connect/commit/8e3d021d7f33f55f79a40b1e439c10f0c5dae8d1), [`af31f53`](https://github.com/blockstack/connect/commit/af31f530552ba3d506ab2371f6dc5dad47f178aa)]:
+  - @stacks/connect@5.5.0
+
 ## 9.0.0
 
 ### Patch Changes
