@@ -1,8 +1,9 @@
 import { Component, h, Prop, State, Element } from '@stencil/core';
 import { CloseIcon } from './assets/close-icon';
+import { KeyAndKeyhole } from './assets/key-and-keyhole';
+import { StacksIcon } from './assets/stacks-icon';
 import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './extension-util';
-import { StacksIcon } from './assets/stacks-icon';
 
 const CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj';
@@ -11,7 +12,7 @@ const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/stacks
 @Component({
   tag: 'connect-modal',
   styleUrl: 'modal.scss',
-  assetsDirs: ['screens', 'assets'],
+  assetsDirs: ['assets'],
   shadow: true,
 })
 export class Modal {
@@ -26,61 +27,65 @@ export class Modal {
     this.modalEl.remove();
   }
 
+  handleDownloadPath(browser: string) {
+    if (browser === 'Chrome') {
+      window.open(CHROME_STORE_URL, '_blank');
+    } else if (browser === 'Firefox') {
+      window.open(FIREFOX_STORE_URL, '_blank');
+    } else {
+      window.open('https://www.hiro.so/wallet/install-web', '_blank');
+    }
+    this.hasOpenedInstall = true;
+  }
+
   render() {
     const browser = getBrowser();
 
     return (
       <div class="modal-container">
         <div class="modal-body">
-          <div class="modal-top">
+          <div class="modal-header">
+            <div class="header-left">
+              <StacksIcon />
+              <span>Stacks Wallet</span>
+            </div>
             <CloseIcon onClick={() => this.handleCloseModal()} />
           </div>
           <div class="modal-content">
-            <div>
-              <div class="hero-icon">
-                <StacksIcon />
+            <div class="modal-illustration">
+              <KeyAndKeyhole />
+              <div class="app-logo">
+                <img src={this.authOptions.appDetails.icon} />
               </div>
-              <span class="modal-header pxl">
-                Use {this.authOptions.appDetails.name} with Stacks
-              </span>
-              <div class="intro-subtitle pxl">
-                Stacks Wallet gives you control over your digital assets and data in apps like{' '}
-                {this.authOptions.appDetails.name}.
-                {browser ? ` Add it to ${browser} to continue.` : ''}
+            </div>
+            <span class="modal-title">{`Add Stacks Wallet to ${browser}`}</span>
+            <div class="modal-subtitle">
+              Stacks Wallet is your gateway to Stacks apps like {this.authOptions.appDetails.name}.
+              Add it to {browser} to continue.
+            </div>
+            {this.hasOpenedInstall ? (
+              <div class="modal-subtitle">
+                After installing Stacks Wallet, reload this page and sign in.
               </div>
-              {this.hasOpenedInstall ? (
-                <div class="intro-subtitle pxl">
-                  After installing Stacks Wallet, reload this page and sign in.
-                </div>
-              ) : (
-                <div class="button-container">
-                  <button
-                    class="button"
-                    onClick={() => {
-                      if (browser === 'Chrome') {
-                        window.open(CHROME_STORE_URL, '_blank');
-                      } else if (browser === 'Firefox') {
-                        window.open(FIREFOX_STORE_URL, '_blank');
-                      } else {
-                        window.open('https://www.hiro.so/wallet/install-web', '_blank');
-                      }
-                      this.hasOpenedInstall = true;
-                    }}
-                  >
-                    <span>Install Stacks Wallet</span>
-                  </button>
-                </div>
-              )}
-              <div class="modal-footer">
-                <span
-                  class="link"
-                  onClick={() =>
-                    window.open('https://www.hiro.so/questions/how-does-stacks-work', '_blank')
-                  }
+            ) : (
+              <div class="button-container">
+                <button
+                  class="button"
+                  onClick={() => {
+                    this.handleDownloadPath(browser);
+                  }}
                 >
-                  How it works
-                </span>
+                  <span>Download Stacks Wallet</span>
+                </button>
               </div>
+            )}
+            <div class="modal-footer">
+              <span
+                class="link"
+                onClick={() => window.open('https://www.hiro.so/wallet', '_blank')}
+              >
+                About Stacks Wallet →
+              </span>
             </div>
           </div>
         </div>

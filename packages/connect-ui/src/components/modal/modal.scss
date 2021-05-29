@@ -18,114 +18,102 @@
 }
 
 .modal-body {
-  width: 512px;
+  width: 486px;
   max-width: 100%;
   max-height: calc(100% - 48px);
   background: white;
-  flex-direction: column;
-  display: flex;
   margin-left: auto;
   margin-right: auto;
-  border-radius: 6px;
-  .pxl {
-    padding-left: 64px;
-    padding-right: 64px;
-  }
+  border-radius: 12px;
+
   div {
     box-sizing: border-box;
   }
 }
 
-.pxl {
-  padding-left: 64px;
-  padding-right: 64px;
-}
-
-.modal-top {
+.modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 24px;
   svg {
     cursor: pointer;
   }
 }
 
-.modal-content {
-  overflow-y: auto;
+.header-left {
+  display: flex;
+  align-items: center;
+
+  span {
+    padding-left: 8px;
+  }
 }
 
-.modal-header {
-  font-size: 44px;
-  font-weight: 900;
-  line-height: 48px;
-  padding: 10px 32px;
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-illustration {
+  position: relative;
+  padding-top: 12px;
+}
+
+.app-logo {
+  position: absolute;
+  bottom: 3px;
+  right: 0;
+
+  img {
+    width: 64px;
+  }
+}
+
+.modal-title {
+  color: #242629;
+  font-family: 'Open Sauce One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+  padding: 24px 64px 10px 64px;
   display: block;
   text-align: center;
 }
 
-.intro-subtitle {
-  font-size: 18px;
+.modal-subtitle {
+  font-size: 16px;
   font-weight: 400;
-  line-height: 32px;
-  margin: 10px 0;
-  color: #424248;
+  line-height: 24px;
+  color: #74777d;
   text-align: center;
-}
-
-.divider {
-  margin: 8px 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: 1px;
-  background: #e5e5ec;
-}
-
-.intro-entry {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  padding: 20px 32px;
-  box-sizing: border-box;
-}
-
-.intro-entry-icon {
-  align-self: stretch;
-  margin-top: 4px;
-  margin-right: 16px;
-}
-
-.intro-entry-copy {
-  display: inline;
-  font-size: 14px;
-  line-height: 20px;
-  color: #222933;
-  white-space: unset;
+  padding: 10px 32px 24px 32px;
 }
 
 .button-container {
-  padding: 10px 24px;
-  width: 100%;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 24px 24px 24px;
 }
 
 .button {
   width: 100%;
-  max-width: 344px;
+  max-width: 209px;
   margin: 0px auto;
   box-sizing: border-box;
-  border-radius: 6px;
+  border-radius: 8px;
   display: block;
-  line-height: 1.333;
   align-items: center;
   justify-content: center;
-  background-color: #3700ff;
+  background-color: #5546ff;
   color: #ffffff;
   min-height: 48px;
   min-width: 126px;
-  font-size: 14px !important;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 14px 24px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -143,128 +131,27 @@
   span {
     align-items: center;
     -webkit-box-pack: center;
+    font-size: 14px;
     font-weight: 500;
-    line-height: 1.333;
+    line-height: 20px;
     color: #ffffff;
-    font-size: 14px !important;
     white-space: nowrap;
   }
 }
 
 .modal-footer {
+  width: 100%;
   margin-top: 10px;
   padding: 24px 0;
-  background-color: #f7f7fa;
+  background-color: #ffffff;
   text-align: center;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 12px 12px;
+  border-top: 1px solid #efeff2;
 
   .link {
-    color: #747478;
+    color: #74777d;
     font-size: 14px;
-  }
-}
-
-.link {
-  color: #3700ff;
-  margin-right: 16px;
-  font-weight: 500;
-  display: inline;
-  font-size: 12px;
-  line-height: 1.333;
-  -webkit-letter-spacing: 0em;
-  -moz-letter-spacing: 0em;
-  -ms-letter-spacing: 0em;
-  letter-spacing: 0em;
-  white-space: unset;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.link-l {
-  font-size: 14px;
-}
-
-// Hero area
-
-.hero-icon {
-  width: 100%;
-  svg {
-    margin: 20px auto;
-    width: 64px;
-    height: 64px;
-    display: block;
-  }
-}
-
-// HOW IT WORKS
-
-.how-it-works {
-  padding: 24px;
-  border-top: 1px solid rgb(229, 229, 236);
-  width: 100%;
-  .modal-header {
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 3px;
-    padding-bottom: 10px;
-    line-height: 24px;
-    font-size: 24px;
-    text-align: left;
-  }
-}
-
-.label {
-  display: block;
-  width: 100%;
-  line-height: 20px;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: #677282;
-}
-
-.hiw-content {
-  display: block;
-  margin-top: 8px;
-  font-size: 14px;
-  line-height: 20px;
-
-  .link {
-    margin: 0;
-  }
-}
-
-.hiw-question {
-  display: block;
-  margin-top: 32px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-}
-
-.powered-by-container {
-  width: 100%;
-  padding: 24px;
-  text-align: center;
-
-  .powered-by {
-    color: rgb(103, 114, 130);
-    font-size: 12px;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    svg {
-      position: relative;
-      top: 2px;
-      display: inline-block;
-      margin: 0 4px;
-    }
+    line-height: 20px;
+    cursor: pointer;
   }
 }
