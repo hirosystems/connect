@@ -1,15 +1,15 @@
 {
   "name": "@stacks/connect-ui",
   "version": "5.1.2",
-  "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "types": "dist/custom-elements/index.d.ts",
+  "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/connect-ui/connect-ui.js",
   "files": [
-    "dist/"
+    "dist/",
+    "loader/"
   ],
   "scripts": {
     "build": "stencil build --docs",
@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stencil/core": "^2.4.0",
+    "@stencil/core": "^2.6.0",
     "@stencil/sass": "^1.4.1"
   },
   "license": "MIT",

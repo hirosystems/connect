@@ -8,9 +8,7 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'dist',
-    },
-    {
-      type: 'dist-custom-elements-bundle',
+      esmLoaderPath: '../loader',
     },
     {
       type: 'docs-readme',
