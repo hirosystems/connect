@@ -8,7 +8,9 @@
     <script type="module" src="/build/connect-ui.esm.js"></script>
     <script nomodule src="/build/connect-ui.js"></script>
     <script type="module">
-        import {showBlockstackConnect} from '/build/index.esm.js'
+        import { showBlockstackConnect } from '/build/index.esm.js'
+        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@ionic/core/loader/index.es2017.mjs';
+        defineCustomElements();
 
         const authOptions = {
             redirectTo: '/',
