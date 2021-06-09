@@ -1,7 +1,7 @@
 import { Component, h, Prop, State, Element } from '@stencil/core';
-import { CloseIcon } from './assets/close-icon';
-import { KeyAndKeyhole } from './assets/key-and-keyhole';
-import { StacksIcon } from './assets/stacks-icon';
+import CloseIcon from './assets/close-icon.svg';
+import KeyAndKeyhole from './assets/key-and-keyhole.svg';
+import StacksIcon from './assets/stacks-icon.svg';
 import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './extension-util';
 
@@ -46,14 +46,14 @@ export class Modal {
         <div class="modal-body">
           <div class="modal-header">
             <div class="header-left">
-              <StacksIcon />
+              <img src={StacksIcon} />
               <span>Stacks Wallet</span>
             </div>
-            <CloseIcon onClick={() => this.handleCloseModal()} />
+            <img class="header-right" src={CloseIcon} onClick={() => this.handleCloseModal()} />
           </div>
           <div class="modal-content">
             <div class="modal-illustration">
-              <KeyAndKeyhole />
+              <img src={KeyAndKeyhole} />
               <div class="app-logo">
                 <img src={this.authOptions.appDetails.icon} />
               </div>
@@ -75,7 +75,7 @@ export class Modal {
                     this.handleDownloadPath(browser);
                   }}
                 >
-                  <span>Download Stacks Wallet</span>
+                  Download Stacks Wallet
                 </button>
               </div>
             )}

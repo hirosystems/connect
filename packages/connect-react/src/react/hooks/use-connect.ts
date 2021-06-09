@@ -28,9 +28,8 @@ const useConnectDispatch = () => {
 };
 
 export const useConnect = () => {
-  const { isOpen, isAuthenticating, authData, authOptions, userSession } = useContext(
-    ConnectContext
-  );
+  const { isOpen, isAuthenticating, authData, authOptions, userSession } =
+    useContext(ConnectContext);
 
   const dispatch = useConnectDispatch();
 
