@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.3
+
+### Patch Changes
+
+- [#139](https://github.com/blockstack/connect/pull/139) [`8c0fc9a`](https://github.com/blockstack/connect/commit/8c0fc9acf068fa49e8dbb82652d5cfc54ceb182a) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This makes modifications to our stencil config so we can import our custom elements properly in connect.
+
 ## 5.1.2
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # Change Log
 
+## 6.0.0
+
+### Major Changes
+
+- [#131](https://github.com/blockstack/connect/pull/131) [`c7bd34e`](https://github.com/blockstack/connect/commit/c7bd34e77f874fcf38196cd48d5b514e4c49ec2f) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This exposes the profile_url and other properties in the auth response. It also removes the deprecated 'finished' prop from AuthOptions and transaction options as a breaking change. We will now only support the use of 'onFinish'.
+
+### Patch Changes
+
+- [#139](https://github.com/blockstack/connect/pull/139) [`8c0fc9a`](https://github.com/blockstack/connect/commit/8c0fc9acf068fa49e8dbb82652d5cfc54ceb182a) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This makes modifications to our stencil config so we can import our custom elements properly in connect.
+
+- Updated dependencies [[`8c0fc9a`](https://github.com/blockstack/connect/commit/8c0fc9acf068fa49e8dbb82652d5cfc54ceb182a)]:
+  - @stacks/connect-ui@5.1.3
+
 ## 5.5.0
 
 ### Minor Changes
