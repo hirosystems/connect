@@ -77,7 +77,7 @@ export const authenticate = async (authOptions: AuthOptions) => {
     await userSession.handlePendingSignIn(authResponse);
     const token = decodeToken(authResponse);
     const payload = token?.payload;
-    const authResponsePayload = (payload as unknown) as AuthResponsePayload;
+    const authResponsePayload = payload as unknown as AuthResponsePayload;
     onFinish?.({
       authResponse,
       authResponsePayload,

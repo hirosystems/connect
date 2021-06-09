@@ -36,9 +36,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px;
-  svg {
-    cursor: pointer;
-  }
 }
 
 .header-left {
@@ -48,6 +45,10 @@
   span {
     padding-left: 8px;
   }
+}
+
+.header-right {
+  cursor: pointer;
 }
 
 .modal-content {
@@ -106,6 +107,9 @@
   margin: 0px auto;
   box-sizing: border-box;
   border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
   display: block;
   align-items: center;
   justify-content: center;
@@ -127,16 +131,6 @@
   outline: none;
   border: none;
   cursor: pointer;
-
-  span {
-    align-items: center;
-    -webkit-box-pack: center;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-    color: #ffffff;
-    white-space: nowrap;
-  }
 }
 
 .modal-footer {
