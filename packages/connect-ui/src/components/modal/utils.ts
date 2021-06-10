@@ -31,15 +31,3 @@ export const getBrowser = (): Browser | null => {
   }
   return null;
 };
-
-export const onClick = () => {
-  const browser = getBrowser();
-  if (browser === 'Firefox') {
-    window.open('https://addons.mozilla.org/en-US/firefox/addon/blockstack/', '_blank');
-  } else if (browser === 'Chrome') {
-    window.open(
-      'https://chrome.google.com/webstore/detail/blockstack/mdhmgoflnkccjhcfbojdagggmklgfloo',
-      '_blank'
-    );
-  }
-};
