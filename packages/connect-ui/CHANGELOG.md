@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.4
+
+### Patch Changes
+
+- [#140](https://github.com/blockstack/connect/pull/140) [`71fdcb4`](https://github.com/blockstack/connect/commit/71fdcb4bc182d1c4a9e21d8b084d132d9d715e21) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This implements new designs for the intro (install) modal.
+
 ## 5.1.3
 
 ### Patch Changes
