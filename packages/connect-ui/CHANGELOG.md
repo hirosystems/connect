@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.5
+
+### Patch Changes
+
+- [#145](https://github.com/blockstack/connect/pull/145) [`f354a11`](https://github.com/blockstack/connect/commit/f354a11ae6771b6857a3413916587fe10bd2fa1e) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This adds handling unsupported browsers in the intro modal.
+
 ## 5.1.4
 
 ### Patch Changes
