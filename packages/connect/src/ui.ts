@@ -12,6 +12,7 @@ export const showConnect = (authOptions: AuthOptions) => {
     void defineCustomElements(window);
     const element = document.createElement('connect-modal');
     element.authOptions = authOptions;
+    element.redirectUrl = window.location.href;
     document.body.appendChild(element);
     const handleEsc = (ev: KeyboardEvent) => {
       if (ev.key === 'Escape') {

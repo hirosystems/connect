@@ -9,6 +9,7 @@ import { AuthOptions } from "@stacks/connect/types/auth";
 export namespace Components {
     interface ConnectModal {
         "authOptions": AuthOptions;
+        "redirectUrl": string;
     }
 }
 declare global {
@@ -25,6 +26,7 @@ declare global {
 declare namespace LocalJSX {
     interface ConnectModal {
         "authOptions"?: AuthOptions;
+        "redirectUrl"?: string;
     }
     interface IntrinsicElements {
         "connect-modal": ConnectModal;

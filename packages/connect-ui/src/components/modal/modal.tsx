@@ -1,4 +1,4 @@
-import { Component, h, Prop, State, Element } from '@stencil/core';
+import { Component, h, Prop, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import KeyAndKeyhole from './assets/key-and-keyhole.svg';
 import StacksIcon from './assets/stacks-icon.svg';
@@ -20,9 +20,7 @@ const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/stacks
 })
 export class Modal {
   @Prop() authOptions: AuthOptions;
-
-  @State()
-  hasOpenedInstall: boolean;
+  @Prop() redirectUrl: string;
 
   @Element() modalEl: HTMLElement;
 
@@ -31,14 +29,17 @@ export class Modal {
   }
 
   handleDownloadPath(browser: string) {
+    // Save app url in the query params to be used in the ext
+    // background script after install to reload the app
+    const urlParams = new URLSearchParams();
+    urlParams.set('redirectUrl', this.redirectUrl);
     if (browser === 'Chrome') {
-      window.open(CHROME_STORE_URL, '_blank');
+      window.open(CHROME_STORE_URL + `?${urlParams.toString()}`, '_blank');
     } else if (browser === 'Firefox') {
-      window.open(FIREFOX_STORE_URL, '_blank');
+      window.open(FIREFOX_STORE_URL + `?${urlParams.toString()}`, '_blank');
     } else {
       window.open('https://www.hiro.so/wallet/install-web', '_blank');
     }
-    this.hasOpenedInstall = true;
   }
 
   render() {
@@ -90,16 +91,13 @@ export class Modal {
                 </div>
               )}
             </div>
-            {this.hasOpenedInstall ? (
-              <div class="modal-subtitle">
-                After installing Stacks Wallet, reload this page and sign in.
-              </div>
-            ) : browser ? (
+            {browser ? (
               <div class="button-container">
                 <button
                   class="button"
                   onClick={() => {
                     this.handleDownloadPath(browser);
+                    this.modalEl.remove();
                   }}
                 >
                   Download Stacks Wallet

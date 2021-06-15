@@ -1,4 +1,4 @@
-export const isChrome = () => {
+const isChrome = () => {
   const isChromium = !!window['chrome'];
   const winNav = window.navigator;
   const vendorName = winNav.vendor;

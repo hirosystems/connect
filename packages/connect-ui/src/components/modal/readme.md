@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property      | Attribute | Description | Type          | Default     |
-| ------------- | --------- | ----------- | ------------- | ----------- |
-| `authOptions` | --        |             | `AuthOptions` | `undefined` |
+| Property      | Attribute      | Description | Type          | Default     |
+| ------------- | -------------- | ----------- | ------------- | ----------- |
+| `authOptions` | --             |             | `AuthOptions` | `undefined` |
+| `redirectUrl` | `redirect-url` |             | `string`      | `undefined` |
 
 
 ----------------------------------------------
