@@ -94,7 +94,7 @@ const signPayload = async (payload: TransactionPayload, privateKey: string) => {
 const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
   const provider = getStacksProvider();
   if (!provider) {
-    throw new Error('Stacks Wallet not installed.');
+    throw new Error('Hiro Wallet not installed.');
   }
 
   try {

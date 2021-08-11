@@ -1,7 +1,7 @@
 import { Component, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import KeyAndKeyhole from './assets/key-and-keyhole.svg';
-import StacksIcon from './assets/stacks-icon.svg';
+import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
 import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './utils';
 
@@ -49,7 +49,7 @@ export class Modal {
         <div class="modal-body">
           <div class="modal-header">
             <div class="header-left">
-              <img src={StacksIcon} />
+              <img src={HiroWalletLogo} />
             </div>
             <img class="header-right" src={CloseIcon} onClick={() => this.handleCloseModal()} />
           </div>
@@ -61,19 +61,19 @@ export class Modal {
               </div>
             </div>
             {browser ? (
-              <span class="modal-title supported">Add Stacks Wallet to {browser}</span>
+              <span class="modal-title supported">Add Hiro Wallet to {browser}</span>
             ) : (
               <span class="modal-title unsupported">Your browser isn't supported</span>
             )}
             <div class="modal-subtitle">
               {browser ? (
                 <div>
-                  Stacks Wallet is your gateway to Stacks apps like{' '}
-                  {this.authOptions.appDetails.name}. Add it to {browser} to continue.
+                  Hiro Wallet is your gateway to Stacks apps like {this.authOptions.appDetails.name}
+                  . Add it to {browser} to continue.
                 </div>
               ) : (
                 <div>
-                  To sign in to {this.authOptions.appDetails.name} using the Stacks Wallet browser
+                  To sign in to {this.authOptions.appDetails.name} using the Hiro Wallet browser
                   extension, try{` `}
                   <a href={CHROME_BROWSER_URL} target="_blank">
                     Chrome
@@ -92,7 +92,7 @@ export class Modal {
             </div>
             {this.hasOpenedInstall ? (
               <div class="modal-subtitle">
-                After installing Stacks Wallet, reload this page and sign in.
+                After installing Hiro Wallet, reload this page and sign in.
               </div>
             ) : browser ? (
               <div class="button-container">
@@ -102,7 +102,7 @@ export class Modal {
                     this.handleDownloadPath(browser);
                   }}
                 >
-                  Download Stacks Wallet
+                  Download Hiro Wallet
                 </button>
               </div>
             ) : null}
@@ -111,7 +111,7 @@ export class Modal {
                 class="link"
                 onClick={() => window.open('https://www.hiro.so/wallet', '_blank')}
               >
-                About Stacks Wallet →
+                About Hiro Wallet →
               </span>
             </div>
           </div>
