@@ -41,7 +41,7 @@ export const getOrCreateUserSession = (userSession?: UserSession): UserSession =
 export const authenticate = async (authOptions: AuthOptions) => {
   const provider = getStacksProvider();
   if (!provider) {
-    throw new Error('Unable to authenticate without Stacks Wallet extension');
+    throw new Error('Unable to authenticate without Hiro Wallet extension');
   }
 
   const {
