@@ -1,5 +1,14 @@
 # Change Log
 
+## 6.0.1
+
+### Patch Changes
+
+- [#155](https://github.com/blockstack/connect/pull/155) [`3ec7fee`](https://github.com/blockstack/connect/commit/3ec7fee3b14aec048e4534bc2fbe804b7933454d) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This updates the wallet name in all places to Hiro Wallet.
+
+- Updated dependencies [[`3ec7fee`](https://github.com/blockstack/connect/commit/3ec7fee3b14aec048e4534bc2fbe804b7933454d)]:
+  - @stacks/connect-ui@5.1.6
+
 ## 6.0.0
 
 ### Major Changes
