@@ -4,6 +4,7 @@
 
 ### Patch Changes
 
+- Breaking change `FinishedData` export has been replaced by `FinishedAuthData`
 - Updated dependencies [[`c7bd34e`](https://github.com/blockstack/connect/commit/c7bd34e77f874fcf38196cd48d5b514e4c49ec2f), [`8c0fc9a`](https://github.com/blockstack/connect/commit/8c0fc9acf068fa49e8dbb82652d5cfc54ceb182a)]:
   - @stacks/connect@6.0.0
 
