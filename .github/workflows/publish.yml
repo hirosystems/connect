@@ -13,12 +13,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Prepare repository
         run: git checkout main
+
       - name: Set Node Version
         uses: actions/setup-node@v2-beta
         with:
           node-version: 12.16.1
+
       - name: Restore lerna cache
         id: lerna-cache
         uses: actions/cache@v2
@@ -27,11 +30,16 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install monorepo deps
         run: yarn --frozen-lockfile
+
+      - run: yarn build:connect
+
       - name: Setup .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+
       - name: Publish
         run: yarn lerna publish from-package --yes

@@ -22,8 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stencil/core": "^2.6.0",
-    "@stencil/sass": "^1.4.1"
+    "@stencil/core": "^2.6.0"
   },
   "license": "MIT",
   "devDependencies": {
