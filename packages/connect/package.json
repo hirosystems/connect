@@ -26,6 +26,7 @@
     "@stacks/auth": "^1.2.3",
     "@stacks/connect-ui": "^5.1.6",
     "@stacks/network": "^1.2.2",
+    "@stacks/prettier-config": "^0.0.8",
     "@stacks/transactions": "^1.3.0",
     "bn.js": "^5.2.0",
     "buffer": "6.0.3",
