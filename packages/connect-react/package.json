@@ -29,8 +29,8 @@
     }
   ],
   "dependencies": {
-    "@stacks/auth": "^2.0.1",
-    "@stacks/connect": "^6.1.0",
+    "@stacks/auth": "2.0.1",
+    "@stacks/connect": "6.1.0",
     "jsontokens": "^3.0.0"
   },
   "devDependencies": {
