@@ -2,7 +2,7 @@
   "name": "@stacks/connect-react",
   "version": "11.0.0",
   "scripts": {
-    "build": "yarn build:modules && yarn types",
+    "build": "yarn types && yarn build:modules",
     "build:modules": "tsdx build --format cjs,esm,umd",
     "types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "dev": "cd ../test-app && yarn start",
@@ -31,14 +31,14 @@
   "dependencies": {
     "@stacks/auth": "2.0.1",
     "@stacks/connect": "6.0.0",
-    "esbuild": "^0.9.3",
-    "jsontokens": "^3.0.0",
-    "rollup-plugin-esbuild": "^3.0.2"
+    "jsontokens": "^3.0.0"
   },
   "devDependencies": {
     "@babel/helper-validator-identifier": "^7.12.11",
     "@babel/plugin-proposal-optional-chaining": "^7.13.8",
     "@babel/preset-react": "^7.12.13",
+    "rollup-plugin-esbuild": "^3.0.2",
+    "esbuild": "^0.9.3",
     "@babel/preset-typescript": "^7.13.0",
     "@types/jest": "^26.0.21",
     "@types/react-dom": "^17.0.2",

@@ -34,8 +34,6 @@ jobs:
       - name: Install monorepo deps
         run: yarn --frozen-lockfile
 
-      - run: yarn build:connect
-
       - name: Setup .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
