@@ -1,5 +1,12 @@
 # Change Log
 
+## 12.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`c8e9fc5`](https://github.com/blockstack/connect/commit/c8e9fc590b98df587d7adf3f5984bc2ee4f94c9c)]:
+  - @stacks/connect@6.1.0
+
 ## 11.0.0
 
 ### Patch Changes

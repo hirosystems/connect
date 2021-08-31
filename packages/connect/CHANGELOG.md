@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.1.0
+
+### Minor Changes
+
+- [#163](https://github.com/blockstack/connect/pull/163) [`c8e9fc5`](https://github.com/blockstack/connect/commit/c8e9fc590b98df587d7adf3f5984bc2ee4f94c9c) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This adds the optional fee property to transactions so it can be set by apps.
+
 ## 6.0.1
 
 ### Patch Changes
