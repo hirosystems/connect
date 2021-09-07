@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.2.0
+
+### Minor Changes
+
+- [#159](https://github.com/blockstack/connect/pull/159) [`a499f61`](https://github.com/blockstack/connect/commit/a499f6127b511bcb030b082d6c7d0c8643638b47) Thanks [@kyranjamie](https://github.com/kyranjamie)! - This updates all stacks.js packages.
+
 ## 5.1.6
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Change Log
 
+## 6.2.0
+
+### Minor Changes
+
+- [#159](https://github.com/blockstack/connect/pull/159) [`a499f61`](https://github.com/blockstack/connect/commit/a499f6127b511bcb030b082d6c7d0c8643638b47) Thanks [@kyranjamie](https://github.com/kyranjamie)! - This updates all stacks.js packages.
+
+### Patch Changes
+
+- Updated dependencies [[`a499f61`](https://github.com/blockstack/connect/commit/a499f6127b511bcb030b082d6c7d0c8643638b47)]:
+  - @stacks/connect-ui@5.2.0
+
 ## 6.1.0
 
 ### Minor Changes
