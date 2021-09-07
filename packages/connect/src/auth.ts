@@ -21,7 +21,6 @@ export const isMobile = () => {
     return true;
   }
   return /windows phone/i.test(ua);
-  // random comment that won't change anything, does CI pass
 };
 
 /**
