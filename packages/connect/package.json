@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "scripts": {
     "build": "rimraf dist && concurrently 'yarn build:modules' 'yarn build:standalone'",
     "build:modules": "concurrently 'tsdx build --tsconfig tsconfig.json' 'yarn types'",
@@ -26,7 +26,7 @@
     "@stacks/connect-ui": "5.2.0",
     "@stacks/network": "2.0.1",
     "@stacks/prettier-config": "0.0.8",
-    "@stacks/transactions": "2.1.0-beta.0",
+    "@stacks/transactions": "2.1.0-beta.2",
     "bn.js": "^5.2.0",
     "buffer": "6.0.3",
     "jsontokens": "^3.0.0",
