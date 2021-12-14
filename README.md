@@ -10,10 +10,10 @@ This repository includes three packages:
 
 ## Documentation
 
-The [Stacks documentation website](https://docs.blockstack.org/build-apps/overview) includes a full range of documentation for building apps using Connect.
+The [Stacks documentation website](https://docs.stacks.co/build-apps/overview) includes a full range of documentation for building apps using Connect.
 
 It also includes guides for various aspects of Stacks application development:
 
-- [Authentication](https://docs.blockstack.org/build-apps/guides/authentication)
-- [Transactions](https://docs.blockstack.org/build-apps/guides/transaction-signing)
-- [Data storage](https://docs.blockstack.org/build-apps/guides/data-storage)
+- [Authentication](https://docs.stacks.co/build-apps/references/authentication)
+- [Transactions](https://docs.stacks.co/understand-stacks/technical-specs#transactions)
+- [Data storage](https://docs.stacks.co/build-apps/references/gaia#understand-data-storage)
