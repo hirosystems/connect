@@ -28,6 +28,7 @@ export class Modal {
 
   handleCloseModal() {
     this.modalEl.remove();
+    this.authOptions.onCancel?.();
   }
 
   handleDownloadPath(browser: string) {
