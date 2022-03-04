@@ -58,16 +58,6 @@
   padding-top: 12px;
 }
 
-.app-logo {
-  position: absolute;
-  bottom: 3px;
-  right: 0;
-
-  img {
-    width: 64px;
-  }
-}
-
 .modal-title {
   color: #242629;
   font-family: 'Open Sauce One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
@@ -97,8 +87,8 @@
   padding: 10px 32px 24px 32px;
 
   a {
-    color: #74777d;
-    font-weight: 500;
+    color: #5546ff;
+    text-decoration: none;
   }
 }
 
@@ -152,7 +142,7 @@
   border-top: 1px solid #efeff2;
 
   .link {
-    color: #74777d;
+    color: #5546ff;
     font-size: 14px;
     line-height: 20px;
     cursor: pointer;
