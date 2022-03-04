@@ -1,9 +1,11 @@
-import { Component, h, Prop, State, Element } from '@stencil/core';
+import { Component, getAssetPath, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
-import KeyAndKeyhole from './assets/key-and-keyhole.svg';
 import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
 import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './utils';
+
+const browserNotSupportedAssetPath = './assets/browser-not-supported.png';
+const downloadHiroWalletAssetPath = './assets/download-hiro-wallet.png';
 
 const CHROME_BROWSER_URL = 'https://www.google.com/chrome/';
 const BRAVE_BROWSER_URL = 'https://brave.com/';
@@ -11,7 +13,6 @@ const FIREFOX_BROWSER_URL = 'https://www.mozilla.org/en-US/';
 const CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj/';
 const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/stacks-wallet/';
-
 @Component({
   tag: 'connect-modal',
   styleUrl: 'modal.scss',
@@ -54,67 +55,61 @@ export class Modal {
             </div>
             <img class="header-right" src={CloseIcon} onClick={() => this.handleCloseModal()} />
           </div>
-          <div class="modal-content">
-            <div class="modal-illustration">
-              <img src={KeyAndKeyhole} />
-              <div class="app-logo">
-                <img src={this.authOptions.appDetails.icon} />
+          {browser ? (
+            <div class="modal-content">
+              <div class="modal-illustration">
+                <img src={getAssetPath(downloadHiroWalletAssetPath)} width={310} />
               </div>
-            </div>
-            {browser ? (
               <span class="modal-title supported">Add Hiro Wallet to {browser}</span>
-            ) : (
-              <span class="modal-title unsupported">Your browser isn't supported</span>
-            )}
-            <div class="modal-subtitle">
-              {browser ? (
-                <div>
-                  Hiro Wallet is your gateway to Stacks apps like {this.authOptions.appDetails.name}
-                  . Add it to {browser} to continue.
-                </div>
-              ) : (
-                <div>
-                  To sign in to {this.authOptions.appDetails.name} using the Hiro Wallet browser
-                  extension, try{` `}
-                  <a href={CHROME_BROWSER_URL} target="_blank">
-                    Chrome
-                  </a>
-                  {`, `}
-                  <a href={BRAVE_BROWSER_URL} target="_blank">
-                    Brave
-                  </a>
-                  {`, or `}
-                  <a href={FIREFOX_BROWSER_URL} target="_blank">
-                    Firefox
-                  </a>
-                  {` on desktop.`}
-                </div>
-              )}
-            </div>
-            {this.hasOpenedInstall ? (
               <div class="modal-subtitle">
-                After installing Hiro Wallet, reload this page and sign in.
+                Hiro Wallet is your gateway to Stacks apps like {this.authOptions.appDetails.name}.
+                Add it to {browser} to continue.
               </div>
-            ) : browser ? (
-              <div class="button-container">
-                <button
-                  class="button"
-                  onClick={() => {
-                    this.handleDownloadPath(browser);
-                  }}
-                >
-                  Download Hiro Wallet
-                </button>
-              </div>
-            ) : null}
-            <div class="modal-footer">
-              <span
-                class="link"
-                onClick={() => window.open('https://www.hiro.so/wallet', '_blank')}
-              >
-                About Hiro Wallet →
-              </span>
             </div>
+          ) : (
+            <div class="modal-content">
+              <div class="modal-illustration">
+                <img src={getAssetPath(browserNotSupportedAssetPath)} width={239} />
+              </div>
+              <span class="modal-title unsupported">Your browser isn't supported</span>
+              <div class="modal-subtitle">
+                To sign in to {this.authOptions.appDetails.name} using the Hiro Wallet browser
+                extension, try{` `}
+                <a href={CHROME_BROWSER_URL} target="_blank">
+                  Chrome
+                </a>
+                {`, `}
+                <a href={BRAVE_BROWSER_URL} target="_blank">
+                  Brave
+                </a>
+                {`, or `}
+                <a href={FIREFOX_BROWSER_URL} target="_blank">
+                  Firefox
+                </a>
+                {` on desktop.`}
+              </div>
+            </div>
+          )}
+          {this.hasOpenedInstall ? (
+            <div class="modal-subtitle">
+              After installing Hiro Wallet, reload this page and sign in.
+            </div>
+          ) : browser ? (
+            <div class="button-container">
+              <button
+                class="button"
+                onClick={() => {
+                  this.handleDownloadPath(browser);
+                }}
+              >
+                Download Hiro Wallet
+              </button>
+            </div>
+          ) : null}
+          <div class="modal-footer">
+            <span class="link" onClick={() => window.open('https://www.hiro.so/wallet', '_blank')}>
+              About Hiro Wallet →
+            </span>
           </div>
         </div>
       </div>
