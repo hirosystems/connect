@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.3.0
+
+### Minor Changes
+
+- [#193](https://github.com/hirosystems/connect/pull/193) [`0cad6f1`](https://github.com/hirosystems/connect/commit/0cad6f169594ab3d6b66f829556221610c6538f3) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This updates the modal illustrations and adds the onCancel callback to closing the modal
+
 ## 5.2.0
 
 ### Minor Changes
