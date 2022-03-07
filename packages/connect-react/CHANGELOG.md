@@ -1,5 +1,12 @@
 # Change Log
 
+## 13.0.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @stacks/connect@6.2.1
+
 ## 13.0.0
 
 ### Minor Changes
