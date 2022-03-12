@@ -12,7 +12,7 @@ const BRAVE_BROWSER_URL = 'https://brave.com/';
 const FIREFOX_BROWSER_URL = 'https://www.mozilla.org/en-US/';
 const CHROME_STORE_URL =
   'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj/';
-const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/stacks-wallet/';
+const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/hiro-wallet/';
 @Component({
   tag: 'connect-modal',
   styleUrl: 'modal.scss',
