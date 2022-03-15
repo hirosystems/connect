@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.4.0
+
+### Minor Changes
+
+- [#199](https://github.com/hirosystems/connect/pull/199) [`4073fee`](https://github.com/hirosystems/connect/commit/4073feedc39fc6223129787bd9dc122398ba0ab6) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This updates our old 'stacks-wallet' download paths to be 'hiro-wallet'.
+
 ## 5.3.0
 
 ### Minor Changes

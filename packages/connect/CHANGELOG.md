@@ -1,5 +1,12 @@
 # Change Log
 
+## 6.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`4073fee`](https://github.com/hirosystems/connect/commit/4073feedc39fc6223129787bd9dc122398ba0ab6)]:
+  - @stacks/connect-ui@5.4.0
+
 ## 6.2.1
 
 ### Patch Changes
