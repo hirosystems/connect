@@ -2629,6 +2629,29 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
+"@stacks/connect-ui@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.2.0.tgz#b475029823a6bc3ebc8fda27acfc583527347cce"
+  integrity sha512-pBRcCBU4Ka0/PuUFsucML1oDVpXupV5hrW2TVh3HbKTRTyJ6HYWuTh4ckxkPlUKY8q+v3tQ7avwPXQaEfstFiA==
+  dependencies:
+    "@stencil/core" "^2.6.0"
+
+"@stacks/connect@6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.2.1.tgz#a185ca71fe453b7f432bce253dd68088ff498f9c"
+  integrity sha512-d3EYla/ADIeCJSXxIgr7kEnMJITGoAxeB8r2TLXpWin+VMVcW8b5QKJ+MwB+PiOoT371swyrzcsjGy+ZA/4oxw==
+  dependencies:
+    "@stacks/auth" "2.0.1"
+    "@stacks/connect-ui" "5.2.0"
+    "@stacks/network" "2.0.2"
+    "@stacks/prettier-config" "0.0.8"
+    "@stacks/transactions" "2.0.1"
+    bn.js "^5.2.0"
+    buffer "6.0.3"
+    jsontokens "^3.0.0"
+    readable-stream "^3.6.0"
+    url "^0.11.0"
+
 "@stacks/encryption@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-2.0.1.tgz#da960e6054245fe25020ee0ac8b5872f433a557f"
@@ -2663,6 +2686,13 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.1.tgz#b48cf3c50793e7aff5a1fbe5ee6ed4bf86da7db5"
   integrity sha512-eA4AHrhFcIXIurW54HxzIoR6cYqe7hg/eS6aebtgyOUBaMc5w+RwR2iqZwG4M5aO4/Bwe3xdReINUUXJgMFK3g==
+  dependencies:
+    "@stacks/common" "^2.0.1"
+
+"@stacks/network@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.2.tgz#a03dc34ff9fc7f8eaf7a2896d1412019c41b601f"
+  integrity sha512-DX6yFP8NgrxZ1bMwTbIoYzcCcjo979Mao1YsyClFr0Bv6JBF7+jh091A9hJ62jPLZDGbZA/PNWn6QGR+t3VY/w==
   dependencies:
     "@stacks/common" "^2.0.1"
 
