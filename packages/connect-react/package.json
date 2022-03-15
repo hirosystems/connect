@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "@stacks/auth": "2.0.1",
-    "@stacks/connect": "6.2.1",
+    "@stacks/connect": "6.4.0",
     "jsontokens": "^3.0.0"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
   "main": "dist/index.js",
   "module": "dist/connect-react.esm.js",
   "peerDependencies": {
-    "@stacks/connect": "^6.2.1",
+    "@stacks/connect": "6.4.0",
     "react": "^16.x || 17.x",
     "react-dom": "^16.x || 17.x"
   }
