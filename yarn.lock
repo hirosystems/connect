@@ -2669,17 +2669,17 @@
   dependencies:
     "@stacks/common" "^3.3.0"
 
-"@stacks/prettier-config@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@stacks/prettier-config/-/prettier-config-0.0.7.tgz#22525c623fce6a5f1965fd29867df3d791ea7ef5"
-  integrity sha512-fXd5X4SV5GqskCYZxqExZJ7wF5sOggmzFP4Q7ttmR/eXZKar3c9fqEpbrpRZyHUBZv2Nss46MvwTLQk2YlpIeg==
-
-"@stacks/prettier-config@^0.0.8":
+"@stacks/prettier-config@0.0.8", "@stacks/prettier-config@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@stacks/prettier-config/-/prettier-config-0.0.8.tgz#4db04dbca3982f74f4554ca522f37570125516e3"
   integrity sha512-WpxCIB2wPk2TT0Zs9oABNQ7Y2wBx2sSqEeFtgJ1lBNY6bKT5B82l/CkbaHPmnUj0KOwauXaSv0rXnxomTNj9xA==
   dependencies:
     prettier "^2.3.0"
+
+"@stacks/prettier-config@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@stacks/prettier-config/-/prettier-config-0.0.7.tgz#22525c623fce6a5f1965fd29867df3d791ea7ef5"
+  integrity sha512-fXd5X4SV5GqskCYZxqExZJ7wF5sOggmzFP4Q7ttmR/eXZKar3c9fqEpbrpRZyHUBZv2Nss46MvwTLQk2YlpIeg==
 
 "@stacks/profile@^3.3.0":
   version "3.3.0"
