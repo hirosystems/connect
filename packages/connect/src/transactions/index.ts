@@ -31,7 +31,8 @@ import {
 import { getStacksProvider } from '../utils';
 import { StacksTestnet } from '@stacks/network';
 
-const getUserSession = (_userSession?: UserSession) => {
+// TODO extract out of transactions
+export const getUserSession = (_userSession?: UserSession) => {
   let userSession = _userSession;
 
   if (!userSession) {
@@ -41,7 +42,8 @@ const getUserSession = (_userSession?: UserSession) => {
   return userSession;
 };
 
-const getKeys = (_userSession?: UserSession) => {
+// TODO extract out of transactions
+export const getKeys = (_userSession?: UserSession) => {
   const userSession = getUserSession(_userSession);
   const privateKey = userSession.loadUserData().appPrivateKey;
   const publicKey = SECP256K1Client.derivePublicKey(privateKey);
@@ -49,7 +51,8 @@ const getKeys = (_userSession?: UserSession) => {
   return { privateKey, publicKey };
 };
 
-function getStxAddress(options: TransactionOptions) {
+// TODO extract out of transactions
+export function getStxAddress(options: TransactionOptions) {
   const { stxAddress, userSession, network } = options;
 
   if (stxAddress) return stxAddress;

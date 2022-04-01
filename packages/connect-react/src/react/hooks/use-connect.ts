@@ -16,8 +16,10 @@ import {
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
   FinishedAuthData,
+  openSignatureRequestPopup,
 } from '@stacks/connect';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
+import { SignatureRequestOptions } from '@stacks/connect';
 
 const useConnectDispatch = () => {
   const dispatch = useContext(ConnectDispatchContext);
@@ -106,6 +108,14 @@ export const useConnect = () => {
     });
   }
 
+  function sign(options: SignatureRequestOptions) {
+    return openSignatureRequestPopup({
+      ...options,
+      authOrigin: authOptions.authOrigin,
+      appDetails: authOptions.appDetails,
+    });
+  }
+
   return {
     isOpen,
     isAuthenticating,
@@ -118,5 +128,6 @@ export const useConnect = () => {
     doContractCall,
     doContractDeploy,
     doSTXTransfer,
+    sign,
   };
 };

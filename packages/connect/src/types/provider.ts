@@ -1,3 +1,4 @@
+import { SignatureData } from './signature';
 import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
 export interface StacksProvider {
@@ -17,6 +18,7 @@ export interface StacksProvider {
    * @returns an authResponse string in the form of a JSON web token
    */
   authenticationRequest(payload: string): Promise<string>;
+  signatureRequest(payload: string): Promise<SignatureData>;
   getProductInfo:
     | undefined
     | (() => {
