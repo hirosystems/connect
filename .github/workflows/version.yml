@@ -2,7 +2,7 @@ name: Version
 on:
   push:
     branches:
-      - 'main'
+      - "main"
   workflow_dispatch:
 
 env:
@@ -20,7 +20,7 @@ jobs:
       - name: Set Node Version
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 12.16.1
+          node-version: 16.14.2
       - name: Restore lerna cache
         uses: actions/cache@v2
         with:
@@ -34,7 +34,7 @@ jobs:
   version:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'chore: version packages')"
-    needs: [ code_checks ]
+    needs: [code_checks]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
       - name: Set Node Version
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 12.16.1
+          node-version: 16.14.2
       - name: Restore cache
         uses: actions/cache@v2
         with:
