@@ -2,7 +2,7 @@ name: Publish
 on:
   push:
     branches:
-      - 'main'
+      - "main"
   workflow_dispatch:
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
       - name: Set Node Version
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 12.16.1
+          node-version: 16.14.2
       - name: Restore lerna cache
         id: lerna-cache
         uses: actions/cache@v2
