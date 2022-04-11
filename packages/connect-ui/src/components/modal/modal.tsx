@@ -1,7 +1,7 @@
 import { Component, getAssetPath, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
-import type { AuthOptions } from '@stacks/connect/types/auth';
+import type { AuthOptions } from '@janniks-stacks/connect/types/auth';
 import { getBrowser } from './utils';
 
 const browserNotSupportedAssetPath = './assets/browser-not-supported.png';

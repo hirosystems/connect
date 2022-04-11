@@ -1,4 +1,4 @@
-import { UserSession, AppConfig } from '@stacks/auth';
+import { UserSession, AppConfig } from '@janniks-stacks/auth';
 import { SECP256K1Client, TokenSigner } from 'jsontokens';
 import {
   ContractCallOptions,

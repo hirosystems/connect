@@ -1,4 +1,4 @@
-import { AppConfig, UserSession } from '@stacks/auth';
+import { AppConfig, UserSession } from '@janniks-stacks/auth';
 import { decodeToken } from 'jsontokens';
 import type { AuthOptions, AuthResponsePayload } from './types';
 

@@ -70,9 +70,9 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install monorepo deps
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Bootstrap
-        run: yarn lerna bootstrap
+        run: npm run lerna bootstrap
       - name: Setup .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -96,4 +96,4 @@ jobs:
         env:
           BRANCH: ${{ steps.git-branch.outputs.branch }}
           SHA: ${{ steps.git-commit.outputs.sha }}
-        run: yarn lerna publish prepatch --preid alpha.$SHA --dist-tag $BRANCH --yes --no-push
+        run: npm run lerna publish prepatch --preid alpha.$SHA --dist-tag $BRANCH --yes --no-push

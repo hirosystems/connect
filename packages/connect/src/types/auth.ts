@@ -1,4 +1,4 @@
-import type { UserSession } from '@stacks/auth';
+import type { UserSession } from '@janniks-stacks/auth';
 
 export interface AuthResponsePayload {
   private_key: string;

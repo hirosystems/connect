@@ -1,6 +1,6 @@
 {
-  "name": "@stacks/connect-ui",
-  "version": "5.4.0",
+  "name": "@janniks-stacks/connect-ui",
+  "version": "5.4.0-2",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/components.d.ts",
@@ -18,7 +18,7 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

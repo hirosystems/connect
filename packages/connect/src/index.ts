@@ -3,4 +3,4 @@ export * from './transactions';
 export * from './types';
 export * from './utils';
 export * from './ui';
-export * from '@stacks/auth';
+export * from '@janniks-stacks/auth';

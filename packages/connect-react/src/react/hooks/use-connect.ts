@@ -16,7 +16,7 @@ import {
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
   FinishedAuthData,
-} from '@stacks/connect';
+} from '@janniks-stacks/connect';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 
 const useConnectDispatch = () => {

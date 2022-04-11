@@ -1,2 +1,2 @@
 export * from './react';
-export * from '@stacks/connect';
+export * from '@janniks-stacks/connect';

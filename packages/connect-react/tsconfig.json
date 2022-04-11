@@ -27,7 +27,7 @@
     "rootDir": "./src",
     "baseUrl": "./",
     "paths": {
-      "@stacks/connect": [
+      "@janniks-stacks/connect": [
         "../connect/src/index"
       ]
     },
@@ -39,5 +39,3 @@
     }
   ]
 }
-
-

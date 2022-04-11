@@ -1,17 +1,17 @@
-name: 'Code Checks'
-description: 'Run tests, linting, and other common jobs'
+name: "Code Checks"
+description: "Run tests, linting, and other common jobs"
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Install yarn dependencies
-      run: yarn --frozen-lockfile
+      run: npm ci
       shell: bash
     - name: Lint
-      run: yarn lint
+      run: npm run lint
       shell: bash
     - name: Generate types
-      run: yarn types
+      run: npm run types
       shell: bash
     - name: Typecheck
-      run: yarn typecheck
+      run: npm run typecheck
       shell: bash

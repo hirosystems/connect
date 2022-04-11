@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConnectProvider } from './context';
-import { AuthOptions } from '@stacks/connect';
+import { AuthOptions } from '@janniks-stacks/connect';
 
 /**
  * Usage

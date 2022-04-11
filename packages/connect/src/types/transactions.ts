@@ -1,4 +1,4 @@
-import { UserSession } from '@stacks/auth';
+import { UserSession } from '@janniks-stacks/auth';
 import type { AuthOptions } from '../types/auth';
 import {
   PostConditionMode,
