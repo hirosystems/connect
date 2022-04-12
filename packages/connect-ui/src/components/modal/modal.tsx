@@ -1,11 +1,8 @@
-import { Component, getAssetPath, h, Prop, State, Element } from '@stencil/core';
+import { Component, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
 import type { AuthOptions } from '@stacks/connect/types/auth';
 import { getBrowser } from './utils';
-
-const browserNotSupportedAssetPath = './assets/browser-not-supported.png';
-const downloadHiroWalletAssetPath = './assets/download-hiro-wallet.png';
 
 const CHROME_BROWSER_URL = 'https://www.google.com/chrome/';
 const BRAVE_BROWSER_URL = 'https://brave.com/';
@@ -57,9 +54,7 @@ export class Modal {
           </div>
           {browser ? (
             <div class="modal-content">
-              <div class="modal-illustration">
-                <img src={getAssetPath(downloadHiroWalletAssetPath)} width={310} />
-              </div>
+              <div class="modal-illustration download-hiro-wallet" />
               <span class="modal-title supported">Add Hiro Wallet to {browser}</span>
               <div class="modal-subtitle">
                 Hiro Wallet is your gateway to Stacks apps like {this.authOptions.appDetails.name}.
@@ -68,9 +63,7 @@ export class Modal {
             </div>
           ) : (
             <div class="modal-content">
-              <div class="modal-illustration">
-                <img src={getAssetPath(browserNotSupportedAssetPath)} width={239} />
-              </div>
+              <div class="modal-illustration browser-not-supported" />
               <span class="modal-title unsupported">Your browser isn't supported</span>
               <div class="modal-subtitle">
                 To sign in to {this.authOptions.appDetails.name} using the Hiro Wallet browser
