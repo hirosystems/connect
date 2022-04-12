@@ -1,3 +1,6 @@
+@import 'browser-not-supported';
+@import 'hiro-wallet-download';
+
 :host {
   all: initial;
 }
@@ -54,8 +57,21 @@
 }
 
 .modal-illustration {
+  background-size: 100%;
   position: relative;
   padding-top: 12px;
+}
+
+.browser-not-supported {
+  background-image: $browser-not-supported;
+  height: 177px;
+  width: 239px;
+}
+
+.download-hiro-wallet {
+  background-image: $hiro-wallet-download;
+  height: 269px;
+  width: 310px;
 }
 
 .modal-title {
