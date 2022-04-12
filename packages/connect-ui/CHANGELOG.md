@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.4.1
+
+### Patch Changes
+
+- [#207](https://github.com/hirosystems/connect/pull/207) [`25341ab`](https://github.com/hirosystems/connect/commit/25341ab52d8350cd2be6ec726157a3b9095682a2) Thanks [@fbwoolf](https://github.com/fbwoolf)! - This fixes broken png illustrations in the download modal.
+
 ## 5.4.0
 
 ### Minor Changes
