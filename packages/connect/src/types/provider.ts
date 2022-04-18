@@ -17,6 +17,12 @@ export interface StacksProvider {
    * @returns an authResponse string in the form of a JSON web token
    */
   authenticationRequest(payload: string): Promise<string>;
+  /**
+   * Make an accounts request
+   *
+   * @returns an array of selected account addresses
+   */
+  accountsRequest(): Promise<string[]>;
   getProductInfo:
     | undefined
     | (() => {
