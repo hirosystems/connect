@@ -1,5 +1,16 @@
 # Change Log
 
+## 6.5.0
+
+### Minor Changes
+
+- [#204](https://github.com/hirosystems/connect/pull/204) [`b03d98c`](https://github.com/hirosystems/connect/commit/b03d98c74e795dfd3f8f38e9b7dad6c283e91f58) Thanks [@janniks](https://github.com/janniks)! - Upgrade stacks.js dependencies to 3.3.0.
+
+### Patch Changes
+
+- Updated dependencies [[`b03d98c`](https://github.com/hirosystems/connect/commit/b03d98c74e795dfd3f8f38e9b7dad6c283e91f58)]:
+  - @stacks/connect-ui@5.5.0
+
 ## 6.4.2
 
 ### Patch Changes
