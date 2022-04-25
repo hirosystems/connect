@@ -1,5 +1,5 @@
 import { UserSession, AppConfig } from '@stacks/auth';
-import { SECP256K1Client, TokenSigner } from 'jsontokens';
+import { createUnsecuredToken, Json, SECP256K1Client, TokenSigner } from 'jsontokens';
 import {
   ContractCallOptions,
   ContractCallPayload,
@@ -42,7 +42,15 @@ export const getUserSession = (_userSession?: UserSession) => {
   return userSession;
 };
 
-// TODO extract out of transactions
+function hasUserSession(userSession?: UserSession) {
+  try {
+    getUserSession(userSession).loadUserData();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export const getKeys = (_userSession?: UserSession) => {
   const userSession = getUserSession(_userSession);
   const privateKey = userSession.loadUserData().appPrivateKey;
@@ -68,36 +76,58 @@ export function getStxAddress(options: TransactionOptions) {
 
 function getDefaults(options: TransactionOptions) {
   const network = options.network || new StacksTestnet();
-  const userSession = getUserSession(options.userSession);
-  const defaults: TransactionOptions = {
-    ...options,
-    network,
-    userSession,
-  };
-  return {
-    stxAddress: getStxAddress(defaults),
-    ...defaults,
-  };
-}
 
-const signPayload = async (payload: TransactionPayload, privateKey: string) => {
-  let { postConditions } = payload;
-  if (postConditions && typeof postConditions[0] !== 'string') {
-    postConditions = (postConditions as PostCondition[]).map(pc =>
-      serializePostCondition(pc).toString('hex')
+  // Legacy auth using localstorage with appPrivateKey
+  if (hasUserSession(options.userSession)) {
+    const userSession = getUserSession(options.userSession);
+    const defaults: TransactionOptions = {
+      ...options,
+      network,
+      userSession,
+    };
+
+    return {
+      stxAddress: getStxAddress(defaults),
+      ...defaults,
+    };
+  }
+
+  // User has not authed, we're relying on the app having previously having been
+  // given permissions from  `stx_requestAccounts`, and the wallet recognising the app's origin
+  const hasSetRequiredStxAddressPropForRequestAccountFlow = 'stxAddress' in options;
+  if (!hasSetRequiredStxAddressPropForRequestAccountFlow) {
+    throw new Error(
+      'Must set property `stxAddress` when using `stx_requestAccounts to initiate transaction`'
     );
   }
+  return { ...options, network };
+}
+
+function encodePostConditions(postConditions: PostCondition[]) {
+  return postConditions.map(pc => serializePostCondition(pc).toString('hex'));
+}
+
+async function signPayload(payload: TransactionPayload, privateKey: string) {
+  let { postConditions } = payload;
+  if (postConditions && typeof postConditions[0] !== 'string') {
+    postConditions = encodePostConditions(postConditions as PostCondition[]);
+  }
   const tokenSigner = new TokenSigner('ES256k', privateKey);
-  return tokenSigner.signAsync({
-    ...payload,
-    postConditions,
-  } as any);
-};
+  return tokenSigner.signAsync({ ...payload, postConditions } as any);
+}
+
+function createUnsignedPayload(payload: Partial<TransactionPayload>) {
+  let { postConditions } = payload;
+  if (postConditions && typeof postConditions[0] !== 'string') {
+    postConditions = encodePostConditions(postConditions as PostCondition[]);
+  }
+  return createUnsecuredToken({ ...payload, postConditions } as unknown as Json);
+}
 
 const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
   const provider = getStacksProvider();
   if (!provider) {
-    throw new Error('Hiro Wallet not installed.');
+    throw new Error('Hiro Wallet not installed');
   }
 
   try {
@@ -125,7 +155,6 @@ const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
 
 export const makeContractCallToken = async (options: ContractCallOptions) => {
   const { functionArgs, appDetails, userSession, ..._options } = options;
-  const { privateKey, publicKey } = getKeys(userSession);
 
   const args: string[] = functionArgs.map(arg => {
     if (typeof arg === 'string') {
@@ -133,54 +162,69 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
     }
     return serializeCV(arg).toString('hex');
   });
-
-  const payload: ContractCallPayload = {
+  if (hasUserSession(userSession)) {
+    const { privateKey, publicKey } = getKeys(userSession);
+    const payload: ContractCallPayload = {
+      ..._options,
+      functionArgs: args,
+      txType: TransactionTypes.ContractCall,
+      publicKey,
+    };
+    if (appDetails) payload.appDetails = appDetails;
+    return signPayload(payload, privateKey);
+  }
+  const payload: Partial<ContractCallPayload> = {
     ..._options,
     functionArgs: args,
     txType: TransactionTypes.ContractCall,
-    publicKey,
   };
-
-  if (appDetails) {
-    payload.appDetails = appDetails;
-  }
-
-  return signPayload(payload, privateKey);
+  if (appDetails) payload.appDetails = appDetails;
+  return createUnsignedPayload(payload);
 };
 
 export const makeContractDeployToken = async (options: ContractDeployOptions) => {
   const { appDetails, userSession, ..._options } = options;
-  const { privateKey, publicKey } = getKeys(userSession);
-
-  const payload: ContractDeployPayload = {
-    ..._options,
-    publicKey,
-    txType: TransactionTypes.ContractDeploy,
-  };
-
-  if (appDetails) {
-    payload.appDetails = appDetails;
+  if (hasUserSession(userSession)) {
+    const { privateKey, publicKey } = getKeys(userSession);
+    const payload: ContractDeployPayload = {
+      ..._options,
+      publicKey,
+      txType: TransactionTypes.ContractDeploy,
+    };
+    if (appDetails) payload.appDetails = appDetails;
+    return signPayload(payload, privateKey);
   }
 
-  return signPayload(payload, privateKey);
+  const payload: Partial<ContractDeployPayload> = {
+    ..._options,
+    txType: TransactionTypes.ContractDeploy,
+  };
+  if (appDetails) payload.appDetails = appDetails;
+  return createUnsignedPayload(payload);
 };
 
 export const makeSTXTransferToken = async (options: STXTransferOptions) => {
   const { amount, appDetails, userSession, ..._options } = options;
-  const { privateKey, publicKey } = getKeys(userSession);
 
-  const payload: STXTransferPayload = {
-    ..._options,
-    amount: amount.toString(10),
-    publicKey,
-    txType: TransactionTypes.STXTransfer,
-  };
-
-  if (appDetails) {
-    payload.appDetails = appDetails;
+  if (hasUserSession(userSession)) {
+    const { privateKey, publicKey } = getKeys(userSession);
+    const payload: STXTransferPayload = {
+      ..._options,
+      amount: amount.toString(10),
+      publicKey,
+      txType: TransactionTypes.STXTransfer,
+    };
+    if (appDetails) payload.appDetails = appDetails;
+    return signPayload(payload, privateKey);
   }
 
-  return signPayload(payload, privateKey);
+  const payload: Partial<STXTransferPayload> = {
+    ..._options,
+    amount: amount.toString(10),
+    txType: TransactionTypes.STXTransfer,
+  };
+  if (appDetails) payload.appDetails = appDetails;
+  return createUnsignedPayload(payload);
 };
 
 async function generateTokenAndOpenPopup<T extends TransactionOptions>(
