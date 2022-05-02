@@ -16,10 +16,12 @@ import {
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
   FinishedAuthData,
+  openStructuredDataSignatureRequestPopup,
   openSignatureRequestPopup,
 } from '@stacks/connect';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 import { SignatureRequestOptions } from '@stacks/connect';
+import { StructuredDataSignatureRequestOptions } from '@stacks/connect/src/types/structuredDataSignature';
 
 const useConnectDispatch = () => {
   const dispatch = useContext(ConnectDispatchContext);
@@ -116,6 +118,14 @@ export const useConnect = () => {
     });
   }
 
+  function signStructuredData(options: StructuredDataSignatureRequestOptions) {
+    return openStructuredDataSignatureRequestPopup({
+      ...options,
+      authOrigin: authOptions.authOrigin,
+      appDetails: authOptions.appDetails,
+    });
+  }
+
   return {
     isOpen,
     isAuthenticating,
@@ -129,5 +139,6 @@ export const useConnect = () => {
     doContractDeploy,
     doSTXTransfer,
     sign,
+    signStructuredData,
   };
 };

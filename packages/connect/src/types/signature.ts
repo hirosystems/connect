@@ -1,25 +1,28 @@
-import type { AuthOptions } from '../types/auth';
-import { StacksNetwork } from '@stacks/network';
 import { UserSession } from '@stacks/auth';
+import { StacksNetwork } from '@stacks/network';
+import type { AuthOptions } from '../types/auth';
 
-type Finished = (data: SignatureData) => void;
-type Canceled = () => void;
+export type SignatureFinished = (data: SignatureData) => void;
+export type SignatureCanceled = () => void;
 
-export interface SignatureRequestOptions {
+export interface CommonSignatureRequestOptions {
   appDetails?: AuthOptions['appDetails'];
   authOrigin?: string;
-  message: string;
   network?: StacksNetwork;
   stxAddress?: string;
   userSession?: UserSession;
-  onFinish?: Finished;
-  onCancel?: Canceled;
+  onFinish?: SignatureFinished;
+  onCancel?: SignatureCanceled;
+}
+
+export interface SignatureRequestOptions extends CommonSignatureRequestOptions {
+  message: string;
 }
 
 export interface SignatureOptions {
   message: string;
-  onFinish?: Finished;
-  onCancel?: Canceled;
+  onFinish?: SignatureFinished;
+  onCancel?: SignatureCanceled;
 }
 
 export interface SignaturePopup {
@@ -27,8 +30,18 @@ export interface SignaturePopup {
   options: SignatureOptions;
 }
 
-export interface SignaturePayload {
+export interface SignaturePayload extends CommonSignaturePayload {
   message: string;
+}
+
+export interface SignatureData {
+  /* Hex encoded DER signature */
+  signature: string;
+  /* Hex encoded private string taken from privateKey */
+  publicKey: string;
+}
+
+export interface CommonSignaturePayload {
   publicKey: string;
   /**
    * Provide the Hiro Wallet with a suggested account to sign this transaction with.
@@ -37,11 +50,4 @@ export interface SignaturePayload {
   stxAddress?: string;
   appDetails?: AuthOptions['appDetails'];
   network?: StacksNetwork;
-}
-
-export interface SignatureData {
-  /* Hex encoded DER signature */
-  signature: string;
-  /* Hex encoded private string taken from privateKey */
-  publicKey: string;
 }

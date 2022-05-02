@@ -3,6 +3,7 @@ import { ChainID } from '@stacks/transactions';
 import { getStacksProvider } from '../utils';
 import { StacksTestnet } from '@stacks/network';
 import {
+  CommonSignatureRequestOptions,
   SignatureData,
   SignatureOptions,
   SignaturePayload,
@@ -11,7 +12,7 @@ import {
 } from 'src/types/signature';
 import { getKeys, getUserSession } from '../transactions';
 
-function getStxAddress(options: SignatureRequestOptions) {
+function getStxAddress(options: CommonSignatureRequestOptions) {
   const { userSession, network } = options;
 
   if (!userSession || !network) return undefined;
@@ -24,10 +25,10 @@ function getStxAddress(options: SignatureRequestOptions) {
   return address;
 }
 
-function getDefaultSignatureRequestOptions(options: SignatureRequestOptions) {
+export function getDefaultSignatureRequestOptions(options: CommonSignatureRequestOptions) {
   const network = options.network || new StacksTestnet();
   const userSession = getUserSession(options.userSession);
-  const defaults: SignatureRequestOptions = {
+  const defaults: CommonSignatureRequestOptions = {
     ...options,
     network,
     userSession,

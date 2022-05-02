@@ -19,6 +19,7 @@ export interface StacksProvider {
    */
   authenticationRequest(payload: string): Promise<string>;
   signatureRequest(payload: string): Promise<SignatureData>;
+  structuredDataSignatureRequest(payload: string): Promise<SignatureData>;
   getProductInfo:
     | undefined
     | (() => {
