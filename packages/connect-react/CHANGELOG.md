@@ -1,5 +1,16 @@
 # Change Log
 
+## 15.0.0
+
+### Minor Changes
+
+- [#205](https://github.com/hirosystems/connect/pull/205) [`b490098`](https://github.com/hirosystems/connect/commit/b4900985624641510f3b93d8a0286cca93b72085) Thanks [@beguene](https://github.com/beguene)! - Add helpers to request a message (string) signature
+
+### Patch Changes
+
+- Updated dependencies [[`b490098`](https://github.com/hirosystems/connect/commit/b4900985624641510f3b93d8a0286cca93b72085)]:
+  - @stacks/connect@6.6.0
+
 ## 14.0.0
 
 ### Minor Changes
