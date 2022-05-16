@@ -1,5 +1,16 @@
 # Change Log
 
+## 16.0.0
+
+### Minor Changes
+
+- [#216](https://github.com/hirosystems/connect/pull/216) [`1f3e94a`](https://github.com/hirosystems/connect/commit/1f3e94aa09a356cf8d8a0b555caeabbed120d741) Thanks [@beguene](https://github.com/beguene)! - Add helper to request the signature of a structure data (Clarity Value)
+
+### Patch Changes
+
+- Updated dependencies [[`1f3e94a`](https://github.com/hirosystems/connect/commit/1f3e94aa09a356cf8d8a0b555caeabbed120d741)]:
+  - @stacks/connect@6.7.0
+
 ## 15.0.0
 
 ### Minor Changes
