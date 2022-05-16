@@ -4,7 +4,6 @@ import { getStacksProvider } from '../utils';
 import { StacksTestnet } from '@stacks/network';
 import {
   CommonSignatureRequestOptions,
-  SignatureData,
   SignatureOptions,
   SignaturePayload,
   SignaturePopup,
@@ -56,7 +55,7 @@ async function openSignaturePopup({ token, options }: SignaturePopup) {
   try {
     const signatureResponse = await provider.signatureRequest(token);
 
-    options.onFinish?.(signatureResponse as SignatureData);
+    options.onFinish?.(signatureResponse);
   } catch (error) {
     console.error('[Connect] Error during signature request', error);
     options.onCancel?.();
