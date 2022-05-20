@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.8.1
+
+### Patch Changes
+
+- [#222](https://github.com/hirosystems/connect/pull/222) [`57bd667`](https://github.com/hirosystems/connect/commit/57bd6674e72dc1b5726174037148f09f1a8f920d) Thanks [@janniks](https://github.com/janniks)! - Update stacks.js dependencies
+
 ## 6.8.0
 
 ### Minor Changes
