@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect",
-  "version": "6.8.0",
+  "version": "6.8.1",
   "scripts": {
     "build": "rimraf dist && concurrently 'yarn build:modules' 'yarn build:standalone'",
     "build:modules": "concurrently 'tsdx build --tsconfig tsconfig.json' 'yarn types'",
