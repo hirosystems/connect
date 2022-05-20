@@ -1,5 +1,16 @@
 # Change Log
 
+## 17.0.0
+
+### Minor Changes
+
+- [#214](https://github.com/hirosystems/connect/pull/214) [`909cdd8`](https://github.com/hirosystems/connect/commit/909cdd8205a2fb6c8e9a04f07b0241ce4525d141) Thanks [@kyranjamie](https://github.com/kyranjamie)! - Allow initiating transactions without a private key
+
+### Patch Changes
+
+- Updated dependencies [[`909cdd8`](https://github.com/hirosystems/connect/commit/909cdd8205a2fb6c8e9a04f07b0241ce4525d141)]:
+  - @stacks/connect@6.8.0
+
 ## 16.0.0
 
 ### Minor Changes
