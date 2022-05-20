@@ -29,7 +29,7 @@
     }
   ],
   "dependencies": {
-    "@stacks/auth": "4.0.0",
+    "@stacks/auth": "4.1.0",
     "@stacks/connect": "6.8.0",
     "jsontokens": "^3.0.0"
   },
