@@ -19,14 +19,17 @@
   "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "browser": {
+    "crypto": false
+  },
   "typings": "dist/types/index.d.ts",
   "unpkg": "dist/bundle.js",
   "dependencies": {
-    "@stacks/auth": "4.1.0",
+    "@stacks/auth": "4.2.0",
     "@stacks/connect-ui": "5.5.0",
-    "@stacks/network": "4.1.0",
+    "@stacks/network": "4.2.0",
     "@stacks/prettier-config": "0.0.8",
-    "@stacks/transactions": "4.1.0",
+    "@stacks/transactions": "4.2.0",
     "bn.js": "^5.2.0",
     "buffer": "6.0.3",
     "jsontokens": "^3.0.0",
