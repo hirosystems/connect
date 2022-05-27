@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.8.2
+
+### Patch Changes
+
+- [#227](https://github.com/hirosystems/connect/pull/227) [`968f8da`](https://github.com/hirosystems/connect/commit/968f8da610b1bcbc8b8267729c9023c0d5c9ea8d) Thanks [@janniks](https://github.com/janniks)! - Fix package browser field
+
 ## 6.8.1
 
 ### Patch Changes
