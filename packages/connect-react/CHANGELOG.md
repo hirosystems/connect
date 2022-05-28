@@ -1,5 +1,14 @@
 # Change Log
 
+## 17.0.3
+
+### Patch Changes
+
+- [#229](https://github.com/hirosystems/connect/pull/229) [`08f7099`](https://github.com/hirosystems/connect/commit/08f7099ff4a3ff478641a21bbd7e0f759fd1437b) Thanks [@janniks](https://github.com/janniks)! - Update dependecy
+
+- Updated dependencies [[`08f7099`](https://github.com/hirosystems/connect/commit/08f7099ff4a3ff478641a21bbd7e0f759fd1437b)]:
+  - @stacks/connect@6.8.3
+
 ## 17.0.2
 
 ### Patch Changes
