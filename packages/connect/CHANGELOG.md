@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.8.4
+
+### Patch Changes
+
+- [#232](https://github.com/hirosystems/connect/pull/232) [`d1879be`](https://github.com/hirosystems/connect/commit/d1879bedfc6b5141eb81d7327341b31c1f4775c8) Thanks [@janniks](https://github.com/janniks)! - Update stacks.js deps
+
 ## 6.8.3
 
 ### Patch Changes
