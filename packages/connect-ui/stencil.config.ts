@@ -19,4 +19,7 @@ export const config: Config = {
     },
   ],
   plugins: [sass()],
+  extras: {
+    experimentalImportInjection: true,
+  },
 };
