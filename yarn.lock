@@ -2643,6 +2643,15 @@
     "@types/node" "^14.14.43"
     buffer "^6.0.3"
 
+"@stacks/common@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-4.3.0.tgz#add68aa8ab09da20c7ed7e3aad0c88cc4374de81"
+  integrity sha512-3/n3E9VGoE/cTPfdBUmFHNer33UZtCiugV0uodXfdUfNbHfILLgk0acTVMI04FufFkglhS3seiOD+R5Z2pBUYA==
+  dependencies:
+    "@types/bn.js" "^5.1.0"
+    "@types/node" "^14.14.43"
+    buffer "^6.0.3"
+
 "@stacks/encryption@^4.2.2":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-4.2.2.tgz#3f8f485cfa2765b5c0ca39b9b37facbfd2911d76"
@@ -2679,6 +2688,14 @@
     "@stacks/common" "^4.2.1"
     cross-fetch "^3.1.5"
 
+"@stacks/network@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-4.3.0.tgz#5d2815078d2baea7cccc45117b26a675de5d5908"
+  integrity sha512-X97IFfhJe5aZu8F1tOvYCzoIxPD5PH/NB24/WDZ+JH5Loho1D7zk1zZ6bOtQknaSfezDyi6wsZwKC/7Mxg959A==
+  dependencies:
+    "@stacks/common" "^4.3.0"
+    cross-fetch "^3.1.5"
+
 "@stacks/prettier-config@0.0.8", "@stacks/prettier-config@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@stacks/prettier-config/-/prettier-config-0.0.8.tgz#4db04dbca3982f74f4554ca522f37570125516e3"
@@ -2703,7 +2720,24 @@
     schema-inspector "^2.0.1"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/transactions@4.2.1", "@stacks/transactions@^4.2.1":
+"@stacks/transactions@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-4.3.0.tgz#54a01bd4ce201fe262680aca310f72186fa42766"
+  integrity sha512-TUf9fZHokZ66qMPoVGtpLPmwAc/v0O2HYWl7e1fym2kz17DKhG8JISfPKCUssaVdRyQ+xp40sozRSO0fEK+jZA==
+  dependencies:
+    "@noble/hashes" "^1.0.0"
+    "@noble/secp256k1" "^1.5.5"
+    "@stacks/common" "^4.3.0"
+    "@stacks/network" "^4.3.0"
+    "@types/node" "^14.14.43"
+    "@types/sha.js" "^2.4.0"
+    c32check "^1.1.3"
+    lodash.clonedeep "^4.5.0"
+    ripemd160-min "^0.0.6"
+    sha.js "^2.4.11"
+    smart-buffer "^4.1.0"
+
+"@stacks/transactions@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-4.2.1.tgz#ac5f62bc09f7c0b15df13512eb28ab5887a49167"
   integrity sha512-sqAwPLM2TjUEozDXQQdm+B3jk0Dl8IcbmkrUcyiyJuZUO6Ea9u21IbyntQb/OjtBxxg9Qx/8uCUUarlbicTSVQ==
@@ -6321,7 +6355,7 @@ flush-write-stream@^1.0.0:
 follow-redirects@^1.10.0, follow-redirects@^1.14.0:
   version "1.14.8"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
-  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
+  integrity "sha1-AWmW+5oRoQBWY5ixxoOTN9e/qPw= sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA=="
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -6632,7 +6666,7 @@ glob-to-regexp@^0.4.1:
 glob@^7.0.0, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
-  integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
+  integrity "sha1-0VU1r3cy4C6Uj0xBYovZECk/YCM= sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q=="
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -7248,7 +7282,7 @@ is-core-module@^2.2.0, is-core-module@^2.5.0, is-core-module@^2.6.0:
 is-core-module@^2.8.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.8.1.tgz#f59fdfca701d5879d0a6b100a40aa1560ce27211"
-  integrity sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==
+  integrity "sha1-9Z/fynAdWHnQprEApAqhVgzichE= sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA=="
   dependencies:
     has "^1.0.3"
 
@@ -8822,7 +8856,7 @@ mixin-deep@^1.2.0:
 mixme@^0.5.1:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/mixme/-/mixme-0.5.2.tgz#33c7e21d8e9b73abc2711c5197ae6c93f65fe0e4"
-  integrity sha512-fzzuzXSqp14Mk2eZK15yqcJHwNlLtg+EliQBO/ihYfZed9WUuDHR9ZuEUqQDD8FcW/742y0JGq8xBfL9fNsWZw==
+  integrity "sha1-M8fiHY6bc6vCcRxRl65sk/Zf4OQ= sha512-fzzuzXSqp14Mk2eZK15yqcJHwNlLtg+EliQBO/ihYfZed9WUuDHR9ZuEUqQDD8FcW/742y0JGq8xBfL9fNsWZw=="
 
 mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"
@@ -10508,7 +10542,7 @@ resolve@1.17.0:
 resolve@^1.1.6:
   version "1.21.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.21.0.tgz#b51adc97f3472e6a5cf4444d34bc9d6b9037591f"
-  integrity sha512-3wCbTpk5WJlyE4mSOtDLhqQmGFi0/TD9VPwmiolnk8U0wRgMEktqCXd3vy5buTO3tljvalNvKrjHEfrd2WpEKA==
+  integrity "sha1-tRrcl/NHLmpc9ERNNLyda5A3WR8= sha512-3wCbTpk5WJlyE4mSOtDLhqQmGFi0/TD9VPwmiolnk8U0wRgMEktqCXd3vy5buTO3tljvalNvKrjHEfrd2WpEKA=="
   dependencies:
     is-core-module "^2.8.0"
     path-parse "^1.0.7"
@@ -11778,7 +11812,7 @@ trim-newlines@^3.0.0:
 trim-off-newlines@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/trim-off-newlines/-/trim-off-newlines-1.0.3.tgz#8df24847fcb821b0ab27d58ab6efec9f2fe961a1"
-  integrity sha512-kh6Tu6GbeSNMGfrrZh6Bb/4ZEHV1QlB4xNDBeog8Y9/QwFlKTRyWvY3Fs9tRDAMZliVUwieMgEdIeL/FtqjkJg==
+  integrity "sha1-jfJIR/y4IbCrJ9WKtu/sny/pYaE= sha512-kh6Tu6GbeSNMGfrrZh6Bb/4ZEHV1QlB4xNDBeog8Y9/QwFlKTRyWvY3Fs9tRDAMZliVUwieMgEdIeL/FtqjkJg=="
 
 ts-jest@^25.3.1:
   version "25.5.1"
