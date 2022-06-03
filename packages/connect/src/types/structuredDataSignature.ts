@@ -1,4 +1,4 @@
-import { ClarityValue } from '@stacks/transactions';
+import { ClarityValue, TupleCV } from '@stacks/transactions';
 import {
   CommonSignaturePayload,
   CommonSignatureRequestOptions,
@@ -8,10 +8,12 @@ import {
 
 export interface StructuredDataSignatureRequestOptions extends CommonSignatureRequestOptions {
   message: ClarityValue;
+  domain: TupleCV;
 }
 
 export interface StructuredDataSignatureOptions {
   message: ClarityValue;
+  domain: TupleCV;
   onFinish?: SignatureFinished;
   onCancel?: SignatureCanceled;
 }
@@ -23,4 +25,5 @@ export type StructuredDataSignaturePopup = {
 
 export interface StructuredDataSignaturePayload extends CommonSignaturePayload {
   message: ClarityValue;
+  domain: TupleCV;
 }
