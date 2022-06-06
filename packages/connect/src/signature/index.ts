@@ -1,15 +1,15 @@
-import { TokenSigner } from 'jsontokens';
-import { ChainID } from '@stacks/transactions';
-import { getStacksProvider } from '../utils';
 import { StacksTestnet } from '@stacks/network';
+import { ChainID } from '@stacks/transactions';
+import { TokenSigner } from 'jsontokens';
+import { getKeys, getUserSession } from '../transactions';
 import {
   CommonSignatureRequestOptions,
   SignatureOptions,
   SignaturePayload,
   SignaturePopup,
   SignatureRequestOptions,
-} from 'src/types/signature';
-import { getKeys, getUserSession } from '../transactions';
+} from '../types/signature';
+import { getStacksProvider } from '../utils';
 
 function getStxAddress(options: CommonSignatureRequestOptions) {
   const { userSession, network } = options;

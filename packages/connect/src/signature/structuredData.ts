@@ -1,14 +1,14 @@
-import { getStacksProvider } from '../utils';
-import { getKeys } from '../transactions';
+import { serializeCV } from '@stacks/transactions';
+import { TokenSigner } from 'jsontokens';
 import { getDefaultSignatureRequestOptions } from '.';
+import { getKeys } from '../transactions';
 import {
   StructuredDataSignatureOptions,
   StructuredDataSignaturePayload,
   StructuredDataSignaturePopup,
   StructuredDataSignatureRequestOptions,
-} from 'src/types/structuredDataSignature';
-import { TokenSigner } from 'jsontokens';
-import { serializeCV } from '@stacks/transactions';
+} from '../types/structuredDataSignature';
+import { getStacksProvider } from '../utils';
 
 async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOptions>(
   options: T,
