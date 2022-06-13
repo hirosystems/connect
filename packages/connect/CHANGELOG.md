@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.8.5
+
+### Patch Changes
+
+- [#239](https://github.com/hirosystems/connect/pull/239) [`49f02a1`](https://github.com/hirosystems/connect/commit/49f02a1a1176e47c3d90378e79c918d3ade79de5) Thanks [@janniks](https://github.com/janniks)! - Fix relative import
+
 ## 6.8.4
 
 ### Patch Changes
