@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.5.1
+
+### Patch Changes
+
+- [#234](https://github.com/hirosystems/connect/pull/234) [`425e771`](https://github.com/hirosystems/connect/commit/425e771f2d07b45254a9c63387a07480a0dee2c1) Thanks [@janniks](https://github.com/janniks)! - Add static show method
+
 ## 5.5.0
 
 ### Minor Changes

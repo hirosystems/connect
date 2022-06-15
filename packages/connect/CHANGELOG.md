@@ -1,5 +1,14 @@
 # Change Log
 
+## 6.8.6
+
+### Patch Changes
+
+- [#234](https://github.com/hirosystems/connect/pull/234) [`425e771`](https://github.com/hirosystems/connect/commit/425e771f2d07b45254a9c63387a07480a0dee2c1) Thanks [@janniks](https://github.com/janniks)! - Add static show method
+
+- Updated dependencies [[`425e771`](https://github.com/hirosystems/connect/commit/425e771f2d07b45254a9c63387a07480a0dee2c1)]:
+  - @stacks/connect-ui@5.5.1
+
 ## 6.8.5
 
 ### Patch Changes
