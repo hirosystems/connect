@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.8.7
+
+### Patch Changes
+
+- [#236](https://github.com/hirosystems/connect/pull/236) [`20020c4`](https://github.com/hirosystems/connect/commit/20020c4bb1490949b6ce6a4f5de6594b31cc5427) Thanks [@beguene](https://github.com/beguene)! - Add better support for SIP-018 signing structured data
+
 ## 6.8.6
 
 ### Patch Changes

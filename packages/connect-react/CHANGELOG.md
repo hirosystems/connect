@@ -1,5 +1,12 @@
 # Change Log
 
+## 17.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`20020c4`](https://github.com/hirosystems/connect/commit/20020c4bb1490949b6ce6a4f5de6594b31cc5427)]:
+  - @stacks/connect@6.8.7
+
 ## 17.0.6
 
 ### Patch Changes
