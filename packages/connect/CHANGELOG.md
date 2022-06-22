@@ -1,5 +1,14 @@
 # Change Log
 
+## 6.8.8
+
+### Patch Changes
+
+- [#248](https://github.com/hirosystems/connect/pull/248) [`3702aa0`](https://github.com/hirosystems/connect/commit/3702aa0c0d1d436a7eef09e5bc49331e81f33736) Thanks [@janniks](https://github.com/janniks)! - Revert adding a static showConnect alternative
+
+- Updated dependencies [[`3702aa0`](https://github.com/hirosystems/connect/commit/3702aa0c0d1d436a7eef09e5bc49331e81f33736)]:
+  - @stacks/connect-ui@5.5.2
+
 ## 6.8.7
 
 ### Patch Changes
