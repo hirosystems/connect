@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.9.0
+
+### Minor Changes
+
+- [#253](https://github.com/hirosystems/connect/pull/253) [`8bd1a66`](https://github.com/hirosystems/connect/commit/8bd1a66962eebdde93a0d19b354492f815411d96) Thanks [@kyranjamie](https://github.com/kyranjamie)! - Removed some logic that breaks JWT signing with Ledger
+
 ## 6.8.8
 
 ### Patch Changes
