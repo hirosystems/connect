@@ -42,10 +42,10 @@ export const getUserSession = (_userSession?: UserSession) => {
   return userSession;
 };
 
-function hasUserSession(userSession?: UserSession) {
+function hasAppPrivateKey(userSession?: UserSession) {
   try {
-    getUserSession(userSession).loadUserData();
-    return true;
+    const session = getUserSession(userSession).loadUserData();
+    return session.appPrivateKey;
   } catch (e) {
     return false;
   }
@@ -78,7 +78,7 @@ function getDefaults(options: TransactionOptions) {
   const network = options.network || new StacksTestnet();
 
   // Legacy auth using localstorage with appPrivateKey
-  if (hasUserSession(options.userSession)) {
+  if (hasAppPrivateKey(options.userSession)) {
     const userSession = getUserSession(options.userSession);
     const defaults: TransactionOptions = {
       ...options,
@@ -94,12 +94,12 @@ function getDefaults(options: TransactionOptions) {
 
   // User has not authed, we're relying on the app having previously having been
   // given permissions from  `stx_requestAccounts`, and the wallet recognising the app's origin
-  const hasSetRequiredStxAddressPropForRequestAccountFlow = 'stxAddress' in options;
-  if (!hasSetRequiredStxAddressPropForRequestAccountFlow) {
-    throw new Error(
-      'Must set property `stxAddress` when using `stx_requestAccounts to initiate transaction`'
-    );
-  }
+  // const hasSetRequiredStxAddressPropForRequestAccountFlow = 'stxAddress' in options;
+  // if (!hasSetRequiredStxAddressPropForRequestAccountFlow) {
+  //   throw new Error(
+  //     'Must set property `stxAddress` when using `stx_requestAccounts to initiate transaction`'
+  //   );
+  // }
   return { ...options, network };
 }
 
@@ -162,7 +162,7 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
     }
     return serializeCV(arg).toString('hex');
   });
-  if (hasUserSession(userSession)) {
+  if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
     const payload: ContractCallPayload = {
       ..._options,
@@ -184,7 +184,7 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
 
 export const makeContractDeployToken = async (options: ContractDeployOptions) => {
   const { appDetails, userSession, ..._options } = options;
-  if (hasUserSession(userSession)) {
+  if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
     const payload: ContractDeployPayload = {
       ..._options,
@@ -206,7 +206,7 @@ export const makeContractDeployToken = async (options: ContractDeployOptions) =>
 export const makeSTXTransferToken = async (options: STXTransferOptions) => {
   const { amount, appDetails, userSession, ..._options } = options;
 
-  if (hasUserSession(userSession)) {
+  if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
     const payload: STXTransferPayload = {
       ..._options,
