@@ -2754,20 +2754,15 @@
     sha.js "^2.4.11"
     smart-buffer "^4.1.0"
 
-"@stencil/core@2.16.1":
-  version "2.16.1"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.16.1.tgz#f6752026af72a10356d5b1f27e2db6b1ee0c730f"
-  integrity sha512-s/UJp9qxExL3DyQPT70kiuWeb3AdjbUZM+5lEIXn30I2DLcLYPOPXfsoWJODieQywq+3vPiLZeIdkoqjf6jcSw==
+"@stencil/core@^2.17.1":
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.17.1.tgz#c0fd74d2991c2ea9d7e382017726bfd01009a05c"
+  integrity sha512-ErjQsNALgZQ9SYeBHhqwL1UO+Zbptwl3kwrRJC2tGlc3G/T6UvPuaKr+PGsqI+CZGia+0+R5EELQvFu74mYeIg==
 
 "@stencil/sass@^1.5.2":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@stencil/sass/-/sass-1.5.2.tgz#861dffe90a8d911b6b2af4a36d8928b5264a8646"
   integrity sha512-nJ93pUSylsGsMX0eLmhxh1oEljcUjj5mYjhB9ziCdoaydAdjukrUoqDCC7tdVbOcBo2hKptQyWqCtETnBGYsXQ==
-
-"@stencil/store@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@stencil/store/-/store-1.5.0.tgz#5c4e14ed078771bb8ed635867cfa8c3452f15ac4"
-  integrity sha512-fe5fCF6dgVlDM1iLRkkJUyUh0Tfx305asVGgMAJjIs7Q+x/b1pGgTLROm9Ibr53PZuFwr5Kg+4h9p4FLbYqHgA==
 
 "@types/babel__core@^7.1.7":
   version "7.1.16"
