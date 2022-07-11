@@ -1,5 +1,14 @@
 # Change Log
 
+## 18.0.1
+
+### Patch Changes
+
+- [#255](https://github.com/hirosystems/connect/pull/255) [`592a974`](https://github.com/hirosystems/connect/commit/592a974e4149190ea2ef8c36f939436642a662f6) Thanks [@kyranjamie](https://github.com/kyranjamie)! - Updated @stacks.js packages
+
+- Updated dependencies [[`592a974`](https://github.com/hirosystems/connect/commit/592a974e4149190ea2ef8c36f939436642a662f6)]:
+  - @stacks/connect@6.9.1
+
 ## 18.0.0
 
 ### Minor Changes
