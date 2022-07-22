@@ -30,6 +30,7 @@ module.exports = {
 
     if (options.format === 'esm') {
       config = { ...config, preserveModules: true };
+      config.input = ['src/index.ts', 'src/static.ts']; // additional entry point for static version of showConnect
       config.output = { ...config.output, dir: 'dist/', entryFileNames: '[name].esm.js' };
       delete config.output.file;
     }

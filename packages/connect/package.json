@@ -3,7 +3,7 @@
   "version": "6.9.1",
   "scripts": {
     "build": "rimraf dist && concurrently 'yarn build:modules' 'yarn build:standalone'",
-    "build:modules": "concurrently 'tsdx build --tsconfig tsconfig.json' 'yarn types'",
+    "build:modules": "concurrently 'dts build --tsconfig tsconfig.json --format cjs,esm,umd' 'yarn types'",
     "build:standalone": "NODE_ENV=production webpack --config webpack.config.js --mode=production",
     "build:standalone:analyze": "NODE_ENV=production ANALYZE=true webpack --mode=production",
     "prepublishOnly": "yarn build",
@@ -48,21 +48,21 @@
     "@stacks/prettier-config": "0.0.8",
     "concurrently": "^6.0.0",
     "crypto-browserify": "^3.12.0",
+    "dts-cli": "^1.5.2",
     "esbuild": "^0.9.3",
     "esbuild-loader": "^2.10.0",
     "process": "^0.11.10",
     "rimraf": "^3.0.2",
-    "rollup": "^2.41.4",
     "rollup-plugin-esbuild": "^3.0.2",
     "stream-browserify": "^3.0.0",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.1.0",
     "vm-browserify": "^1.1.2",
-    "webpack": "^5.26.3",
+    "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.5.0",
-    "webpackbar": "^5.0.0-3"
+    "webpack-cli": "^4.10.0",
+    "webpackbar": "^5.0.2"
   },
   "files": [
     "dist"
