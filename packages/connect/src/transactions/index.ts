@@ -42,7 +42,7 @@ export const getUserSession = (_userSession?: UserSession) => {
   return userSession;
 };
 
-function hasAppPrivateKey(userSession?: UserSession) {
+export function hasAppPrivateKey(userSession?: UserSession) {
   try {
     const session = getUserSession(userSession).loadUserData();
     return session.appPrivateKey;
@@ -116,7 +116,7 @@ async function signPayload(payload: TransactionPayload, privateKey: string) {
   return tokenSigner.signAsync({ ...payload, postConditions } as any);
 }
 
-function createUnsignedPayload(payload: Partial<TransactionPayload>) {
+function createUnsignedTransactionPayload(payload: Partial<TransactionPayload>) {
   let { postConditions } = payload;
   if (postConditions && typeof postConditions[0] !== 'string') {
     postConditions = encodePostConditions(postConditions as PostCondition[]);
@@ -179,7 +179,7 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
     txType: TransactionTypes.ContractCall,
   };
   if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedPayload(payload);
+  return createUnsignedTransactionPayload(payload);
 };
 
 export const makeContractDeployToken = async (options: ContractDeployOptions) => {
@@ -200,7 +200,7 @@ export const makeContractDeployToken = async (options: ContractDeployOptions) =>
     txType: TransactionTypes.ContractDeploy,
   };
   if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedPayload(payload);
+  return createUnsignedTransactionPayload(payload);
 };
 
 export const makeSTXTransferToken = async (options: STXTransferOptions) => {
@@ -224,7 +224,7 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
     txType: TransactionTypes.STXTransfer,
   };
   if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedPayload(payload);
+  return createUnsignedTransactionPayload(payload);
 };
 
 async function generateTokenAndOpenPopup<T extends TransactionOptions>(
