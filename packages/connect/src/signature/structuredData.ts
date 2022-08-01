@@ -1,7 +1,7 @@
 import { serializeCV } from '@stacks/transactions';
-import { TokenSigner } from 'jsontokens';
+import { createUnsecuredToken, TokenSigner } from 'jsontokens';
 import { getDefaultSignatureRequestOptions } from '.';
-import { getKeys } from '../transactions';
+import { getKeys, hasAppPrivateKey } from '../transactions';
 import {
   StructuredDataSignatureOptions,
   StructuredDataSignaturePayload,
@@ -34,14 +34,18 @@ async function signPayload(payload: StructuredDataSignaturePayload, privateKey: 
 
 export async function signStructuredMessage(options: StructuredDataSignatureRequestOptions) {
   const { userSession, ..._options } = options;
-  const { privateKey, publicKey } = getKeys(userSession);
+  if (hasAppPrivateKey(userSession)) {
+    const { privateKey, publicKey } = getKeys(userSession);
 
-  const payload: StructuredDataSignaturePayload = {
-    ..._options,
-    publicKey,
-  };
-
-  return signPayload(payload, privateKey);
+    const payload: StructuredDataSignaturePayload = {
+      ..._options,
+      publicKey,
+    };
+    return signPayload(payload, privateKey);
+  }
+  // Type casting `any` as payload contains non-serialisable content,
+  // such as `StacksNetwork`
+  return createUnsecuredToken(options as any);
 }
 
 async function openStructuredDataSignaturePopup({ token, options }: StructuredDataSignaturePopup) {
