@@ -1,5 +1,14 @@
 # Change Log
 
+## 19.0.0
+
+### Patch Changes
+
+- [#257](https://github.com/hirosystems/connect/pull/257) [`ba4b0c6`](https://github.com/hirosystems/connect/commit/ba4b0c6083cae9623c046f282d0022ded2d8ca33) Thanks [@janniks](https://github.com/janniks)! - Updated @stacks.js packages
+
+- Updated dependencies [[`c323625`](https://github.com/hirosystems/connect/commit/c3236255139aabc75906d688ed13e2450dd58c98), [`ba4b0c6`](https://github.com/hirosystems/connect/commit/ba4b0c6083cae9623c046f282d0022ded2d8ca33)]:
+  - @stacks/connect@6.10.0
+
 ## 18.0.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # Change Log
 
+## 6.10.0
+
+### Minor Changes
+
+- [#264](https://github.com/hirosystems/connect/pull/264) [`c323625`](https://github.com/hirosystems/connect/commit/c3236255139aabc75906d688ed13e2450dd58c98) Thanks [@kyranjamie](https://github.com/kyranjamie)! - We now fallback to creating an unsigned payload if no app private key exists
+
+### Patch Changes
+
+- [#257](https://github.com/hirosystems/connect/pull/257) [`ba4b0c6`](https://github.com/hirosystems/connect/commit/ba4b0c6083cae9623c046f282d0022ded2d8ca33) Thanks [@janniks](https://github.com/janniks)! - Updated @stacks.js packages
+
 ## 6.9.1
 
 ### Patch Changes
