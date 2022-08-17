@@ -57,7 +57,7 @@
   ],
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/connect-react.esm.js",
+  "module": "dist/index.esm.js",
   "peerDependencies": {
     "@stacks/connect": "6.10.0",
     "react": "^16.x || 17.x || 18.x",
