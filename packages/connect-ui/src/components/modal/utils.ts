@@ -5,6 +5,7 @@ export const isChrome = () => {
   const isOpera = typeof (window as any).opr !== 'undefined';
   const isIEedge = winNav.userAgent.includes('Edge');
   const isIOSChrome = /CriOS/.exec(winNav.userAgent);
+  const isMobile = winNav.userAgent.includes('Mobile');
 
   if (isIOSChrome) {
     return false;
@@ -13,7 +14,8 @@ export const isChrome = () => {
     typeof isChromium !== 'undefined' &&
     vendorName === 'Google Inc.' &&
     isOpera === false &&
-    isIEedge === false
+    isIEedge === false &&
+    isMobile === false 
   ) {
     return true;
   } else {
@@ -30,4 +32,14 @@ export const getBrowser = (): Browser | null => {
     return 'Firefox';
   }
   return null;
+};
+
+type Platform = 'Android' | 'IOS';
+
+export const getPlatform = (): Platform | null => {
+  if (!window.navigator.userAgent.includes('Mobile')) return null;
+  if (window.navigator.userAgent.includes('iPhone')){
+    return 'IOS';
+  } 
+  else return 'Android';
 };

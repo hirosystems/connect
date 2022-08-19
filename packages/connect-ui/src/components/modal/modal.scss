@@ -18,6 +18,7 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   z-index: 8999;
+  overflow-y: scroll;
 }
 
 .modal-body {
@@ -28,44 +29,28 @@
   margin-left: auto;
   margin-right: auto;
   border-radius: 12px;
-
-  div {
-    box-sizing: border-box;
-  }
+  padding:20px 24px 20px;
+  box-sizing: border-box;
 }
 
 .modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px;
+ display: flex;
+ flex-direction: column;
 }
 
-.header-left {
+.close-modal {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
-.header-right {
+.close-icon {
   cursor: pointer;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.modal-illustration {
-  background-size: 100%;
-  position: relative;
-  padding-top: 12px;
-}
-
-.browser-not-supported {
-  background-image: $browser-not-supported;
-  height: 177px;
-  width: 239px;
 }
 
 .download-hiro-wallet {
@@ -74,24 +59,29 @@
   width: 310px;
 }
 
+.choose-a-wallet{
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+  color: #000000;
+  margin-top: 18px;
+}
+
 .modal-title {
   color: #242629;
   font-family: 'Open Sauce One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-weight: 500;
-  padding: 24px 48px 10px 64px;
-  display: block;
-  text-align: center;
-}
-
-.supported {
-  font-size: 32px;
-  line-height: 40px;
-}
-
-.unsupported {
   font-size: 24px;
-  line-height: 36px;
+  line-height: 24px;
+  margin-bottom: 18px;
+  margin-top: 18px;
+}
+
+.desktop{
+  font-size: 32px;
+  line-height: 32px;
+  padding-right: 48px;
 }
 
 .modal-subtitle {
@@ -99,40 +89,26 @@
   font-weight: 400;
   line-height: 24px;
   color: #74777d;
-  text-align: center;
-  padding: 10px 32px 24px 32px;
-
-  a {
-    color: #5546ff;
-    text-decoration: none;
-  }
 }
 
-.button-container {
+.download-app-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 24px 24px 24px;
+  margin-top: 20px;
 }
 
 .button {
   width: 100%;
-  max-width: 209px;
-  margin: 0px auto;
+  max-width: 139px;
   box-sizing: border-box;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  display: block;
-  align-items: center;
-  justify-content: center;
   background-color: #5546ff;
   color: #ffffff;
   min-height: 48px;
   min-width: 126px;
-  padding: 14px 24px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -148,19 +124,57 @@
   cursor: pointer;
 }
 
-.modal-footer {
-  width: 100%;
-  margin-top: 10px;
-  padding: 24px 0;
-  background-color: #ffffff;
-  text-align: center;
-  border-radius: 0 0 12px 12px;
-  border-top: 1px solid #efeff2;
+.link {
+  color: #5546ff;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  margin-top: 4px;
+}
 
-  .link {
+.modal-subheading {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+  color: #000000;
+}
+
+.modal-wallet-card {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+  border: 2px solid #F4F4F6;
+  border-radius: 16px;
+  margin-top: 12px;
+  padding: 24px 10px 24px 20px;
+}
+
+.wallet-container{
+  display:flex;
+  flex-direction: column;
+}
+
+.mobile-wallet-container{
+  display:flex;
+  flex-direction:column-reverse;
+}
+
+.modal-wallet-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin-top: 4px;
+  color: #74777d;
+  a {
     color: #5546ff;
-    font-size: 14px;
-    line-height: 20px;
-    cursor: pointer;
+    text-decoration: none;
   }
 }
+
+.modal-wallet-card-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 14px;
+}
+
+
