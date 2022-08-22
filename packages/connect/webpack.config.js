@@ -44,7 +44,6 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       'bn.js': require.resolve('bn.js'),
-      buffer: require.resolve('buffer'),
     },
     fallback: {
       url: require.resolve('url'),
@@ -68,7 +67,6 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
-      Buffer: ['buffer', 'Buffer'],
       fetch: 'cross-fetch',
     }),
   ],
