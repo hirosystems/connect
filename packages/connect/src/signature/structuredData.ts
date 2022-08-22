@@ -1,3 +1,4 @@
+import { bytesToHex } from '@stacks/common';
 import { serializeCV } from '@stacks/transactions';
 import { createUnsecuredToken, TokenSigner } from 'jsontokens';
 import { getDefaultSignatureRequestOptions } from '.';
@@ -23,12 +24,10 @@ async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOption
 
 async function signPayload(payload: StructuredDataSignaturePayload, privateKey: string) {
   const tokenSigner = new TokenSigner('ES256k', privateKey);
-
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   return tokenSigner.signAsync({
     ...payload,
-    message: serializeCV(payload.message).toString('hex'),
-    domain: serializeCV(payload.domain).toString('hex'),
+    message: bytesToHex(serializeCV(payload.message)),
+    domain: bytesToHex(serializeCV(payload.domain)),
   } as any);
 }
 

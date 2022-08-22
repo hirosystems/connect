@@ -1,35 +1,35 @@
-import { UserSession, AppConfig } from '@stacks/auth';
+import { AppConfig, UserSession } from '@stacks/auth';
+import { bytesToHex, hexToBytes } from '@stacks/common';
+import { StacksTestnet } from '@stacks/network';
+import {
+  ChainID,
+  deserializeTransaction,
+  PostCondition,
+  serializeCV,
+  serializePostCondition,
+} from '@stacks/transactions';
 import { createUnsecuredToken, Json, SECP256K1Client, TokenSigner } from 'jsontokens';
 import {
   ContractCallOptions,
   ContractCallPayload,
-  ContractDeployOptions,
-  ContractDeployPayload,
-  TransactionPopup,
-  TransactionOptions,
-  STXTransferOptions,
-  STXTransferPayload,
-  TransactionPayload,
-  TransactionTypes,
-  STXTransferSponsoredOptions,
-  STXTransferRegularOptions,
-  ContractDeployRegularOptions,
-  ContractDeploySponsoredOptions,
   ContractCallRegularOptions,
   ContractCallSponsoredOptions,
-  SponsoredFinishedTxPayload,
+  ContractDeployOptions,
+  ContractDeployPayload,
+  ContractDeployRegularOptions,
+  ContractDeploySponsoredOptions,
   FinishedTxPayload,
+  SponsoredFinishedTxPayload,
+  STXTransferOptions,
+  STXTransferPayload,
+  STXTransferRegularOptions,
+  STXTransferSponsoredOptions,
+  TransactionOptions,
+  TransactionPayload,
+  TransactionPopup,
+  TransactionTypes,
 } from '../types/transactions';
-import {
-  serializeCV,
-  ChainID,
-  deserializeTransaction,
-  BufferReader,
-  serializePostCondition,
-  PostCondition,
-} from '@stacks/transactions';
 import { getStacksProvider } from '../utils';
-import { StacksTestnet } from '@stacks/network';
 
 // TODO extract out of transactions
 export const getUserSession = (_userSession?: UserSession) => {
@@ -104,7 +104,7 @@ function getDefaults(options: TransactionOptions) {
 }
 
 function encodePostConditions(postConditions: PostCondition[]) {
-  return postConditions.map(pc => serializePostCondition(pc).toString('hex'));
+  return postConditions.map(pc => bytesToHex(serializePostCondition(pc)));
 }
 
 async function signPayload(payload: TransactionPayload, privateKey: string) {
@@ -133,8 +133,8 @@ const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
   try {
     const txResponse = await provider.transactionRequest(token);
     const { txRaw } = txResponse;
-    const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
-    const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
+    const txBytes = hexToBytes(txRaw.replace(/^0x/, ''));
+    const stacksTransaction = deserializeTransaction(txBytes);
 
     if ('sponsored' in options && options.sponsored) {
       options.onFinish?.({
@@ -160,7 +160,7 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
     if (typeof arg === 'string') {
       return arg;
     }
-    return serializeCV(arg).toString('hex');
+    return bytesToHex(serializeCV(arg));
   });
   if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
