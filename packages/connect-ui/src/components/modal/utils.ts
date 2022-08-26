@@ -15,7 +15,7 @@ export const isChrome = () => {
     vendorName === 'Google Inc.' &&
     isOpera === false &&
     isIEedge === false &&
-    isMobile === false 
+    isMobile === false
   ) {
     return true;
   } else {
@@ -38,8 +38,7 @@ type Platform = 'Android' | 'IOS';
 
 export const getPlatform = (): Platform | null => {
   if (!window.navigator.userAgent.includes('Mobile')) return null;
-  if (window.navigator.userAgent.includes('iPhone')){
+  if (window.navigator.userAgent.includes('iPhone')) {
     return 'IOS';
-  } 
-  else return 'Android';
+  } else return 'Android';
 };
