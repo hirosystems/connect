@@ -42,12 +42,8 @@ module.exports = {
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
     extensions: ['.tsx', '.ts', '.js'],
-    alias: {
-      'bn.js': require.resolve('bn.js'),
-    },
     fallback: {
       url: require.resolve('url'),
-      crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
       vm: require.resolve('vm-browserify'),
       assert: require.resolve('assert'),
