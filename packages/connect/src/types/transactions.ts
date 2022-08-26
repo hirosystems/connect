@@ -8,7 +8,6 @@ import {
   StacksTransaction,
 } from '@stacks/transactions';
 import { StacksNetwork } from '@stacks/network';
-import BN from 'bn.js';
 
 export interface TxBase {
   appDetails?: AuthOptions['appDetails'];
@@ -135,7 +134,7 @@ export interface ContractDeployPayload extends ContractDeployBase {
 
 export interface STXTransferBase extends TxBase {
   recipient: string;
-  amount: BN | string;
+  amount: BigInt | string;
   memo?: string;
 }
 

@@ -63,7 +63,6 @@
     "yalc": "^1.0.0-pre.50"
   },
   "dependencies": {
-    "bn.js": "^5.2.0",
     "is-regex": "^1.1.2",
     "jsx-ast-utils": "^3.2.0"
   },
