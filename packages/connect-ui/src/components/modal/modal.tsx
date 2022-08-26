@@ -55,39 +55,40 @@ export class Modal {
 
     return (
       <div class="modal-container">
-        <div class="modal-body">
-          <div class="modal-header">
+        <div class={isMobile ? 'mobile-modal-body' : 'modal-body'}>
+          <div class={isMobile ? 'mobile-modal-header ' : 'modal-header'}>
             <div class="close-modal">
               <img class="close-icon" src={CloseIcon} onClick={() => this.handleCloseModal()} />
             </div>
             {isMobile ? (
-              <span class="modal-title">Add a Wallet to your mobile</span>
+              <span class="modal-title">Get wallet to use {this.authOptions.appDetails.name}</span>
             ) : browser ? (
-              <span class="modal-title desktop">Add a Wallet to {browser}</span>
+              <span class="modal-title desktop">
+                Get wallet to use {this.authOptions.appDetails.name}{' '}
+              </span>
             ) : (
               <span class="modal-title desktop">Your browser isn't supported</span>
             )}
-            <div class="modal-subtitle">
-              To sign in to {this.authOptions.appDetails.name}, you will need a Stacks compatible
-              wallet.
-            </div>
+          </div>
+          <div class={isMobile ? 'modal-subtitle mobile' : 'modal-subtitle'}>
+            To sign in to {this.authOptions.appDetails.name}, you will need a Stacks-compatible
+            wallet.
           </div>
 
           <div class="modal-content">
-            {(browser || isMobile) && <span class="choose-a-wallet">Choose a wallet</span>}
             <div class={isMobile ? 'mobile-wallet-container' : 'wallet-container'}>
               <div class="modal-wallet-card">
                 <img src={HiroWalletLogo} />
                 <div class="modal-wallet-card-content">
                   <span class="modal-subheading">Hiro Wallet</span>
                   {browser && !isMobile ? (
-                    <div class="modal-wallet-text">
+                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
                       Hiro Wallet is your gateway to Stacks apps like{' '}
                       {this.authOptions.appDetails.name}. Add it to {browser} to continue{' '}
                     </div>
                   ) : (
-                    <div class="modal-wallet-text">
-                      Browser Extension for {` `}
+                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
+                      Browser extension for {` `}
                       <a href={CHROME_BROWSER_URL} target="_blank">
                         Chrome
                       </a>
@@ -133,15 +134,20 @@ export class Modal {
                 <img src={XverseWalletLogo} />
                 <div class="modal-wallet-card-content">
                   <span class="modal-subheading">Xverse Wallet</span>
-                  {browser  ? 
-                       <div class="modal-wallet-text">
-                      Xverse is your gateway to Stacks on mobile.  </div>: isMobile?
+                  {browser ? (
                     <div class="modal-wallet-text">
-                     Xverse is your gateway to Stacks apps like {this.authOptions.appDetails.name}. Download it on your device to continue.
+                      Xverse is your gateway to Stacks on mobile.{' '}
                     </div>
-                   : 
-                    <div class="modal-wallet-text">Mobile Application for iOS and Android.</div>
-                  }
+                  ) : isMobile ? (
+                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
+                      Xverse is your gateway to Stacks apps like {this.authOptions.appDetails.name}.
+                      Install it on your device to continue.
+                    </div>
+                  ) : (
+                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
+                      Mobile application for iOS and Android.
+                    </div>
+                  )}
                   <span
                     class="link"
                     onClick={() => window.open('https://www.xverse.app/', '_blank')}
@@ -154,10 +160,7 @@ export class Modal {
                         <span
                           class="link"
                           onClick={() =>
-                            window.open(
-                              `stacks://browser?url=${window.location.href}`,
-                              '_blank'
-                            )
+                            window.open(`stacks://browser?url=${window.location.href}`, '_blank')
                           }
                         >
                           Open this page in Xverse Wallet →
