@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect-react",
-  "version": "19.0.0",
+  "version": "19.0.1",
   "scripts": {
     "build": "concurrently 'yarn build:modules' 'yarn types'",
     "build:modules": "tsdx build --format cjs,esm,umd",
@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "@stacks/auth": "4.3.2",
-    "@stacks/connect": "6.10.0",
+    "@stacks/connect": "6.10.1",
     "jsontokens": "^3.0.0"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "peerDependencies": {
-    "@stacks/connect": "6.10.0",
+    "@stacks/connect": "6.10.1",
     "react": "^16.x || 17.x || 18.x",
     "react-dom": "^16.x || 17.x || 18.x"
   }

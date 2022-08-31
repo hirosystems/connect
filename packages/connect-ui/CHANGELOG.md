@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.5.3
+
+### Patch Changes
+
+- [#270](https://github.com/hirosystems/connect/pull/270) [`f96b2ad`](https://github.com/hirosystems/connect/commit/f96b2adbc0bcdb17ee1fc4b35791368884952cd4) Thanks [@janniks](https://github.com/janniks)! - Update stencil components
+
 ## 5.5.2
 
 ### Patch Changes

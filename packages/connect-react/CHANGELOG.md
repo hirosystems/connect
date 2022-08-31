@@ -1,5 +1,16 @@
 # Change Log
 
+## 19.0.1
+
+### Patch Changes
+
+- [#267](https://github.com/hirosystems/connect/pull/267) [`523b00d`](https://github.com/hirosystems/connect/commit/523b00d2503abac72716f0e81cd49c9c4074b9c0) Thanks [@janniks](https://github.com/janniks)! - Fix module field in package.json
+
+* [#270](https://github.com/hirosystems/connect/pull/270) [`f96b2ad`](https://github.com/hirosystems/connect/commit/f96b2adbc0bcdb17ee1fc4b35791368884952cd4) Thanks [@janniks](https://github.com/janniks)! - Update stencil components
+
+* Updated dependencies [[`f96b2ad`](https://github.com/hirosystems/connect/commit/f96b2adbc0bcdb17ee1fc4b35791368884952cd4)]:
+  - @stacks/connect@6.10.1
+
 ## 19.0.0
 
 ### Patch Changes
