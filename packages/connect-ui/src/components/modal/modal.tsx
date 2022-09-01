@@ -52,42 +52,42 @@ export class Modal {
   render() {
     const browser = getBrowser();
     const isMobile = getPlatform();
+    const xverseWalletDescription = browser
+      ? `Xverse is your gateway to Stacks on mobile. `
+      : isMobile
+      ? `Xverse is your gateway to Stacks apps like ${this.authOptions.appDetails.name}. Install it on your device to continue.`
+      : `Mobile application for iOS and Android.`;
 
     return (
       <div class="modal-container">
-        <div class={isMobile ? 'mobile-modal-body' : 'modal-body'}>
-          <div class={isMobile ? 'mobile-modal-header ' : 'modal-header'}>
+        <div class="modal-body">
+          <div class="modal-header">
             <div class="close-modal">
               <img class="close-icon" src={CloseIcon} onClick={() => this.handleCloseModal()} />
             </div>
-            {isMobile ? (
+            {isMobile || browser ? (
               <span class="modal-title">Get wallet to use {this.authOptions.appDetails.name}</span>
-            ) : browser ? (
-              <span class="modal-title desktop">
-                Get wallet to use {this.authOptions.appDetails.name}{' '}
-              </span>
             ) : (
-              <span class="modal-title desktop">Your browser isn't supported</span>
+              <span class="modal-title">Your browser isn't supported</span>
             )}
           </div>
-          <div class={isMobile ? 'modal-subtitle mobile' : 'modal-subtitle'}>
+          <div class="modal-subtitle">
             To sign in to {this.authOptions.appDetails.name}, you will need a Stacks-compatible
             wallet.
           </div>
-
           <div class="modal-content">
-            <div class={isMobile ? 'mobile-wallet-container' : 'wallet-container'}>
+            <div class="wallet-container">
               <div class="modal-wallet-card">
                 <img src={HiroWalletLogo} />
                 <div class="modal-wallet-card-content">
                   <span class="modal-subheading">Hiro Wallet</span>
                   {browser && !isMobile ? (
-                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
+                    <div class="modal-wallet-text">
                       Hiro Wallet is your gateway to Stacks apps like{' '}
                       {this.authOptions.appDetails.name}. Add it to {browser} to continue{' '}
                     </div>
                   ) : (
-                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
+                    <div class="modal-wallet-text">
                       Browser extension for {` `}
                       <a href={CHROME_BROWSER_URL} target="_blank">
                         Chrome
@@ -134,20 +134,7 @@ export class Modal {
                 <img src={XverseWalletLogo} />
                 <div class="modal-wallet-card-content">
                   <span class="modal-subheading">Xverse Wallet</span>
-                  {browser ? (
-                    <div class="modal-wallet-text">
-                      Xverse is your gateway to Stacks on mobile.{' '}
-                    </div>
-                  ) : isMobile ? (
-                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
-                      Xverse is your gateway to Stacks apps like {this.authOptions.appDetails.name}.
-                      Install it on your device to continue.
-                    </div>
-                  ) : (
-                    <div class={isMobile ? 'modal-wallet-text mobile' : 'modal-wallet-text'}>
-                      Mobile application for iOS and Android.
-                    </div>
-                  )}
+                  <div class="modal-wallet-text">{xverseWalletDescription}</div>
                   <span
                     class="link"
                     onClick={() => window.open('https://www.xverse.app/', '_blank')}
