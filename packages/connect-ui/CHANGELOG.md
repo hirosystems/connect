@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#272](https://github.com/hirosystems/connect/pull/272) [`228ad3e`](https://github.com/hirosystems/connect/commit/228ad3e680b465e8ed4aa5d865283c2e00c9c792) Thanks [@janniks](https://github.com/janniks)! - Show other wallet options
+- [#272](https://github.com/hirosystems/connect/pull/272) [`228ad3e`](https://github.com/hirosystems/connect/commit/228ad3e680b465e8ed4aa5d865283c2e00c9c792) Thanks [@Imamah-Zafar](https://github.com/Imamah-Zafar)! - Show other wallet options
 
 ## 5.5.3
 
