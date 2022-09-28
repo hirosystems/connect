@@ -1,5 +1,12 @@
 # Change Log
 
+## 19.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @stacks/connect@6.10.2
+
 ## 19.0.1
 
 ### Patch Changes
