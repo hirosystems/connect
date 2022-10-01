@@ -1,3 +1,4 @@
+import { Profile } from '@stacks/profile';
 import { SignatureData } from './signature';
 import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
@@ -20,6 +21,7 @@ export interface StacksProvider {
   authenticationRequest(payload: string): Promise<string>;
   signatureRequest(payload: string): Promise<SignatureData>;
   structuredDataSignatureRequest(payload: string): Promise<SignatureData>;
+  profileUpdaterRequest(payload: string): Promise<Profile>
   request(method: string, params?: any[]): Promise<Record<string, any>>;
   getProductInfo:
     | undefined

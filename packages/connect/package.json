@@ -29,6 +29,7 @@
     "@stacks/connect-ui": "5.5.4",
     "@stacks/network": "4.3.2",
     "@stacks/prettier-config": "0.0.8",
+    "@stacks/profile": "^4.3.8",
     "@stacks/transactions": "4.3.2",
     "bn.js": "^5.2.0",
     "buffer": "6.0.3",
