@@ -16,22 +16,17 @@ export interface ProfileUpdateBase {
   onCancel?: ProfileUpdateCanceled;
 }
 
-export interface CommonProfileUpdateRequestOptions extends ProfileUpdateBase {}
-
 export interface CommoneProfileUpdatePayload {
   publicKey: string;
 }
 
-export interface PersonProfileUpdatePayload extends CommoneProfileUpdatePayload {
+export interface ProfileUpdatePayload extends CommoneProfileUpdatePayload {
   profile: Person;
 }
 
-export interface PersonProfileUpdateRequestOptions extends ProfileUpdateBase {
+export interface ProfileUpdateRequestOptions extends ProfileUpdateBase {
   profile: Person;
 }
-
-export type ProfileUpdatePayload = PersonProfileUpdatePayload;
-export type ProfileUpdateRequestOptions = PersonProfileUpdateRequestOptions;
 
 /**
  * Transaction Popup
