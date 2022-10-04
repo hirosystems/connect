@@ -1,5 +1,5 @@
 import { StacksTestnet } from '@stacks/network';
-import { createUnsecuredToken, TokenSigner } from 'jsontokens';
+import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import {
   ProfileUpdatePayload as ProfileUpdatePayload,
   ProfileUpdatePopup as ProfileUpdatePopup,
@@ -60,7 +60,7 @@ export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOption
     return signPayload(payload, privateKey);
   }
   const payload = { ..._options };
-  return createUnsecuredToken(payload as any);
+  return createUnsecuredToken(payload as Json);
 };
 
 async function generateTokenAndOpenPopup<T extends ProfileUpdateRequestOptions>(

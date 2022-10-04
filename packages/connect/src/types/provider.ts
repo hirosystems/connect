@@ -1,6 +1,6 @@
-import { value Profile } from '@stacks/profile';
-import { value SignatureData } from './signature';
-import { value FinishedTxPayload, value SponsoredFinishedTxPayload } from './transactions';
+import { Profile } from '@stacks/profile';
+import { SignatureData } from './signature';
+import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
 export interface StacksProvider {
   /** @deprecated */
