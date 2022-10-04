@@ -1,5 +1,15 @@
 # Change Log
 
+## 6.0.0
+
+### Major Changes
+
+- [#268](https://github.com/hirosystems/connect/pull/268) [`1ca6ba7`](https://github.com/hirosystems/connect/commit/1ca6ba7bbf5eeb7ed35936dfc9af4b72b12cc160) Thanks [@janniks](https://github.com/janniks)! - Update Stacks.js dependencies to remove Buffer
+
+  BREAKING CHANGE:
+  To reduce the bundle sizes of applications using Stacks.js we are moving away from Buffer.
+  For more information visit the Stacks.js repository https://github.com/hirosystems/stacks.js
+
 ## 5.5.4
 
 ### Patch Changes
