@@ -31,6 +31,7 @@
     "@stacks/prettier-config": "0.0.8",
     "@stacks/transactions": "^5.0.0",
     "jsontokens": "^4.0.1",
+    "@stacks/profile": "^5.0.0",
     "readable-stream": "^3.6.0",
     "url": "^0.11.0"
   },
