@@ -43,10 +43,6 @@ async function openProfileUpdatePopup({ token, options }: ProfileUpdatePopup) {
   }
 }
 
-export interface ProfileUpdateRequestPayload {
-  profile: string;
-}
-
 export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOptions) => {
   const { userSession, profile, ..._options } = options;
   if (hasAppPrivateKey(userSession)) {
