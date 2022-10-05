@@ -16,11 +16,11 @@ export interface ProfileUpdateBase {
   onCancel?: ProfileUpdateCanceled;
 }
 
-export interface CommoneProfileUpdatePayload {
+export interface CommonProfileUpdatePayload extends ProfileUpdateBase {
   publicKey: string;
 }
 
-export interface ProfileUpdatePayload extends CommoneProfileUpdatePayload {
+export interface ProfileUpdatePayload extends CommonProfileUpdatePayload {
   profile: Person;
 }
 

@@ -1,9 +1,9 @@
 import { StacksTestnet } from '@stacks/network';
 import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import {
-  ProfileUpdatePayload as ProfileUpdatePayload,
-  ProfileUpdatePopup as ProfileUpdatePopup,
-  ProfileUpdateRequestOptions as ProfileUpdateRequestOptions,
+  ProfileUpdatePayload,
+  ProfileUpdatePopup,
+  ProfileUpdateRequestOptions,
 } from 'src/types/profile';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
 
