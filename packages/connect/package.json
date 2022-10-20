@@ -25,13 +25,13 @@
   "typings": "dist/types/index.d.ts",
   "unpkg": "dist/bundle.js",
   "dependencies": {
-    "@stacks/auth": "^5.0.0",
+    "@stacks/auth": "5.0.3-pr.ea8bc25.0",
     "@stacks/connect-ui": "6.0.0",
-    "@stacks/network": "^5.0.0",
+    "@stacks/network": "5.0.3-pr.ea8bc25.0",
     "@stacks/prettier-config": "0.0.8",
-    "@stacks/transactions": "^5.0.0",
+    "@stacks/profile": "5.0.3-pr.ea8bc25.0",
+    "@stacks/transactions": "5.0.3-pr.ea8bc25.0",
     "jsontokens": "^4.0.1",
-    "@stacks/profile": "^5.0.0",
     "readable-stream": "^3.6.0",
     "url": "^0.11.0"
   },
