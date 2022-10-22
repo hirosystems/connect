@@ -49,6 +49,7 @@ export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOption
     const { privateKey, publicKey } = getKeys(userSession);
 
     const payload: ProfileUpdatePayload = {
+      ..._options,
       profile,
       publicKey,
     };
