@@ -1,6 +1,8 @@
-# `@stacks/connect`
+<div align="center">
+  <img src=".github/img/banner.svg" alt="Stacks Connect">
+</div>
 
-Connect is a JavaScript library for applications built on [Stacks](https://stacks.co).
+Connect is a JavaScript library for building web applications connected to [Stacks](https://stacks.co).
 
 ## ⚡️ Installation
 
