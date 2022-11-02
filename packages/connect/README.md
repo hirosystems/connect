@@ -151,16 +151,18 @@ import { StacksTestnet } from '@stacks/network';
 import { AnchorMode, PostConditionMode, stringUtf8CV } from '@stacks/transactions';
 import { userSession } from './userSession';
 
+const pick = stringUtf8CV('Alice');
+
 openContractCall({
-  network: new StacksTestnet(), // which network to use
+  network: new StacksTestnet(),
   anchorMode: AnchorMode.Any, // which type of block the tx should be mined in
 
   contractAddress: 'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK',
   contractName: 'example-contract',
   functionName: 'vote',
-  functionArgs: [stringUtf8CV(pick)],
+  functionArgs: [pick],
 
-  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
+  postConditionMode: PostConditionMode.Deny,
   postConditions: [],
 
   onFinish: response => {
@@ -176,3 +178,34 @@ openContractCall({
 
 - Connect can currently not set manual nonces, since this is not supported by wallets.
 - For some projects it might be necessary to also install the `regenerator-runtime` package. `npm install --save-dev regenerator-runtime`. This is a build issue of `@stacks/connect` and we are working on a fix.
+
+## 📚 Option Glossary <!-- omit in toc -->
+
+A glossary of the most common options of `openSTXTransfer` and `openContractCall`
+
+### `openSTXTransfer` _Required_ <!-- omit in toc -->
+
+|             | Description                           | Type                              | Example                                       |
+| :---------- | :------------------------------------ | :-------------------------------- | :-------------------------------------------- |
+| `recipient` | The recipient (STX principal) address | `string`                          | `'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK'` |
+| `amount`    | The amount (in micro-STX) to transfer | Integer (e.g. `number`, `bigint`) | `10000`                                       |
+
+### `openContractCall` _Required_ <!-- omit in toc -->
+
+|                   | Description                                      | Type                    | Example                                       |
+| :---------------- | :----------------------------------------------- | :---------------------- | :-------------------------------------------- |
+| `contractAddress` | The (STX contract) address of the smart contract | `string`                | `'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK'` |
+| `contractName`    | The contract name                                | `string`                | `'example-contract'`                          |
+| `functionName`    | The contract function name                       | `string`                | `'vote'`                                      |
+| `functionArgs`    | The contract function arguments                  | Array of Clarity Values | `[]`, `[uintCV(100)]`                         |
+
+### _Optional_ <!-- omit in toc -->
+
+|              | Default             | Description                                                           | Type                                                                        | Example                  |
+| :----------- | :------------------ | :-------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :----------------------- |
+| `network`    | Mainnet             | The network to broadcast the transaction to                           | [StacksNetwork](https://stacks.js.org/classes/network.StacksNetwork.html)   | `new StacksMainnet()`    |
+| `anchorMode` | Any                 | The type of block the transaction should be mined in                  | [AnchorMode Enum](https://stacks.js.org/enums/transactions.AnchorMode.html) | `AnchorMode.OnChainOnly` |
+| `memo`       | _Empty_ `''`        | The memo field (used for additional data)                             | `string`                                                                    | `'a memo'`               |
+| `fee`        | _Handled by Wallet_ | The transaction fee (the wallet will estimate fees as well)           | Integer (e.g. `number`, `bigint`)                                           | `1000`                   |
+| `onFinish`   | _No-op_             | The callback function to run after broadcasting the transaction       | Function (receiving `response`)                                             |                          |
+| `onCancel`   | _No-op_             | The callback function to run after the user cancels/closes the wallet | Function                                                                    |                          |
