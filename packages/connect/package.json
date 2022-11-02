@@ -64,5 +64,8 @@
   "files": [
     "dist"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "typedoc": {
+    "entryPoint": "./src/index.ts"
+  }
 }
