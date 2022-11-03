@@ -6,7 +6,7 @@
     "build": "lerna run build",
     "build:connect": "lerna run build --scope @stacks/connect",
     "build:connect-ui": "lerna run build --scope @stacks/connect-ui",
-    "build:docs": "typedoc",
+    "build:docs": "typedoc && mkdir -p docs/.github && cp -r .github/img docs/.github/img",
     "typecheck": "lerna run typecheck --parallel --no-bail --stream",
     "types": "lerna run types",
     "types:connect": "lerna run types --scope @stacks/connect",
@@ -66,6 +66,7 @@
     "yalc": "^1.0.0-pre.50"
   },
   "dependencies": {
+    "@janniks/typedoc-theme-stacks": "1.2.3",
     "is-regex": "^1.1.2",
     "jsx-ast-utils": "^3.2.0"
   },

@@ -13,6 +13,7 @@
     "entryPoints": [
       "packages/*"
     ],
-    "out": "docs"
+    "out": "docs",
+    "theme": "stacks"
   }
 }
