@@ -1,5 +1,6 @@
 export * from './auth';
 export * from './transactions';
+export * from './transactions/btc'; // todo: tmp
 export * from './signature';
 export * from './signature/structuredData';
 export * from './types';

@@ -48,6 +48,7 @@ export enum TransactionTypes {
   ContractCall = 'contract_call',
   ContractDeploy = 'smart_contract',
   STXTransfer = 'token_transfer',
+  BTCTransfer = 'token_transfer_btc', // todo: `btc_transfer` ? (generice interface for selecting token/chain)
 }
 
 /**
@@ -159,4 +160,19 @@ export type TransactionPayload = ContractCallPayload | ContractDeployPayload | S
 export interface TransactionPopup {
   token: string;
   options: TransactionOptions;
+}
+
+/**
+ * BTC Transfer
+ */
+
+export interface BTCTransferOptions extends RegularOptionsBase {
+  recipient: string;
+  amount: bigint | number | string;
+}
+
+export interface BTCTransferPayload extends BTCTransferOptions {
+  recipient: string;
+  amount: string;
+  txType: TransactionTypes.BTCTransfer;
 }
