@@ -15,7 +15,6 @@ coverage/
 *.zip
 *.xpi
 
-dist/
 www/
 loader/
 
@@ -36,10 +35,8 @@ log.txt
 
 $RECYCLE.BIN/
 
-
 Thumbs.db
 UserInterfaceState.xcuserstate
-
 
 yalc.lock
 .yalc
@@ -49,3 +46,5 @@ yalc.lock
 packages/connect-ui/connect
 
 web-ext-artifacts
+
+docs/
