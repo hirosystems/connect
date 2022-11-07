@@ -74,7 +74,8 @@ export function getStxAddress(options: TransactionOptions) {
   return address;
 }
 
-function getDefaults(options: TransactionOptions) {
+/** @internal */
+export function getDefaults(options: TransactionOptions) {
   const network = options.network || new StacksTestnet();
 
   const userSession = getUserSession(options.userSession);
