@@ -18,6 +18,8 @@ import {
   FinishedAuthData,
   openStructuredDataSignatureRequestPopup,
   openSignatureRequestPopup,
+  ProfileUpdateRequestOptions,
+  openProfileUpdateRequestPopup,
 } from '@stacks/connect';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 import { SignatureRequestOptions } from '@stacks/connect';
@@ -110,6 +112,14 @@ export const useConnect = () => {
     });
   }
 
+  function doProfileUpdate(options: ProfileUpdateRequestOptions) {
+    openProfileUpdateRequestPopup({
+      ...options,
+      authOrigin: authOptions.authOrigin,
+      appDetails: authOptions.appDetails,
+    });
+  }
+
   function sign(options: SignatureRequestOptions) {
     return openSignatureRequestPopup({
       ...options,
@@ -138,6 +148,7 @@ export const useConnect = () => {
     doContractCall,
     doContractDeploy,
     doSTXTransfer,
+    doProfileUpdate,
     sign,
     signStructuredData,
   };
