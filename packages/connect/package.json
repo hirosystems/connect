@@ -63,8 +63,10 @@
     "webpackbar": "^5.0.0-3"
   },
   "files": [
-    "dist",
-    ".yalc"
+    "dist"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "typedoc": {
+    "entryPoint": "./src/index.ts"
+  }
 }
