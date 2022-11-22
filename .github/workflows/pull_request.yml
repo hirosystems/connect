@@ -16,16 +16,6 @@ jobs:
           echo "Is a fork: ${{ env.NPM_TOKEN == '' }}"
           echo "::set-output name=is_not_fork::${{ env.NPM_TOKEN != '' }}"
 
-  commitlint:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v1
-
   code_checks:
     name: Code checks
     runs-on: ubuntu-latest
