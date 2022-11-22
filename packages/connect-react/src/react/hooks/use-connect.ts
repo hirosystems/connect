@@ -1,29 +1,29 @@
-import { useContext } from 'react';
 import {
   authenticate,
   AuthOptions,
   ContractCallOptions,
-  ContractDeployOptions,
-  STXTransferOptions,
-  openContractCall,
-  openContractDeploy,
-  openSTXTransfer,
-  showBlockstackConnect,
   ContractCallRegularOptions,
   ContractCallSponsoredOptions,
+  ContractDeployOptions,
   ContractDeployRegularOptions,
   ContractDeploySponsoredOptions,
+  FinishedAuthData,
+  openContractCall,
+  openContractDeploy,
+  openProfileUpdateRequestPopup,
+  openSignatureRequestPopup,
+  openStructuredDataSignatureRequestPopup,
+  openSTXTransfer,
+  ProfileUpdateRequestOptions,
+  showBlockstackConnect,
+  SignatureRequestOptions,
+  STXTransferOptions,
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
-  FinishedAuthData,
-  openStructuredDataSignatureRequestPopup,
-  openSignatureRequestPopup,
-  ProfileUpdateRequestOptions,
-  openProfileUpdateRequestPopup,
 } from '@stacks/connect';
-import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
-import { SignatureRequestOptions } from '@stacks/connect';
 import { StructuredDataSignatureRequestOptions } from '@stacks/connect/src/types/structuredDataSignature';
+import { useContext } from 'react';
+import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 
 const useConnectDispatch = () => {
   const dispatch = useContext(ConnectDispatchContext);
@@ -113,7 +113,7 @@ export const useConnect = () => {
   }
 
   function doProfileUpdate(options: ProfileUpdateRequestOptions) {
-    openProfileUpdateRequestPopup({
+    return openProfileUpdateRequestPopup({
       ...options,
       authOrigin: authOptions.authOrigin,
       appDetails: authOptions.appDetails,
