@@ -2388,15 +2388,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@noble/hashes@^1.0.0", "@noble/hashes@^1.1.2", "@noble/hashes@~1.1.1":
+"@noble/hashes@^1.1.2", "@noble/hashes@~1.1.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.2.tgz#e9e035b9b166ca0af657a7848eb2718f0f22f183"
   integrity sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==
 
-"@noble/secp256k1@^1.5.5":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.6.0.tgz#602afbbfcfb7e169210469b697365ef740d7e930"
-  integrity sha512-DWSsg8zMHOYMYBqIQi96BQuthZrp98LCeMNcUOaffCIVYQ5yxDbNikLF+H7jEnmNNmXbtVic46iCuVWzar+MgA==
+"@noble/hashes@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.3.tgz#360afc77610e0a61f3417e497dcf36862e4f8111"
+  integrity sha512-CE0FCR57H2acVI5UOzIGSSIYxZ6v/HOhDR0Ro9VLyhnzLwx0o8W1mmgaqlEUx4049qJDlIBRztv5k+MM8vbO3A==
 
 "@noble/secp256k1@^1.6.3":
   version "1.6.3"
@@ -2631,36 +2631,36 @@
   dependencies:
     type-detect "4.0.8"
 
-"@stacks/auth@5.0.3-pr.ea8bc25.0":
-  version "5.0.3-pr.ea8bc25.0"
-  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-5.0.3-pr.ea8bc25.0.tgz#d2423dc36966a1423c5f5b1b2cfab22a56a19b17"
-  integrity sha512-0NkrvHI5/1vwh7T5Ur2/PCanwfmBjmLL1P01WE8jrjSQTE6w3XsTydCIjv+BLaBFXfuyhJwTa115X1BiCiQk5g==
+"@stacks/auth@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-6.0.0.tgz#615927e9f6c0c122a1e4a2245ec4e26721a591a4"
+  integrity sha512-2BdNl52vgIvfM/MHGsSt6b+1XgbxV1OryNCeLf+bI4myabYXuQXQUCQskkLj6w4PexC2AX5gMt6Q4kXrUP+Mzw==
   dependencies:
-    "@stacks/common" "^5.0.3-pr.ea8bc25.0"
-    "@stacks/encryption" "^5.0.3-pr.ea8bc25.0"
-    "@stacks/network" "^5.0.3-pr.ea8bc25.0"
-    "@stacks/profile" "^5.0.3-pr.ea8bc25.0"
+    "@stacks/common" "^6.0.0"
+    "@stacks/encryption" "^6.0.0"
+    "@stacks/network" "^6.0.0"
+    "@stacks/profile" "^6.0.0"
     cross-fetch "^3.1.5"
     jsontokens "^4.0.1"
     query-string "^6.13.1"
 
-"@stacks/common@^5.0.3", "@stacks/common@^5.0.3-pr.ea8bc25.0":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-5.0.3.tgz#2a24d1198ce2db4d75ec92f37491de922960f69b"
-  integrity sha512-0c1L1xQAFI4p0oB8BrwU1ic3q91plceztzT6ZQizxWfAJFnELdYyO/nJlq9a3yIVV90iaLYgvYBTPW3b7LWrdg==
+"@stacks/common@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-6.0.0.tgz#ce80a11ca5d16db8276891db3ecc8e4f2eb1b43a"
+  integrity sha512-tETwccvbYvaZ7u3ZucWNMOIPN97r6IPeZXKIFhLc1KSVaWSGEPTtZcwVp+Rz3mu2XgI2pg37SUrOWXSL7OOkDw==
   dependencies:
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
 
-"@stacks/encryption@^5.0.3-pr.ea8bc25.0":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-5.0.3.tgz#49faf9002eb801fb73e9900e6e69ed813aacecf4"
-  integrity sha512-wM5wE2ldssJWF5zrE5MbGlBSqI6ZMDSWGtvg2AOqOG2ChoBPxcuVOdyj4ziBbX4vtdu61jjr7LLP+90/0MLcpQ==
+"@stacks/encryption@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.0.0.tgz#3b1e8fbd113d77eb6cff42900568bf94f2b20f9d"
+  integrity sha512-Wcp3eOtW2PYRjFY5GRFMNmD6r18prB5xiBc8HODU7hUSHTicMhQxGh0x5M+y3WA9iSTSeSVF/uOS8KFZYg0RYg==
   dependencies:
-    "@noble/hashes" "^1.0.0"
-    "@noble/secp256k1" "^1.5.5"
+    "@noble/hashes" "^1.1.3"
+    "@noble/secp256k1" "^1.6.3"
     "@scure/bip39" "^1.1.0"
-    "@stacks/common" "^5.0.3"
+    "@stacks/common" "^6.0.0"
     "@types/node" "^18.0.4"
     base64-js "^1.5.1"
     bs58 "^5.0.0"
@@ -2681,20 +2681,12 @@
     eslint-plugin-import ">=2.23.3"
     eslint-plugin-prettier "^3.4.0"
 
-"@stacks/network@5.0.3-pr.ea8bc25.0":
-  version "5.0.3-pr.ea8bc25.0"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-5.0.3-pr.ea8bc25.0.tgz#34e06c285cd3d9595d2edce40c3d088b42f306ab"
-  integrity sha512-lceV1FKb2SdM6g18J5+ULVRGIVHFfhlq4WWWpULFVdQKvXZn88VVQYTn3VwX5Qif4NS2XMuLEAJK6uQzCdKV5A==
+"@stacks/network@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-6.0.0.tgz#c6bc59e7861c51e1e580782132a380ca550ba0f3"
+  integrity sha512-7acFYeR7YEmS8ZvK21OmI31x2jsjf1lepXV5qMs34DMz4bRylj5ZZ650lavvXk2a5o8/lop2qWQtvo9PtZ/ESQ==
   dependencies:
-    "@stacks/common" "^5.0.3-pr.ea8bc25.0"
-    cross-fetch "^3.1.5"
-
-"@stacks/network@^5.0.3", "@stacks/network@^5.0.3-pr.ea8bc25.0":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-5.0.3.tgz#829085434d5ec931000678997eaa1c7a37754ac1"
-  integrity sha512-9ZSKktElpgDst1SVI5K4ocmsrIKrIHVQMRTfLkVarNqMnk9zliLMXrmXef6Z3rszU7JbUWGbb8+F3ubhpfqZxg==
-  dependencies:
-    "@stacks/common" "^5.0.3"
+    "@stacks/common" "^6.0.0"
     cross-fetch "^3.1.5"
 
 "@stacks/prettier-config@0.0.8", "@stacks/prettier-config@^0.0.8":
@@ -2709,51 +2701,27 @@
   resolved "https://registry.yarnpkg.com/@stacks/prettier-config/-/prettier-config-0.0.7.tgz#22525c623fce6a5f1965fd29867df3d791ea7ef5"
   integrity sha512-fXd5X4SV5GqskCYZxqExZJ7wF5sOggmzFP4Q7ttmR/eXZKar3c9fqEpbrpRZyHUBZv2Nss46MvwTLQk2YlpIeg==
 
-"@stacks/profile@5.0.3-pr.ea8bc25.0":
-  version "5.0.3-pr.ea8bc25.0"
-  resolved "https://registry.yarnpkg.com/@stacks/profile/-/profile-5.0.3-pr.ea8bc25.0.tgz#d6acd2ea42243444f5d2e49c48f7402b2fd05206"
-  integrity sha512-PNroqN8fSjWWzeh9Vy46HWi4iowlgR6RIU7tKlAcCwVcsp4JGm0zTt3qpqDAv1IXHLmT+KO6hyPjbXC/DxGXmw==
+"@stacks/profile@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/profile/-/profile-6.0.0.tgz#e50a809eef3fca66cf0745d065b836862648adf4"
+  integrity sha512-XzawNHUh2vq8kXxrKgfoWzbcNziYmiNy+qWCWwFk39N/dAjqIGSnZrc2eomrHHbWh2lkBXxxQggCGpoZJLhvMw==
   dependencies:
-    "@stacks/common" "^5.0.3-pr.ea8bc25.0"
-    "@stacks/network" "^5.0.3-pr.ea8bc25.0"
-    "@stacks/transactions" "^5.0.3-pr.ea8bc25.0"
+    "@stacks/common" "^6.0.0"
+    "@stacks/network" "^6.0.0"
+    "@stacks/transactions" "^6.0.0"
     jsontokens "^4.0.1"
     schema-inspector "2.0.1"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/profile@^5.0.3-pr.ea8bc25.0":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@stacks/profile/-/profile-5.0.3.tgz#586db874c91c73747fa98bcc288d11c9e7af9291"
-  integrity sha512-B+gAMK8svDrgFWGJu2EkokkgjkXUEJG+zsZuK3P1Aq2qCS2EiO+O0gLhUi8p38BiKEpkUVY4mI34QCzMn9zWiA==
+"@stacks/transactions@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.0.0.tgz#bbc817e61bd2fc116fc276f85d1387644f8a8f56"
+  integrity sha512-TQc6yhTMUhoCrN5gZ+YqzMHQ4VnL7pWhfYP96vs6mNyRchiYWhU+zONbKQ0KoVeYl3GUiOUh/9WsL6qeTmK6qQ==
   dependencies:
-    "@stacks/common" "^5.0.3"
-    "@stacks/network" "^5.0.3"
-    "@stacks/transactions" "^5.0.3"
-    jsontokens "^4.0.1"
-    schema-inspector "2.0.1"
-    zone-file "^2.0.0-beta.3"
-
-"@stacks/transactions@5.0.3-pr.ea8bc25.0":
-  version "5.0.3-pr.ea8bc25.0"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-5.0.3-pr.ea8bc25.0.tgz#3f1e97f2f40e9b4c4325604b513b978fb70079a5"
-  integrity sha512-ombqJr5zwrlAy2m5pQW+1tAxqLTKpi+8ezAPBwLxP86/e81/8c6JW+z+BqnJDO4tuvEPUBuabXPtv21X81trgg==
-  dependencies:
-    "@noble/hashes" "^1.0.0"
-    "@noble/secp256k1" "^1.5.5"
-    "@stacks/common" "^5.0.3-pr.ea8bc25.0"
-    "@stacks/network" "^5.0.3-pr.ea8bc25.0"
-    c32check "^2.0.0"
-    lodash.clonedeep "^4.5.0"
-
-"@stacks/transactions@^5.0.3", "@stacks/transactions@^5.0.3-pr.ea8bc25.0":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-5.0.3.tgz#157c50ca49fee0299ffe252ec647ad6b2aa93b0b"
-  integrity sha512-rLe7QYU+tzTs1Yudo82zh7oiWAwGxGiunFehgIZ6VgLgo/Oarf8+DWmmaAxSZpCsecxl4cuQxE3bDWwJZAA9rg==
-  dependencies:
-    "@noble/hashes" "^1.0.0"
-    "@noble/secp256k1" "^1.5.5"
-    "@stacks/common" "^5.0.3"
-    "@stacks/network" "^5.0.3"
+    "@noble/hashes" "^1.1.3"
+    "@noble/secp256k1" "^1.6.3"
+    "@stacks/common" "^6.0.0"
+    "@stacks/network" "^6.0.0"
     c32check "^2.0.0"
     lodash.clonedeep "^4.5.0"
 
