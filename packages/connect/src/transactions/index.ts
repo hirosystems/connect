@@ -77,30 +77,17 @@ export function getStxAddress(options: TransactionOptions) {
 function getDefaults(options: TransactionOptions) {
   const network = options.network || new StacksTestnet();
 
-  // Legacy auth using localstorage with appPrivateKey
-  if (hasAppPrivateKey(options.userSession)) {
-    const userSession = getUserSession(options.userSession);
-    const defaults: TransactionOptions = {
-      ...options,
-      network,
-      userSession,
-    };
+  const userSession = getUserSession(options.userSession);
+  const defaults: TransactionOptions = {
+    ...options,
+    network,
+    userSession,
+  };
 
-    return {
-      stxAddress: getStxAddress(defaults),
-      ...defaults,
-    };
-  }
-
-  // User has not authed, we're relying on the app having previously having been
-  // given permissions from  `stx_requestAccounts`, and the wallet recognising the app's origin
-  // const hasSetRequiredStxAddressPropForRequestAccountFlow = 'stxAddress' in options;
-  // if (!hasSetRequiredStxAddressPropForRequestAccountFlow) {
-  //   throw new Error(
-  //     'Must set property `stxAddress` when using `stx_requestAccounts to initiate transaction`'
-  //   );
-  // }
-  return { ...options, network };
+  return {
+    stxAddress: getStxAddress(defaults),
+    ...defaults,
+  };
 }
 
 function encodePostConditions(postConditions: PostCondition[]) {
