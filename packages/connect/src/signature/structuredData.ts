@@ -22,20 +22,23 @@ async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOption
   return openStructuredDataSignaturePopup({ token, options });
 }
 
-async function signPayload(payload: StructuredDataSignaturePayload, privateKey: string) {
-  const tokenSigner = new TokenSigner('ES256k', privateKey);
-  return tokenSigner.signAsync({
+function parseUnserializableBigIntValues(payload: any) {
+  return {
     ...payload,
     message: bytesToHex(serializeCV(payload.message)),
     domain: bytesToHex(serializeCV(payload.domain)),
-  } as any);
+  };
+}
+
+async function signPayload(payload: StructuredDataSignaturePayload, privateKey: string) {
+  const tokenSigner = new TokenSigner('ES256k', privateKey);
+  return tokenSigner.signAsync(parseUnserializableBigIntValues(payload));
 }
 
 export async function signStructuredMessage(options: StructuredDataSignatureRequestOptions) {
   const { userSession, ..._options } = options;
   if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
-
     const payload: StructuredDataSignaturePayload = {
       ..._options,
       publicKey,
@@ -44,7 +47,7 @@ export async function signStructuredMessage(options: StructuredDataSignatureRequ
   }
   // Type casting `any` as payload contains non-serialisable content,
   // such as `StacksNetwork`
-  return createUnsecuredToken(options as any);
+  return createUnsecuredToken(parseUnserializableBigIntValues(options));
 }
 
 async function openStructuredDataSignaturePopup({ token, options }: StructuredDataSignaturePopup) {
