@@ -1,5 +1,16 @@
 # Change Log
 
+## 21.0.0
+
+### Minor Changes
+
+- [#280](https://github.com/hirosystems/connect/pull/280) [`e811acf`](https://github.com/hirosystems/connect/commit/e811acf91491d7cf1ee3d5a1837ff576a7e0543f) Thanks [@friedger](https://github.com/friedger)! - Adds `doProfileUpdate` method to allow users to update profiles via wallets
+
+### Patch Changes
+
+- Updated dependencies [[`0d1dee8`](https://github.com/hirosystems/connect/commit/0d1dee88a3c16a8ae8c94608d5c3bb934cd9e669), [`e811acf`](https://github.com/hirosystems/connect/commit/e811acf91491d7cf1ee3d5a1837ff576a7e0543f)]:
+  - @stacks/connect@7.1.0
+
 ## 20.0.0
 
 ### Major Changes

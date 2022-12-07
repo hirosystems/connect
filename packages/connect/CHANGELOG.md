@@ -1,5 +1,15 @@
 # Change Log
 
+## 7.1.0
+
+### Minor Changes
+
+- [#280](https://github.com/hirosystems/connect/pull/280) [`e811acf`](https://github.com/hirosystems/connect/commit/e811acf91491d7cf1ee3d5a1837ff576a7e0543f) Thanks [@friedger](https://github.com/friedger)! - Adds `openProfileUpdateRequestPopup` method to allow users to update profiles via wallets
+
+### Patch Changes
+
+- [#289](https://github.com/hirosystems/connect/pull/289) [`0d1dee8`](https://github.com/hirosystems/connect/commit/0d1dee88a3c16a8ae8c94608d5c3bb934cd9e669) Thanks [@kyranjamie](https://github.com/kyranjamie)! - Fixes issue where STX address not passed to wallet in Ledger mode
+
 ## 7.0.0
 
 ### Major Changes
