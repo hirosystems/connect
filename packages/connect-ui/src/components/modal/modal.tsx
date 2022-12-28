@@ -144,7 +144,8 @@ export class Modal {
                   <span class="modal-subheading">Xverse Wallet</span>
                   {browser === 'Chrome' ? (
                     <div class="modal-wallet-text">
-                      Xverse is your gateway to Stacks on mobile. Add it to Chrome to continue.
+                      Xverse is an advanced web3 wallet for Bitcoin and Stacks. Available for
+                      Chrome, Android and iOS. Add it to Chrome to continue.
                     </div>
                   ) : isMobile ? (
                     <div class="modal-wallet-text">
