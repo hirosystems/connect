@@ -14,6 +14,8 @@ const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/hiro-w
 const XVERSE_APP_STORE_URL = 'https://apps.apple.com/app/id1552272513';
 const XVERSE_PLAY_STORE_URL =
   'https://play.google.com/store/apps/details?id=com.secretkeylabs.xverse';
+const XVERSE_CHROME_STORE_URL =
+  'https://chrome.google.com/webstore/detail/xverse-wallet/idnnbdplmphpflfnlkomgpfbpcgelopg';
 
 @Component({
   tag: 'connect-modal',
@@ -26,6 +28,9 @@ export class Modal {
 
   @State()
   hasOpenedInstall: boolean;
+
+  @State()
+  hasOpenedInstallXverse: boolean;
 
   @Element() modalEl: HTMLElement;
 
@@ -41,8 +46,16 @@ export class Modal {
       window.open(FIREFOX_STORE_URL, '_blank');
     } else if (browser === 'IOS') {
       window.open(XVERSE_APP_STORE_URL, '_blank');
+      this.hasOpenedInstallXverse = true;
+      return;
     } else if (browser === 'Android') {
       window.open(XVERSE_PLAY_STORE_URL, '_blank');
+      this.hasOpenedInstallXverse = true;
+      return;
+    } else if (browser === 'Xverse-Chrome') {
+      window.open(XVERSE_CHROME_STORE_URL, '_blank');
+      this.hasOpenedInstallXverse = true;
+      return;
     } else {
       window.open('https://www.hiro.so/wallet/install-web', '_blank');
     }
@@ -52,11 +65,6 @@ export class Modal {
   render() {
     const browser = getBrowser();
     const isMobile = getPlatform();
-    const xverseWalletDescription = browser
-      ? `Xverse is your gateway to Stacks on mobile. `
-      : isMobile
-      ? `Xverse is your gateway to Stacks apps like ${this.authOptions.appDetails.name}. Install it on your device to continue.`
-      : `Mobile application for iOS and Android.`;
 
     return (
       <div class="modal-container">
@@ -134,16 +142,33 @@ export class Modal {
                 <img src={XverseWalletLogo} />
                 <div class="modal-wallet-card-content">
                   <span class="modal-subheading">Xverse Wallet</span>
-                  <div class="modal-wallet-text">{xverseWalletDescription}</div>
+                  {browser === 'Chrome' ? (
+                    <div class="modal-wallet-text">
+                      Xverse is your gateway to Stacks on mobile. Add it to Chrome to continue.
+                    </div>
+                  ) : isMobile ? (
+                    <div class="modal-wallet-text">
+                      Xverse is your gateway to Stacks apps like {this.authOptions.appDetails.name}.
+                      Install it on your device to continue.`
+                    </div>
+                  ) : (
+                    <div class="modal-wallet-text">
+                      Browser extension for {` `}
+                      <a href={CHROME_BROWSER_URL} target="_blank">
+                        Chrome
+                      </a>
+                      {` on desktop, application for iOS and Android on mobile.`}
+                    </div>
+                  )}
                   <span
                     class="link"
                     onClick={() => window.open('https://www.xverse.app/', '_blank')}
                   >
                     About Xverse Wallet →
                   </span>
-                  {isMobile && (
-                    <div class="download-app-container">
-                      {this.hasOpenedInstall ? (
+                  <div class="download-app-container">
+                    {this.hasOpenedInstallXverse ? (
+                      isMobile ? (
                         <span
                           class="link"
                           onClick={() =>
@@ -153,17 +178,23 @@ export class Modal {
                           Open this page in Xverse Wallet →
                         </span>
                       ) : (
+                        <div class="modal-wallet-text">
+                          After installing Xverse Wallet, reload this page and sign in.
+                        </div>
+                      )
+                    ) : (
+                      (browser === 'Chrome' || isMobile) && (
                         <button
                           class="button"
                           onClick={() => {
-                            this.handleDownloadPath(isMobile);
+                            this.handleDownloadPath(isMobile ?? `Xverse-${browser}`);
                           }}
                         >
                           Download
                         </button>
-                      )}
-                    </div>
-                  )}
+                      )
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
