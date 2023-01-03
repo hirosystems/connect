@@ -82,7 +82,7 @@ openSTXTransfer({
   anchorMode: AnchorMode.Any, // which type of block the tx should be mined in
 
   recipient: 'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK', // which address we are sending to
-  amount: 10000, // tokens, denominated in micro-STX
+  amount: 10000n, // tokens, denominated in micro-STX
   memo: 'Nr. 1337', // optional; a memo to help identify the tx
 
   postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
@@ -90,7 +90,7 @@ openSTXTransfer({
 
   onFinish: response => {
     // WHEN user confirms pop-up
-    console.log(response.txid); // the response includes the txid of the transaction
+    console.log(response.txId); // the response includes the txid of the transaction
   },
   onCancel: () => {
     // WHEN user cancels/closes pop-up
