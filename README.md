@@ -7,7 +7,7 @@ Connect is a JavaScript library for building web applications connected to [Stac
 ## ⚡️ Installation
 
 Use your favorite package manager to install `@stacks/connect` in your project.
-Follow the **Getting Started** section of the [`@stacks/connect` README](./packages/connect/README.md).
+Follow the **Getting Started** section of the [`@stacks/connect` README](https://github.com/hirosystems/connect/tree/main/packages/connect).
 
 > Or use one of our starter-templates to bootstrap a fresh project already including connect — directly in your [browser](https://docs.hiro.so/stacksjs-starters) or using the [command-line](https://github.com/hirosystems/stacks.js-starters) locally!
 > e.g. via `npm create stacks`
