@@ -2,6 +2,17 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/hirosystems/connect/tree/main/packages/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "github.com"
+        }
+      ],
+      "destination": "/modules/:path*",
+      "permanent": false
+    },
+    {
       "source": "/packages/connect-ui",
       "destination": "/modules/_stacks_connect_ui",
       "permanent": false
@@ -12,7 +23,7 @@
       "permanent": false
     },
     {
-      "source": "/packages/:path",
+      "source": "/packages/:path((?!_stacks_).*)",
       "destination": "/modules/_stacks_:path*",
       "permanent": false
     },
