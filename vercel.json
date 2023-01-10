@@ -1,0 +1,55 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/packages/connect-ui",
+      "destination": "/modules/_stacks_connect_ui",
+      "permanent": false
+    },
+    {
+      "source": "/packages/connect-react",
+      "destination": "/modules/_stacks_connect_react",
+      "permanent": false
+    },
+    {
+      "source": "/packages/:path",
+      "destination": "/modules/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/modules/:path((?!_stacks_).*)",
+      "destination": "/modules/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/enums/:path((?!_stacks_).*)",
+      "destination": "/enums/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/variables/:path((?!_stacks_).*)",
+      "destination": "/variables/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/functions/:path((?!_stacks_).*)",
+      "destination": "/functions/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/types/:path((?!_stacks_).*)",
+      "destination": "/types/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/interfaces/:path((?!_stacks_).*)",
+      "destination": "/interfaces/_stacks_:path*",
+      "permanent": false
+    },
+    {
+      "source": "/classes/:path((?!_stacks_).*)",
+      "destination": "/classes/_stacks_:path*",
+      "permanent": false
+    }
+  ]
+}
