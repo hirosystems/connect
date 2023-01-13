@@ -2388,15 +2388,20 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@noble/hashes@1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.5.tgz#1a0377f3b9020efe2fae03290bd2a12140c95c11"
+  integrity sha512-LTMZiiLc+V4v1Yi16TD6aX2gmtKszNye0pQgbaLqkvhIqP7nVsSaJsWloGQjJfJ8offaoP5GtX3yY5swbcJxxQ==
+
 "@noble/hashes@^1.1.2", "@noble/hashes@~1.1.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.2.tgz#e9e035b9b166ca0af657a7848eb2718f0f22f183"
   integrity sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==
 
-"@noble/hashes@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.3.tgz#360afc77610e0a61f3417e497dcf36862e4f8111"
-  integrity sha512-CE0FCR57H2acVI5UOzIGSSIYxZ6v/HOhDR0Ro9VLyhnzLwx0o8W1mmgaqlEUx4049qJDlIBRztv5k+MM8vbO3A==
+"@noble/secp256k1@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.7.1.tgz#b251c70f824ce3ca7f8dc3df08d58f005cc0507c"
+  integrity sha512-hOUk6AyBFmqVrv7k5WAw/LpszxVbj9gGN4JRkIX52fdFAj1UA61KXmZDvqVEm+pOyec3+fIeZB02LYa/pWOArw==
 
 "@noble/secp256k1@^1.6.3":
   version "1.6.3"
@@ -2616,7 +2621,7 @@
   resolved "https://registry.yarnpkg.com/@scure/base/-/base-1.1.1.tgz#ebb651ee52ff84f420097055f4bf46cfba403938"
   integrity sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA==
 
-"@scure/bip39@^1.1.0":
+"@scure/bip39@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@scure/bip39/-/bip39-1.1.0.tgz#92f11d095bae025f166bef3defcc5bf4945d419a"
   integrity sha512-pwrPOS16VeTKg98dYXQyIjJEcWfz7/1YJIwxUEPFfQPtc86Ym/1sVgQ2RLoD43AazMk2l/unK4ITySSpW2+82w==
@@ -2631,15 +2636,15 @@
   dependencies:
     type-detect "4.0.8"
 
-"@stacks/auth@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-6.0.0.tgz#615927e9f6c0c122a1e4a2245ec4e26721a591a4"
-  integrity sha512-2BdNl52vgIvfM/MHGsSt6b+1XgbxV1OryNCeLf+bI4myabYXuQXQUCQskkLj6w4PexC2AX5gMt6Q4kXrUP+Mzw==
+"@stacks/auth@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-6.1.1.tgz#74fb7242ea531444400f9e3fab188a64eb5ef702"
+  integrity sha512-as5ouLTFoNlcKiHzQ4H9dGAlrwj4aX0KxXr5CHV/BPAAzbLtrUNuJZBgAwVZWw65ebCr3JMTz8rMHTRvCO+ITA==
   dependencies:
     "@stacks/common" "^6.0.0"
-    "@stacks/encryption" "^6.0.0"
-    "@stacks/network" "^6.0.0"
-    "@stacks/profile" "^6.0.0"
+    "@stacks/encryption" "^6.1.1"
+    "@stacks/network" "^6.1.1"
+    "@stacks/profile" "^6.1.1"
     cross-fetch "^3.1.5"
     jsontokens "^4.0.1"
     query-string "^6.13.1"
@@ -2652,14 +2657,14 @@
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
 
-"@stacks/encryption@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.0.0.tgz#3b1e8fbd113d77eb6cff42900568bf94f2b20f9d"
-  integrity sha512-Wcp3eOtW2PYRjFY5GRFMNmD6r18prB5xiBc8HODU7hUSHTicMhQxGh0x5M+y3WA9iSTSeSVF/uOS8KFZYg0RYg==
+"@stacks/encryption@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.1.1.tgz#0f6c3c5110250e74746d687b3b7c03b2badd4a97"
+  integrity sha512-tS0Foo83h1ixwxCAbFh3uX0Hty3b3EFcqOb62udgBFlDmsjBD9Pld8t+ApKLTwiad6YhRu6rW+hDAJmhYQToMw==
   dependencies:
-    "@noble/hashes" "^1.1.3"
-    "@noble/secp256k1" "^1.6.3"
-    "@scure/bip39" "^1.1.0"
+    "@noble/hashes" "1.1.5"
+    "@noble/secp256k1" "1.7.1"
+    "@scure/bip39" "1.1.0"
     "@stacks/common" "^6.0.0"
     "@types/node" "^18.0.4"
     base64-js "^1.5.1"
@@ -2681,10 +2686,10 @@
     eslint-plugin-import ">=2.23.3"
     eslint-plugin-prettier "^3.4.0"
 
-"@stacks/network@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-6.0.0.tgz#c6bc59e7861c51e1e580782132a380ca550ba0f3"
-  integrity sha512-7acFYeR7YEmS8ZvK21OmI31x2jsjf1lepXV5qMs34DMz4bRylj5ZZ650lavvXk2a5o8/lop2qWQtvo9PtZ/ESQ==
+"@stacks/network@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-6.1.1.tgz#b6b01a8045375a055bb6e5598f4ff68da2d722a8"
+  integrity sha512-FXOujmszG/NkYKDVDRmPLmfSQJvcSfvucXLOq6SkkTOohxFgQrT7cgAydmEwBWDiEoPsuYPlE0grppcUYIO8rQ==
   dependencies:
     "@stacks/common" "^6.0.0"
     cross-fetch "^3.1.5"
@@ -2701,27 +2706,27 @@
   resolved "https://registry.yarnpkg.com/@stacks/prettier-config/-/prettier-config-0.0.7.tgz#22525c623fce6a5f1965fd29867df3d791ea7ef5"
   integrity sha512-fXd5X4SV5GqskCYZxqExZJ7wF5sOggmzFP4Q7ttmR/eXZKar3c9fqEpbrpRZyHUBZv2Nss46MvwTLQk2YlpIeg==
 
-"@stacks/profile@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/profile/-/profile-6.0.0.tgz#e50a809eef3fca66cf0745d065b836862648adf4"
-  integrity sha512-XzawNHUh2vq8kXxrKgfoWzbcNziYmiNy+qWCWwFk39N/dAjqIGSnZrc2eomrHHbWh2lkBXxxQggCGpoZJLhvMw==
+"@stacks/profile@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@stacks/profile/-/profile-6.1.1.tgz#f956837a9a8d2360100a478fb55be7be3c94c83c"
+  integrity sha512-r+cDdafKBkUUXtfGSo1MrzK090dqoJgJZaNUmkvoSW1V7b5sX1qkWx1zQJ/C74XOqBex1A6GAaVS62hnMC6E1w==
   dependencies:
     "@stacks/common" "^6.0.0"
-    "@stacks/network" "^6.0.0"
-    "@stacks/transactions" "^6.0.0"
+    "@stacks/network" "^6.1.1"
+    "@stacks/transactions" "^6.1.1"
     jsontokens "^4.0.1"
-    schema-inspector "2.0.1"
+    schema-inspector "^2.0.2"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/transactions@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.0.0.tgz#bbc817e61bd2fc116fc276f85d1387644f8a8f56"
-  integrity sha512-TQc6yhTMUhoCrN5gZ+YqzMHQ4VnL7pWhfYP96vs6mNyRchiYWhU+zONbKQ0KoVeYl3GUiOUh/9WsL6qeTmK6qQ==
+"@stacks/transactions@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.1.1.tgz#f686a560a78280f1ae148443d0ba78d8665f10f9"
+  integrity sha512-RyM4Y+UWXpz/seMa9B6MDqpneW+PFdcHIeF36p8X+N1b5yBJardg6LdI7VWn5KG4hKofYttwaVTIjotKYGRIRw==
   dependencies:
-    "@noble/hashes" "^1.1.3"
-    "@noble/secp256k1" "^1.6.3"
+    "@noble/hashes" "1.1.5"
+    "@noble/secp256k1" "1.7.1"
     "@stacks/common" "^6.0.0"
-    "@stacks/network" "^6.0.0"
+    "@stacks/network" "^6.1.1"
     c32check "^2.0.0"
     lodash.clonedeep "^4.5.0"
 
@@ -10440,10 +10445,10 @@ scheduler@^0.23.0:
   dependencies:
     loose-envify "^1.1.0"
 
-schema-inspector@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/schema-inspector/-/schema-inspector-2.0.1.tgz#6f3ae9763414439bf30b17b7fc53553884d489ef"
-  integrity sha512-lqR4tOVfoqf9Z8cgX/zvXuWPnTWCqrc4WSgeSPDDc1bWbMABaqdSTY98xj7iRKHOIRtKjc4M8EWCgUu5ASlHkg==
+schema-inspector@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/schema-inspector/-/schema-inspector-2.0.2.tgz#3b902e9095f4636428a890203d469b0d404ada5b"
+  integrity sha512-phq0/I55VGzl4kmq3Tp1jlY75Xtc1o7wfGmOEFTgGyucI6zIdEsiM7MJu9jjQf2SfMreqSbTi/ktUsEMs6pV7A==
   dependencies:
     async "~2.6.3"
 
