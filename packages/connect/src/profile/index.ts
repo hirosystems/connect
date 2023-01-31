@@ -1,11 +1,7 @@
 import { StacksTestnet } from '@stacks/network';
 import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-import {
-  ProfileUpdatePayload,
-  ProfileUpdatePopup,
-  ProfileUpdateRequestOptions,
-} from 'src/types/profile';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
+import { ProfileUpdatePayload, ProfileUpdatePopup, ProfileUpdateRequestOptions } from '../types';
 
 import { getStacksProvider } from '../utils';
 
