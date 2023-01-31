@@ -32,7 +32,6 @@ export interface ProfileUpdateRequestOptions extends ProfileUpdateBase {
 /**
  * Transaction Popup
  */
-
 export interface ProfileUpdatePopup {
   token: string;
   options: ProfileUpdateRequestOptions;
