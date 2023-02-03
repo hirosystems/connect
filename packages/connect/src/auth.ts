@@ -89,6 +89,7 @@ export const authenticate = async (authOptions: AuthOptions) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const getUserData = async (userSession?: UserSession) => {
   userSession = getOrCreateUserSession(userSession);
   if (userSession.isUserSignedIn()) {

@@ -24,8 +24,10 @@ function getStxAddress(options: CommonSignatureRequestOptions) {
   return address;
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: SignaturePayload, privateKey: string) {
   const tokenSigner = new TokenSigner('ES256k', privateKey);
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   return tokenSigner.signAsync({ ...payload } as any);
 }
 
@@ -62,6 +64,7 @@ export interface SignatureRequestPayload {
   message: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const signMessage = async (options: SignatureRequestOptions) => {
   const { userSession, ..._options } = options;
   if (hasAppPrivateKey(userSession)) {
@@ -75,6 +78,7 @@ export const signMessage = async (options: SignatureRequestOptions) => {
     return signPayload(payload, privateKey);
   }
   const payload = { ..._options };
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   return createUnsecuredToken(payload as any);
 };
 

@@ -94,12 +94,14 @@ function encodePostConditions(postConditions: PostCondition[]) {
   return postConditions.map(pc => bytesToHex(serializePostCondition(pc)));
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: TransactionPayload, privateKey: string) {
   let { postConditions } = payload;
   if (postConditions && typeof postConditions[0] !== 'string') {
     postConditions = encodePostConditions(postConditions as PostCondition[]);
   }
   const tokenSigner = new TokenSigner('ES256k', privateKey);
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   return tokenSigner.signAsync({ ...payload, postConditions } as any);
 }
 
@@ -140,6 +142,7 @@ const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const makeContractCallToken = async (options: ContractCallOptions) => {
   const { functionArgs, appDetails, userSession, ..._options } = options;
 
@@ -169,6 +172,7 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
   return createUnsignedTransactionPayload(payload);
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const makeContractDeployToken = async (options: ContractDeployOptions) => {
   const { appDetails, userSession, ..._options } = options;
   if (hasAppPrivateKey(userSession)) {
@@ -190,6 +194,7 @@ export const makeContractDeployToken = async (options: ContractDeployOptions) =>
   return createUnsignedTransactionPayload(payload);
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const makeSTXTransferToken = async (options: STXTransferOptions) => {
   const { amount, appDetails, userSession, ..._options } = options;
 
