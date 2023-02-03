@@ -29,6 +29,8 @@ export class Modal {
 
   @State() hasOpenedInstall: boolean;
 
+  @State() hasOpenedInstallXverse: boolean;
+
   @Element() modalEl: HTMLConnectModalElement;
 
   handleCloseModal() {
