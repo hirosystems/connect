@@ -5,6 +5,7 @@ import { ProfileUpdatePayload, ProfileUpdatePopup, ProfileUpdateRequestOptions }
 
 import { getStacksProvider } from '../utils';
 
+// eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: ProfileUpdatePayload, privateKey: string) {
   const tokenSigner = new TokenSigner('ES256k', privateKey);
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
@@ -39,6 +40,7 @@ async function openProfileUpdatePopup({ token, options }: ProfileUpdatePopup) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOptions) => {
   const { userSession, profile, ..._options } = options;
   if (hasAppPrivateKey(userSession)) {

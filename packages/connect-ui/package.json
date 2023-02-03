@@ -1,31 +1,23 @@
 {
   "name": "@stacks/connect-ui",
   "version": "6.0.0",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.js",
-  "types": "dist/types/components.d.ts",
-  "collection": "dist/collection/collection-manifest.json",
-  "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/connect-ui/connect-ui.js",
-  "files": [
-    "dist/",
-    "loader/"
-  ],
+  "license": "MIT",
+  "prettier": "@stacks/prettier-config",
   "scripts": {
     "build": "stencil build --docs",
     "dev": "stencil build --dev --watch",
+    "generate": "stencil generate",
+    "prepublishOnly": "yarn build",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "generate": "stencil generate",
-    "prepublishOnly": "yarn build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@stencil/core": "^2.17.1"
   },
-  "license": "MIT",
   "devDependencies": {
+    "@stacks/prettier-config": "^0.0.10",
     "@stencil/sass": "^1.5.2",
     "@types/node": "^14.6.0",
     "puppeteer": "^9.0.0"
@@ -33,7 +25,17 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "types": "dist/types/components.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "unpkg": "dist/connect-ui/connect-ui.js",
   "typedoc": {
     "entryPoint": "./src/index.ts"
-  }
+  },
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js"
 }

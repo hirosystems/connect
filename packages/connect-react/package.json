@@ -1,10 +1,11 @@
 {
   "name": "@stacks/connect-react",
   "version": "21.0.0",
+  "license": "MIT",
+  "prettier": "@stacks/prettier-config",
   "scripts": {
     "build": "concurrently 'yarn build:modules' 'yarn types'",
     "build:modules": "tsdx build --format cjs,esm,umd",
-    "types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "dev": "cd ../test-app && yarn start",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint \"src/**/*.{ts,tsx}\"",
@@ -14,30 +15,14 @@
     "prepublishOnly": "yarn build",
     "start": "tsdx watch",
     "test": "tsdx test",
-    "typecheck": "tsc --project tsconfig.json --noEmit"
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "types": "tsc --project tsconfig.json --emitDeclarationOnly"
   },
-  "prettier": "@stacks/prettier-config",
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false,
-  "typings": "dist/types/index.d.ts",
-  "bundlesize": [
-    {
-      "path": "./dist/**/*.js",
-      "maxSize": "9 kB"
-    }
-  ],
   "dependencies": {
     "@stacks/connect": "7.1.0",
     "jsontokens": "^4.0.1"
   },
   "devDependencies": {
-    "@babel/helper-validator-identifier": "^7.19.1",
-    "@babel/plugin-proposal-optional-chaining": "^7.20.7",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
-    "@types/jest": "^26.0.21",
     "@types/react-dom": "^17.0.2",
     "@types/styled-components": "^5.1.9",
     "bundlesize": "^0.18.1",
@@ -50,18 +35,28 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.1.0"
   },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],
-  "license": "MIT",
+  "typings": "dist/types/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "typedoc": {
+    "entryPoint": "./src/index.ts"
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/**/*.js",
+      "maxSize": "9 kB"
+    }
+  ],
   "peerDependencies": {
     "@stacks/connect": "7.1.0",
     "react": "^16.x || 17.x || 18.x",
     "react-dom": "^16.x || 17.x || 18.x"
-  },
-  "typedoc": {
-    "entryPoint": "./src/index.ts"
   }
 }

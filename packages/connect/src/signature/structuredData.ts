@@ -30,11 +30,13 @@ function parseUnserializableBigIntValues(payload: any) {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: StructuredDataSignaturePayload, privateKey: string) {
   const tokenSigner = new TokenSigner('ES256k', privateKey);
   return tokenSigner.signAsync(parseUnserializableBigIntValues(payload));
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function signStructuredMessage(options: StructuredDataSignatureRequestOptions) {
   const { userSession, ..._options } = options;
   if (hasAppPrivateKey(userSession)) {

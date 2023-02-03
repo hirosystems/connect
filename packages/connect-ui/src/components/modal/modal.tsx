@@ -1,3 +1,4 @@
+// eslint-disable-next-line unused-imports/no-unused-imports
 import { Component, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
@@ -26,13 +27,9 @@ const XVERSE_CHROME_STORE_URL =
 export class Modal {
   @Prop() authOptions: AuthOptions;
 
-  @State()
-  hasOpenedInstall: boolean;
+  @State() hasOpenedInstall: boolean;
 
-  @State()
-  hasOpenedInstallXverse: boolean;
-
-  @Element() modalEl: HTMLElement;
+  @Element() modalEl: HTMLConnectModalElement;
 
   handleCloseModal() {
     this.modalEl.remove();
