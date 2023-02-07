@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.0.1
+
+### Patch Changes
+
+- [#301](https://github.com/hirosystems/connect/pull/301) [`a1f4948`](https://github.com/hirosystems/connect/commit/a1f49482f43185e89f28ed56b5d8aac55f2734d3) Thanks [@janniks](https://github.com/janniks)! - Add Xverse desktop as a wallet option
+
 ## 6.0.0
 
 ### Major Changes
