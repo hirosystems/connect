@@ -1,5 +1,16 @@
 # Change Log
 
+## 7.1.1
+
+### Patch Changes
+
+- [#300](https://github.com/hirosystems/connect/pull/300) [`9d73405`](https://github.com/hirosystems/connect/commit/9d734052b9d195165660035c71bd3ddb3228c18e) Thanks [@janniks](https://github.com/janniks)! - Change absolute imports to relative, to fix issues in types with some bundlers.
+
+- [#299](https://github.com/hirosystems/connect/pull/299) [`3718639`](https://github.com/hirosystems/connect/commit/3718639bb09191d087d66c6062acd76551fb24e7) Thanks [@janniks](https://github.com/janniks)! - Update stacks.js dependencies
+
+- Updated dependencies [[`a1f4948`](https://github.com/hirosystems/connect/commit/a1f49482f43185e89f28ed56b5d8aac55f2734d3)]:
+  - @stacks/connect-ui@6.0.1
+
 ## 7.1.0
 
 ### Minor Changes

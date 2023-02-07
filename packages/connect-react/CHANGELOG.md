@@ -1,5 +1,12 @@
 # Change Log
 
+## 21.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`9d73405`](https://github.com/hirosystems/connect/commit/9d734052b9d195165660035c71bd3ddb3228c18e), [`3718639`](https://github.com/hirosystems/connect/commit/3718639bb09191d087d66c6062acd76551fb24e7)]:
+  - @stacks/connect@7.1.1
+
 ## 21.0.0
 
 ### Minor Changes
