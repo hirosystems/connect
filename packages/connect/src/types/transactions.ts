@@ -154,8 +154,16 @@ export interface STXTransferPayload extends STXTransferBase {
  * Transaction Popup
  */
 
-export type TransactionOptions = ContractCallOptions | ContractDeployOptions | STXTransferOptions;
-export type TransactionPayload = ContractCallPayload | ContractDeployPayload | STXTransferPayload;
+export type TransactionOptions =
+  | ContractCallOptions
+  | ContractDeployOptions
+  | STXTransferOptions
+  | BTCTransferOptions;
+export type TransactionPayload =
+  | ContractCallPayload
+  | ContractDeployPayload
+  | STXTransferPayload
+  | BTCTransferPayload;
 
 export interface TransactionPopup {
   token: string;
@@ -166,13 +174,16 @@ export interface TransactionPopup {
  * BTC Transfer
  */
 
-export interface BTCTransferOptions extends RegularOptionsBase {
+export interface BtcRecipient {
   recipient: string;
   amount: bigint | number | string;
 }
 
+export interface BTCTransferOptions extends RegularOptionsBase {
+  recipients: BtcRecipient[];
+}
+
 export interface BTCTransferPayload extends BTCTransferOptions {
-  recipient: string;
-  amount: string;
+  recipients: BtcRecipient[];
   txType: TransactionTypes.BTCTransfer;
 }
