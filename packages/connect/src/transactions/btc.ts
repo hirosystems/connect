@@ -1,6 +1,7 @@
 import { createUnsecuredToken, Json } from 'jsontokens';
-import { BTCTransferOptions, BTCTransferPayload, TransactionTypes } from 'src/types';
-import { getStacksProvider } from 'src/utils';
+import { getDefaults, getStxAddress } from '.';
+import { BtcRecipient, BTCTransferOptions, BTCTransferPayload, TransactionTypes } from '../types';
+import { getStacksProvider } from '../utils';
 
 const openGenericTransactionPopup = async ({
   token,
@@ -25,15 +26,23 @@ const openGenericTransactionPopup = async ({
 };
 
 export function openBTCTransfer(options: BTCTransferOptions): Promise<void> {
-  const { amount, ..._options } = {
+  const { recipients, ..._options } = {
     // todo: do we maybe want userSession, stxAddress, ...?
     // ...getDefaults(options),
     ...options,
   };
 
+  const payLoadRecipients: BtcRecipient[] = [];
+  recipients.forEach(recipient => {
+    payLoadRecipients.push({
+      recipient: recipient.recipient,
+      amount: recipient.amount.toString(10),
+    });
+  });
+
   const payload: Partial<BTCTransferPayload> = {
     ..._options,
-    amount: amount.toString(10),
+    recipients: payLoadRecipients,
     txType: TransactionTypes.BTCTransfer,
   };
 
