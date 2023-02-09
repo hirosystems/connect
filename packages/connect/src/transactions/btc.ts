@@ -1,5 +1,4 @@
 import { createUnsecuredToken, Json } from 'jsontokens';
-import { getDefaults, getStxAddress } from '.';
 import { BtcRecipient, BTCTransferOptions, BTCTransferPayload, TransactionTypes } from '../types';
 import { getStacksProvider } from '../utils';
 
@@ -25,6 +24,11 @@ const openGenericTransactionPopup = async ({
   }
 };
 
+/**
+ * ⚠ Experimental method for opening a BTC transfer request. This API interface
+ * subject to change and does not adhere to semantic versioning.
+ * @experimental
+ */
 export function openBTCTransfer(options: BTCTransferOptions): Promise<void> {
   const { recipients, ..._options } = {
     // todo: do we maybe want userSession, stxAddress, ...?
