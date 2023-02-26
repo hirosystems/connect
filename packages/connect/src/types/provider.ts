@@ -1,4 +1,6 @@
 import { PublicProfile } from '@stacks/profile';
+
+import { PsbtData } from './bitcoin';
 import { SignatureData } from './signature';
 import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
@@ -21,6 +23,10 @@ export interface StacksProvider {
   authenticationRequest(payload: string): Promise<string>;
   signatureRequest(payload: string): Promise<SignatureData>;
   structuredDataSignatureRequest(payload: string): Promise<SignatureData>;
+  /**
+   *  @experimental
+   */
+  psbtRequest(payload: string): Promise<PsbtData>;
   profileUpdateRequest(payload: string): Promise<PublicProfile>;
   request(method: string, params?: any[]): Promise<Record<string, any>>;
   getProductInfo:

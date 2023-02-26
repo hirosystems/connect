@@ -1,4 +1,5 @@
 export * from './auth';
+export * from './bitcoin';
 export * from './transactions';
 export * from './signature';
 export * from './signature/structuredData';

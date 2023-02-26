@@ -11,9 +11,11 @@ import {
   openContractCall,
   openContractDeploy,
   openProfileUpdateRequestPopup,
+  openPsbtRequestPopup,
   openSignatureRequestPopup,
   openStructuredDataSignatureRequestPopup,
   openSTXTransfer,
+  PsbtRequestOptions,
   ProfileUpdateRequestOptions,
   showBlockstackConnect,
   SignatureRequestOptions,
@@ -136,6 +138,14 @@ export const useConnect = () => {
     });
   }
 
+  function signPsbt(options: PsbtRequestOptions) {
+    return openPsbtRequestPopup({
+      ...options,
+      authOrigin: authOptions.authOrigin,
+      appDetails: authOptions.appDetails,
+    });
+  }
+
   return {
     isOpen,
     isAuthenticating,
@@ -151,5 +161,6 @@ export const useConnect = () => {
     doProfileUpdate,
     sign,
     signStructuredData,
+    signPsbt,
   };
 };
