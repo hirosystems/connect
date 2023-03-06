@@ -95,3 +95,13 @@ jobs:
           BRANCH: ${{ steps.git-branch.outputs.branch }}
           SHA: ${{ steps.git-commit.outputs.sha }}
         run: yarn lerna publish prepatch --preid alpha.$SHA --dist-tag $BRANCH --yes --no-push
+      - name: Get alpha package versions
+        id: alpha
+        run: |
+          echo "connect=$(cat packages/connect/package.json | jq -r '.version')" >> "$GITHUB_OUTPUT"
+          echo "connectreact=$(cat packages/connect-react/package.json | jq -r '.version')" >> "$GITHUB_OUTPUT"
+          echo "connectui=$(cat packages/connect-ui/package.json | jq -r '.version')" >> "$GITHUB_OUTPUT"
+      - uses: janniks/pull-request-fixed-header@v1.0.1
+        with:
+          header: "> This PR was published to npm with the alpha versions:\n> - connect `npm install @stacks/connect@${{ steps.alpha.outputs.connect }} --save-exact`\n> - connect-react `npm install @stacks/connect-react@${{ steps.alpha.outputs.connectreact }} --save-exact`\n> - connect-ui `npm install @stacks/connect-ui@${{ steps.alpha.outputs.connectui }} --save-exact`"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
