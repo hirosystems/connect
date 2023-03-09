@@ -1,5 +1,11 @@
 # Change Log
 
+## 7.2.0
+
+### Minor Changes
+
+- [#308](https://github.com/hirosystems/connect/pull/308) [`0299f76`](https://github.com/hirosystems/connect/commit/0299f765eeb5d06a6c1d43630330e1af1b5cdff7) Thanks [@fbwoolf](https://github.com/fbwoolf)! - Add support for Partially Signed Bitcoin Transaction requests
+
 ## 7.1.1
 
 ### Patch Changes
