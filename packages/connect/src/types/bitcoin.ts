@@ -33,7 +33,7 @@ export interface PsbtBase {
 export interface PsbtRequestOptions extends PsbtBase {
   allowedSighash?: SignatureHash[];
   hex: string;
-  signAtIndex?: number;
+  signAtIndex?: number | number[];
 }
 
 export interface CommonPsbtPayload extends PsbtBase {
@@ -43,7 +43,7 @@ export interface CommonPsbtPayload extends PsbtBase {
 export interface PsbtPayload extends CommonPsbtPayload {
   allowedSighash?: SignatureHash[];
   hex: string;
-  signAtIndex?: number;
+  signAtIndex?: number | number[];
 }
 
 /**
