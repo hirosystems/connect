@@ -55,7 +55,6 @@
     }
   ],
   "peerDependencies": {
-    "@stacks/connect": "7.2.0",
     "react": "^16.x || 17.x || 18.x",
     "react-dom": "^16.x || 17.x || 18.x"
   }
