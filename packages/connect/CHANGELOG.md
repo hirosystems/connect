@@ -1,5 +1,11 @@
 # Change Log
 
+## 7.2.1
+
+### Patch Changes
+
+- [#310](https://github.com/hirosystems/connect/pull/310) [`104d513`](https://github.com/hirosystems/connect/commit/104d513f8167100b20e6cfa4e82eb5a18a475e9c) Thanks [@fbwoolf](https://github.com/fbwoolf)! - Change psbt request option signAtIndex to a number or an array of numbers.
+
 ## 7.2.0
 
 ### Minor Changes
