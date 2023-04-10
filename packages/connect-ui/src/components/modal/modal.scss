@@ -37,6 +37,12 @@
   border-radius: 12px;
   padding: 20px 24px 20px;
   box-sizing: border-box;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @include mobile {
     max-height: 100%;
