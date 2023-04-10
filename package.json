@@ -12,7 +12,7 @@
     "build:connect-ui": "lerna run build --scope @stacks/connect-ui",
     "build:docs": "typedoc && mkdir -p docs/.github && cp -r .github/img docs/.github/img",
     "deploy-contracts": "lerna run deploy-contracts --stream",
-    "postinstall": "husky install .github/.husky && patch-package && yarn build:connect-ui",
+    "postinstall": "concurrently 'husky install .github/.husky' 'yarn build:connect-ui'",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint \"packages/**/src/**/*.{ts,tsx}\"",
     "lint:eslint:fix": "eslint \"packages/**/src/**/*.{ts,tsx}\" --fix",
@@ -24,14 +24,15 @@
     "types:connect-react": "lerna run types --scope @stacks/connect-react"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.3.0",
+    "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.14.1",
-    "@commitlint/cli": "^17.4.0",
-    "@commitlint/config-conventional": "^17.4.0",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "@janniks/typedoc-theme-stacks": "^1.2.3",
     "@stacks/eslint-config": "^1.3.0-alpha.1",
     "@stacks/prettier-config": "^0.0.10",
     "@stencil-community/eslint-plugin": "^0.5.0",
+    "concurrently": "^7.6.0",
     "eslint": "^8.33.0",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
@@ -40,17 +41,12 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.3",
-    "jsx-ast-utils": "^3.2.0",
     "lerna": "^5.0.0",
-    "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0",
+    "prettier": "^2.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsdx": "^0.14.1",
+    "tsup": "^6.6.3",
     "typedoc": "^0.23.20",
     "typescript": "^4.8.4"
-  },
-  "resolutions": {
-    "tsdx": "^0.14.1"
   }
 }

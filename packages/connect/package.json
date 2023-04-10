@@ -4,13 +4,8 @@
   "license": "MIT",
   "prettier": "@stacks/prettier-config",
   "scripts": {
-    "build": "rimraf dist && concurrently 'yarn build:modules' 'yarn build:standalone'",
-    "build:modules": "concurrently 'tsdx build --tsconfig tsconfig.json' 'yarn types'",
-    "build:standalone": "NODE_ENV=production webpack --config webpack.config.js --mode=production",
-    "build:standalone:analyze": "NODE_ENV=production ANALYZE=true webpack --mode=production",
+    "build": "concurrently 'tsup src/index.ts' 'yarn types'",
     "prepublishOnly": "yarn build",
-    "start": "tsdx watch",
-    "test": "tsdx test",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "types": "tsc --project tsconfig.json --emitDeclarationOnly"
   },
@@ -20,28 +15,7 @@
     "@stacks/network": "^6.1.1",
     "@stacks/profile": "^6.1.1",
     "@stacks/transactions": "^6.1.1",
-    "jsontokens": "^4.0.1",
-    "url": "^0.11.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-replace": "^2.4.1",
-    "@stacks/prettier-config": "^0.0.10",
-    "concurrently": "^6.0.0",
-    "esbuild": "^0.9.3",
-    "esbuild-loader": "^2.10.0",
-    "process": "^0.11.10",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.41.4",
-    "rollup-plugin-esbuild": "^3.0.2",
-    "stream-browserify": "^3.0.0",
-    "tsconfig-paths-webpack-plugin": "^3.5.1",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.1.0",
-    "vm-browserify": "^1.1.2",
-    "webpack": "^5.26.3",
-    "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.5.0",
-    "webpackbar": "^5.0.0-3"
+    "jsontokens": "^4.0.1"
   },
   "sideEffects": false,
   "publishConfig": {
@@ -52,11 +26,12 @@
   ],
   "typings": "dist/types/index.d.ts",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
+  "umd:main": "dist/index.global.js",
+  "unpkg": "dist/index.global.js",
   "browser": {
     "crypto": false
   },
-  "unpkg": "dist/bundle.js",
   "typedoc": {
     "entryPoint": "./src/index.ts"
   }

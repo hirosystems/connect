@@ -29,13 +29,25 @@
     "dist/",
     "loader/"
   ],
-  "types": "dist/types/components.d.ts",
+  "types": "dist/types/index.d.ts",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "unpkg": "dist/connect-ui/connect-ui.js",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/connect-ui/connect-ui.esm.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "import": "./loader/index.js",
+      "require": "./loader/index.cjs.js"
+    }
+  },
   "typedoc": {
     "entryPoint": "./src/index.ts"
-  },
-  "collection": "dist/collection/collection-manifest.json",
-  "collection:main": "dist/collection/index.js"
+  }
 }

@@ -1,18 +1,36 @@
 {
-  "include": [
-    "./**/*"
-  ],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "lib": ["dom", "es2017"],
+    "target": "es2017",
+
+    "module": "esnext",
+    "moduleResolution": "node",
+
+    "composite": true,
+    "declaration": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "paths": {
+      "@stacks/connect/*": ["../connect/src/*"]
+    }
   },
+
+  "include": ["./**/*"],
+
   "typedocOptions": {
     "name": "Stacks Connect",
     "entryPointStrategy": "packages",
-    "entryPoints": [
-      "packages/*"
-    ],
+    "entryPoints": ["packages/*"],
     "out": "docs",
     "theme": "stacks"
   }
