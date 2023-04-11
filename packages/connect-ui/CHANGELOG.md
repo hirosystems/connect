@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.1.0
+
+### Minor Changes
+
+- [#305](https://github.com/hirosystems/connect/pull/305) [`c987060`](https://github.com/hirosystems/connect/commit/c987060a1771789db804466b0855e3758ee923c0) Thanks [@janniks](https://github.com/janniks)! - Update build tools to tsup
+
 ## 6.0.1
 
 ### Patch Changes
