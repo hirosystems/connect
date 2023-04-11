@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - name: Create Release Pull Request
-        uses: changesets/action@595655c3eae7136ff5ba18200406898904362926
+        uses: changesets/action@e9cc34b540dd3ad1b030c57fd97269e8f6ad905a
         with:
           title: "chore: version packages"
           commit: "chore: version packages"
