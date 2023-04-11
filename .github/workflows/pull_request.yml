@@ -32,17 +32,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Set Node Version
-        uses: actions/setup-node@v2-beta
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.14.2
-      - name: Restore lerna cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          node-version: "18"
+          cache: "yarn"
       - name: Code Checks
         uses: ./.github/actions/code-checks
 
@@ -56,17 +50,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Set Node Version
-        uses: actions/setup-node@v2-beta
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.14.2
-      - name: Restore lerna cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          node-version: "18"
+          cache: "yarn"
       - name: Install monorepo deps
         run: yarn --frozen-lockfile
       - name: Bootstrap
