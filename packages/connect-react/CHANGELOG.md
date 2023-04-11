@@ -1,5 +1,16 @@
 # Change Log
 
+## 22.1.0
+
+### Minor Changes
+
+- [#305](https://github.com/hirosystems/connect/pull/305) [`c987060`](https://github.com/hirosystems/connect/commit/c987060a1771789db804466b0855e3758ee923c0) Thanks [@janniks](https://github.com/janniks)! - Update build tools to tsup
+
+### Patch Changes
+
+- Updated dependencies [[`c987060`](https://github.com/hirosystems/connect/commit/c987060a1771789db804466b0855e3758ee923c0)]:
+  - @stacks/connect@7.3.0
+
 ## 22.0.1
 
 ### Patch Changes
