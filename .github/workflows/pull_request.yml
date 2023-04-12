@@ -62,7 +62,7 @@ jobs:
       - name: Setup .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - name: Get git branch
         id: git-branch
         run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD | cut -d'/' -f2 )"
