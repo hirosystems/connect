@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "license": "MIT",
   "prettier": "@stacks/prettier-config",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@stacks/auth": "^6.1.1",
-    "@stacks/connect-ui": "6.1.0",
+    "@stacks/connect-ui": "6.1.1",
     "@stacks/network": "^6.1.1",
     "@stacks/profile": "^6.1.1",
     "@stacks/transactions": "^6.1.1",

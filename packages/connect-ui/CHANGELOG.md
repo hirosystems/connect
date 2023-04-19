@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.1.1
+
+### Patch Changes
+
+- [#318](https://github.com/hirosystems/connect/pull/318) [`edfad7b`](https://github.com/hirosystems/connect/commit/edfad7b093e50f359934352b57764d29ac2f1bdc) Thanks [@janniks](https://github.com/janniks)! - Fix wallet card overflow
+
 ## 6.1.0
 
 ### Minor Changes

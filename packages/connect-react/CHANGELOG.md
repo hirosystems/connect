@@ -1,5 +1,12 @@
 # Change Log
 
+## 22.1.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @stacks/connect@7.3.1
+
 ## 22.1.0
 
 ### Minor Changes
