@@ -222,32 +222,33 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
 
 async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider = getStacksProvider()
 ) {
   const token = await makeTokenFn({
     ...getDefaults(options),
     ...options,
   } as T);
-  return openTransactionPopup({ token, options });
+  return openTransactionPopup({ token, options }, provider);
 }
 
-export function openContractCall(options: ContractCallRegularOptions): Promise<void>;
-export function openContractCall(options: ContractCallSponsoredOptions): Promise<void>;
-export function openContractCall(options: ContractCallOptions): Promise<void>;
-export function openContractCall(options: ContractCallOptions) {
-  return generateTokenAndOpenPopup(options, makeContractCallToken);
+export function openContractCall(
+  options: ContractCallOptions | ContractCallRegularOptions | ContractCallSponsoredOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, makeContractCallToken, provider);
 }
 
-export function openContractDeploy(options: ContractDeployRegularOptions): Promise<void>;
-export function openContractDeploy(options: ContractDeploySponsoredOptions): Promise<void>;
-export function openContractDeploy(options: ContractDeployOptions): Promise<void>;
-export function openContractDeploy(options: ContractDeployOptions) {
-  return generateTokenAndOpenPopup(options, makeContractDeployToken);
+export function openContractDeploy(
+  options: ContractDeployOptions | ContractDeployRegularOptions | ContractDeploySponsoredOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, makeContractDeployToken, provider);
 }
 
-export function openSTXTransfer(options: STXTransferRegularOptions): Promise<void>;
-export function openSTXTransfer(options: STXTransferSponsoredOptions): Promise<void>;
-export function openSTXTransfer(options: STXTransferOptions): Promise<void>;
-export function openSTXTransfer(options: STXTransferOptions) {
-  return generateTokenAndOpenPopup(options, makeSTXTransferToken);
+export function openSTXTransfer(
+  options: STXTransferOptions | STXTransferRegularOptions | STXTransferSponsoredOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
 }

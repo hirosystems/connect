@@ -65,15 +65,19 @@ export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOption
 
 async function generateTokenAndOpenPopup<T extends ProfileUpdateRequestOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider = getStacksProvider()
 ) {
   const token = await makeTokenFn({
     ...getDefaultProfileUpdateRequestOptions(options),
     ...options,
   } as T);
-  return openProfileUpdatePopup({ token, options });
+  return openProfileUpdatePopup({ token, options }, provider);
 }
 
-export function openProfileUpdateRequestPopup(options: ProfileUpdateRequestOptions) {
-  return generateTokenAndOpenPopup(options, makeProfileUpdateToken);
+export function openProfileUpdateRequestPopup(
+  options: ProfileUpdateRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, makeProfileUpdateToken, provider);
 }

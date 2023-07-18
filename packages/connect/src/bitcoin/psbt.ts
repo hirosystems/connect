@@ -63,18 +63,22 @@ export const makePsbtToken = async (options: PsbtRequestOptions) => {
 
 async function generateTokenAndOpenPopup<T extends PsbtRequestOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider = getStacksProvider()
 ) {
   const token = await makeTokenFn({
     ...getDefaultPsbtRequestOptions(options),
     ...options,
   } as T);
-  return openPsbtPopup({ token, options });
+  return openPsbtPopup({ token, options }, provider);
 }
 
 /**
  * @experimental
  */
-export function openPsbtRequestPopup(options: PsbtRequestOptions) {
-  return generateTokenAndOpenPopup(options, makePsbtToken);
+export function openPsbtRequestPopup(
+  options: PsbtRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, makePsbtToken, provider);
 }

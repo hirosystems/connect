@@ -14,13 +14,14 @@ import { StacksProvider } from '../types';
 
 async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider = getStacksProvider()
 ) {
   const token = await makeTokenFn({
     ...getDefaultSignatureRequestOptions(options),
     ...options,
   } as T);
-  return openStructuredDataSignaturePopup({ token, options });
+  return openStructuredDataSignaturePopup({ token, options }, provider);
 }
 
 function parseUnserializableBigIntValues(payload: any) {
@@ -70,7 +71,8 @@ async function openStructuredDataSignaturePopup(
 }
 
 export function openStructuredDataSignatureRequestPopup(
-  options: StructuredDataSignatureRequestOptions
+  options: StructuredDataSignatureRequestOptions,
+  provider: StacksProvider = getStacksProvider()
 ) {
-  return generateTokenAndOpenPopup(options, signStructuredMessage);
+  return generateTokenAndOpenPopup(options, signStructuredMessage, provider);
 }

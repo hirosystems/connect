@@ -85,15 +85,19 @@ export const signMessage = async (options: SignatureRequestOptions) => {
 
 async function generateTokenAndOpenPopup<T extends SignatureOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider = getStacksProvider()
 ) {
   const token = await makeTokenFn({
     ...getDefaultSignatureRequestOptions(options),
     ...options,
   } as T);
-  return openSignaturePopup({ token, options });
+  return openSignaturePopup({ token, options }, provider);
 }
 
-export function openSignatureRequestPopup(options: SignatureRequestOptions) {
-  return generateTokenAndOpenPopup(options, signMessage);
+export function openSignatureRequestPopup(
+  options: SignatureRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, signMessage, provider);
 }
