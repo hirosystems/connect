@@ -22,6 +22,7 @@ import {
   STXTransferOptions,
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
+  StacksProvider,
 } from '@stacks/connect';
 import { StructuredDataSignatureRequestOptions } from '@stacks/connect/src/types/structuredDataSignature';
 import { useContext } from 'react';
@@ -36,6 +37,7 @@ const useConnectDispatch = () => {
 };
 
 export const useConnect = () => {
+  // todo: add custom provider injection in connect context
   const { isOpen, isAuthenticating, authData, authOptions, userSession } =
     useContext(ConnectContext);
 
@@ -50,7 +52,11 @@ export const useConnect = () => {
    * @param signIn Whether the user should be sent to sign in
    * @param options
    */
-  const doOpenAuth = (signIn?: boolean, options?: Partial<AuthOptions>) => {
+  const doOpenAuth = (
+    signIn?: boolean,
+    options?: Partial<AuthOptions>,
+    provider?: StacksProvider
+  ) => {
     if (signIn) {
       const _options: AuthOptions = {
         ...authOptions,
@@ -60,7 +66,7 @@ export const useConnect = () => {
         },
         sendToSignIn: true,
       };
-      void authenticate(_options);
+      void authenticate(_options, provider);
       return;
     } else {
       showBlockstackConnect({
@@ -71,79 +77,106 @@ export const useConnect = () => {
     authOptions && doUpdateAuthOptions(authOptions);
   };
 
-  const doAuth = (options: Partial<AuthOptions> = {}) => {
-    void authenticate({
-      ...authOptions,
-      ...options,
-      onFinish: (payload: FinishedAuthData) => {
-        authOptions.onFinish?.(payload);
+  const doAuth = (options: Partial<AuthOptions> = {}, provider?: StacksProvider) => {
+    void authenticate(
+      {
+        ...authOptions,
+        ...options,
+        onFinish: (payload: FinishedAuthData) => {
+          authOptions.onFinish?.(payload);
+        },
       },
-    });
+      provider
+    );
   };
 
-  function doContractCall(options: ContractCallRegularOptions): Promise<void>;
-  function doContractCall(options: ContractCallSponsoredOptions): Promise<void>;
-  function doContractCall(options: ContractCallOptions): Promise<void>;
-  function doContractCall(options: ContractCallOptions) {
-    return openContractCall({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function doContractCall(
+    options: ContractCallOptions | ContractCallRegularOptions | ContractCallSponsoredOptions,
+    provider?: StacksProvider
+  ) {
+    return openContractCall(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
-  function doContractDeploy(options: ContractDeployRegularOptions): Promise<void>;
-  function doContractDeploy(options: ContractDeploySponsoredOptions): Promise<void>;
-  function doContractDeploy(options: ContractDeployOptions): Promise<void>;
-  function doContractDeploy(options: ContractDeployOptions) {
-    return openContractDeploy({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function doContractDeploy(
+    options: ContractDeployOptions | ContractDeployRegularOptions | ContractDeploySponsoredOptions,
+    provider?: StacksProvider
+  ) {
+    return openContractDeploy(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
-  function doSTXTransfer(options: STXTransferRegularOptions): Promise<void>;
-  function doSTXTransfer(options: STXTransferSponsoredOptions): Promise<void>;
-  function doSTXTransfer(options: STXTransferOptions): Promise<void>;
-  function doSTXTransfer(options: STXTransferOptions) {
-    return openSTXTransfer({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function doSTXTransfer(
+    options: STXTransferOptions | STXTransferRegularOptions | STXTransferSponsoredOptions,
+    provider?: StacksProvider
+  ) {
+    return openSTXTransfer(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
-  function doProfileUpdate(options: ProfileUpdateRequestOptions) {
-    return openProfileUpdateRequestPopup({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function doProfileUpdate(options: ProfileUpdateRequestOptions, provider?: StacksProvider) {
+    return openProfileUpdateRequestPopup(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
-  function sign(options: SignatureRequestOptions) {
-    return openSignatureRequestPopup({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function sign(options: SignatureRequestOptions, provider?: StacksProvider) {
+    return openSignatureRequestPopup(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
-  function signStructuredData(options: StructuredDataSignatureRequestOptions) {
-    return openStructuredDataSignatureRequestPopup({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function signStructuredData(
+    options: StructuredDataSignatureRequestOptions,
+    provider?: StacksProvider
+  ) {
+    return openStructuredDataSignatureRequestPopup(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
-  function signPsbt(options: PsbtRequestOptions) {
-    return openPsbtRequestPopup({
-      ...options,
-      authOrigin: authOptions.authOrigin,
-      appDetails: authOptions.appDetails,
-    });
+  function signPsbt(options: PsbtRequestOptions, provider?: StacksProvider) {
+    return openPsbtRequestPopup(
+      {
+        ...options,
+        authOrigin: authOptions.authOrigin,
+        appDetails: authOptions.appDetails,
+      },
+      provider
+    );
   }
 
   return {
