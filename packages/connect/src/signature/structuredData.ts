@@ -15,7 +15,7 @@ import { StacksProvider } from '../types';
 async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOptions>(
   options: T,
   makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultSignatureRequestOptions(options),
@@ -56,10 +56,8 @@ export async function signStructuredMessage(options: StructuredDataSignatureRequ
 
 async function openStructuredDataSignaturePopup(
   { token, options }: StructuredDataSignaturePopup,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-
   try {
     const signatureResponse = await provider.structuredDataSignatureRequest(token);
 
@@ -74,5 +72,6 @@ export function openStructuredDataSignatureRequestPopup(
   options: StructuredDataSignatureRequestOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, signStructuredMessage, provider);
 }

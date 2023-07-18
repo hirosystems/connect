@@ -32,10 +32,8 @@ export function getDefaultProfileUpdateRequestOptions(options: ProfileUpdateRequ
 
 async function openProfileUpdatePopup(
   { token, options }: ProfileUpdatePopup,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-
   try {
     const profileUpdateResponse = await provider.profileUpdateRequest(token);
     options.onFinish?.(profileUpdateResponse);
@@ -66,7 +64,7 @@ export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOption
 async function generateTokenAndOpenPopup<T extends ProfileUpdateRequestOptions>(
   options: T,
   makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultProfileUpdateRequestOptions(options),
@@ -79,5 +77,6 @@ export function openProfileUpdateRequestPopup(
   options: ProfileUpdateRequestOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, makeProfileUpdateToken, provider);
 }

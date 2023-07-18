@@ -46,12 +46,7 @@ export function getDefaultSignatureRequestOptions(options: CommonSignatureReques
   };
 }
 
-async function openSignaturePopup(
-  { token, options }: SignaturePopup,
-  provider: StacksProvider = getStacksProvider()
-) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-
+async function openSignaturePopup({ token, options }: SignaturePopup, provider: StacksProvider) {
   try {
     const signatureResponse = await provider.signatureRequest(token);
     options.onFinish?.(signatureResponse);
@@ -86,7 +81,7 @@ export const signMessage = async (options: SignatureRequestOptions) => {
 async function generateTokenAndOpenPopup<T extends SignatureOptions>(
   options: T,
   makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultSignatureRequestOptions(options),
@@ -99,5 +94,6 @@ export function openSignatureRequestPopup(
   options: SignatureRequestOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, signMessage, provider);
 }

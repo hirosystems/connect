@@ -116,10 +116,8 @@ function createUnsignedTransactionPayload(payload: Partial<TransactionPayload>) 
 
 const openTransactionPopup = async (
   { token, options }: TransactionPopup,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) => {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-
   try {
     const txResponse = await provider.transactionRequest(token);
     const { txRaw } = txResponse;
@@ -223,7 +221,7 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
 async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   options: T,
   makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaults(options),
@@ -236,6 +234,7 @@ export function openContractCall(
   options: ContractCallOptions | ContractCallRegularOptions | ContractCallSponsoredOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, makeContractCallToken, provider);
 }
 
@@ -243,6 +242,7 @@ export function openContractDeploy(
   options: ContractDeployOptions | ContractDeployRegularOptions | ContractDeploySponsoredOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, makeContractDeployToken, provider);
 }
 
@@ -250,5 +250,6 @@ export function openSTXTransfer(
   options: STXTransferOptions | STXTransferRegularOptions | STXTransferSponsoredOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
 }
