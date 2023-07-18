@@ -10,6 +10,7 @@ import {
   StructuredDataSignatureRequestOptions,
 } from '../types/structuredDataSignature';
 import { getStacksProvider } from '../utils';
+import { StacksProvider } from '../types';
 
 async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOptions>(
   options: T,
@@ -52,11 +53,11 @@ export async function signStructuredMessage(options: StructuredDataSignatureRequ
   return createUnsecuredToken(parseUnserializableBigIntValues(options));
 }
 
-async function openStructuredDataSignaturePopup({ token, options }: StructuredDataSignaturePopup) {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed.');
-  }
+async function openStructuredDataSignaturePopup(
+  { token, options }: StructuredDataSignaturePopup,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
 
   try {
     const signatureResponse = await provider.structuredDataSignatureRequest(token);

@@ -2,12 +2,17 @@ import { authenticate } from './auth';
 import type { AuthOptions } from './types/auth';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
 import { getStacksProvider } from './utils';
+import { StacksProvider } from './types';
 
-export const showConnect = (authOptions: AuthOptions) => {
-  if (getStacksProvider()) {
+export const showConnect = (
+  authOptions: AuthOptions,
+  provider: StacksProvider = getStacksProvider()
+) => {
+  if (provider) {
     void authenticate(authOptions);
     return;
   }
+
   if (typeof window !== undefined) {
     void defineCustomElements(window);
     const element = document.createElement('connect-modal');

@@ -1,7 +1,12 @@
 import { StacksTestnet } from '@stacks/network';
 import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
-import { ProfileUpdatePayload, ProfileUpdatePopup, ProfileUpdateRequestOptions } from '../types';
+import {
+  ProfileUpdatePayload,
+  ProfileUpdatePopup,
+  ProfileUpdateRequestOptions,
+  StacksProvider,
+} from '../types';
 
 import { getStacksProvider } from '../utils';
 
@@ -25,11 +30,11 @@ export function getDefaultProfileUpdateRequestOptions(options: ProfileUpdateRequ
   };
 }
 
-async function openProfileUpdatePopup({ token, options }: ProfileUpdatePopup) {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed.');
-  }
+async function openProfileUpdatePopup(
+  { token, options }: ProfileUpdatePopup,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
 
   try {
     const profileUpdateResponse = await provider.profileUpdateRequest(token);

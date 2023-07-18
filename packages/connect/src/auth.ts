@@ -1,6 +1,6 @@
 import { AppConfig, UserSession } from '@stacks/auth';
 import { decodeToken } from 'jsontokens';
-import type { AuthOptions, AuthResponsePayload } from './types';
+import type { AuthOptions, AuthResponsePayload, StacksProvider } from './types';
 
 import { getStacksProvider } from './utils';
 
@@ -38,11 +38,11 @@ export const getOrCreateUserSession = (userSession?: UserSession): UserSession =
   return userSession;
 };
 
-export const authenticate = async (authOptions: AuthOptions) => {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Unable to authenticate without Hiro Wallet extension');
-  }
+export const authenticate = async (
+  authOptions: AuthOptions,
+  provider: StacksProvider = getStacksProvider()
+) => {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
 
   const {
     redirectTo = '/',

@@ -30,6 +30,7 @@ import {
   TransactionTypes,
 } from '../types/transactions';
 import { getStacksProvider } from '../utils';
+import { StacksProvider } from '../types';
 
 // TODO extract out of transactions
 export const getUserSession = (_userSession?: UserSession) => {
@@ -113,11 +114,11 @@ function createUnsignedTransactionPayload(payload: Partial<TransactionPayload>) 
   return createUnsecuredToken({ ...payload, postConditions } as unknown as Json);
 }
 
-const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed');
-  }
+const openTransactionPopup = async (
+  { token, options }: TransactionPopup,
+  provider: StacksProvider = getStacksProvider()
+) => {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
 
   try {
     const txResponse = await provider.transactionRequest(token);
