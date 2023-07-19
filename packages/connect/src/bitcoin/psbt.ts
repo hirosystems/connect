@@ -26,10 +26,7 @@ export function getDefaultPsbtRequestOptions(options: PsbtRequestOptions) {
   };
 }
 
-async function openPsbtPopup(
-  { token, options }: PsbtPopup,
-  provider: StacksProvider = getStacksProvider()
-) {
+async function openPsbtPopup({ token, options }: PsbtPopup, provider: StacksProvider) {
   if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
 
   try {
@@ -64,7 +61,7 @@ export const makePsbtToken = async (options: PsbtRequestOptions) => {
 async function generateTokenAndOpenPopup<T extends PsbtRequestOptions>(
   options: T,
   makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider = getStacksProvider()
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultPsbtRequestOptions(options),
