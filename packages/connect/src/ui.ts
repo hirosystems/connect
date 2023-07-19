@@ -9,7 +9,7 @@ export const showConnect = (
   provider: StacksProvider = getStacksProvider()
 ) => {
   if (provider) {
-    void authenticate(authOptions);
+    void authenticate(authOptions, provider);
     return;
   }
 
