@@ -85,9 +85,6 @@ openSTXTransfer({
   amount: 10000, // tokens, denominated in micro-STX
   memo: 'Nr. 1337', // optional; a memo to help identify the tx
 
-  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
-  postConditions: [], // for an example using post-conditions, see next example
-
   onFinish: response => {
     // WHEN user confirms pop-up
     console.log(response.txid); // the response includes the txid of the transaction
@@ -123,8 +120,8 @@ openContractCall({
   functionName: 'vote',
   functionArgs: [pick],
 
-  postConditionMode: PostConditionMode.Deny,
-  postConditions: [],
+  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
+  postConditions: [], // for an example using post-conditions, see next example
 
   onFinish: response => {
     // WHEN user confirms pop-up
