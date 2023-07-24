@@ -30,9 +30,9 @@ export const userSession = new UserSession({ appConfig }); // we will use this e
 
 - ["Connect" aka authentication (`showConnect`)](#connect-aka-authentication-showconnect)
 - [Sending STX (`openSTXTransfer`)](#sending-stx-openstxtransfer)
-- [Sending transactions with post-conditions (`openSTXTransfer`)](#sending-transactions-with-post-conditions-openstxtransfer)
-  - [Post-Condition Modes](#post-condition-modes)
 - [Calling Smart-Contracts (`openContractCall`)](#calling-smart-contracts-opencontractcall)
+- [Sending transactions with post-conditions (`openContractCall`)](#sending-transactions-with-post-conditions-opencontractcall)
+  - [Post-Condition Modes](#post-condition-modes)
 
 #### "Connect" aka authentication (`showConnect`)
 
@@ -99,45 +99,6 @@ openSTXTransfer({
 });
 ```
 
-#### Sending transactions with post-conditions (`openSTXTransfer`)
-
-Consider the example above.
-Using [post-conditions](https://docs.hiro.so/get-started/transactions#post-conditions), a feature of the Stacks blockchain, we can ensure something happened after a transaction.
-Here, we could ensure that the recipient indeed receives a certain amount of STX.
-
-```js
-import {
-  PostConditionMode,
-  FungibleConditionCode,
-  makeStandardSTXPostCondition,
-} from '@stacks/transactions';
-
-// this post-condition ensures that our recipient receives at least 5000 tokens
-const myPostCondition = makeStandardSTXPostCondition(
-  'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK', // address of recipient
-  FungibleConditionCode.GreaterEqual, // comparator
-  5000 // relative amount to previous balance
-);
-
-// passing to `openSTXTransfer` options, e.g. modifying our previous example ...
-  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
-  postConditions: [ myPostCondition ],
-// ...
-```
-
-> For more examples on constructing different kinds of post-conditions read the [Post-Conditions Guide of Stacks.js](https://github.com/hirosystems/stacks.js/tree/master/packages/transactions#post-conditions).
-
-##### Post-Condition Modes
-
-If post-conditions `postConditions: [ ... ]` are specified, they will ALWAYS be checked by blockchain nodes.
-If ANY conditions fails, the transaction will fail.
-
-The _Post-Condition Mode_ only relates to transfers of assets, which were not specified in the `postConditions`.
-
-- `PostConditionMode.Deny` will fail the transaction if any unspecified assets are transferred
-- `PostConditionMode.Allow` will allow unspecified assets to be transferred
-- In both cases, all `postConditions` will be checked
-
 #### Calling Smart-Contracts (`openContractCall`)
 
 Calling smart-contracts lets users interact with the blockchain through transactions.
@@ -174,12 +135,68 @@ openContractCall({
 });
 ```
 
+#### Sending transactions with post-conditions (`openContractCall`)
+
+Consider the example above.
+Using [post-conditions](https://docs.hiro.so/get-started/transactions#post-conditions), a feature of the Stacks blockchain, we can ensure something happened after a transaction.
+Here, we could ensure that the recipient indeed receives a certain amount of STX.
+
+```js
+import {
+  PostConditionMode,
+  FungibleConditionCode,
+  makeStandardSTXPostCondition,
+} from '@stacks/transactions';
+
+// this post-condition ensures that our recipient receives at least 5000 STX tokens
+const myPostCondition = makeStandardSTXPostCondition(
+  'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK', // address of recipient
+  FungibleConditionCode.GreaterEqual, // comparator
+  5000000000 // relative amount to previous balance (denoted in micro-STX)
+);
+
+// passing to `openContractCall` options, e.g. modifying our previous example ...
+  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
+  postConditions: [ myPostCondition ],
+// ...
+```
+
+> For more examples on constructing different kinds of post-conditions read the [Post-Conditions Guide of Stacks.js](https://github.com/hirosystems/stacks.js/tree/main/packages/transactions#post-conditions).
+
+##### Post-Condition Modes
+
+If post-conditions `postConditions: [ ... ]` are specified, they will ALWAYS be checked by blockchain nodes.
+If ANY conditions fails, the transaction will fail.
+
+The _Post-Condition Mode_ only relates to transfers of assets, which were not specified in the `postConditions`.
+
+- `PostConditionMode.Deny` will fail the transaction if any unspecified assets are transferred
+- `PostConditionMode.Allow` will allow unspecified assets to be transferred
+- In both cases, all `postConditions` will be checked
+
+### 🛠 Advanced <!-- omit in toc -->
+
+#### Opening a specific wallet <!-- omit in toc -->
+
+By default, `@stacks/connect` will defer to the `window.StacksProvider` object to interact with wallets.
+However, if multiple wallets are installed, they might interfere with each other.
+To avoid this, you can specify which wallet to use in the wallet interaction methods.
+
+```js
+// This will open only the Hiro Wallet
+authenticate({ ...opts }, HiroWalletProvider);
+openPsbtRequestPopup({ ...opts }, HiroWalletProvider);
+openProfileUpdateRequestPopup({ ...opts }, HiroWalletProvider);
+openSignatureRequestPopup({ ...opts }, HiroWalletProvider);
+openStructuredDataSignatureRequestPopup({ ...opts }, HiroWalletProvider);
+```
+
 ## 🤔 Pitfalls <!-- omit in toc -->
 
 - Connect can currently not set manual nonces, since this is not supported by wallets.
 - For some projects it might be necessary to also install the `regenerator-runtime` package. `npm install --save-dev regenerator-runtime`. This is a build issue of `@stacks/connect` and we are working on a fix.
 
-## 📚 Option Glossary <!-- omit in toc -->
+## 📚 Method Parameters <!-- omit in toc -->
 
 A glossary of the most common options of `openSTXTransfer` and `openContractCall`
 
@@ -201,11 +218,13 @@ A glossary of the most common options of `openSTXTransfer` and `openContractCall
 
 ### _Optional_ <!-- omit in toc -->
 
-|              | Default             | Description                                                           | Type                                                                        | Example                  |
-| :----------- | :------------------ | :-------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :----------------------- |
-| `network`    | Mainnet             | The network to broadcast the transaction to                           | [StacksNetwork](https://stacks.js.org/classes/network.StacksNetwork.html)   | `new StacksMainnet()`    |
-| `anchorMode` | Any                 | The type of block the transaction should be mined in                  | [AnchorMode Enum](https://stacks.js.org/enums/transactions.AnchorMode.html) | `AnchorMode.OnChainOnly` |
-| `memo`       | _Empty_ `''`        | The memo field (used for additional data)                             | `string`                                                                    | `'a memo'`               |
-| `fee`        | _Handled by Wallet_ | The transaction fee (the wallet will estimate fees as well)           | Integer (e.g. `number`, `bigint`)                                           | `1000`                   |
-| `onFinish`   | _No-op_             | The callback function to run after broadcasting the transaction       | Function (receiving `response`)                                             |                          |
-| `onCancel`   | _No-op_             | The callback function to run after the user cancels/closes the wallet | Function                                                                    |                          |
+|                     | Default             | Description                                                                 | Type                                                                            | Example                   |
+| :------------------ | :------------------ | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------ | :------------------------ |
+| `network`           | Mainnet             | The network to broadcast the transaction to                                 | [StacksNetwork](https://stacks.js.org/classes/network.StacksNetwork.html)       | `new StacksMainnet()`     |
+| `anchorMode`        | Any                 | The type of block the transaction should be mined in                        | [AnchorMode Enum](https://stacks.js.org/enums/transactions.AnchorMode.html)     | `AnchorMode.OnChainOnly`  |
+| `memo`              | _Empty_ `''`        | The memo field (used for additional data)                                   | `string`                                                                        | `'a memo'`                |
+| `fee`               | _Handled by Wallet_ | The transaction fee (the wallet will estimate fees as well)                 | Integer (e.g. `number`, `bigint`)                                               | `1000`                    |
+| `postConditionMode` | Deny                | The post condition mode, _i.e. whether to allow unspecified asset transfer_ | [PostConditionMode](https://stacks.js.org/enums/transactions.PostConditionMode) | `PostConditionMode.Allow` |
+| `postConditions`    | _Empty_ `[]`        | The list of post conditions to check, regardless of postConditionMode       | [PostCondition](https://stacks.js.org/types/transactions.PostCondition)[]       |                           |
+| `onFinish`          | _No-op_             | The callback function to run after broadcasting the transaction             | Function (receiving `response`)                                                 |                           |
+| `onCancel`          | _No-op_             | The callback function to run after the user cancels/closes the wallet       | Function                                                                        |                           |
