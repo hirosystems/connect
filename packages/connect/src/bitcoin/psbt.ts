@@ -4,6 +4,7 @@ import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
 import { PsbtPayload, PsbtPopup, PsbtRequestOptions } from '../types/bitcoin';
 import { getStacksProvider } from '../utils';
+import { StacksProvider } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: PsbtPayload, privateKey: string) {
@@ -25,11 +26,8 @@ export function getDefaultPsbtRequestOptions(options: PsbtRequestOptions) {
   };
 }
 
-async function openPsbtPopup({ token, options }: PsbtPopup) {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed');
-  }
+async function openPsbtPopup({ token, options }: PsbtPopup, provider: StacksProvider) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
 
   try {
     const psbtResponse = await provider.psbtRequest(token);
@@ -62,18 +60,22 @@ export const makePsbtToken = async (options: PsbtRequestOptions) => {
 
 async function generateTokenAndOpenPopup<T extends PsbtRequestOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultPsbtRequestOptions(options),
     ...options,
   } as T);
-  return openPsbtPopup({ token, options });
+  return openPsbtPopup({ token, options }, provider);
 }
 
 /**
  * @experimental
  */
-export function openPsbtRequestPopup(options: PsbtRequestOptions) {
-  return generateTokenAndOpenPopup(options, makePsbtToken);
+export function openPsbtRequestPopup(
+  options: PsbtRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  return generateTokenAndOpenPopup(options, makePsbtToken, provider);
 }

@@ -191,7 +191,7 @@ openStructuredDataSignatureRequestPopup({ ...opts }, HiroWalletProvider);
 ## 🤔 Pitfalls <!-- omit in toc -->
 
 - Connect can currently not set manual nonces, since this is not supported by wallets.
-- For some projects it might be necessary to also install the `regenerator-runtime` package. `npm install --save-dev regenerator-runtime`. This is a build issue of `@stacks/connect` and we are working on a fix.
+- For some projects it might be necessary to also install the `regenerator-runtime` package. `npm install --save-dev regenerator-runtime`. This is a build issue of older versions of `@stacks/connect`.
 
 ## 📚 Method Parameters <!-- omit in toc -->
 

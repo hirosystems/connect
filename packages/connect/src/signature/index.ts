@@ -10,6 +10,7 @@ import {
   SignatureRequestOptions,
 } from '../types/signature';
 import { getStacksProvider } from '../utils';
+import { StacksProvider } from '../types';
 
 function getStxAddress(options: CommonSignatureRequestOptions) {
   const { userSession, network } = options;
@@ -45,12 +46,7 @@ export function getDefaultSignatureRequestOptions(options: CommonSignatureReques
   };
 }
 
-async function openSignaturePopup({ token, options }: SignaturePopup) {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed.');
-  }
-
+async function openSignaturePopup({ token, options }: SignaturePopup, provider: StacksProvider) {
   try {
     const signatureResponse = await provider.signatureRequest(token);
     options.onFinish?.(signatureResponse);
@@ -84,15 +80,20 @@ export const signMessage = async (options: SignatureRequestOptions) => {
 
 async function generateTokenAndOpenPopup<T extends SignatureOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultSignatureRequestOptions(options),
     ...options,
   } as T);
-  return openSignaturePopup({ token, options });
+  return openSignaturePopup({ token, options }, provider);
 }
 
-export function openSignatureRequestPopup(options: SignatureRequestOptions) {
-  return generateTokenAndOpenPopup(options, signMessage);
+export function openSignatureRequestPopup(
+  options: SignatureRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+  return generateTokenAndOpenPopup(options, signMessage, provider);
 }

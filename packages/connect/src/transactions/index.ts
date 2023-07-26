@@ -30,6 +30,7 @@ import {
   TransactionTypes,
 } from '../types/transactions';
 import { getStacksProvider } from '../utils';
+import { StacksProvider } from '../types';
 
 // TODO extract out of transactions
 export const getUserSession = (_userSession?: UserSession) => {
@@ -113,12 +114,10 @@ function createUnsignedTransactionPayload(payload: Partial<TransactionPayload>) 
   return createUnsecuredToken({ ...payload, postConditions } as unknown as Json);
 }
 
-const openTransactionPopup = async ({ token, options }: TransactionPopup) => {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed');
-  }
-
+const openTransactionPopup = async (
+  { token, options }: TransactionPopup,
+  provider: StacksProvider
+) => {
   try {
     const txResponse = await provider.transactionRequest(token);
     const { txRaw } = txResponse;
@@ -221,32 +220,36 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
 
 async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaults(options),
     ...options,
   } as T);
-  return openTransactionPopup({ token, options });
+  return openTransactionPopup({ token, options }, provider);
 }
 
-export function openContractCall(options: ContractCallRegularOptions): Promise<void>;
-export function openContractCall(options: ContractCallSponsoredOptions): Promise<void>;
-export function openContractCall(options: ContractCallOptions): Promise<void>;
-export function openContractCall(options: ContractCallOptions) {
-  return generateTokenAndOpenPopup(options, makeContractCallToken);
+export function openContractCall(
+  options: ContractCallOptions | ContractCallRegularOptions | ContractCallSponsoredOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+  return generateTokenAndOpenPopup(options, makeContractCallToken, provider);
 }
 
-export function openContractDeploy(options: ContractDeployRegularOptions): Promise<void>;
-export function openContractDeploy(options: ContractDeploySponsoredOptions): Promise<void>;
-export function openContractDeploy(options: ContractDeployOptions): Promise<void>;
-export function openContractDeploy(options: ContractDeployOptions) {
-  return generateTokenAndOpenPopup(options, makeContractDeployToken);
+export function openContractDeploy(
+  options: ContractDeployOptions | ContractDeployRegularOptions | ContractDeploySponsoredOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+  return generateTokenAndOpenPopup(options, makeContractDeployToken, provider);
 }
 
-export function openSTXTransfer(options: STXTransferRegularOptions): Promise<void>;
-export function openSTXTransfer(options: STXTransferSponsoredOptions): Promise<void>;
-export function openSTXTransfer(options: STXTransferOptions): Promise<void>;
-export function openSTXTransfer(options: STXTransferOptions) {
-  return generateTokenAndOpenPopup(options, makeSTXTransferToken);
+export function openSTXTransfer(
+  options: STXTransferOptions | STXTransferRegularOptions | STXTransferSponsoredOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+  return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
 }

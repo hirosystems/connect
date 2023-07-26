@@ -1,7 +1,12 @@
 import { StacksTestnet } from '@stacks/network';
 import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
-import { ProfileUpdatePayload, ProfileUpdatePopup, ProfileUpdateRequestOptions } from '../types';
+import {
+  ProfileUpdatePayload,
+  ProfileUpdatePopup,
+  ProfileUpdateRequestOptions,
+  StacksProvider,
+} from '../types';
 
 import { getStacksProvider } from '../utils';
 
@@ -25,12 +30,10 @@ export function getDefaultProfileUpdateRequestOptions(options: ProfileUpdateRequ
   };
 }
 
-async function openProfileUpdatePopup({ token, options }: ProfileUpdatePopup) {
-  const provider = getStacksProvider();
-  if (!provider) {
-    throw new Error('Hiro Wallet not installed.');
-  }
-
+async function openProfileUpdatePopup(
+  { token, options }: ProfileUpdatePopup,
+  provider: StacksProvider
+) {
   try {
     const profileUpdateResponse = await provider.profileUpdateRequest(token);
     options.onFinish?.(profileUpdateResponse);
@@ -60,15 +63,20 @@ export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOption
 
 async function generateTokenAndOpenPopup<T extends ProfileUpdateRequestOptions>(
   options: T,
-  makeTokenFn: (options: T) => Promise<string>
+  makeTokenFn: (options: T) => Promise<string>,
+  provider: StacksProvider
 ) {
   const token = await makeTokenFn({
     ...getDefaultProfileUpdateRequestOptions(options),
     ...options,
   } as T);
-  return openProfileUpdatePopup({ token, options });
+  return openProfileUpdatePopup({ token, options }, provider);
 }
 
-export function openProfileUpdateRequestPopup(options: ProfileUpdateRequestOptions) {
-  return generateTokenAndOpenPopup(options, makeProfileUpdateToken);
+export function openProfileUpdateRequestPopup(
+  options: ProfileUpdateRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+  return generateTokenAndOpenPopup(options, makeProfileUpdateToken, provider);
 }
