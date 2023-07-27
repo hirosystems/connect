@@ -1,5 +1,16 @@
 # Change Log
 
+## 22.2.0
+
+### Minor Changes
+
+- [#331](https://github.com/hirosystems/connect/pull/331) [`79eb587`](https://github.com/hirosystems/connect/commit/79eb5874f64f1996e44142d4d16598f3bf6fd28c) Thanks [@janniks](https://github.com/janniks)! - Allow custom providers to be passed to Connect methods.
+
+### Patch Changes
+
+- Updated dependencies [[`79eb587`](https://github.com/hirosystems/connect/commit/79eb5874f64f1996e44142d4d16598f3bf6fd28c)]:
+  - @stacks/connect@7.4.0
+
 ## 22.1.1
 
 ### Patch Changes
