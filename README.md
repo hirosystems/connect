@@ -38,7 +38,7 @@ If you encounter a bug or have a feature request, we encourage you to follow the
  1. **Open a new issue:** If it hasn't been addressed, please [open a new issue](../../issues/new/choose). Choose the appropriate issue template and provide as much detail as possible, including steps to reproduce the bug or a clear description of the requested feature.
  1. **Evaluation SLA:** Our team reads and evaluates all the issues and pull requests. We are avaliable Monday to Friday and we make a best effort to respond within 7 business days.
 
-Please **do not** use the issue tracker for personal support requests or to ask for the status of a transaction. You'll find help at the [#support Discord channel](https://discord.gg/SK3DxdsP).
+Please **do not** use the issue tracker for personal support requests or to ask for the status of a transaction. You'll find help at the [#support Discord channel](https://discord.gg/5DJaBrf).
 
 
 ## 🎁 Contribute
@@ -56,7 +56,7 @@ Read our [contributing guide](.github/CONTRIBUTING.md) to learn about our develo
 
 Join our community and stay connected with the latest updates and discussions:
 
-- [Join our Discord community chat](https://discord.gg/ZQR6cyZC) to engage with other users, ask questions, and participate in discussions.
+- [Join our Discord community chat](https://discord.gg/5DJaBrf) to engage with other users, ask questions, and participate in discussions.
 
 - [Visit hiro.so](https://www.hiro.so/) for updates and subcribing to the mailing list.
 
