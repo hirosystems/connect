@@ -7,6 +7,7 @@ module.exports = {
   root: true,
   rules: {
     // todo: remove these rules if fixed
+    '@stencil-community/ban-exported-const-enums': 'off',
     '@stencil-community/own-methods-must-be-private': 'off',
     '@stencil-community/required-jsdoc': 'off',
     '@stencil-community/strict-boolean-conditions': 'off',

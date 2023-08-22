@@ -57,8 +57,6 @@ jobs:
           cache: "yarn"
       - name: Install monorepo deps
         run: yarn --frozen-lockfile
-      - name: Bootstrap
-        run: yarn lerna bootstrap
       - name: Setup .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
