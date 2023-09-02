@@ -19,8 +19,8 @@ import {
   ContractDeployRegularOptions,
   ContractDeploySponsoredOptions,
   FinishedTxPayload,
-  SignHexTransactionOptions,
-  SignHexTransactionPayload,
+  SignTransactionHexOptions,
+  SignTransactionHexPayload,
   SponsoredFinishedTxPayload,
   STXTransferOptions,
   STXTransferPayload,
@@ -220,12 +220,12 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
   return createUnsignedTransactionPayload(payload);
 };
 
-export const makeSignHexTransaction = async (options: SignHexTransactionOptions) => {
+export const makeSignTransactionHex = async (options: SignTransactionHexOptions) => {
   const { txRaw, appDetails, userSession, ..._options } = options;
 
   if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
-    const payload: SignHexTransactionPayload = {
+    const payload: SignTransactionHexPayload = {
       ..._options,
       txRaw,
       publicKey,
@@ -234,7 +234,7 @@ export const makeSignHexTransaction = async (options: SignHexTransactionOptions)
     return signPayload(payload, privateKey);
   }
 
-  const payload: Partial<SignHexTransactionOptions> = {
+  const payload: Partial<SignTransactionHexOptions> = {
     ..._options,
     txRaw,
   };
@@ -278,10 +278,10 @@ export function openSTXTransfer(
   return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
 }
 
-export function openSignHexTransaction(
-  options: SignHexTransactionOptions,
+export function openSignTransactionHex(
+  options: SignTransactionHexOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
   if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, makeSignHexTransaction, provider);
+  return generateTokenAndOpenPopup(options, makeSignTransactionHex, provider);
 }

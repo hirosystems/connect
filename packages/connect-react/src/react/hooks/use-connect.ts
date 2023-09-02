@@ -10,7 +10,7 @@ import {
   FinishedAuthData,
   openContractCall,
   openContractDeploy,
-  openSignHexTransaction,
+  openSignTransactionHex,
   openProfileUpdateRequestPopup,
   openPsbtRequestPopup,
   openSignatureRequestPopup,
@@ -24,7 +24,7 @@ import {
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
   StacksProvider,
-  SignHexTransactionOptions,
+  SignTransactionHexOptions,
 } from '@stacks/connect';
 import { StructuredDataSignatureRequestOptions } from '@stacks/connect/src/types/structuredDataSignature';
 import { useContext } from 'react';
@@ -145,8 +145,8 @@ export const useConnect = () => {
     );
   }
 
-  function doSignHexTransaction(options: SignHexTransactionOptions, provider?: StacksProvider) {
-    return openSignHexTransaction(
+  function doSignTransactionHex(options: SignTransactionHexOptions, provider?: StacksProvider) {
+    return openSignTransactionHex(
       {
         ...options,
         authOrigin: authOptions.authOrigin,
@@ -204,7 +204,7 @@ export const useConnect = () => {
     doContractCall,
     doContractDeploy,
     doSTXTransfer,
-    doSignHexTransaction,
+    doSignTransactionHex,
     doProfileUpdate,
     sign,
     signStructuredData,
