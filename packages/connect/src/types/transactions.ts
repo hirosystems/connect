@@ -37,7 +37,7 @@ export interface SignTransactionHexBase {
    * This is set by default if a `userSession` option is provided.
    */
   stxAddress?: string;
-  txRaw: string;
+  txHex: string;
   /** @deprecated `unused - only included for compatibility with other transaction types` */
   postConditions?: (string | PostCondition)[];
 }

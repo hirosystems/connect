@@ -221,13 +221,13 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
 };
 
 export const makeSignTransactionHex = async (options: SignTransactionHexOptions) => {
-  const { txRaw, appDetails, userSession, ..._options } = options;
+  const { txHex, appDetails, userSession, ..._options } = options;
 
   if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
     const payload: SignTransactionHexPayload = {
       ..._options,
-      txRaw,
+      txHex,
       publicKey,
     };
     if (appDetails) payload.appDetails = appDetails;
@@ -236,7 +236,7 @@ export const makeSignTransactionHex = async (options: SignTransactionHexOptions)
 
   const payload: Partial<SignTransactionHexOptions> = {
     ..._options,
-    txRaw,
+    txHex,
   };
   if (appDetails) payload.appDetails = appDetails;
   return createUnsignedTransactionPayload(payload);
@@ -278,7 +278,7 @@ export function openSTXTransfer(
   return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
 }
 
-export function openSignTransactionHex(
+export function openSignTransaction(
   options: SignTransactionHexOptions,
   provider: StacksProvider = getStacksProvider()
 ) {

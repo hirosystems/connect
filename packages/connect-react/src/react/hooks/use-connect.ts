@@ -10,7 +10,7 @@ import {
   FinishedAuthData,
   openContractCall,
   openContractDeploy,
-  openSignTransactionHex,
+  openSignTransaction,
   openProfileUpdateRequestPopup,
   openPsbtRequestPopup,
   openSignatureRequestPopup,
@@ -146,7 +146,7 @@ export const useConnect = () => {
   }
 
   function doSignTransactionHex(options: SignTransactionHexOptions, provider?: StacksProvider) {
-    return openSignTransactionHex(
+    return openSignTransaction(
       {
         ...options,
         authOrigin: authOptions.authOrigin,
