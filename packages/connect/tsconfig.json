@@ -5,5 +5,8 @@
     "outDir": "./dist/types",
     "rootDir": "./src"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"]
+  }
 }

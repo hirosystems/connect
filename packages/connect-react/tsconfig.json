@@ -8,5 +8,8 @@
     "jsx": "react"
   },
   "include": ["src"],
-  "references": [{ "path": "../connect" }]
+  "references": [{ "path": "../connect" }],
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"]
+  }
 }
