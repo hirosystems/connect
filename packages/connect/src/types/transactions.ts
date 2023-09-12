@@ -28,7 +28,7 @@ export interface TxBase {
   nonce?: number;
 }
 
-export interface SignTransactionHexBase {
+export interface SignTransactionBase {
   appDetails?: AuthOptions['appDetails'];
   network?: StacksNetwork;
   attachment?: string;
@@ -171,31 +171,31 @@ export type TransactionOptions =
   | ContractCallOptions
   | ContractDeployOptions
   | STXTransferOptions
-  | SignTransactionHexOptions;
+  | SignTransactionOptions;
 export type TransactionPayload =
   | ContractCallPayload
   | ContractDeployPayload
   | STXTransferPayload
-  | SignTransactionHexPayload;
+  | SignTransactionPayload;
 
 export interface TransactionPopup {
   token: string;
   options: TransactionOptions;
 }
 
-export interface SignTransactionHexOptionBase extends SignTransactionHexBase, OptionsBase {
-  onFinish?: SignTransactionHexFinished;
+export interface SignTransactionOptionBase extends SignTransactionBase, OptionsBase {
+  onFinish?: SignTransactionFinished;
   onCancel?: Canceled;
 }
 
-export interface SignTransactionHexPayload extends SignTransactionHexBase {
+export interface SignTransactionPayload extends SignTransactionBase {
   publicKey: string;
 }
 
-export type SignTransactionHexFinished = (data: SignTransactionHexFinishedTxData) => void;
+export type SignTransactionFinished = (data: SignTransactionFinishedTxData) => void;
 
-export type SignTransactionHexOptions = SignTransactionHexOptionBase;
+export type SignTransactionOptions = SignTransactionOptionBase;
 
-export interface SignTransactionHexFinishedTxData {
+export interface SignTransactionFinishedTxData {
   stacksTransaction: StacksTransaction;
 }
