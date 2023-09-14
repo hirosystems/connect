@@ -31,7 +31,6 @@
     "name": "Stacks Connect",
     "entryPointStrategy": "packages",
     "entryPoints": ["packages/*"],
-    "out": "docs",
-    "theme": "stacks"
+    "out": "docs"
   }
 }

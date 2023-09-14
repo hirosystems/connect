@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property      | Attribute | Description | Type          | Default     |
-| ------------- | --------- | ----------- | ------------- | ----------- |
-| `authOptions` | --        |             | `AuthOptions` | `undefined` |
+| Property      | Attribute      | Description | Type  | Default     |
+| ------------- | -------------- | ----------- | ----- | ----------- |
+| `authOptions` | `auth-options` |             | `any` | `undefined` |
 
 
 ----------------------------------------------

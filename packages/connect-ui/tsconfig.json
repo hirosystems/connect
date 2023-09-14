@@ -8,5 +8,8 @@
     "jsx": "react",
     "jsxFactory": "h"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"]
+  }
 }
