@@ -1,9 +1,7 @@
-// eslint-disable-next-line unused-imports/no-unused-imports
 import { Component, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
 import XverseWalletLogo from './assets/xverse-wallet-logo.svg';
-import type { AuthOptions } from '@stacks/connect';
 import { getBrowser, getPlatform } from './utils';
 
 const CHROME_BROWSER_URL = 'https://www.google.com/chrome/';
@@ -25,7 +23,7 @@ const XVERSE_CHROME_STORE_URL =
   shadow: true,
 })
 export class Modal {
-  @Prop() authOptions: AuthOptions;
+  @Prop() authOptions: any; // AuthOptions (would lead to circular dependency)
 
   @State() hasOpenedInstall: boolean;
 

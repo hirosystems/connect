@@ -17,6 +17,7 @@ module.exports = {
     '@stencil-community/required-jsdoc': 'off',
     '@stencil-community/strict-boolean-conditions': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-redundant-type-constituents': 'off',
     '@typescript-eslint/no-unsafe-argument': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
