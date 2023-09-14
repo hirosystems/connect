@@ -38,8 +38,8 @@
   padding: 20px 24px 20px;
   box-sizing: border-box;
   overflow-y: scroll;
-  -ms-overflow-style: none;  
-  scrollbar-width: none;  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -72,12 +72,6 @@
 .modal-content {
   display: flex;
   flex-direction: column;
-}
-
-.download-hiro-wallet {
-  background-image: $hiro-wallet-download;
-  height: 269px;
-  width: 310px;
 }
 
 .modal-title {
