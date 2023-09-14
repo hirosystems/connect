@@ -29,6 +29,7 @@ declare global {
     __CONNECT_VERSION__?: string;
   }
 
+  // @ts-expect-error is already declared in @stacks/connect
   const __VERSION__: string;
 }
 

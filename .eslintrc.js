@@ -1,10 +1,15 @@
 module.exports = {
-  extends: ['plugin:@stencil-community/recommended', '@stacks/eslint-config'],
+  extends: [
+    'plugin:@typescript-eslint/recommended-type-checked',
+    'plugin:@stencil-community/recommended',
+    '@stacks/eslint-config',
+  ],
   plugins: ['react', 'react-hooks'],
-  parserOptions: {
-    project: ['./tsconfig.json'],
-  },
   root: true,
+  parserOptions: {
+    project: true,
+    tsconfigRootDir: __dirname,
+  },
   rules: {
     // todo: remove these rules if fixed
     '@stencil-community/ban-exported-const-enums': 'off',

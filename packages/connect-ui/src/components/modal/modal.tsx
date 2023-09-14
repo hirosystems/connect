@@ -3,7 +3,7 @@ import { Component, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
 import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
 import XverseWalletLogo from './assets/xverse-wallet-logo.svg';
-import type { AuthOptions } from '@stacks/connect/types/auth';
+import type { AuthOptions } from '@stacks/connect';
 import { getBrowser, getPlatform } from './utils';
 
 const CHROME_BROWSER_URL = 'https://www.google.com/chrome/';
