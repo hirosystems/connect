@@ -28,6 +28,20 @@ export interface TxBase {
   nonce?: number;
 }
 
+export interface SignTransactionBase {
+  appDetails?: AuthOptions['appDetails'];
+  network?: StacksNetwork;
+  attachment?: string;
+  /**
+   * Provide wallets with a suggested account to sign this transaction with.
+   * This is set by default if a `userSession` option is provided.
+   */
+  stxAddress?: string;
+  txHex: string;
+  /** @deprecated `unused - only included for compatibility with other transaction types` */
+  postConditions?: (string | PostCondition)[];
+}
+
 export interface SponsoredFinishedTxPayload {
   txRaw: string;
 }
@@ -153,10 +167,35 @@ export interface STXTransferPayload extends STXTransferBase {
  * Transaction Popup
  */
 
-export type TransactionOptions = ContractCallOptions | ContractDeployOptions | STXTransferOptions;
-export type TransactionPayload = ContractCallPayload | ContractDeployPayload | STXTransferPayload;
+export type TransactionOptions =
+  | ContractCallOptions
+  | ContractDeployOptions
+  | STXTransferOptions
+  | SignTransactionOptions;
+export type TransactionPayload =
+  | ContractCallPayload
+  | ContractDeployPayload
+  | STXTransferPayload
+  | SignTransactionPayload;
 
 export interface TransactionPopup {
   token: string;
   options: TransactionOptions;
+}
+
+export interface SignTransactionOptionBase extends SignTransactionBase, OptionsBase {
+  onFinish?: SignTransactionFinished;
+  onCancel?: Canceled;
+}
+
+export interface SignTransactionPayload extends SignTransactionBase {
+  publicKey: string;
+}
+
+export type SignTransactionFinished = (data: SignTransactionFinishedTxData) => void;
+
+export type SignTransactionOptions = SignTransactionOptionBase;
+
+export interface SignTransactionFinishedTxData {
+  stacksTransaction: StacksTransaction;
 }

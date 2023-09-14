@@ -19,6 +19,8 @@ import {
   ContractDeployRegularOptions,
   ContractDeploySponsoredOptions,
   FinishedTxPayload,
+  SignTransactionOptions,
+  SignTransactionPayload,
   SponsoredFinishedTxPayload,
   STXTransferOptions,
   STXTransferPayload,
@@ -218,6 +220,28 @@ export const makeSTXTransferToken = async (options: STXTransferOptions) => {
   return createUnsignedTransactionPayload(payload);
 };
 
+export const makeSignTransaction = async (options: SignTransactionOptions) => {
+  const { txHex, appDetails, userSession, ..._options } = options;
+
+  if (hasAppPrivateKey(userSession)) {
+    const { privateKey, publicKey } = getKeys(userSession);
+    const payload: SignTransactionPayload = {
+      ..._options,
+      txHex,
+      publicKey,
+    };
+    if (appDetails) payload.appDetails = appDetails;
+    return signPayload(payload, privateKey);
+  }
+
+  const payload: Partial<SignTransactionOptions> = {
+    ..._options,
+    txHex,
+  };
+  if (appDetails) payload.appDetails = appDetails;
+  return createUnsignedTransactionPayload(payload);
+};
+
 async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   options: T,
   makeTokenFn: (options: T) => Promise<string>,
@@ -252,4 +276,12 @@ export function openSTXTransfer(
 ) {
   if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
   return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
+}
+
+export function openSignTransaction(
+  options: SignTransactionOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+  return generateTokenAndOpenPopup(options, makeSignTransaction, provider);
 }
