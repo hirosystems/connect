@@ -1,6 +1,6 @@
 import { Component, h, Prop, State, Element } from '@stencil/core';
 import CloseIcon from './assets/close-icon.svg';
-import HiroWalletLogo from './assets/hiro-wallet-logo.svg';
+import LeatherLogo from './assets/leather-logo.svg';
 import XverseWalletLogo from './assets/xverse-wallet-logo.svg';
 import { getBrowser, getPlatform } from './utils';
 
@@ -83,13 +83,13 @@ export class Modal {
           <div class="modal-content">
             <div class="wallet-container">
               <div class="modal-wallet-card">
-                <img src={HiroWalletLogo} />
+                <img src={LeatherLogo} />
                 <div class="modal-wallet-card-content">
-                  <span class="modal-subheading">Hiro Wallet</span>
+                  <span class="modal-subheading">Leather</span>
                   {browser && !isMobile ? (
                     <div class="modal-wallet-text">
-                      Hiro Wallet is your gateway to Stacks apps like{' '}
-                      {this.authOptions.appDetails.name}. Add it to {browser} to continue{' '}
+                      Leather is the only Bitcoin wallet you need to tap into the emerging Bitcoin
+                      economy.
                     </div>
                   ) : (
                     <div class="modal-wallet-text">
@@ -108,17 +108,14 @@ export class Modal {
                       {` on desktop.`}
                     </div>
                   )}
-                  <span
-                    class="link"
-                    onClick={() => window.open('https://www.hiro.so/wallet', '_blank')}
-                  >
-                    About Hiro Wallet →
+                  <span class="link" onClick={() => window.open('https://leather.io/', '_blank')}>
+                    About Leather →
                   </span>
                   {browser && !isMobile && (
                     <div class="download-app-container">
                       {this.hasOpenedInstall ? (
                         <div class="modal-wallet-text">
-                          After installing Hiro Wallet, reload this page and sign in.
+                          After installing Leather, reload this page and sign in.
                         </div>
                       ) : (
                         <button
