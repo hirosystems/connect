@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.1.2
+
+### Patch Changes
+
+- [#339](https://github.com/hirosystems/connect/pull/339) [`2b0f867`](https://github.com/hirosystems/connect/commit/2b0f8670624d9ce8f098ccbe6a8614e9556c79e3) Thanks [@janniks](https://github.com/janniks)! - Update Leather wallet assets
+
 ## 6.1.1
 
 ### Patch Changes

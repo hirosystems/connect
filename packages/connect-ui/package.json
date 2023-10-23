@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect-ui",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "license": "MIT",
   "prettier": "@stacks/prettier-config",
   "scripts": {
