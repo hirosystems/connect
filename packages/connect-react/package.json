@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect-react",
-  "version": "22.2.0",
+  "version": "22.2.1",
   "license": "MIT",
   "prettier": "@stacks/prettier-config",
   "scripts": {
@@ -10,7 +10,7 @@
     "types": "tsc --project tsconfig.json --emitDeclarationOnly"
   },
   "dependencies": {
-    "@stacks/connect": "7.4.0",
+    "@stacks/connect": "7.4.1",
     "jsontokens": "^4.0.1"
   },
   "devDependencies": {
