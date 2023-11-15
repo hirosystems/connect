@@ -1,6 +1,6 @@
 import { showConnect } from '@stacks/connect';
 
-export const ConnectPage = () => {
+export const ConnectPage = ({ children }: { children?: any }) => {
   function connect() {
     showConnect({
       appDetails: {
@@ -10,5 +10,10 @@ export const ConnectPage = () => {
     });
   }
 
-  return <button onClick={connect}>Connect Wallet</button>;
+  return (
+    <div>
+      <button onClick={connect}>Connect Wallet</button>
+      {children}
+    </div>
+  );
 };

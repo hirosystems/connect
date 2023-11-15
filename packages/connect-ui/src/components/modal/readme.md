@@ -12,7 +12,6 @@
 | `callback`            | --        |             | `Function`      | `undefined` |
 | `defaultProviders`    | --        |             | `StxProvider[]` | `undefined` |
 | `registeredProviders` | --        |             | `StxProvider[]` | `undefined` |
-| `selectedProvider`    | --        |             | `StxProvider`   | `undefined` |
 
 
 ----------------------------------------------

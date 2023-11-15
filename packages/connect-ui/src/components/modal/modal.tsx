@@ -1,16 +1,8 @@
-import { Component, Element, Prop, State, h } from '@stencil/core';
+import { Component, Element, Prop, h } from '@stencil/core';
 import { StxProvider } from '../../providers';
-import CloseIcon from './assets/close-icon.svg';
 import { setSelectedProvider } from '../../session';
-
-const CHROME_STORE_URL =
-  'https://chrome.google.com/webstore/detail/hiro-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj/';
-const FIREFOX_STORE_URL = 'https://addons.mozilla.org/en-US/firefox/addon/hiro-wallet/';
-const XVERSE_APP_STORE_URL = 'https://apps.apple.com/app/id1552272513';
-const XVERSE_PLAY_STORE_URL =
-  'https://play.google.com/store/apps/details?id=com.secretkeylabs.xverse';
-const XVERSE_CHROME_STORE_URL =
-  'https://chrome.google.com/webstore/detail/xverse-wallet/idnnbdplmphpflfnlkomgpfbpcgelopg';
+import CloseIcon from './assets/close-icon.svg';
+import { getBrowser, getPlatform } from './utils';
 
 @Component({
   tag: 'connect-modal',
@@ -21,18 +13,14 @@ const XVERSE_CHROME_STORE_URL =
 export class Modal {
   @Prop() defaultProviders: StxProvider[];
   @Prop() registeredProviders: StxProvider[];
-  @Prop() selectedProvider: StxProvider | undefined;
 
   @Prop() callback: Function;
-
-  @State() hasOpenedInstall: boolean;
-
-  @State() hasOpenedInstallXverse: boolean;
 
   @Element() modalEl: HTMLConnectModalElement;
 
   handleSelectProvider(providerId: string) {
     setSelectedProvider(providerId);
+    this.modalEl.remove();
     this.callback();
   }
 
@@ -41,44 +29,61 @@ export class Modal {
     // todo: throw Error that website can catch and handle (e.g. ConnectCancelError)
   }
 
-  handleDownloadPath(browser: string) {
+  // todo: nice to have:
+  // getComment(provider: StxProvider, browser: string, isMobile?: string) {
+  //   if (!provider.urls) return null;
+
+  //   const hasExtension = this.getBrowserUrl(provider);
+  //   const hasMobile = this.getMobileUrl(provider);
+
+  //   if (isMobile && hasExtension && !hasMobile) return 'Extension Only';
+  //   if (!isMobile && !hasExtension && hasMobile) return 'Mobile Only';
+
+  //   if (!isMobile && !browser) return 'Current browser not supported';
+
+  //   return null;
+  // }
+
+  getBrowserUrl(provider: StxProvider) {
+    return provider.urls?.chromeWebStore ?? provider.urls?.mozillaWebStore;
+  }
+
+  getMobileUrl(provider: StxProvider) {
+    return provider.urls?.iOSAppStore ?? provider.urls?.androidAppStore;
+  }
+
+  getInstallUrl(provider: StxProvider, browser: string) {
     if (browser === 'Chrome') {
-      window.open(CHROME_STORE_URL, '_blank');
+      return provider.urls?.chromeWebStore ?? this.getMobileUrl(provider) ?? provider.urls?.about;
     } else if (browser === 'Firefox') {
-      window.open(FIREFOX_STORE_URL, '_blank');
+      return provider.urls?.mozillaWebStore ?? this.getMobileUrl(provider) ?? provider.urls?.about;
     } else if (browser === 'IOS') {
-      window.open(XVERSE_APP_STORE_URL, '_blank');
-      this.hasOpenedInstallXverse = true;
-      return;
+      return provider.urls?.iOSAppStore ?? this.getBrowserUrl(provider) ?? provider.urls?.about;
     } else if (browser === 'Android') {
-      window.open(XVERSE_PLAY_STORE_URL, '_blank');
-      this.hasOpenedInstallXverse = true;
-      return;
-    } else if (browser === 'Xverse-Chrome') {
-      window.open(XVERSE_CHROME_STORE_URL, '_blank');
-      this.hasOpenedInstallXverse = true;
-      return;
+      return provider.urls?.androidAppStore ?? this.getBrowserUrl(provider) ?? provider.urls?.about;
     } else {
-      window.open('https://www.hiro.so/wallet/install-web', '_blank');
+      return this.getBrowserUrl(provider) ?? provider.urls?.about ?? this.getMobileUrl(provider);
     }
-    this.hasOpenedInstall = true;
   }
 
   render() {
-    // const browser = getBrowser();
-    // const isMobile = getPlatform();
-
-    // IF INCOMPATIBLE BROWSER
-    // todo:
+    const browser = getBrowser();
+    const mobile = getPlatform();
 
     return (
       <div class="modal-container">
-        <div class="modal-body leading-snug space-y-5">
+        <div class="modal-body leading-snug space-y-5 cursor-default">
           {/* INTRO */}
           <div class="modal-header space-y-2">
             <div class="close-modal flex items-center">
-              <p class="font-bold text-lg flex-1">Select wallet</p>
-              <img class="close-icon" src={CloseIcon} onClick={() => this.handleCloseModal()} />
+              <div class="font-semibold text-lg flex-1">Select wallet</div>
+              <button
+                class="p-1 bg-transparent rounded-full hover:bg-gray-100 active:scale-95"
+                onClick={() => this.handleCloseModal()}
+              >
+                <span class="sr-only">Close popup</span>
+                <img src={CloseIcon} />
+              </button>
             </div>
             {this.registeredProviders.length === 0 ? (
               <div class="space-y-3">
@@ -86,14 +91,19 @@ export class Modal {
                 <div class="text-center">
                   <a
                     class="rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 px-3 py-1.5 hover:bg-gray-300"
-                    href=""
+                    // href="" todo: link to docs
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    What's a wallet?
+                    🔐 What's a wallet?
                   </a>
                 </div>
               </div>
             ) : (
               <div>Choose the wallet you want to continue with or install a new one.</div>
+            )}
+            {!mobile && !browser && (
+              <p class="text-yellow-500 py-4">⚠️ Unfortunately, your browser isn't supported</p>
             )}
           </div>
 
@@ -102,12 +112,26 @@ export class Modal {
             <div class="space-y-2">
               <p class="text-xs font-semibold text-gray-400">INSTALLED</p>
               {this.registeredProviders.map((provider: StxProvider) => (
-                <div class="flex gap-2 items-center">
+                <div class="flex gap-3 items-center">
                   <div class="basis-12 aspect-square">
                     <img src={provider.icon} alt={`${provider.name} Icon`} class="w-full h-full" />
                   </div>
-                  <div class="flex-1 text-xl font-bold">{provider.name}</div>
-                  <button class="text-sm px-5 py-1.5 min-w-[72px] text-white bg-green-500 rounded-full hover:bg-green-400">
+                  <div class="flex-1">
+                    <div class="text-xl font-bold">{provider.name}</div>
+                    {provider.urls?.about && (
+                      <a
+                        href={provider.urls.about}
+                        class="text-gray-400 text-sm"
+                        rel="noopener noreferrer"
+                      >
+                        About →
+                      </a>
+                    )}
+                  </div>
+                  <button
+                    class="text-sm px-5 py-1.5 min-w-[72px] text-white bg-green-500 rounded-full hover:bg-green-400 active:scale-95"
+                    onClick={() => this.handleSelectProvider(provider.id)}
+                  >
                     SELECT
                   </button>
                 </div>
@@ -120,19 +144,33 @@ export class Modal {
             <div class="space-y-2">
               <p class="text-xs font-semibold text-gray-400">POPULAR</p>
               {this.defaultProviders.map((provider: StxProvider) => (
-                <div class="flex gap-4 items-center">
+                <div class="flex gap-3 items-center">
                   <div class="basis-12 aspect-square">
                     <img src={provider.icon} alt={`${provider.name} Icon`} class="w-full h-full" />
                   </div>
-                  <div class="flex-1 text-xl font-bold">{provider.name}</div>
-                  <a
-                    class="text-sm px-5 py-1.5 min-w-[72px] text-white bg-blue-500 rounded-full hover:bg-blue-400"
-                    href={provider.urls.website}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    INSTALL
-                  </a>
+                  <div class="flex-1">
+                    <div class="text-xl font-bold">{provider.name}</div>
+                    {provider.urls?.about && (
+                      <a
+                        href={provider.urls.about}
+                        class="text-gray-400 text-sm"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        About →
+                      </a>
+                    )}
+                  </div>
+                  {this.getInstallUrl(provider, browser) && (
+                    <a
+                      class="relative text-sm px-5 py-1.5 min-w-[72px] text-white bg-blue-500 rounded-full hover:bg-blue-400 active:scale-95 cursor-pointer"
+                      href={this.getInstallUrl(provider, browser)}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      INSTALL
+                    </a>
+                  )}
                 </div>
               ))}
             </div>

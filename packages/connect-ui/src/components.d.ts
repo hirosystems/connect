@@ -11,7 +11,6 @@ export namespace Components {
         "callback": Function;
         "defaultProviders": StxProvider[];
         "registeredProviders": StxProvider[];
-        "selectedProvider": StxProvider | undefined;
     }
 }
 declare global {
@@ -30,7 +29,6 @@ declare namespace LocalJSX {
         "callback"?: Function;
         "defaultProviders"?: StxProvider[];
         "registeredProviders"?: StxProvider[];
-        "selectedProvider"?: StxProvider | undefined;
     }
     interface IntrinsicElements {
         "connect-modal": ConnectModal;

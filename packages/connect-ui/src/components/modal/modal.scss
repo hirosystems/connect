@@ -52,63 +52,11 @@
 .modal-header {
   display: flex;
   flex-direction: column;
-
-  @include mobile {
-    flex-direction: row-reverse;
-    align-items: flex-start;
-  }
-}
-
-.close-modal {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.close-icon {
-  cursor: pointer;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-}
-
-.modal-title {
-  color: #242629;
-  font-family: 'Open Sauce One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-weight: 500;
-  font-size: 32px;
-  line-height: 32px;
-  margin-bottom: 18px;
-  padding-right: 48px;
-  margin-top: 18px;
-
-  @include mobile {
-    font-size: 24px;
-    line-height: 24px;
-    margin-bottom: 8px;
-    margin-top: 0px;
-    padding-right: 0px;
-  }
-}
-
-.modal-subtitle {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: #74777d;
-
-  @include mobile {
-    font-size: 13px;
-  }
-}
-
-.download-app-container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
 }
 
 .button {

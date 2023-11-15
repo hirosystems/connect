@@ -9,7 +9,7 @@ export interface StxProvider {
   icon?: string;
   /** Different web URLs of the provider */
   urls?: {
-    website?: string;
+    about?: string;
     chromeWebStore?: string;
     mozillaWebStore?: string;
     androidAppStore?: string;
