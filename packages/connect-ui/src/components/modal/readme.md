@@ -7,9 +7,12 @@
 
 ## Properties
 
-| Property      | Attribute      | Description | Type  | Default     |
-| ------------- | -------------- | ----------- | ----- | ----------- |
-| `authOptions` | `auth-options` |             | `any` | `undefined` |
+| Property              | Attribute | Description | Type            | Default     |
+| --------------------- | --------- | ----------- | --------------- | ----------- |
+| `callback`            | --        |             | `Function`      | `undefined` |
+| `defaultProviders`    | --        |             | `StxProvider[]` | `undefined` |
+| `registeredProviders` | --        |             | `StxProvider[]` | `undefined` |
+| `selectedProvider`    | --        |             | `StxProvider`   | `undefined` |
 
 
 ----------------------------------------------

@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
+import tailwind, { tailwindHMR } from 'stencil-tailwind-plugin';
 
 export const config: Config = {
   namespace: 'connect-ui',
@@ -18,7 +19,7 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
-  plugins: [sass()],
+  plugins: [sass(), tailwind(), tailwindHMR()],
   extras: {
     experimentalImportInjection: true,
   },
