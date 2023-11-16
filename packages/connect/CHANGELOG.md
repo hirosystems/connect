@@ -1,5 +1,12 @@
 # Change Log
 
+## 7.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`7439332`](https://github.com/hirosystems/connect/commit/7439332c796b6fa36275680c1026abf588b76556)]:
+  - @stacks/connect-ui@6.1.3
+
 ## 7.4.1
 
 ### Patch Changes

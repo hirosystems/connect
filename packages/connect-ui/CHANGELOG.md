@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.1.3
+
+### Patch Changes
+
+- [#343](https://github.com/hirosystems/connect/pull/343) [`7439332`](https://github.com/hirosystems/connect/commit/7439332c796b6fa36275680c1026abf588b76556) Thanks [@janniks](https://github.com/janniks)! - Fix Leather logo size
+
 ## 6.1.2
 
 ### Patch Changes
