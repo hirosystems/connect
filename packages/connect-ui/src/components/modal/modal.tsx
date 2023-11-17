@@ -117,8 +117,8 @@ export class Modal {
               <p class="text-xs font-semibold text-gray-400">INSTALLED</p>
               {this.installedProviders.map((provider: WebBTCProvider) => (
                 <div class="flex gap-3 items-center">
-                  <div class="basis-12 aspect-square">
-                    <img src={provider.icon} alt={`${provider.name} Icon`} class="w-full h-full" />
+                  <div class="basis-12 aspect-square overflow-hidden">
+                    <img src={provider.icon} class="w-full h-full bg-gray-700 rounded-[10px]" />
                   </div>
                   <div class="flex-1">
                     <div class="text-xl font-bold">{provider.name}</div>
@@ -149,8 +149,8 @@ export class Modal {
               <p class="text-xs font-semibold text-gray-400">POPULAR</p>
               {notInstalledProviders.map((provider: WebBTCProvider) => (
                 <div class="flex gap-3 items-center">
-                  <div class="basis-12 aspect-square">
-                    <img src={provider.icon} alt={`${provider.name} Icon`} class="w-full h-full" />
+                  <div class="basis-12 aspect-square overflow-hidden">
+                    <img src={provider.icon} class="w-full h-full bg-gray-700 rounded-[10px]" />
                   </div>
                   <div class="flex-1">
                     <div class="text-xl font-bold">{provider.name}</div>
