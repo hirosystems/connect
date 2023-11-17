@@ -38,11 +38,7 @@ const ConnectWithMockedWallet = () => {
       alert('MockedProvider.authenticationRequest()');
     },
   };
-  return (
-    <ConnectPage>
-      <button onClick={() => clearSelectedProvider()}>Disconnect</button>
-    </ConnectPage>
-  );
+  return <ConnectPage />;
 };
 export const WithMockedWallet = {
   render: () => <ConnectWithMockedWallet />,

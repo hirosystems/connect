@@ -1,5 +1,5 @@
 import { Component, Element, Prop, h } from '@stencil/core';
-import { StxProvider } from '../../providers';
+import { WebBTCProvider } from '../../providers';
 import { setSelectedProvider } from '../../session';
 import CloseIcon from './assets/close-icon.svg';
 import { getBrowser, getPlatform } from './utils';
@@ -11,8 +11,8 @@ import { getBrowser, getPlatform } from './utils';
   shadow: true,
 })
 export class Modal {
-  @Prop() defaultProviders: StxProvider[];
-  @Prop() registeredProviders: StxProvider[];
+  @Prop() defaultProviders: WebBTCProvider[];
+  @Prop() installedProviders: WebBTCProvider[];
 
   @Prop() callback: Function;
 
@@ -30,8 +30,8 @@ export class Modal {
   }
 
   // todo: nice to have:
-  // getComment(provider: StxProvider, browser: string, isMobile?: string) {
-  //   if (!provider.urls) return null;
+  // getComment(provider: WebBTCProvider, browser: string, isMobile?: string) {
+  //   if (!provider) return null;
 
   //   const hasExtension = this.getBrowserUrl(provider);
   //   const hasMobile = this.getMobileUrl(provider);
@@ -44,31 +44,35 @@ export class Modal {
   //   return null;
   // }
 
-  getBrowserUrl(provider: StxProvider) {
-    return provider.urls?.chromeWebStore ?? provider.urls?.mozillaWebStore;
+  getBrowserUrl(provider: WebBTCProvider) {
+    return provider.chromeWebStoreUrl ?? provider.mozillaAddOnsUrl;
   }
 
-  getMobileUrl(provider: StxProvider) {
-    return provider.urls?.iOSAppStore ?? provider.urls?.androidAppStore;
+  getMobileUrl(provider: WebBTCProvider) {
+    return provider.iOSAppStoreUrl ?? provider.googlePlayStoreUrl;
   }
 
-  getInstallUrl(provider: StxProvider, browser: string) {
+  getInstallUrl(provider: WebBTCProvider, browser: string) {
     if (browser === 'Chrome') {
-      return provider.urls?.chromeWebStore ?? this.getMobileUrl(provider) ?? provider.urls?.about;
+      return provider.chromeWebStoreUrl ?? this.getMobileUrl(provider) ?? provider.webUrl;
     } else if (browser === 'Firefox') {
-      return provider.urls?.mozillaWebStore ?? this.getMobileUrl(provider) ?? provider.urls?.about;
+      return provider.mozillaAddOnsUrl ?? this.getMobileUrl(provider) ?? provider.webUrl;
     } else if (browser === 'IOS') {
-      return provider.urls?.iOSAppStore ?? this.getBrowserUrl(provider) ?? provider.urls?.about;
+      return provider.iOSAppStoreUrl ?? this.getBrowserUrl(provider) ?? provider.webUrl;
     } else if (browser === 'Android') {
-      return provider.urls?.androidAppStore ?? this.getBrowserUrl(provider) ?? provider.urls?.about;
+      return provider.googlePlayStoreUrl ?? this.getBrowserUrl(provider) ?? provider.webUrl;
     } else {
-      return this.getBrowserUrl(provider) ?? provider.urls?.about ?? this.getMobileUrl(provider);
+      return this.getBrowserUrl(provider) ?? provider.webUrl ?? this.getMobileUrl(provider);
     }
   }
 
   render() {
     const browser = getBrowser();
     const mobile = getPlatform();
+
+    const notInstalledProviders = this.defaultProviders.filter(
+      p => this.installedProviders.findIndex(i => i.id === p.id) === -1 // keep providers NOT already in installed list
+    );
 
     return (
       <div class="modal-container">
@@ -85,7 +89,7 @@ export class Modal {
                 <img src={CloseIcon} />
               </button>
             </div>
-            {this.registeredProviders.length === 0 ? (
+            {this.installedProviders.length === 0 ? (
               <div class="space-y-3">
                 <p>No installed wallets detected. You can install one from the list below.</p>
                 <div class="text-center">
@@ -108,19 +112,19 @@ export class Modal {
           </div>
 
           {/* INSTALLED SECTION */}
-          {this.registeredProviders.length > 0 && (
+          {this.installedProviders.length > 0 && (
             <div class="space-y-2">
               <p class="text-xs font-semibold text-gray-400">INSTALLED</p>
-              {this.registeredProviders.map((provider: StxProvider) => (
+              {this.installedProviders.map((provider: WebBTCProvider) => (
                 <div class="flex gap-3 items-center">
                   <div class="basis-12 aspect-square">
                     <img src={provider.icon} alt={`${provider.name} Icon`} class="w-full h-full" />
                   </div>
                   <div class="flex-1">
                     <div class="text-xl font-bold">{provider.name}</div>
-                    {provider.urls?.about && (
+                    {provider.webUrl && (
                       <a
-                        href={provider.urls.about}
+                        href={provider.webUrl}
                         class="text-gray-400 text-sm"
                         rel="noopener noreferrer"
                       >
@@ -139,20 +143,20 @@ export class Modal {
             </div>
           )}
 
-          {/* DEFAULT SECTION */}
-          {this.defaultProviders.length > 0 && (
+          {/* NOT INSTALLED DEFAULT SECTION */}
+          {notInstalledProviders.length > 0 && (
             <div class="space-y-2">
               <p class="text-xs font-semibold text-gray-400">POPULAR</p>
-              {this.defaultProviders.map((provider: StxProvider) => (
+              {notInstalledProviders.map((provider: WebBTCProvider) => (
                 <div class="flex gap-3 items-center">
                   <div class="basis-12 aspect-square">
                     <img src={provider.icon} alt={`${provider.name} Icon`} class="w-full h-full" />
                   </div>
                   <div class="flex-1">
                     <div class="text-xl font-bold">{provider.name}</div>
-                    {provider.urls?.about && (
+                    {provider.webUrl && (
                       <a
-                        href={provider.urls.about}
+                        href={provider.webUrl}
                         class="text-gray-400 text-sm"
                         rel="noopener noreferrer"
                         target="_blank"

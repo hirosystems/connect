@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { StxProvider } from "./providers";
+import { WebBTCProvider } from "./providers";
 export namespace Components {
     interface ConnectModal {
         "callback": Function;
-        "defaultProviders": StxProvider[];
-        "registeredProviders": StxProvider[];
+        "defaultProviders": WebBTCProvider[];
+        "installedProviders": WebBTCProvider[];
     }
 }
 declare global {
@@ -27,8 +27,8 @@ declare global {
 declare namespace LocalJSX {
     interface ConnectModal {
         "callback"?: Function;
-        "defaultProviders"?: StxProvider[];
-        "registeredProviders"?: StxProvider[];
+        "defaultProviders"?: WebBTCProvider[];
+        "installedProviders"?: WebBTCProvider[];
     }
     interface IntrinsicElements {
         "connect-modal": ConnectModal;

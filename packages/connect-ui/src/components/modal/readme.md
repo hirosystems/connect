@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property              | Attribute | Description | Type            | Default     |
-| --------------------- | --------- | ----------- | --------------- | ----------- |
-| `callback`            | --        |             | `Function`      | `undefined` |
-| `defaultProviders`    | --        |             | `StxProvider[]` | `undefined` |
-| `registeredProviders` | --        |             | `StxProvider[]` | `undefined` |
+| Property             | Attribute | Description | Type               | Default     |
+| -------------------- | --------- | ----------- | ------------------ | ----------- |
+| `callback`           | --        |             | `Function`         | `undefined` |
+| `defaultProviders`   | --        |             | `WebBTCProvider[]` | `undefined` |
+| `installedProviders` | --        |             | `WebBTCProvider[]` | `undefined` |
 
 
 ----------------------------------------------
