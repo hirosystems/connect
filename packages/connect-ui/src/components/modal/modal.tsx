@@ -78,8 +78,8 @@ export class Modal {
     const hasMore = notInstalledProviders.length > 0;
 
     return (
-      <div class="modal-container animate-in fade-in fixed inset-0 z-[8999] box-border flex h-full w-full items-center justify-center overflow-y-scroll bg-[#00000040]">
-        <div class="modal-body animate-in zoom-in box-border flex max-h-[calc(100%-48px)] w-[400px] max-w-full cursor-default flex-col overflow-y-scroll rounded-2xl bg-white p-6 text-sm leading-snug shadow-[0_4px_5px_0_#00000005,0_16px_40px_0_#00000014]">
+      <div class="modal-container fixed inset-0 z-[8999] box-border flex h-full w-full items-center justify-center overflow-y-scroll bg-[#00000040] animate-in fade-in">
+        <div class="modal-body box-border flex max-h-[calc(100%-48px)] w-[400px] max-w-full cursor-default flex-col overflow-y-scroll rounded-2xl bg-white p-6 text-sm leading-snug shadow-[0_4px_5px_0_#00000005,0_16px_40px_0_#00000014] animate-in zoom-in">
           {/* INTRO */}
           <div class="flex flex-col space-y-[10px]">
             <div class="flex items-center">
@@ -111,7 +111,7 @@ export class Modal {
           {/* INSTALLED SECTION */}
           {hasInstalled && (
             <div class="mt-6">
-              <p class="mb-5 text-sm font-medium">Installed wallets</p>
+              <p class="mb-4 text-sm font-medium">Installed wallets</p>
               <ul class="space-y-3">
                 {this.installedProviders.map((provider: WebBTCProvider) => (
                   <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
@@ -141,42 +141,46 @@ export class Modal {
           {/* RECOMMENDED SECTION */}
           {hasMore && (
             <div class="mt-6">
-              <div class="mb-5 flex justify-between">
-                <p class="text-sm font-medium">Recommended wallets</p>
-                <a
-                  class="flex cursor-pointer items-center space-x-[5px] text-xs transition-colors hover:text-[#242629] hover:underline focus:underline"
-                  href="https://docs.hiro.so/what-is-a-wallet"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {/* QUESTION MARK ICON */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 16 16"
-                    fill="none"
+              {hasInstalled ? (
+                <p class="mb-4 text-sm font-medium">Other wallets</p>
+              ) : (
+                <div class="mb-5 flex justify-between">
+                  <p class="text-sm font-medium">Recommended wallets</p>
+                  <a
+                    class="flex cursor-pointer items-center space-x-[5px] text-xs transition-colors hover:text-[#242629] hover:underline focus:underline"
+                    href="https://docs.hiro.so/what-is-a-wallet"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    <path
-                      stroke="#74777D"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.2"
-                      d="M8.006 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"
-                    />
-                    <path
-                      stroke="#74777D"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.2"
-                      d="M5.97 5.9a2.1 2.1 0 0 1 4.08.7c0 1.4-2.1 2.1-2.1 2.1M8.006 11.5h.01"
-                    />
-                  </svg>
-                  <p>
-                    What is a wallet?&thinsp;<span class="align-text-bottom text-[9px]">↗</span>
-                  </p>
-                </a>
-              </div>
+                    {/* QUESTION MARK ICON */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        stroke="#74777D"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.2"
+                        d="M8.006 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"
+                      />
+                      <path
+                        stroke="#74777D"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.2"
+                        d="M5.97 5.9a2.1 2.1 0 0 1 4.08.7c0 1.4-2.1 2.1-2.1 2.1M8.006 11.5h.01"
+                      />
+                    </svg>
+                    <p>
+                      What is a wallet?&thinsp;<span class="align-text-bottom text-[9px]">↗</span>
+                    </p>
+                  </a>
+                </div>
+              )}
               <ul class="space-y-3">
                 {notInstalledProviders.map((provider: WebBTCProvider) => (
                   <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
