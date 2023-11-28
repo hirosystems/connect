@@ -74,109 +74,136 @@ export class Modal {
       p => this.installedProviders.findIndex(i => i.id === p.id) === -1 // keep providers NOT already in installed list
     );
 
+    const hasInstalled = this.installedProviders.length > 0;
+    const hasMore = notInstalledProviders.length > 0;
+
     return (
-      <div class="modal-container">
-        <div class="modal-body leading-snug space-y-5 cursor-default">
+      <div class="modal-container animate-in fade-in fixed inset-0 z-[8999] box-border flex h-full w-full items-center justify-center overflow-y-scroll bg-[#00000040]">
+        <div class="modal-body animate-in zoom-in box-border flex max-h-[calc(100%-48px)] w-[400px] max-w-full cursor-default flex-col overflow-y-scroll rounded-2xl bg-white p-6 text-sm leading-snug shadow-[0_4px_5px_0_#00000005,0_16px_40px_0_#00000014]">
           {/* INTRO */}
-          <div class="modal-header space-y-2">
-            <div class="close-modal flex items-center">
-              <div class="font-semibold text-lg flex-1">Select wallet</div>
+          <div class="flex flex-col space-y-[10px]">
+            <div class="flex items-center">
+              <div class="flex-1 text-xl font-medium text-[#242629]">Connect a wallet</div>
               <button
-                class="p-1 bg-transparent rounded-full hover:bg-gray-100 active:scale-95"
+                class="rounded-full bg-transparent p-1 transition-colors hover:bg-gray-100 active:scale-95"
                 onClick={() => this.handleCloseModal()}
               >
                 <span class="sr-only">Close popup</span>
                 <img src={CloseIcon} />
               </button>
             </div>
-            {this.installedProviders.length === 0 ? (
-              <div class="space-y-3">
-                <p>No installed wallets detected. You can install one from the list below.</p>
-                <div class="text-center">
-                  <a
-                    class="rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 px-3 py-1.5 hover:bg-gray-300"
-                    // href="" todo: link to docs
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    🔐 What's a wallet?
-                  </a>
-                </div>
-              </div>
+            {hasInstalled ? (
+              <p>Select the wallet you want to connect to.</p>
             ) : (
-              <div>Choose the wallet you want to continue with or install a new one.</div>
-            )}
-            {!mobile && !browser && (
-              <p class="text-yellow-500 py-4">⚠️ Unfortunately, your browser isn't supported</p>
+              <p>
+                You don't have any wallets in your browser that support this app. You need to
+                install a wallet to proceed.
+              </p>
             )}
           </div>
 
-          {/* INSTALLED SECTION */}
-          {this.installedProviders.length > 0 && (
-            <div class="space-y-2">
-              <p class="text-xs font-semibold text-gray-400">INSTALLED</p>
-              {this.installedProviders.map((provider: WebBTCProvider) => (
-                <div class="flex gap-3 items-center">
-                  <div class="basis-12 aspect-square overflow-hidden">
-                    <img src={provider.icon} class="w-full h-full bg-gray-700 rounded-[10px]" />
-                  </div>
-                  <div class="flex-1">
-                    <div class="text-xl font-bold">{provider.name}</div>
-                    {provider.webUrl && (
-                      <a
-                        href={provider.webUrl}
-                        class="text-gray-400 text-sm"
-                        rel="noopener noreferrer"
-                      >
-                        About →
-                      </a>
-                    )}
-                  </div>
-                  <button
-                    class="text-sm px-5 py-1.5 min-w-[72px] text-white bg-green-500 rounded-full hover:bg-green-400 active:scale-95"
-                    onClick={() => this.handleSelectProvider(provider.id)}
-                  >
-                    SELECT
-                  </button>
-                </div>
-              ))}
+          {!mobile && !browser && (
+            <div class="mx-auto mt-4 rounded-xl bg-gray-200 px-3 py-1.5 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-300">
+              Unfortunately, your browser isn't supported
             </div>
           )}
 
-          {/* NOT INSTALLED DEFAULT SECTION */}
-          {notInstalledProviders.length > 0 && (
-            <div class="space-y-2">
-              <p class="text-xs font-semibold text-gray-400">POPULAR</p>
-              {notInstalledProviders.map((provider: WebBTCProvider) => (
-                <div class="flex gap-3 items-center">
-                  <div class="basis-12 aspect-square overflow-hidden">
-                    <img src={provider.icon} class="w-full h-full bg-gray-700 rounded-[10px]" />
-                  </div>
-                  <div class="flex-1">
-                    <div class="text-xl font-bold">{provider.name}</div>
-                    {provider.webUrl && (
+          {/* INSTALLED SECTION */}
+          {hasInstalled && (
+            <div class="mt-6">
+              <p class="mb-5 text-sm font-medium">Installed wallets</p>
+              <ul class="space-y-3">
+                {this.installedProviders.map((provider: WebBTCProvider) => (
+                  <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
+                    <div class="aspect-square basis-9 overflow-hidden">
+                      <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium text-[#242629]">{provider.name}</div>
+                      {provider.webUrl && (
+                        <a href={provider.webUrl} class="text-sm" rel="noopener noreferrer">
+                          {new URL(provider.webUrl).hostname}
+                        </a>
+                      )}
+                    </div>
+                    <button
+                      class="rounded-[10px] border border-[#333] bg-[#323232] px-4 py-2 text-sm font-medium text-[#EFEFEF] shadow-[0_1px_2px_0_#0000000A] outline-[#FFBD7A] transition-all hover:bg-[#0C0C0D] hover:text-white hover:shadow-[0_8px_16px_0_#00000020] focus:outline focus:outline-[3px] active:scale-95"
+                      onClick={() => this.handleSelectProvider(provider.id)}
+                    >
+                      Connect
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* RECOMMENDED SECTION */}
+          {hasMore && (
+            <div class="mt-6">
+              <div class="mb-5 flex justify-between">
+                <p class="text-sm font-medium">Recommended wallets</p>
+                <a
+                  class="flex cursor-pointer items-center space-x-[5px] text-xs transition-colors hover:text-[#242629] hover:underline focus:underline"
+                  href="https://docs.hiro.so/what-is-a-wallet"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {/* QUESTION MARK ICON */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      stroke="#74777D"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.2"
+                      d="M8.006 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"
+                    />
+                    <path
+                      stroke="#74777D"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.2"
+                      d="M5.97 5.9a2.1 2.1 0 0 1 4.08.7c0 1.4-2.1 2.1-2.1 2.1M8.006 11.5h.01"
+                    />
+                  </svg>
+                  <p>
+                    What is a wallet?&thinsp;<span class="align-text-bottom text-[9px]">↗</span>
+                  </p>
+                </a>
+              </div>
+              <ul class="space-y-3">
+                {notInstalledProviders.map((provider: WebBTCProvider) => (
+                  <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
+                    <div class="aspect-square basis-9 overflow-hidden">
+                      <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
+                    </div>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium text-[#242629]">{provider.name}</div>
+                      {provider.webUrl && (
+                        <a href={provider.webUrl} class="text-sm" rel="noopener noreferrer">
+                          {new URL(provider.webUrl).hostname}
+                        </a>
+                      )}
+                    </div>
+                    {this.getInstallUrl(provider, browser) && (
                       <a
-                        href={provider.webUrl}
-                        class="text-gray-400 text-sm"
+                        class="rounded-[10px] border border-[#EFEFF2] px-4 py-2 text-sm font-medium shadow-[0_1px_2px_0_#0000000A] outline-[#FFBD7A] transition-colors hover:text-[#242629] hover:shadow-[0_1px_2px_0_#00000010] focus:outline focus:outline-[3px] active:scale-95"
+                        href={this.getInstallUrl(provider, browser)}
                         rel="noopener noreferrer"
                         target="_blank"
                       >
-                        About →
+                        Install &rarr;
                       </a>
                     )}
-                  </div>
-                  {this.getInstallUrl(provider, browser) && (
-                    <a
-                      class="relative text-sm px-5 py-1.5 min-w-[72px] text-white bg-blue-500 rounded-full hover:bg-blue-400 active:scale-95 cursor-pointer"
-                      href={this.getInstallUrl(provider, browser)}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      INSTALL
-                    </a>
-                  )}
-                </div>
-              ))}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>

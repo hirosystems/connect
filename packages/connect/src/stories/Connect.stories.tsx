@@ -1,6 +1,5 @@
 import { DEFAULT_PROVIDERS } from '@stacks/connect';
 import { ConnectPage } from './ConnectPage';
-import { clearSelectedProvider } from '@stacks/connect-ui';
 
 export default {
   component: ConnectPage,
