@@ -78,8 +78,8 @@ export class Modal {
     const hasMore = notInstalledProviders.length > 0;
 
     return (
-      <div class="modal-container fixed inset-0 z-[8999] box-border flex h-full w-full items-center justify-center overflow-y-scroll bg-[#00000040] animate-in fade-in">
-        <div class="modal-body box-border flex max-h-[calc(100%-48px)] w-[400px] max-w-full cursor-default flex-col overflow-y-scroll rounded-2xl bg-white p-6 text-sm leading-snug shadow-[0_4px_5px_0_#00000005,0_16px_40px_0_#00000014] animate-in zoom-in">
+      <div class="modal-container animate-in fade-in fixed inset-0 z-[8999] box-border flex h-full w-full items-end overflow-y-scroll bg-[#00000040] md:items-center md:justify-center">
+        <div class="modal-body animate-in md:zoom-in-50 slide-in-from-bottom md:slide-in-from-bottom-0 box-border flex max-h-[calc(100%-24px)] w-full max-w-full cursor-default flex-col overflow-y-scroll rounded-2xl rounded-b-none bg-white p-6 text-sm leading-snug shadow-[0_4px_5px_0_#00000005,0_16px_40px_0_#00000014] md:max-h-[calc(100%-48px)] md:w-[400px] md:rounded-b-2xl">
           {/* INTRO */}
           <div class="flex flex-col space-y-[10px]">
             <div class="flex items-center">
