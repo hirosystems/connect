@@ -120,3 +120,8 @@ export const showSignStructuredMessage = wrapConnectCall(openStructuredDataSigna
 
 /** Disconnect selected wallet. Alias for {@link clearSelectedProvider} */
 export const disconnect = clearSelectedProvider();
+
+/**
+ * @deprecated Use the renamed {@link showConnect} method
+ */
+export const showBlockstackConnect = showConnect;
