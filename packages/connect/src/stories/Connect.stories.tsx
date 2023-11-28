@@ -1,4 +1,4 @@
-import { DEFAULT_PROVIDERS } from '@stacks/connect';
+import { DEFAULT_PROVIDERS } from '../ui';
 import { ConnectPage } from './ConnectPage';
 
 export default {

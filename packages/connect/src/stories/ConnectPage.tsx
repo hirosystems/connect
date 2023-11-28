@@ -1,5 +1,5 @@
-import { showConnect } from '@stacks/connect';
 import { clearSelectedProvider } from '@stacks/connect-ui';
+import { showConnect } from '../ui';
 
 export const ConnectPage = ({ children }: { children?: any }) => {
   function connect() {
