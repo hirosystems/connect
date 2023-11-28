@@ -5,7 +5,7 @@ enum States {
   UPDATE_AUTH_OPTIONS = 'data/update-auth-options',
 }
 
-type Action = { type: string; payload?: any };
+type Action = { type: States; payload?: any };
 
 type Dispatch = (action: Action) => void;
 
@@ -35,7 +35,7 @@ const initialState: State = {
   },
 };
 
-const connectReducer = (state: State, { type, payload }: { type: string; payload?: any }) => {
+const connectReducer = (state: State, { type, payload }: { type: States; payload?: any }) => {
   switch (type) {
     case States.UPDATE_AUTH_OPTIONS: {
       return {

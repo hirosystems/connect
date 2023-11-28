@@ -2,7 +2,6 @@
   "name": "@stacks/connect-react",
   "version": "22.2.2",
   "license": "MIT",
-  "prettier": "@stacks/prettier-config",
   "scripts": {
     "build": "concurrently 'tsup src/index.ts' 'yarn types'",
     "prepublishOnly": "yarn build",
