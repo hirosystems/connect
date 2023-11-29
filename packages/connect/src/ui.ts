@@ -1,8 +1,8 @@
 import {
   WebBTCProvider,
-  clearSelectedProvider,
+  clearSelectedProviderId,
   getInstalledProviders,
-  getSelectedProvider,
+  getSelectedProviderId,
 } from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
 import { authenticate } from './auth';
@@ -28,6 +28,7 @@ import {
   TransactionOptions,
 } from './types';
 import type { AuthOptions } from './types/auth';
+import { getStacksProvider } from './utils';
 
 export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
   {
@@ -47,7 +48,7 @@ export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
     name: 'Xverse Wallet',
     icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiMxNzE3MTciIGQ9Ik0wIDBoNjAwdjYwMEgweiIvPjxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTQ0MCA0MzUuNHYtNTFjMC0yLS44LTMuOS0yLjItNS4zTDIyMCAxNjIuMmE3LjYgNy42IDAgMCAwLTUuNC0yLjJoLTUxLjFjLTIuNSAwLTQuNiAyLTQuNiA0LjZ2NDcuM2MwIDIgLjggNCAyLjIgNS40bDc4LjIgNzcuOGE0LjYgNC42IDAgMCAxIDAgNi41bC03OSA3OC43Yy0xIC45LTEuNCAyLTEuNCAzLjJ2NTJjMCAyLjQgMiA0LjUgNC42IDQuNUgyNDljMi42IDAgNC42LTIgNC42LTQuNlY0MDVjMC0xLjIuNS0yLjQgMS40LTMuM2w0Mi40LTQyLjJhNC42IDQuNiAwIDAgMSA2LjQgMGw3OC43IDc4LjRhNy42IDcuNiAwIDAgMCA1LjQgMi4yaDQ3LjVjMi41IDAgNC42LTIgNC42LTQuNloiLz48cGF0aCBmaWxsPSIjRUU3QTMwIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGQ9Ik0zMjUuNiAyMjcuMmg0Mi44YzIuNiAwIDQuNiAyLjEgNC42IDQuNnY0Mi42YzAgNCA1IDYuMSA4IDMuMmw1OC43LTU4LjVjLjgtLjggMS4zLTIgMS4zLTMuMnYtNTEuMmMwLTIuNi0yLTQuNi00LjYtNC42TDM4NCAxNjBjLTEuMiAwLTIuNC41LTMuMyAxLjNsLTU4LjQgNTguMWE0LjYgNC42IDAgMCAwIDMuMiA3LjhaIi8+PC9nPjwvc3ZnPg==',
 
-    webUrl: 'https://www.xverse.app',
+    webUrl: 'https://xverse.app',
     chromeWebStoreUrl:
       'https://chrome.google.com/webstore/detail/xverse-wallet/idnnbdplmphpflfnlkomgpfbpcgelopg',
     googlePlayStoreUrl: 'https://play.google.com/store/apps/details?id=com.secretkeylabs.xverse',
@@ -71,8 +72,11 @@ export type ActionOptions = (
 
 function wrapConnectCall<O extends ActionOptions>(action: (o: O, p?: StacksProvider) => any) {
   return function wrapped(o: O, p?: StacksProvider) {
-    const selectedProvider = p || getSelectedProvider();
-    if (selectedProvider) return action(o, p);
+    if (p) return action(o, p); // if a provider is passed, use it
+
+    const providerId = getSelectedProviderId();
+    const provider = getStacksProvider();
+    if (providerId && provider) return action(o, provider); // if a provider is selected, use it
 
     if (typeof window === 'undefined') return;
     void defineCustomElements(window);
@@ -83,7 +87,7 @@ function wrapConnectCall<O extends ActionOptions>(action: (o: O, p?: StacksProvi
     const element = document.createElement('connect-modal');
     element.defaultProviders = defaultProviders;
     element.installedProviders = installedProviders;
-    element.callback = () => action(o, p);
+    element.callback = () => action(o);
 
     document.body.appendChild(element);
 
@@ -119,7 +123,7 @@ export const showSignMessage = wrapConnectCall(openSignatureRequestPopup);
 export const showSignStructuredMessage = wrapConnectCall(openStructuredDataSignatureRequestPopup);
 
 /** Disconnect selected wallet. Alias for {@link clearSelectedProvider} */
-export const disconnect = clearSelectedProvider();
+export const disconnect = clearSelectedProviderId;
 
 /**
  * @deprecated Use the renamed {@link showConnect} method

@@ -1,6 +1,6 @@
 import { Component, Element, Prop, h } from '@stencil/core';
 import { WebBTCProvider } from '../../providers';
-import { setSelectedProvider } from '../../session';
+import { setSelectedProviderId } from '../../session';
 import CloseIcon from './assets/close-icon.svg';
 import { getBrowser, getPlatform } from './utils';
 
@@ -19,7 +19,7 @@ export class Modal {
   @Element() modalEl: HTMLConnectModalElement;
 
   handleSelectProvider(providerId: string) {
-    setSelectedProvider(providerId);
+    setSelectedProviderId(providerId);
     this.modalEl.remove();
     this.callback();
   }

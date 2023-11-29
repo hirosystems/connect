@@ -1,4 +1,4 @@
-import { clearSelectedProvider } from '@stacks/connect-ui';
+import { clearSelectedProviderId } from '@stacks/connect-ui';
 import { showConnect } from '../ui';
 
 export const ConnectPage = ({ children }: { children?: any }) => {
@@ -14,7 +14,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
   return (
     <div>
       <button onClick={connect}>Connect Wallet</button>
-      <button onClick={() => clearSelectedProvider()}>Disconnect</button>
+      <button onClick={() => clearSelectedProviderId()}>Disconnect</button>
       {children}
     </div>
   );

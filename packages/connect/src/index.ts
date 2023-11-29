@@ -11,7 +11,7 @@ export * from './ui';
 // re-exports
 export * from '@stacks/auth';
 export {
-  clearSelectedProvider,
-  getSelectedProvider,
-  setSelectedProvider,
+  clearSelectedProviderId,
+  getSelectedProviderId,
+  setSelectedProviderId,
 } from '@stacks/connect-ui';
