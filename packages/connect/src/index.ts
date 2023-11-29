@@ -8,6 +8,8 @@ export * from './types';
 export * from './utils';
 export * from './ui';
 
+export * from './providers';
+
 // re-exports
 export * from '@stacks/auth';
 export {

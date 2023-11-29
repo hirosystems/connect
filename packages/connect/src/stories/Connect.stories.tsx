@@ -1,4 +1,4 @@
-import { DEFAULT_PROVIDERS } from '../ui';
+import { DEFAULT_PROVIDERS } from '../providers';
 import { ConnectPage } from './ConnectPage';
 
 export default {
