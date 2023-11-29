@@ -1,6 +1,7 @@
 import { defineConfig } from 'tsup';
 
 import { version } from './package.json';
+import { replace } from 'esbuild-plugin-replace';
 
 export default defineConfig({
   format: ['cjs', 'esm', 'iife'],
@@ -20,9 +21,10 @@ export default defineConfig({
   metafile: !!process.env.ANALYZE,
 
   esbuildOptions(options) {
-    options.define = {
-      ...options.define,
-      __VERSION__: JSON.stringify(version),
-    };
+    options.plugins?.push(
+      replace({
+        __VERSION__: version,
+      })
+    );
   },
 });

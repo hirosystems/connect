@@ -6,10 +6,8 @@ import { getStacksProvider } from './utils';
 
 export const defaultAuthURL = 'https://app.blockstack.org';
 
-const version = __VERSION__; // replaced via tsup esbuildOptions
-
 if (typeof window !== 'undefined') {
-  window.__CONNECT_VERSION__ = version;
+  window.__CONNECT_VERSION__ = '__VERSION__'; // replaced via tsup esbuildOptions
 }
 
 export const isMobile = () => {
@@ -68,7 +66,7 @@ export const authenticate = async (
     {
       sendToSignIn,
       appDetails,
-      connectVersion: version,
+      connectVersion: '__VERSION__', // replaced via tsup esbuildOptions,
     }
   );
 
