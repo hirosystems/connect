@@ -31,8 +31,6 @@ import type { AuthOptions } from './types/auth';
 import { getStacksProvider } from './utils';
 import { DEFAULT_PROVIDERS } from './providers';
 
-
-
 export type ActionOptions = (
   | AuthOptions
   | STXTransferOptions
@@ -99,7 +97,7 @@ export const showSignMessage = wrapConnectCall(openSignatureRequestPopup);
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openStructuredDataSignatureRequestPopup} action. */
 export const showSignStructuredMessage = wrapConnectCall(openStructuredDataSignatureRequestPopup);
 
-/** Disconnect selected wallet. Alias for {@link clearSelectedProvider} */
+/** Disconnect selected wallet. Alias for {@link clearSelectedProviderId} */
 export const disconnect = clearSelectedProviderId;
 
 /**
