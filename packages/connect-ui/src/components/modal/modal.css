@@ -1,0 +1,11 @@
+:host {
+  all: initial;
+}
+
+.modal-body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
