@@ -167,25 +167,25 @@ If ANY conditions fails, the transaction will fail.
 
 The _Post-Condition Mode_ only relates to transfers of assets, which were not specified in the `postConditions`.
 
-- `PostConditionMode.Deny` will fail the transaction if any unspecified assets are transferred
-- `PostConditionMode.Allow` will allow unspecified assets to be transferred
-- In both cases, all `postConditions` will be checked
+- `PostConditionMode.Deny` fails the transaction if any unspecified assets are transferred
+- `PostConditionMode.Allow` allows unspecified assets to be transferred
+- In both cases, all `postConditions` are checked
 
 ### 🛠 Advanced <!-- omit in toc -->
 
 #### Opening a specific wallet <!-- omit in toc -->
 
-By default, `@stacks/connect` will defer to the `window.StacksProvider` object to interact with wallets.
+By default, `@stacks/connect` defers to the `window.StacksProvider` object to interact with wallets.
 However, if multiple wallets are installed, they might interfere with each other.
 To avoid this, you can specify which wallet to use in the wallet interaction methods.
 
 ```js
-// This will open only the Hiro Wallet
-authenticate({ ...opts }, HiroWalletProvider);
-openPsbtRequestPopup({ ...opts }, HiroWalletProvider);
-openProfileUpdateRequestPopup({ ...opts }, HiroWalletProvider);
-openSignatureRequestPopup({ ...opts }, HiroWalletProvider);
-openStructuredDataSignatureRequestPopup({ ...opts }, HiroWalletProvider);
+// Only opens requests in Leather
+authenticate({ ...opts }, LeatherProvider);
+openPsbtRequestPopup({ ...opts }, LeatherProvider);
+openProfileUpdateRequestPopup({ ...opts }, LeatherProvider);
+openSignatureRequestPopup({ ...opts }, LeatherProvider);
+openStructuredDataSignatureRequestPopup({ ...opts }, LeatherProvider);
 ```
 
 ## 🤔 Pitfalls <!-- omit in toc -->
