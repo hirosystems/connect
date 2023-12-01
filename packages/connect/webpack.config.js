@@ -59,7 +59,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      __VERSION__: JSON.stringify(version),
+      __VERSION__: version,
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',

@@ -7,9 +7,11 @@
 
 ## Properties
 
-| Property      | Attribute      | Description | Type  | Default     |
-| ------------- | -------------- | ----------- | ----- | ----------- |
-| `authOptions` | `auth-options` |             | `any` | `undefined` |
+| Property             | Attribute | Description | Type               | Default     |
+| -------------------- | --------- | ----------- | ------------------ | ----------- |
+| `callback`           | --        |             | `Function`         | `undefined` |
+| `defaultProviders`   | --        |             | `WebBTCProvider[]` | `undefined` |
+| `installedProviders` | --        |             | `WebBTCProvider[]` | `undefined` |
 
 
 ----------------------------------------------

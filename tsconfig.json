@@ -21,11 +21,10 @@
     "noUnusedParameters": true,
 
     "paths": {
-      "@stacks/connect/*": ["../connect/src/*"]
+      "@stacks/connect/*": ["../connect/src/*"],
+      "@stacks/connect-ui/*": ["../connect-ui/src/*"]
     }
   },
-
-  "include": ["./**/*"],
 
   "typedocOptions": {
     "name": "Stacks Connect",

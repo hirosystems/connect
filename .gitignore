@@ -48,3 +48,5 @@ packages/connect-ui/connect
 web-ext-artifacts
 
 docs/
+
+storybook-static/

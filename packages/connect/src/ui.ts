@@ -1,23 +1,71 @@
-import { authenticate } from './auth';
-import type { AuthOptions } from './types/auth';
+import {
+  WebBTCProvider,
+  clearSelectedProviderId,
+  getInstalledProviders,
+  getSelectedProviderId,
+} from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
+import { authenticate } from './auth';
+import { openPsbtRequestPopup } from './bitcoin';
+import { openProfileUpdateRequestPopup } from './profile';
+import { openSignatureRequestPopup } from './signature';
+import { openStructuredDataSignatureRequestPopup } from './signature/structuredData';
+import {
+  openContractCall,
+  openContractDeploy,
+  openSTXTransfer,
+  openSignTransaction,
+} from './transactions';
+import {
+  ContractCallOptions,
+  ContractDeployOptions,
+  ProfileUpdateRequestOptions,
+  PsbtRequestOptions,
+  STXTransferOptions,
+  SignatureRequestOptions,
+  StacksProvider,
+  StructuredDataSignatureRequestOptions,
+  TransactionOptions,
+} from './types';
+import type { AuthOptions } from './types/auth';
 import { getStacksProvider } from './utils';
-import { StacksProvider } from './types';
+import { DEFAULT_PROVIDERS } from './providers';
 
-export const showConnect = (
-  authOptions: AuthOptions,
-  provider: StacksProvider = getStacksProvider()
-) => {
-  if (provider) {
-    void authenticate(authOptions, provider);
-    return;
-  }
+export type ActionOptions = (
+  | AuthOptions
+  | STXTransferOptions
+  | ContractCallOptions
+  | ContractDeployOptions
+  | TransactionOptions
+  | PsbtRequestOptions
+  | ProfileUpdateRequestOptions
+  | SignatureRequestOptions
+  | StructuredDataSignatureRequestOptions
+) & {
+  defaultProviders?: WebBTCProvider[];
+};
 
-  if (typeof window !== undefined) {
+function wrapConnectCall<O extends ActionOptions>(action: (o: O, p?: StacksProvider) => any) {
+  return function wrapped(o: O, p?: StacksProvider) {
+    if (p) return action(o, p); // if a provider is passed, use it
+
+    const providerId = getSelectedProviderId();
+    const provider = getStacksProvider();
+    if (providerId && provider) return action(o, provider); // if a provider is selected, use it
+
+    if (typeof window === 'undefined') return;
     void defineCustomElements(window);
+
+    const defaultProviders = o?.defaultProviders ?? DEFAULT_PROVIDERS;
+    const installedProviders = getInstalledProviders(defaultProviders);
+
     const element = document.createElement('connect-modal');
-    element.authOptions = authOptions;
+    element.defaultProviders = defaultProviders;
+    element.installedProviders = installedProviders;
+    element.callback = () => action(o);
+
     document.body.appendChild(element);
+
     const handleEsc = (ev: KeyboardEvent) => {
       if (ev.key === 'Escape') {
         document.removeEventListener('keydown', handleEsc);
@@ -25,10 +73,34 @@ export const showConnect = (
       }
     };
     document.addEventListener('keydown', handleEsc);
-  }
-};
+  };
+}
+
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link authenticate} action. */
+export const showConnect = wrapConnectCall(authenticate);
+
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSTXTransfer} action. */
+export const showSTXTransfer = wrapConnectCall(openSTXTransfer);
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openContractCall} action. */
+export const showContractCall = wrapConnectCall(openContractCall);
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openContractDeploy} action. */
+export const showContractDeploy = wrapConnectCall(openContractDeploy);
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignTransaction} action. */
+export const showSignTransaction = wrapConnectCall(openSignTransaction);
+
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openPsbtRequestPopup} action. */
+export const showPsbt = wrapConnectCall(openPsbtRequestPopup);
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openProfileUpdateRequestPopup} action. */
+export const showProfileUpdate = wrapConnectCall(openProfileUpdateRequestPopup);
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignatureRequestPopup} action. */
+export const showSignMessage = wrapConnectCall(openSignatureRequestPopup);
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openStructuredDataSignatureRequestPopup} action. */
+export const showSignStructuredMessage = wrapConnectCall(openStructuredDataSignatureRequestPopup);
+
+/** Disconnect selected wallet. Alias for {@link clearSelectedProviderId} */
+export const disconnect = clearSelectedProviderId;
 
 /**
- * @deprecated Use the renamed `showConnect` method
+ * @deprecated Use the renamed {@link showConnect} method
  */
-export const showBlockstackConnect = (authOptions: AuthOptions) => showConnect(authOptions);
+export const showBlockstackConnect = showConnect;
