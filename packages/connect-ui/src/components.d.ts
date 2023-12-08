@@ -11,6 +11,7 @@ export namespace Components {
         "callback": Function;
         "defaultProviders": WebBTCProvider[];
         "installedProviders": WebBTCProvider[];
+        "persistSelection": boolean;
     }
 }
 declare global {
@@ -29,6 +30,7 @@ declare namespace LocalJSX {
         "callback"?: Function;
         "defaultProviders"?: WebBTCProvider[];
         "installedProviders"?: WebBTCProvider[];
+        "persistSelection"?: boolean;
     }
     interface IntrinsicElements {
         "connect-modal": ConnectModal;

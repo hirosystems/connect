@@ -7,11 +7,12 @@
 
 ## Properties
 
-| Property             | Attribute | Description | Type               | Default     |
-| -------------------- | --------- | ----------- | ------------------ | ----------- |
-| `callback`           | --        |             | `Function`         | `undefined` |
-| `defaultProviders`   | --        |             | `WebBTCProvider[]` | `undefined` |
-| `installedProviders` | --        |             | `WebBTCProvider[]` | `undefined` |
+| Property             | Attribute           | Description | Type               | Default     |
+| -------------------- | ------------------- | ----------- | ------------------ | ----------- |
+| `callback`           | --                  |             | `Function`         | `undefined` |
+| `defaultProviders`   | --                  |             | `WebBTCProvider[]` | `undefined` |
+| `installedProviders` | --                  |             | `WebBTCProvider[]` | `undefined` |
+| `persistSelection`   | `persist-selection` |             | `boolean`          | `undefined` |
 
 
 ----------------------------------------------

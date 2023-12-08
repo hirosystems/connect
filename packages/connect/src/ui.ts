@@ -45,7 +45,11 @@ export type ActionOptions = (
   defaultProviders?: WebBTCProvider[];
 };
 
-function wrapConnectCall<O extends ActionOptions>(action: (o: O, p?: StacksProvider) => any) {
+/** Helper higher-order function for creating connect methods that allow for wallet selection */
+function wrapConnectCall<O extends ActionOptions>(
+  action: (o: O, p?: StacksProvider) => any,
+  persistSelection = true
+) {
   return function wrapped(o: O, p?: StacksProvider) {
     if (p) return action(o, p); // if a provider is passed, use it
 
@@ -62,6 +66,7 @@ function wrapConnectCall<O extends ActionOptions>(action: (o: O, p?: StacksProvi
     const element = document.createElement('connect-modal');
     element.defaultProviders = defaultProviders;
     element.installedProviders = installedProviders;
+    element.persistSelection = persistSelection;
     element.callback = () => action(o);
 
     document.body.appendChild(element);
@@ -77,7 +82,7 @@ function wrapConnectCall<O extends ActionOptions>(action: (o: O, p?: StacksProvi
 }
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link authenticate} action. */
-export const showConnect = wrapConnectCall(authenticate);
+export const showConnect = wrapConnectCall(authenticate, false);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSTXTransfer} action. */
 export const showSTXTransfer = wrapConnectCall(openSTXTransfer);
