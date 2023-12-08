@@ -14,12 +14,14 @@ export class Modal {
   @Prop() defaultProviders: WebBTCProvider[];
   @Prop() installedProviders: WebBTCProvider[];
 
+  @Prop() persistSelection: boolean;
+
   @Prop() callback: Function;
 
   @Element() modalEl: HTMLConnectModalElement;
 
   handleSelectProvider(providerId: string) {
-    setSelectedProviderId(providerId);
+    if (this.persistSelection) setSelectedProviderId(providerId);
     this.modalEl.remove();
     this.callback();
   }
