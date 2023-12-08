@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.2.0
+
+### Minor Changes
+
+- [#341](https://github.com/hirosystems/connect/pull/341) [`5284ddf`](https://github.com/hirosystems/connect/commit/5284ddf721535e90b6a1cbbc77e46f1e1b14d58e) Thanks [@janniks](https://github.com/janniks)! - Add new UI to allow selecting which wallet to use
+
 ## 6.1.3
 
 ### Patch Changes

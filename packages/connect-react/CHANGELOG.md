@@ -1,5 +1,16 @@
 # Change Log
 
+## 22.3.0
+
+### Minor Changes
+
+- [#341](https://github.com/hirosystems/connect/pull/341) [`5284ddf`](https://github.com/hirosystems/connect/commit/5284ddf721535e90b6a1cbbc77e46f1e1b14d58e) Thanks [@janniks](https://github.com/janniks)! - Add new UI to allow selecting which wallet to use
+
+### Patch Changes
+
+- Updated dependencies [[`5284ddf`](https://github.com/hirosystems/connect/commit/5284ddf721535e90b6a1cbbc77e46f1e1b14d58e)]:
+  - @stacks/connect@7.5.0
+
 ## 22.2.2
 
 ### Patch Changes
