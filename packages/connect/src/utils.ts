@@ -1,9 +1,7 @@
-import { getSelectedProviderId } from '@stacks/connect-ui';
+import { getSelectedProviderId, getProviderFromId } from '@stacks/connect-ui';
 
 export function getStacksProvider() {
-  const providerId = getSelectedProviderId();
-  const provider = providerId?.split('.').reduce((acc, part) => acc?.[part], window);
-
+  const provider = getProviderFromId(getSelectedProviderId());
   return provider || window.StacksProvider || window.BlockstackProvider;
 }
 

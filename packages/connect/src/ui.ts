@@ -67,7 +67,7 @@ function wrapConnectCall<O extends ActionOptions>(
     element.defaultProviders = defaultProviders;
     element.installedProviders = installedProviders;
     element.persistSelection = persistSelection;
-    element.callback = () => action(o);
+    element.callback = (passedProvider: StacksProvider | undefined) => action(o, passedProvider);
 
     document.body.appendChild(element);
 

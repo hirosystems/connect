@@ -48,9 +48,13 @@ export const getInstalledProviders = (defaultProviders: WebBTCProvider[] = []) =
     if (registeredProviders.find(rp => rp.id === dp.id)) return false;
 
     // check if default provider is installed (even if not registered)
-    const provider = dp.id.split('.').reduce((acc, part) => acc?.[part], window);
+    const provider = getProviderFromId(dp.id);
     return !!provider;
   });
 
   return registeredProviders.concat(additionalInstalledProviders);
+};
+
+export const getProviderFromId = (id: string | undefined) => {
+  return id?.split('.').reduce((acc, part) => acc?.[part], window);
 };
