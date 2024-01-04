@@ -1,5 +1,14 @@
 # Change Log
 
+## 7.5.1
+
+### Patch Changes
+
+- [#351](https://github.com/hirosystems/connect/pull/351) [`97c80e5`](https://github.com/hirosystems/connect/commit/97c80e5739384303c4a84127b38f6824566bc3ae) Thanks [@janniks](https://github.com/janniks)! - Fix bug that would revert to undefined wallet popup behavior.
+
+- Updated dependencies [[`97c80e5`](https://github.com/hirosystems/connect/commit/97c80e5739384303c4a84127b38f6824566bc3ae)]:
+  - @stacks/connect-ui@6.2.1
+
 ## 7.5.0
 
 ### Minor Changes
