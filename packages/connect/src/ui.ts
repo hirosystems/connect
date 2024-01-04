@@ -47,27 +47,28 @@ export type ActionOptions = (
 
 /** Helper higher-order function for creating connect methods that allow for wallet selection */
 function wrapConnectCall<O extends ActionOptions>(
-  action: (o: O, p?: StacksProvider) => any,
+  action: (options: O, provider?: StacksProvider) => any,
   persistSelection = true
 ) {
-  return function wrapped(o: O, p?: StacksProvider) {
-    if (p) return action(o, p); // if a provider is passed, use it
+  return function wrapped(options: O, provider?: StacksProvider) {
+    if (provider) return action(options, provider); // if a provider is passed, use it
 
-    const providerId = getSelectedProviderId();
-    const provider = getStacksProvider();
-    if (providerId && provider) return action(o, provider); // if a provider is selected, use it
+    const selectedId = getSelectedProviderId();
+    const selectedProvider = getStacksProvider();
+    if (selectedId && selectedProvider) return action(options, selectedProvider); // if a provider is selected, use it
 
     if (typeof window === 'undefined') return;
     void defineCustomElements(window);
 
-    const defaultProviders = o?.defaultProviders ?? DEFAULT_PROVIDERS;
+    const defaultProviders = options?.defaultProviders ?? DEFAULT_PROVIDERS;
     const installedProviders = getInstalledProviders(defaultProviders);
 
     const element = document.createElement('connect-modal');
     element.defaultProviders = defaultProviders;
     element.installedProviders = installedProviders;
     element.persistSelection = persistSelection;
-    element.callback = (passedProvider: StacksProvider | undefined) => action(o, passedProvider);
+    element.callback = (selectedProvider: StacksProvider | undefined) =>
+      action(options, selectedProvider);
 
     document.body.appendChild(element);
 
