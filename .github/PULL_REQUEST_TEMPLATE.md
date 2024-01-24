@@ -60,4 +60,3 @@ Provide context on how tests should be performed.
 - [ ] Unit test coverage for new or modified code paths
 - [ ] `yarn lerna run test` passes
 - [ ] Changelog is updated
-- [ ] Tag 1 of @hstove or @kyranjamie or @aulneau for review
