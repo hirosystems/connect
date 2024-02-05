@@ -1,5 +1,16 @@
 # Change Log
 
+## 22.4.0
+
+### Minor Changes
+
+- [#360](https://github.com/hirosystems/connect/pull/360) [`270b8aa`](https://github.com/hirosystems/connect/commit/270b8aa3b7f6a22a040d224eff043c42eb129df0) Thanks [@fess-v](https://github.com/fess-v)! - Add Asigna to recommended wallet list
+
+### Patch Changes
+
+- Updated dependencies [[`270b8aa`](https://github.com/hirosystems/connect/commit/270b8aa3b7f6a22a040d224eff043c42eb129df0)]:
+  - @stacks/connect@7.6.0
+
 ## 22.3.1
 
 ### Patch Changes
