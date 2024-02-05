@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.3.0
+
+### Minor Changes
+
+- [#360](https://github.com/hirosystems/connect/pull/360) [`270b8aa`](https://github.com/hirosystems/connect/commit/270b8aa3b7f6a22a040d224eff043c42eb129df0) Thanks [@fess-v](https://github.com/fess-v)! - Add Asigna to recommended wallet list
+
 ## 6.2.1
 
 ### Patch Changes
