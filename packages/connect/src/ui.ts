@@ -67,8 +67,23 @@ function wrapConnectCall<O extends ActionOptions>(
     element.defaultProviders = defaultProviders;
     element.installedProviders = installedProviders;
     element.persistSelection = persistSelection;
-    element.callback = (selectedProvider: StacksProvider | undefined) =>
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const closeModal = () => {
+      element.remove();
+      document.body.style.overflow = originalOverflow;
+    };
+
+    element.callback = (selectedProvider: StacksProvider | undefined) => {
+      closeModal();
       action(options, selectedProvider);
+    };
+    element.cancelCallback = () => {
+      closeModal();
+      options.onCancel?.();
+    };
 
     document.body.appendChild(element);
 

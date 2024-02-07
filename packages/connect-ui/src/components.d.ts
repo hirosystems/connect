@@ -9,6 +9,7 @@ import { WebBTCProvider } from "./providers";
 export namespace Components {
     interface ConnectModal {
         "callback": Function;
+        "cancelCallback": Function;
         "defaultProviders": WebBTCProvider[];
         "installedProviders": WebBTCProvider[];
         "persistSelection": boolean;
@@ -28,6 +29,7 @@ declare global {
 declare namespace LocalJSX {
     interface ConnectModal {
         "callback"?: Function;
+        "cancelCallback"?: Function;
         "defaultProviders"?: WebBTCProvider[];
         "installedProviders"?: WebBTCProvider[];
         "persistSelection"?: boolean;
