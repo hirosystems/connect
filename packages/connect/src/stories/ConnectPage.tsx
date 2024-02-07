@@ -16,6 +16,12 @@ export const ConnectPage = ({ children }: { children?: any }) => {
       <button onClick={connect}>Connect Wallet</button>
       <button onClick={() => clearSelectedProviderId()}>Disconnect</button>
       {children}
+      <div
+        style={{
+          backgroundColor: '#f0f0f0',
+          height: '2000px', // very high, to test scrolling
+        }}
+      />
     </div>
   );
 };
