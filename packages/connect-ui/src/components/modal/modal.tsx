@@ -53,14 +53,14 @@ export class Modal {
     return provider.iOSAppStoreUrl ?? provider.googlePlayStoreUrl;
   }
 
-  getInstallUrl(provider: WebBTCProvider, browser: string) {
-    if (browser === 'Chrome') {
+  getInstallUrl(provider: WebBTCProvider, browser: string, platform: string) {
+    if (platform === 'IOS') {
+      return provider.iOSAppStoreUrl ?? this.getBrowserUrl(provider) ?? provider.webUrl;
+    } else if (browser === 'Chrome') {
       return provider.chromeWebStoreUrl ?? this.getMobileUrl(provider) ?? provider.webUrl;
     } else if (browser === 'Firefox') {
       return provider.mozillaAddOnsUrl ?? this.getMobileUrl(provider) ?? provider.webUrl;
-    } else if (browser === 'IOS') {
-      return provider.iOSAppStoreUrl ?? this.getBrowserUrl(provider) ?? provider.webUrl;
-    } else if (browser === 'Android') {
+    } else if (platform === 'Android') {
       return provider.googlePlayStoreUrl ?? this.getBrowserUrl(provider) ?? provider.webUrl;
     } else {
       return this.getBrowserUrl(provider) ?? provider.webUrl ?? this.getMobileUrl(provider);
@@ -197,10 +197,10 @@ export class Modal {
                         </a>
                       )}
                     </div>
-                    {this.getInstallUrl(provider, browser) && (
+                    {this.getInstallUrl(provider, browser, mobile) && (
                       <a
                         class="rounded-[10px] border border-[#EFEFF2] px-4 py-2 text-sm font-medium shadow-[0_1px_2px_0_#0000000A] outline-[#FFBD7A] transition-colors hover:text-[#242629] hover:shadow-[0_1px_2px_0_#00000010] focus:outline focus:outline-[3px] active:scale-95"
-                        href={this.getInstallUrl(provider, browser)}
+                        href={this.getInstallUrl(provider, browser, mobile)}
                         rel="noopener noreferrer"
                         target="_blank"
                       >

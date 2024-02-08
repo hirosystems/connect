@@ -9,9 +9,7 @@ export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
     webUrl: 'https://leather.io',
     chromeWebStoreUrl:
       'https://chrome.google.com/webstore/detail/hiro-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj',
-    mozillaAddOnsUrl: 'https://addons.mozilla.org/en-US/firefox/addon/hiro-wallet',
-    googlePlayStoreUrl: 'https://play.google.com/store/apps/details?id=io.hiro.wallet',
-    iOSAppStoreUrl: 'https://apps.apple.com/app/hiro-wallet/id1492380872',
+    mozillaAddOnsUrl: 'https://leather.io/install-extension',
   },
   {
     id: 'XverseProviders.StacksProvider',
@@ -23,6 +21,7 @@ export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
       'https://chrome.google.com/webstore/detail/xverse-wallet/idnnbdplmphpflfnlkomgpfbpcgelopg',
     googlePlayStoreUrl: 'https://play.google.com/store/apps/details?id=com.secretkeylabs.xverse',
     iOSAppStoreUrl: 'https://apps.apple.com/app/xverse-bitcoin-web3-wallet/id1552272513',
+    mozillaAddOnsUrl: 'https://www.xverse.app/download',
   },
   {
     id: 'AsignaProvider',
