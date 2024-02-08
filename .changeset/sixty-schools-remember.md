@@ -3,4 +3,4 @@
 '@stacks/connect': minor
 ---
 
-Adds cancelCallback to modal, which is triggers onCancel
+Adds cancelCallback to modal, which is triggered onCancel
