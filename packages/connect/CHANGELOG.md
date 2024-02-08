@@ -1,5 +1,18 @@
 # Change Log
 
+## 7.7.0
+
+### Minor Changes
+
+- [#362](https://github.com/hirosystems/connect/pull/362) [`8dac7b2`](https://github.com/hirosystems/connect/commit/8dac7b22211d7cd55a03b555c167557d8167d8ba) Thanks [@janniks](https://github.com/janniks)! - Disables scrolling of the site when the modal is open
+
+- [#362](https://github.com/hirosystems/connect/pull/362) [`8dac7b2`](https://github.com/hirosystems/connect/commit/8dac7b22211d7cd55a03b555c167557d8167d8ba) Thanks [@janniks](https://github.com/janniks)! - Adds cancelCallback to modal, which is triggered onCancel
+
+### Patch Changes
+
+- Updated dependencies [[`8dac7b2`](https://github.com/hirosystems/connect/commit/8dac7b22211d7cd55a03b555c167557d8167d8ba), [`8dac7b2`](https://github.com/hirosystems/connect/commit/8dac7b22211d7cd55a03b555c167557d8167d8ba)]:
+  - @stacks/connect-ui@6.4.0
+
 ## 7.6.0
 
 ### Minor Changes
