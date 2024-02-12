@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.4.1
+
+### Patch Changes
+
+- [#364](https://github.com/hirosystems/connect/pull/364) [`2c61ef3`](https://github.com/hirosystems/connect/commit/2c61ef3589dcd6b94e4d966ccb964ae55200906d) Thanks [@janniks](https://github.com/janniks)! - Update link behavior
+
 ## 6.4.0
 
 ### Minor Changes
