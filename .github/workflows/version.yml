@@ -2,7 +2,7 @@ name: Version
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   workflow_dispatch:
 
 env:
@@ -20,8 +20,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          cache: "yarn"
+          node-version: '18'
+          cache: 'npm'
       - name: Code Checks
         uses: ./.github/actions/code-checks
 
@@ -35,14 +35,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          cache: "yarn"
+          node-version: '18'
+          cache: 'npm'
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Create Release Pull Request
         uses: changesets/action@e9cc34b540dd3ad1b030c57fd97269e8f6ad905a
         with:
-          title: "chore: version packages"
-          commit: "chore: version packages"
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

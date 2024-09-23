@@ -3,8 +3,8 @@
   "version": "7.7.1",
   "license": "MIT",
   "scripts": {
-    "build": "concurrently 'tsup src/index.ts' 'yarn types'",
-    "prepublishOnly": "yarn build",
+    "build": "concurrently 'tsup src/index.ts' 'npm run types'",
+    "prepublishOnly": "npm run build",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "storybook": "storybook dev -p 6006",
