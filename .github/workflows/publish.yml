@@ -2,7 +2,7 @@ name: Publish
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   workflow_dispatch:
 
 jobs:
@@ -18,13 +18,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          cache: "yarn"
+          node-version: '18'
+          cache: 'npm'
       - name: Install monorepo deps
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Setup .npmrc
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish
-        run: yarn lerna publish from-package --yes
+        run: npx lerna publish from-package --yes
