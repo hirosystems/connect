@@ -1,5 +1,16 @@
 # Change Log
 
+## 7.8.0
+
+### Minor Changes
+
+- [#389](https://github.com/hirosystems/connect/pull/389) [`ada779a`](https://github.com/hirosystems/connect/commit/ada779ad9b25fb83f8f3b055923424138e57fe6f) Thanks [@janniks](https://github.com/janniks)! - Add backwards compatible stacks network and string options
+
+### Patch Changes
+
+- Updated dependencies [[`ada779a`](https://github.com/hirosystems/connect/commit/ada779ad9b25fb83f8f3b055923424138e57fe6f)]:
+  - @stacks/connect-ui@6.5.0
+
 ## 7.7.1
 
 ### Patch Changes

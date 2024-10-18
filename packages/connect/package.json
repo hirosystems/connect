@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect",
-  "version": "7.7.1",
+  "version": "7.8.0",
   "license": "MIT",
   "scripts": {
     "build": "concurrently 'tsup src/index.ts' 'npm run types'",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@stacks/auth": "^7.0.0-next.70",
     "@stacks/common": "^7.0.0-next.70",
-    "@stacks/connect-ui": "6.4.1",
+    "@stacks/connect-ui": "6.5.0",
     "@stacks/network": "^7.0.0-next.70",
     "@stacks/network-v6": "npm:@stacks/network@^6.16.0",
     "@stacks/profile": "^7.0.0-next.70",
