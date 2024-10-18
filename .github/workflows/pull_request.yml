@@ -35,8 +35,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          cache: "yarn"
+          node-version: '18'
+          cache: 'npm'
       - name: Code Checks
         uses: ./.github/actions/code-checks
 
@@ -53,10 +53,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          cache: "yarn"
+          node-version: '18'
+          cache: 'npm'
       - name: Install monorepo deps
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Setup .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -80,7 +80,7 @@ jobs:
         env:
           BRANCH: ${{ steps.git-branch.outputs.branch }}
           SHA: ${{ steps.git-commit.outputs.sha }}
-        run: yarn lerna publish prepatch --preid alpha.$SHA --dist-tag $BRANCH --yes --no-push
+        run: npx lerna publish prepatch --preid alpha.$SHA --dist-tag $BRANCH --yes --no-push
       - name: Get alpha package versions
         id: alpha
         run: |

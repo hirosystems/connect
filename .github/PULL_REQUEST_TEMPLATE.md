@@ -23,17 +23,20 @@ encryptContent('my data')
 For details refer to issue #123
 
 ## Type of Change
+
 - [ ] New feature
 - [ ] Bug fix
 - [ ] API reference/documentation update
 - [ ] Other
 
 ## Does this introduce a breaking change?
+
 List the APIs or describe the functionality that this PR breaks.
 Workarounds for or expected timeline for deprecation
 
 ## Are documentation updates required?
-<!-- 
+
+<!--
   DOCUMENTATION
   Consider if this PR makes changes that require documentation updates:
     - API changes
@@ -43,7 +46,8 @@ Workarounds for or expected timeline for deprecation
 
    The best way to find these is by searching inside the docs at https://github.com/blockstack/docs
 -->
-- [ ] Link to documentation updates: 
+
+- [ ] Link to documentation updates:
 
 ## Testing information
 
@@ -56,8 +60,8 @@ Provide context on how tests should be performed.
 5. Things to watch out for when testing
 
 ## Checklist
+
 - [ ] Code is commented where needed
 - [ ] Unit test coverage for new or modified code paths
-- [ ] `yarn lerna run test` passes
 - [ ] Changelog is updated
-- [ ] Tag 1 of @hstove or @kyranjamie or @aulneau for review
+- [ ] Tag @janniks for review
