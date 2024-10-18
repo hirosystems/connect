@@ -47,8 +47,5 @@
       "import": "./loader/index.js",
       "require": "./loader/index.cjs.js"
     }
-  },
-  "typedoc": {
-    "entryPoint": "./src/index.ts"
   }
 }

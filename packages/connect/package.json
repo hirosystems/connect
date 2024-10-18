@@ -36,9 +36,6 @@
   "browser": {
     "crypto": false
   },
-  "typedoc": {
-    "entryPoint": "./src/index.ts"
-  },
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-react": "^7.23.3",
