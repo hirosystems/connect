@@ -10,6 +10,7 @@
   "include": ["src"],
   "references": [{ "path": "../connect" }],
   "typedocOptions": {
+    "entryPointStrategy": "resolve",
     "entryPoints": ["src/index.ts"]
   }
 }

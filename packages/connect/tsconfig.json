@@ -9,6 +9,7 @@
   },
   "include": ["src"],
   "typedocOptions": {
+    "entryPointStrategy": "resolve",
     "entryPoints": ["src/index.ts"]
   }
 }

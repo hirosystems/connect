@@ -29,9 +29,6 @@
   "module": "dist/index.mjs",
   "umd:main": "dist/index.global.js",
   "unpkg": "dist/index.global.js",
-  "typedoc": {
-    "entryPoint": "./src/index.ts"
-  },
   "bundlesize": [
     {
       "path": "./dist/**/*.js",
