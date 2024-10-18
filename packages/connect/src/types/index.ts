@@ -5,3 +5,4 @@ export * from './signature';
 export * from './structuredDataSignature';
 export * from './profile';
 export * from './bitcoin';
+export * from './network';

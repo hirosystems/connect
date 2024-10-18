@@ -1,19 +1,23 @@
 import { UserSession } from '@stacks/auth';
 import type { AuthOptions } from '../types/auth';
 import {
+  ClarityValue as LegacyClarityValue,
+  PostCondition as LegacyPostCondition,
+} from '@stacks/transactions-v6';
+import {
   PostConditionMode,
   PostCondition,
   AnchorMode,
   ClarityValue,
   StacksTransaction,
 } from '@stacks/transactions';
-import { StacksNetwork } from '@stacks/network';
+import { ConnectNetwork } from './network';
 
 export interface TxBase {
   appDetails?: AuthOptions['appDetails'];
   postConditionMode?: PostConditionMode;
-  postConditions?: (string | PostCondition)[];
-  network?: StacksNetwork;
+  postConditions?: (string | LegacyPostCondition | PostCondition)[];
+  network?: ConnectNetwork;
   anchorMode?: AnchorMode;
   attachment?: string;
   fee?: number | string;
@@ -30,7 +34,7 @@ export interface TxBase {
 
 export interface SignTransactionBase {
   appDetails?: AuthOptions['appDetails'];
-  network?: StacksNetwork;
+  network?: ConnectNetwork;
   attachment?: string;
   /**
    * Provide wallets with a suggested account to sign this transaction with.
@@ -39,7 +43,7 @@ export interface SignTransactionBase {
   stxAddress?: string;
   txHex: string;
   /** @deprecated `unused - only included for compatibility with other transaction types` */
-  postConditions?: (string | PostCondition)[];
+  postConditions?: (string | LegacyPostCondition | PostCondition)[];
 }
 
 export interface SponsoredFinishedTxPayload {
@@ -80,7 +84,7 @@ export interface ContractCallBase extends TxBase {
   contractAddress: string;
   contractName: string;
   functionName: string;
-  functionArgs: (string | ClarityValue)[];
+  functionArgs: (string | LegacyClarityValue | ClarityValue)[];
 }
 
 export interface OptionsBase {

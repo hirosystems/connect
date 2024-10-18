@@ -1,7 +1,7 @@
 import { UserSession } from '@stacks/auth';
-import { StacksNetwork } from '@stacks/network';
 import { AuthOptions } from './auth';
 import { PublicPersonProfile } from '@stacks/profile';
+import { ConnectNetwork } from './network';
 
 export type ProfileUpdateFinished = (data: PublicPersonProfile) => void;
 export type ProfileUpdateCanceled = () => void;
@@ -9,7 +9,7 @@ export type ProfileUpdateCanceled = () => void;
 export interface ProfileUpdateBase {
   appDetails?: AuthOptions['appDetails'];
   authOrigin?: string;
-  network?: StacksNetwork;
+  network?: ConnectNetwork;
   stxAddress?: string;
   userSession?: UserSession;
   onFinish?: ProfileUpdateFinished;

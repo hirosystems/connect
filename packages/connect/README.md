@@ -73,12 +73,11 @@ Here, we are sending `10000` micro-STX tokens to a recipient address.
 
 ```js
 import { openSTXTransfer } from '@stacks/connect';
-import { StacksTestnet } from '@stacks/network';
 import { AnchorMode, PostConditionMode } from '@stacks/transactions';
 import { userSession } from './userSession';
 
 openSTXTransfer({
-  network: new StacksTestnet(), // which network to use; use `new StacksMainnet()` for mainnet
+  network: 'testnet', // which network to use; ('mainnet' or 'testnet')
   anchorMode: AnchorMode.Any, // which type of block the tx should be mined in
 
   recipient: 'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK', // which address we are sending to
@@ -105,14 +104,13 @@ Here, we are passing our pick `Alice` to an imaginary deployed voting smart-cont
 
 ```js
 import { openContractCall } from '@stacks/connect';
-import { StacksTestnet } from '@stacks/network';
 import { AnchorMode, PostConditionMode, stringUtf8CV } from '@stacks/transactions';
 import { userSession } from './userSession';
 
 const pick = stringUtf8CV('Alice');
 
 openContractCall({
-  network: new StacksTestnet(),
+  network: 'testnet', // which network to use; ('mainnet' or 'testnet')
   anchorMode: AnchorMode.Any, // which type of block the tx should be mined in
 
   contractAddress: 'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK',
@@ -217,7 +215,7 @@ A glossary of the most common options of `openSTXTransfer` and `openContractCall
 
 |                     | Default             | Description                                                                 | Type                                                                            | Example                   |
 | :------------------ | :------------------ | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------ | :------------------------ |
-| `network`           | Mainnet             | The network to broadcast the transaction to                                 | [StacksNetwork](https://stacks.js.org/classes/network.StacksNetwork.html)       | `new StacksMainnet()`     |
+| `network`           | Mainnet             | The network to broadcast the transaction to                                 | string                                                                          | 'mainnet'                 |
 | `anchorMode`        | Any                 | The type of block the transaction should be mined in                        | [AnchorMode Enum](https://stacks.js.org/enums/transactions.AnchorMode.html)     | `AnchorMode.OnChainOnly`  |
 | `memo`              | _Empty_ `''`        | The memo field (used for additional data)                                   | `string`                                                                        | `'a memo'`                |
 | `fee`               | _Handled by Wallet_ | The transaction fee (the wallet will estimate fees as well)                 | Integer (e.g. `number`, `bigint`)                                               | `1000`                    |

@@ -1,7 +1,7 @@
-import { StacksTestnet } from '@stacks/network';
-import { ChainID } from '@stacks/transactions';
+import { ChainId } from '@stacks/network';
 import { createUnsecuredToken, TokenSigner } from 'jsontokens';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
+import { StacksProvider } from '../types';
 import {
   CommonSignatureRequestOptions,
   SignatureOptions,
@@ -9,18 +9,18 @@ import {
   SignaturePopup,
   SignatureRequestOptions,
 } from '../types/signature';
-import { getStacksProvider } from '../utils';
-import { StacksProvider } from '../types';
+import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
 
 function getStxAddress(options: CommonSignatureRequestOptions) {
-  const { userSession, network } = options;
+  const { userSession, network: _network } = options;
 
-  if (!userSession || !network) return undefined;
+  if (!userSession || !_network) return undefined;
   const stxAddresses = userSession?.loadUserData().profile?.stxAddress;
   const chainIdToKey = {
-    [ChainID.Mainnet]: 'mainnet',
-    [ChainID.Testnet]: 'testnet',
+    [ChainId.Mainnet]: 'mainnet',
+    [ChainId.Testnet]: 'testnet',
   };
+  const network = legacyNetworkFromConnectNetwork(_network);
   const address: string | undefined = stxAddresses?.[chainIdToKey[network.chainId]];
   return address;
 }
@@ -33,7 +33,7 @@ async function signPayload(payload: SignaturePayload, privateKey: string) {
 }
 
 export function getDefaultSignatureRequestOptions(options: CommonSignatureRequestOptions) {
-  const network = options.network || new StacksTestnet();
+  const network = legacyNetworkFromConnectNetwork(options.network);
   const userSession = getUserSession(options.userSession);
   const defaults: CommonSignatureRequestOptions = {
     ...options,

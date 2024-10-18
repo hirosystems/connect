@@ -1,7 +1,7 @@
 import { UserSession } from '@stacks/auth';
-import { StacksNetwork } from '@stacks/network';
 
 import { AuthOptions } from './auth';
+import { ConnectNetwork } from './network';
 
 // Taken from @scure/btc-signer
 // https://github.com/paulmillr/scure-btc-signer
@@ -23,7 +23,7 @@ export type PsbtFinished = (data: PsbtData) => void;
 export interface PsbtBase {
   appDetails?: AuthOptions['appDetails'];
   authOrigin?: string;
-  network?: StacksNetwork;
+  network?: ConnectNetwork;
   onCancel?: PsbtCanceled;
   onFinish?: PsbtFinished;
   stxAddress?: string;
