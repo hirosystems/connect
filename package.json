@@ -10,8 +10,8 @@
     "build:connect-ui": "lerna run build --scope @stacks/connect-ui",
     "build:docs": "typedoc && mkdir -p docs/.github && cp -r .github/img docs/.github/img",
     "deploy-contracts": "lerna run deploy-contracts --stream",
-    "postinstall": "concurrently 'husky install .github/.husky' 'yarn build:connect-ui'",
-    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "postinstall": "concurrently 'husky install .github/.husky' 'npm run build:connect-ui'",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"packages/**/src/**/*.{ts,tsx}\"",
     "lint:eslint:fix": "eslint \"packages/**/src/**/*.{ts,tsx}\" --fix",
     "lint:prettier": "prettier --check \"packages/**/src/**/*.{ts,tsx}\" *.js",
@@ -44,7 +44,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tsup": "^8.1.0",
-    "typedoc": "^0.25.3",
+    "typedoc": "^0.25.13",
     "typescript": "^5.3.2"
   }
 }
