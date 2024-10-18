@@ -1,3 +1,7 @@
+import {
+  ClarityValue as LegacyClarityValue,
+  TupleCV as LegacyTupleCV,
+} from '@stacks/transactions-v6';
 import { ClarityValue, TupleCV } from '@stacks/transactions';
 import {
   CommonSignaturePayload,
@@ -7,13 +11,13 @@ import {
 } from './signature';
 
 export interface StructuredDataSignatureRequestOptions extends CommonSignatureRequestOptions {
-  message: ClarityValue;
-  domain: TupleCV;
+  message: LegacyClarityValue | ClarityValue;
+  domain: LegacyTupleCV | TupleCV;
 }
 
 export interface StructuredDataSignatureOptions {
-  message: ClarityValue;
-  domain: TupleCV;
+  message: LegacyClarityValue | ClarityValue;
+  domain: LegacyTupleCV | TupleCV;
   onFinish?: SignatureFinished;
   onCancel?: SignatureCanceled;
 }
@@ -24,6 +28,6 @@ export type StructuredDataSignaturePopup = {
 };
 
 export interface StructuredDataSignaturePayload extends CommonSignaturePayload {
-  message: ClarityValue;
-  domain: TupleCV;
+  message: LegacyClarityValue | ClarityValue;
+  domain: LegacyTupleCV | TupleCV;
 }

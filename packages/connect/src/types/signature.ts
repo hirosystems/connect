@@ -1,6 +1,6 @@
 import { UserSession } from '@stacks/auth';
-import { StacksNetwork } from '@stacks/network';
 import type { AuthOptions } from '../types/auth';
+import { ConnectNetwork } from './network';
 
 export type SignatureFinished = (data: SignatureData) => void;
 export type SignatureCanceled = () => void;
@@ -8,7 +8,7 @@ export type SignatureCanceled = () => void;
 export interface CommonSignatureRequestOptions {
   appDetails?: AuthOptions['appDetails'];
   authOrigin?: string;
-  network?: StacksNetwork;
+  network?: ConnectNetwork;
   stxAddress?: string;
   userSession?: UserSession;
   onFinish?: SignatureFinished;
@@ -49,5 +49,5 @@ export interface CommonSignaturePayload {
    */
   stxAddress?: string;
   appDetails?: AuthOptions['appDetails'];
-  network?: StacksNetwork;
+  network?: ConnectNetwork;
 }

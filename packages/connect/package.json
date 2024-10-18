@@ -11,11 +11,14 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@stacks/auth": "^6.1.1",
+    "@stacks/auth": "^7.0.0-next.70",
+    "@stacks/common": "^7.0.0-next.70",
     "@stacks/connect-ui": "6.4.1",
-    "@stacks/network": "^6.1.1",
-    "@stacks/profile": "^6.1.1",
-    "@stacks/transactions": "^6.1.1",
+    "@stacks/network": "^7.0.0-next.70",
+    "@stacks/network-v6": "npm:@stacks/network@^6.16.0",
+    "@stacks/profile": "^7.0.0-next.70",
+    "@stacks/transactions": "^7.0.0-next.70",
+    "@stacks/transactions-v6": "npm:@stacks/transactions@^6.16.0",
     "jsontokens": "^4.0.1"
   },
   "sideEffects": false,

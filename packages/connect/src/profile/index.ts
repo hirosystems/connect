@@ -1,4 +1,3 @@
-import { StacksTestnet } from '@stacks/network';
 import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
 import {
@@ -8,7 +7,7 @@ import {
   StacksProvider,
 } from '../types';
 
-import { getStacksProvider } from '../utils';
+import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: ProfileUpdatePayload, privateKey: string) {
@@ -18,7 +17,7 @@ async function signPayload(payload: ProfileUpdatePayload, privateKey: string) {
 }
 
 export function getDefaultProfileUpdateRequestOptions(options: ProfileUpdateRequestOptions) {
-  const network = options.network || new StacksTestnet();
+  const network = legacyNetworkFromConnectNetwork(options.network);
   const userSession = getUserSession(options.userSession);
   const defaults: ProfileUpdateRequestOptions = {
     ...options,

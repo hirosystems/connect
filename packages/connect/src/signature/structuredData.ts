@@ -1,6 +1,11 @@
 import { bytesToHex } from '@stacks/common';
+import {
+  serializeCV as legacySerializeCV,
+  ClarityValue as LegacyClarityValue,
+  TupleCV as LegacyTupleCV,
+} from '@stacks/transactions-v6';
 import { serializeCV } from '@stacks/transactions';
-import { createUnsecuredToken, TokenSigner } from 'jsontokens';
+import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
 import { getDefaultSignatureRequestOptions } from '.';
 import { getKeys, hasAppPrivateKey } from '../transactions';
 import {
@@ -24,12 +29,24 @@ async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOption
   return openStructuredDataSignaturePopup({ token, options }, provider);
 }
 
-function parseUnserializableBigIntValues(payload: any) {
+function parseUnserializableBigIntValues(payload: StructuredDataSignaturePayload) {
+  const { message, domain } = payload;
+
+  if (typeof message.type === 'string' && typeof domain.type === 'string') {
+    // new readable types
+    return {
+      ...payload,
+      message: serializeCV(message),
+      domain: serializeCV(domain),
+    } as Json;
+  }
+
+  // legacy types
   return {
     ...payload,
-    message: bytesToHex(serializeCV(payload.message)),
-    domain: bytesToHex(serializeCV(payload.domain)),
-  };
+    message: bytesToHex(legacySerializeCV(message as LegacyClarityValue)),
+    domain: bytesToHex(legacySerializeCV(domain as LegacyTupleCV)),
+  } as Json;
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
@@ -49,9 +66,9 @@ export async function signStructuredMessage(options: StructuredDataSignatureRequ
     };
     return signPayload(payload, privateKey);
   }
-  // Type casting `any` as payload contains non-serialisable content,
-  // such as `StacksNetwork`
-  return createUnsecuredToken(parseUnserializableBigIntValues(options));
+  return createUnsecuredToken(
+    parseUnserializableBigIntValues(options as StructuredDataSignaturePayload)
+  );
 }
 
 async function openStructuredDataSignaturePopup(

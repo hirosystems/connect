@@ -1,10 +1,8 @@
-import { StacksTestnet } from '@stacks/network';
 import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-
 import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
-import { PsbtPayload, PsbtPopup, PsbtRequestOptions } from '../types/bitcoin';
-import { getStacksProvider } from '../utils';
 import { StacksProvider } from '../types';
+import { PsbtPayload, PsbtPopup, PsbtRequestOptions } from '../types/bitcoin';
+import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: PsbtPayload, privateKey: string) {
@@ -14,7 +12,7 @@ async function signPayload(payload: PsbtPayload, privateKey: string) {
 }
 
 export function getDefaultPsbtRequestOptions(options: PsbtRequestOptions) {
-  const network = options.network || new StacksTestnet();
+  const network = legacyNetworkFromConnectNetwork(options.network);
   const userSession = getUserSession(options.userSession);
   const defaults: PsbtRequestOptions = {
     ...options,

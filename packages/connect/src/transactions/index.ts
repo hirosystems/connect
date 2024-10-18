@@ -1,14 +1,19 @@
 import { AppConfig, UserSession } from '@stacks/auth';
 import { bytesToHex, hexToBytes } from '@stacks/common';
-import { StacksTestnet } from '@stacks/network';
+import { ChainId } from '@stacks/network';
 import {
-  ChainID,
   deserializeTransaction,
   PostCondition,
+  postConditionToHex,
   serializeCV,
-  serializePostCondition,
 } from '@stacks/transactions';
+import {
+  PostCondition as LegacyPostCondition,
+  serializeCV as legacySerializeCV,
+  serializePostCondition as legacySerializePostCondition,
+} from '@stacks/transactions-v6';
 import { createUnsecuredToken, Json, SECP256K1Client, TokenSigner } from 'jsontokens';
+import { StacksProvider } from '../types';
 import {
   ContractCallOptions,
   ContractCallPayload,
@@ -31,8 +36,7 @@ import {
   TransactionPopup,
   TransactionTypes,
 } from '../types/transactions';
-import { getStacksProvider } from '../utils';
-import { StacksProvider } from '../types';
+import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
 
 // TODO extract out of transactions
 export const getUserSession = (_userSession?: UserSession) => {
@@ -64,21 +68,23 @@ export const getKeys = (_userSession?: UserSession) => {
 
 // TODO extract out of transactions
 export function getStxAddress(options: TransactionOptions) {
-  const { stxAddress, userSession, network } = options;
+  const { stxAddress, userSession, network: _network } = options;
 
   if (stxAddress) return stxAddress;
-  if (!userSession || !network) return undefined;
+  if (!userSession || !_network) return undefined;
   const stxAddresses = userSession?.loadUserData().profile?.stxAddress;
+
   const chainIdToKey = {
-    [ChainID.Mainnet]: 'mainnet',
-    [ChainID.Testnet]: 'testnet',
+    [ChainId.Mainnet]: 'mainnet',
+    [ChainId.Testnet]: 'testnet',
   };
+  const network = legacyNetworkFromConnectNetwork(_network);
   const address: string | undefined = stxAddresses?.[chainIdToKey[network.chainId]];
   return address;
 }
 
 function getDefaults(options: TransactionOptions) {
-  const network = options.network || new StacksTestnet();
+  const network = legacyNetworkFromConnectNetwork(options.network);
 
   const userSession = getUserSession(options.userSession);
   const defaults: TransactionOptions = {
@@ -93,15 +99,19 @@ function getDefaults(options: TransactionOptions) {
   };
 }
 
-function encodePostConditions(postConditions: PostCondition[]) {
-  return postConditions.map(pc => bytesToHex(serializePostCondition(pc)));
-}
-
 // eslint-disable-next-line @typescript-eslint/require-await
 async function signPayload(payload: TransactionPayload, privateKey: string) {
   let { postConditions } = payload;
-  if (postConditions && typeof postConditions[0] !== 'string') {
-    postConditions = encodePostConditions(postConditions as PostCondition[]);
+  if (postConditions && postConditions.length > 0 && typeof postConditions[0] !== 'string') {
+    if (typeof postConditions[0].type === 'string') {
+      // new readable types
+      postConditions = (postConditions as PostCondition[]).map(postConditionToHex);
+    } else {
+      // legacy types
+      postConditions = (postConditions as LegacyPostCondition[]).map(pc => {
+        return bytesToHex(legacySerializePostCondition(pc));
+      });
+    }
   }
   const tokenSigner = new TokenSigner('ES256k', privateKey);
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
@@ -110,8 +120,16 @@ async function signPayload(payload: TransactionPayload, privateKey: string) {
 
 function createUnsignedTransactionPayload(payload: Partial<TransactionPayload>) {
   let { postConditions } = payload;
-  if (postConditions && typeof postConditions[0] !== 'string') {
-    postConditions = encodePostConditions(postConditions as PostCondition[]);
+  if (postConditions && postConditions.length > 0 && typeof postConditions[0] !== 'string') {
+    if (typeof postConditions[0].type === 'string') {
+      // new readable types
+      postConditions = (postConditions as PostCondition[]).map(postConditionToHex);
+    } else {
+      // legacy types
+      postConditions = (postConditions as LegacyPostCondition[]).map(pc => {
+        return bytesToHex(legacySerializePostCondition(pc));
+      });
+    }
   }
   return createUnsecuredToken({ ...payload, postConditions } as unknown as Json);
 }
@@ -151,7 +169,13 @@ export const makeContractCallToken = async (options: ContractCallOptions) => {
     if (typeof arg === 'string') {
       return arg;
     }
-    return bytesToHex(serializeCV(arg));
+    if (typeof arg.type === 'string') {
+      // new readable types
+      return serializeCV(arg);
+    }
+
+    // legacy types
+    return bytesToHex(legacySerializeCV(arg));
   });
   if (hasAppPrivateKey(userSession)) {
     const { privateKey, publicKey } = getKeys(userSession);
@@ -250,6 +274,7 @@ async function generateTokenAndOpenPopup<T extends TransactionOptions>(
   const token = await makeTokenFn({
     ...getDefaults(options),
     ...options,
+    network: legacyNetworkFromConnectNetwork(options.network), // ensure network is legacy compatible
   } as T);
   return openTransactionPopup({ token, options }, provider);
 }
