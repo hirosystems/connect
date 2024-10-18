@@ -29,7 +29,7 @@
     "@stacks/eslint-config": "^2.0.0",
     "@stacks/prettier-config": "^0.0.10",
     "@stencil-community/eslint-plugin": "^0.7.2",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.1",
     "eslint": "^8.49.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
@@ -39,11 +39,11 @@
     "eslint-plugin-unused-imports": "^3.2.0",
     "husky": "^9.0.11",
     "lerna": "^8.1.8",
-    "prettier": "^3.3.2",
-    "prettier-plugin-tailwindcss": "^0.6.5",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tsup": "^8.1.0",
+    "tsup": "^8.3.0",
     "typedoc": "^0.25.13",
     "typescript": "^5.3.2"
   }
