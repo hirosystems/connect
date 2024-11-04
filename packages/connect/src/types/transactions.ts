@@ -134,6 +134,13 @@ export interface ContractCallPayload extends ContractCallBase {
 export interface ContractDeployBase extends TxBase {
   contractName: string;
   codeBody: string;
+  /**
+   * Optional integer value to specify the Clarity version to use for this contract.
+   * Current live Clarity versions are: `1`, `2`, and `3`.
+   *
+   * ⚠︎ Warning: Wallets may not support this parameter yet and typically default to the latest Clarity version.
+   */
+  clarityVersion?: number;
 }
 
 export type ContractDeployRegularOptions = ContractDeployBase & RegularOptionsBase;
