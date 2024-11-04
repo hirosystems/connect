@@ -13,9 +13,9 @@
     "jsontokens": "^4.0.1"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.2",
-    "@types/styled-components": "^5.1.9",
-    "bundlesize": "^0.18.1"
+    "@types/react-dom": "^18.3.1",
+    "@types/styled-components": "^5.1.34",
+    "bundlesize": "^0.18.2"
   },
   "sideEffects": false,
   "publishConfig": {
