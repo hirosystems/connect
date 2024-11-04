@@ -9,7 +9,7 @@ import {
   PostCondition,
   AnchorMode,
   ClarityValue,
-  StacksTransaction,
+  StacksTransactionWire,
 } from '@stacks/transactions';
 import { ConnectNetwork } from './network';
 
@@ -51,7 +51,7 @@ export interface SponsoredFinishedTxPayload {
 }
 
 export interface SponsoredFinishedTxData extends SponsoredFinishedTxPayload {
-  stacksTransaction: StacksTransaction;
+  stacksTransaction: StacksTransactionWire;
 }
 
 export interface FinishedTxPayload extends SponsoredFinishedTxPayload {
@@ -59,7 +59,7 @@ export interface FinishedTxPayload extends SponsoredFinishedTxPayload {
 }
 
 export interface FinishedTxData extends FinishedTxPayload {
-  stacksTransaction: StacksTransaction;
+  stacksTransaction: StacksTransactionWire;
 }
 
 export enum TransactionTypes {
@@ -208,5 +208,5 @@ export type SignTransactionFinished = (data: SignTransactionFinishedTxData) => v
 export type SignTransactionOptions = SignTransactionOptionBase;
 
 export interface SignTransactionFinishedTxData {
-  stacksTransaction: StacksTransaction;
+  stacksTransaction: StacksTransactionWire;
 }
