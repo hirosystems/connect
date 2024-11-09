@@ -21,9 +21,10 @@ export function legacyNetworkFromConnectNetwork(network?: ConnectNetwork): Legac
   if (!network) return new LegacyStacksTestnet();
   if (typeof network === 'string') return LegacyStacksNetwork.fromName(network);
   if ('version' in network) return network; // legacy type
+
   if ('url' in network) return new LegacyStacksMainnet({ url: network.url }); // experimental
 
   return network.transactionVersion === (TransactionVersion.Mainnet as number)
-    ? new LegacyStacksMainnet()
-    : new LegacyStacksTestnet();
+    ? new LegacyStacksMainnet({ url: network.client.baseUrl })
+    : new LegacyStacksTestnet({ url: network.client.baseUrl });
 }
