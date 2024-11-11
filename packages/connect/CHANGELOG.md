@@ -1,5 +1,15 @@
 # Change Log
 
+## 7.9.0
+
+### Minor Changes
+
+- [#392](https://github.com/hirosystems/connect/pull/392) [`0631e6e`](https://github.com/hirosystems/connect/commit/0631e6e26b8c9edd0a8a95de496fdc8915d59664) Thanks [@janniks](https://github.com/janniks)! - Add `clarityVersion` to contract deploys.
+
+### Patch Changes
+
+- [#395](https://github.com/hirosystems/connect/pull/395) [`b75b7ca`](https://github.com/hirosystems/connect/commit/b75b7caf460aa01a48b391166d3f4fd3bed2a6b4) Thanks [@janniks](https://github.com/janniks)! - Fix bug where url wasn't passed to network instance
+
 ## 7.8.0
 
 ### Minor Changes
