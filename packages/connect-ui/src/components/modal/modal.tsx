@@ -204,7 +204,7 @@ export class Modal {
                         rel="noopener noreferrer"
                         target="_blank"
                       >
-                        Install &rarr;
+                        {provider.id === 'AsignaProvider' ? 'Open' : 'Install'} &rarr;
                       </a>
                     )}
                   </li>
