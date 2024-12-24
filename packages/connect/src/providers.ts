@@ -1,4 +1,7 @@
 import { WebBTCProvider } from '@stacks/connect-ui';
+import { initializeAsignaProvider } from './asigna';
+
+initializeAsignaProvider();
 
 export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
   {
