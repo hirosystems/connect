@@ -1,5 +1,12 @@
 # Change Log
 
+## 22.6.1
+
+### Patch Changes
+
+- Updated dependencies [[`d6ea424`](https://github.com/hirosystems/connect/commit/d6ea424331a022be0bf38e95a04832e050c0c143)]:
+  - @stacks/connect@7.10.0
+
 ## 22.6.0
 
 ### Minor Changes

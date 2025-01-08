@@ -1,5 +1,11 @@
 # Change Log
 
+## 6.6.0
+
+### Minor Changes
+
+- [#400](https://github.com/hirosystems/connect/pull/400) [`d6ea424`](https://github.com/hirosystems/connect/commit/d6ea424331a022be0bf38e95a04832e050c0c143) Thanks [@janniks](https://github.com/janniks)! - Add iframe capable Asigna provider.
+
 ## 6.5.0
 
 ### Minor Changes
