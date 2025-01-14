@@ -45,6 +45,7 @@
     "react-dom": "^18.3.1",
     "tsup": "^8.3.5",
     "typedoc": "^0.26.10",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "vitest": "^2.1.8"
   }
 }

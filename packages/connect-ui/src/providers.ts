@@ -1,5 +1,7 @@
 // AUTO REGISTERED PROVIDERS
 
+import { getSelectedProviderId } from './session';
+
 export interface WebBTCProvider {
   /** The global "path" of the provider (e.g. `"MyProvider"` if registered at `window.MyProvider`) */
   id: string;
@@ -53,6 +55,23 @@ export const getInstalledProviders = (defaultProviders: WebBTCProvider[] = []) =
   });
 
   return registeredProviders.concat(additionalInstalledProviders);
+};
+
+/**
+ * Check if a wallet provider was previously selected via Connect.
+ * @returns `true` if a provider was selected, `false` otherwise.
+ */
+export const isProviderSelected = () => {
+  return !!getSelectedProviderId();
+};
+
+/**
+ * Get the currently selected wallet provider.
+ * @returns The wallet provider object, or null if no provider is selected.
+ */
+export const getProvider = () => {
+  const providerId = getSelectedProviderId();
+  return getProviderFromId(providerId);
 };
 
 export const getProviderFromId = (id: string | undefined) => {

@@ -1,94 +1,42 @@
-import { bytesToHex } from '@stacks/common';
-import {
-  serializeCV as legacySerializeCV,
-  ClarityValue as LegacyClarityValue,
-  TupleCV as LegacyTupleCV,
-} from '@stacks/transactions-v6';
-import { serializeCV } from '@stacks/transactions';
-import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-import { getDefaultSignatureRequestOptions } from '.';
-import { getKeys, hasAppPrivateKey } from '../transactions';
-import {
-  StructuredDataSignatureOptions,
-  StructuredDataSignaturePayload,
-  StructuredDataSignaturePopup,
-  StructuredDataSignatureRequestOptions,
-} from '../types/structuredDataSignature';
-import { getStacksProvider } from '../utils';
+import { TupleCV } from '@stacks/transactions';
+import { ClarityType as LegacyClarityType } from '@stacks/transactions-v6';
+import { MethodParams, MethodResult } from '../methods';
+import { requestRawLegacy } from '../request';
 import { StacksProvider } from '../types';
+import { StructuredDataSignatureRequestOptions } from '../types/structuredDataSignature';
+import { getStacksProvider, legacyCVToCV } from '../utils';
 
-async function generateTokenAndOpenPopup<T extends StructuredDataSignatureOptions>(
-  options: T,
-  makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider
-) {
-  const token = await makeTokenFn({
-    ...getDefaultSignatureRequestOptions(options),
-    ...options,
-  } as T);
-  return openStructuredDataSignaturePopup({ token, options }, provider);
-}
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export async function signStructuredMessage(_options: StructuredDataSignatureRequestOptions) {}
 
-function parseUnserializableBigIntValues(payload: StructuredDataSignaturePayload) {
-  const { message, domain } = payload;
+const METHOD = 'stx_signStructuredMessage' as const;
 
-  if (typeof message.type === 'string' && typeof domain.type === 'string') {
-    // new readable types
-    return {
-      ...payload,
-      message: serializeCV(message),
-      domain: serializeCV(domain),
-    } as Json;
-  }
+/** @internal */
+export const LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP = (
+  options: StructuredDataSignatureRequestOptions
+): MethodParams<typeof METHOD> => ({
+  // todo: also make sure that cvs don't have bigint unserializable values
+  message: legacyCVToCV(options.message),
+  domain: legacyCVToCV(options.domain) as TupleCV, // safe cast, because of below check
+});
 
-  // legacy types
-  return {
-    ...payload,
-    message: bytesToHex(legacySerializeCV(message as LegacyClarityValue)),
-    domain: bytesToHex(legacySerializeCV(domain as LegacyTupleCV)),
-  } as Json;
-}
+/** @internal */
+export const LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP = (
+  response: MethodResult<typeof METHOD>
+) => response;
 
-// eslint-disable-next-line @typescript-eslint/require-await
-async function signPayload(payload: StructuredDataSignaturePayload, privateKey: string) {
-  const tokenSigner = new TokenSigner('ES256k', privateKey);
-  return tokenSigner.signAsync(parseUnserializableBigIntValues(payload));
-}
-
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function signStructuredMessage(options: StructuredDataSignatureRequestOptions) {
-  const { userSession, ..._options } = options;
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
-    const payload: StructuredDataSignaturePayload = {
-      ..._options,
-      publicKey,
-    };
-    return signPayload(payload, privateKey);
-  }
-  return createUnsecuredToken(
-    parseUnserializableBigIntValues(options as StructuredDataSignaturePayload)
-  );
-}
-
-async function openStructuredDataSignaturePopup(
-  { token, options }: StructuredDataSignaturePopup,
-  provider: StacksProvider
-) {
-  try {
-    const signatureResponse = await provider.structuredDataSignatureRequest(token);
-
-    options.onFinish?.(signatureResponse);
-  } catch (error) {
-    console.error('[Connect] Error during signature request', error);
-    options.onCancel?.();
-  }
-}
-
+/** Compatible interface with previous Connect `openStructuredDataSignatureRequestPopup` version, but using new SIP-030 RPC method. */
 export function openStructuredDataSignatureRequestPopup(
   options: StructuredDataSignatureRequestOptions,
   provider: StacksProvider = getStacksProvider()
-) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, signStructuredMessage, provider);
+): void {
+  if (options.domain.type !== LegacyClarityType.Tuple) {
+    throw new Error('Domain must be a tuple'); // check, ensures domain is a tuple
+  }
+
+  requestRawLegacy(
+    METHOD,
+    LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP,
+    LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP
+  )(options, provider);
 }

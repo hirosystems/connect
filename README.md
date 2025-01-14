@@ -59,3 +59,17 @@ Join our community and stay connected with the latest updates and discussions:
 - [Join our Discord community chat](https://stacks.chat/) to engage with other users, ask questions, and participate in discussions.
 - [Visit hiro.so](https://www.hiro.so/) for updates and subcribing to the mailing list.
 - Follow [Hiro on Twitter.](https://twitter.com/hirosystems)
+
+### MIGRATION TODO
+
+#### BREAKING
+
+- REMOVED BlockstackProvider, StacksProvider
+- UPDATED StacksProvider to only have request
+- ADDED requestRaw, and similar
+- REMOVED shouldUsePopup
+
+#### CONTINUE
+
+- Make old things compatible with new things
+-

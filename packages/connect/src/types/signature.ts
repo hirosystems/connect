@@ -16,7 +16,7 @@ export interface CommonSignatureRequestOptions {
 }
 
 export interface SignatureRequestOptions extends CommonSignatureRequestOptions {
-  message: string;
+  message: string; // todo: check before merge if we only sign strings or also clarity values.
 }
 
 export interface SignatureOptions {
