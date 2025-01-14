@@ -2,9 +2,12 @@ import { UserSession } from '@stacks/auth';
 import type { AuthOptions } from '../types/auth';
 import { ConnectNetwork } from './network';
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export type SignatureFinished = (data: SignatureData) => void;
+/** @deprecated Update to the latest `request` RPC methods. */
 export type SignatureCanceled = () => void;
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface CommonSignatureRequestOptions {
   appDetails?: AuthOptions['appDetails'];
   authOrigin?: string;
@@ -15,25 +18,30 @@ export interface CommonSignatureRequestOptions {
   onCancel?: SignatureCanceled;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface SignatureRequestOptions extends CommonSignatureRequestOptions {
   message: string; // todo: check before merge if we only sign strings or also clarity values.
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface SignatureOptions {
   message: string;
   onFinish?: SignatureFinished;
   onCancel?: SignatureCanceled;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface SignaturePopup {
   token: string;
   options: SignatureOptions;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface SignaturePayload extends CommonSignaturePayload {
   message: string;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface SignatureData {
   /* Hex encoded DER signature */
   signature: string;
@@ -41,6 +49,7 @@ export interface SignatureData {
   publicKey: string;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface CommonSignaturePayload {
   publicKey: string;
   /**

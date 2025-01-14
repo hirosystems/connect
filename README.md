@@ -71,5 +71,5 @@ Join our community and stay connected with the latest updates and discussions:
 
 #### CONTINUE
 
-- Make old things compatible with new things
--
+- Done: signature, structured signature, profile
+- Continue: txs, bitcoin

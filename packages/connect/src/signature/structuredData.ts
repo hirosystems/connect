@@ -2,7 +2,7 @@ import { TupleCV } from '@stacks/transactions';
 import { ClarityType as LegacyClarityType } from '@stacks/transactions-v6';
 import { MethodParams, MethodResult } from '../methods';
 import { requestRawLegacy } from '../request';
-import { StacksProvider } from '../types';
+import { SignatureData, StacksProvider } from '../types';
 import { StructuredDataSignatureRequestOptions } from '../types/structuredDataSignature';
 import { getStacksProvider, legacyCVToCV } from '../utils';
 
@@ -23,7 +23,7 @@ export const LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP = (
 /** @internal */
 export const LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP = (
   response: MethodResult<typeof METHOD>
-) => response;
+): SignatureData => response;
 
 /** Compatible interface with previous Connect `openStructuredDataSignatureRequestPopup` version, but using new SIP-030 RPC method. */
 export function openStructuredDataSignatureRequestPopup(

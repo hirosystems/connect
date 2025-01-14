@@ -158,3 +158,12 @@ export function requestRawLegacy<
       .catch(options.onCancel);
   };
 }
+
+// todo: strip params that might be unserializable or privacy sensitive, e.g.
+// appDetails?: AuthOptions['appDetails'];
+// authOrigin?: string;
+// network?: ConnectNetwork;
+// stxAddress?: string;
+// userSession?: UserSession;
+// onFinish?: ProfileUpdateFinished;
+// onCancel?: ProfileUpdateCanceled;
