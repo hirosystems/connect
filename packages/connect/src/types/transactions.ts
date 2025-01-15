@@ -3,6 +3,7 @@ import type { AuthOptions } from '../types/auth';
 import {
   ClarityValue as LegacyClarityValue,
   PostCondition as LegacyPostCondition,
+  PostConditionMode as LegacyPostConditionMode,
 } from '@stacks/transactions-v6';
 import {
   PostConditionMode,
@@ -15,7 +16,7 @@ import { ConnectNetwork } from './network';
 
 export interface TxBase {
   appDetails?: AuthOptions['appDetails'];
-  postConditionMode?: PostConditionMode;
+  postConditionMode?: LegacyPostConditionMode | PostConditionMode;
   postConditions?: (string | LegacyPostCondition | PostCondition)[];
   network?: ConnectNetwork;
   anchorMode?: AnchorMode;

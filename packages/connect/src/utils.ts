@@ -4,11 +4,15 @@ import {
   StacksMainnet as LegacyStacksMainnet,
   StacksNetwork as LegacyStacksNetwork,
   StacksTestnet as LegacyStacksTestnet,
+  StacksDevnet as LegacyStacksDevnet,
+  StacksMocknet as LegacyStacksMocknet,
 } from '@stacks/network-v6';
-import { Address, Cl, ClarityValue } from '@stacks/transactions';
+import { Address, Cl, ClarityValue, PostCondition } from '@stacks/transactions';
 import {
   ClarityType as LegacyClarityType,
   ClarityValue as LegacyClarityValue,
+  PostCondition as LegacyPostCondition,
+  serializePostCondition as legacySerializePostCondition,
 } from '@stacks/transactions-v6';
 import { ConnectNetwork } from './types';
 
@@ -33,6 +37,28 @@ export function legacyNetworkFromConnectNetwork(network?: ConnectNetwork): Legac
   return network.transactionVersion === (TransactionVersion.Mainnet as number)
     ? new LegacyStacksMainnet({ url: network.client.baseUrl })
     : new LegacyStacksTestnet({ url: network.client.baseUrl });
+}
+
+function isInstance<T>(object: any, clazz: { new (...args: any[]): T }): object is T {
+  return object instanceof clazz || object?.constructor?.name?.toLowerCase() === clazz.name;
+}
+
+/** @internal */
+export function connectNetworkToString(network: ConnectNetwork): string {
+  // not perfect, but good enough to identify the legacy network in most cases
+  if (typeof network === 'string') return network;
+  if (isInstance(network, LegacyStacksMainnet)) return 'mainnet';
+  if (isInstance(network, LegacyStacksTestnet)) return 'testnet';
+  if (isInstance(network, LegacyStacksDevnet)) return 'devnet';
+  if (isInstance(network, LegacyStacksMocknet)) return 'devnet';
+  if ('coreApiUrl' in (network as any)) return (network as any).coreApiUrl; // in case alternate network was used
+  if ('url' in network) return network.url;
+  if ('transactionVersion' in network) {
+    return network.transactionVersion === (TransactionVersion.Mainnet as number)
+      ? 'mainnet'
+      : 'testnet';
+  }
+  return 'mainnet'; // todo: what should the fallback be?
 }
 
 /**

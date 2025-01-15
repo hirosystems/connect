@@ -47,7 +47,7 @@ interface CommonTxParams {
    * The recommended address to use for the method.
    *
    * ⚠︎ Warning: Wallets may not implement this for privacy reasons.
-   * */
+   */
   address?: AddressString;
 
   network?: NetworkString;
@@ -57,7 +57,7 @@ interface CommonTxParams {
 
   sponsored?: boolean;
 
-  postConditions?: PostCondition[];
+  postConditions?: (string | PostCondition)[]; // hex-encoded string or JSON PostCondition
   postConditionMode?: PostConditionModeName;
 }
 
@@ -77,13 +77,13 @@ export interface TransferFungibleParams extends CommonTxParams {
 export interface TransferNonFungibleParams extends CommonTxParams {
   recipient: string;
   asset: string;
-  assetId: ClarityValue;
+  assetId: ClarityValue; // todo: add string (hex-encoded), add string (clarity syntax)
 }
 
 export interface CallContractParams extends CommonTxParams {
   contract: ContractIdString;
   functionName: string;
-  functionArgs?: ClarityValue[];
+  functionArgs?: ClarityValue[]; // todo: add string (hex-encoded), add string (clarity syntax)
 }
 
 export interface DeployContractParams extends CommonTxParams {
@@ -153,20 +153,45 @@ export interface UpdateProfileResult {
 
 // JSON RPC METHODS
 
-export type Methods = keyof StxMethods;
+/// BITCOIN METHODS
 
-export type MethodParams<M extends Methods> = StxMethods[M]['params'];
+export type SigHash = 'ALL' | 'NONE' | 'SINGLE' | 'ANYONECANPAY';
 
-export type MethodResult<M extends Methods> = StxMethods[M]['result'];
+export interface SignInputsByAddress {
+  [address: string]: number[];
+}
 
-export type JsonRpcResponse<M extends Methods> = {
+export interface SignPsbtParams {
+  psbt: string;
+  signInputs?: number[] | SignInputsByAddress;
+  /** @experimental Might need a rename, when SIPs/WBIPs are finalized. */
+  allowedSigHash?: SigHash[];
+}
+
+export interface SignPsbtResult {
+  txid?: string;
+  psbt: string;
+}
+
+// todo: double check spec
+export type JsonRpcResponse<M extends keyof Methods> = {
   jsonrpc: '2.0';
   id: number;
-  result: MethodResult<M>;
+  result: Methods[M]['result'];
   // todo: add error
 };
 
-export type StxMethods = {
+export type Methods = {
+  // BTC
+  signPsbt: {
+    params: SignPsbtParams;
+    result: SignPsbtResult;
+  };
+  getAddresses: {
+    params: GetAddressesParams;
+    result: GetAddressesResult;
+  };
+  // STX
   stx_transferStx: {
     params: TransferStxParams;
     result: TransactionResult;
@@ -213,6 +238,6 @@ export type StxMethods = {
   };
 };
 
-export type GlobalMethods = {
-  getAddresses: StxMethods['stx_getAddresses']; // todo: might differ later
-};
+export type MethodParams<M extends keyof Methods> = Methods[M]['params'];
+
+export type MethodResult<M extends keyof Methods> = Methods[M]['result'];

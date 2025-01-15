@@ -14,7 +14,7 @@ export interface ConnectRequestOptions {
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
 
-export async function requestRaw<M extends Methods>(
+export async function requestRaw<M extends keyof Methods>(
   provider: StacksProvider,
   method: M,
   params?: MethodParams<M>
@@ -134,7 +134,7 @@ function requestArgs<M extends Methods>(
  * @internal Legacy non-UI request.
  */
 export function requestRawLegacy<
-  M extends Methods,
+  M extends keyof Methods,
   O extends {
     onCancel?: () => void;
     onFinish?: (response: R) => void;

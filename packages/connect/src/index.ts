@@ -1,24 +1,48 @@
-export * from './auth'; // file may be renamed in the future
+export * from './auth'; // File may be renamed in the future
 
-export * from './bitcoin';
-export * from './transactions';
-export * from './signature';
-export * from './signature/structuredData';
-export * from './profile';
+export * from './providers';
 export * from './types';
 export * from './ui';
 
-export * from './providers';
-
+// Manual exports to avoid exporting internals (e.g. `LEGACY_XYZ`)
+export { getDefaultPsbtRequestOptions, makePsbtToken, openPsbtRequestPopup } from './bitcoin';
+export {
+  getDefaultSignatureRequestOptions,
+  SignatureRequestPayload,
+  signMessage,
+  openSignatureRequestPopup,
+} from './signature';
+export {
+  signStructuredMessage,
+  openStructuredDataSignatureRequestPopup,
+} from './signature/structuredData';
+export {
+  getDefaultProfileUpdateRequestOptions,
+  makeProfileUpdateToken,
+  openProfileUpdateRequestPopup,
+} from './profile';
+export {
+  getUserSession,
+  hasAppPrivateKey,
+  getKeys,
+  getStxAddress,
+  makeContractCallToken,
+  makeContractDeployToken,
+  makeSTXTransferToken,
+  makeSignTransaction,
+  openContractCall,
+  openContractDeploy,
+  openSTXTransfer,
+  openSignTransaction,
+} from './transactions';
 export { request, requestRaw } from './request';
-
 export { getStacksProvider, isStacksWalletInstalled } from './utils';
 
-// typebox
-// only export the outermost typebox schemas
+// TypeBox
+// Only export the outermost typebox schemas
 export { ClarityValueTypeBoxSchema, PostConditionTypeBoxSchema } from './types/typebox';
 
-// re-exports
+// Re-exports
 export {
   clearSelectedProviderId,
   getSelectedProviderId,

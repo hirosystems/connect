@@ -73,3 +73,17 @@ Join our community and stay connected with the latest updates and discussions:
 
 - Done: signature, structured signature, profile
 - Continue: txs, bitcoin
+
+#### TODO
+
+- Add `PostConditionModeName` to all options (new and old) — This might have been missing since the v7 release.
+- Try to make address to user session work.
+- Strip unserializable fields from RawLegacy wrapper just in case.
+- Remove exports from LEGACY_XYZ
+
+Search for the below and replace with inline return.
+
+```
+=> {
+  return {
+```

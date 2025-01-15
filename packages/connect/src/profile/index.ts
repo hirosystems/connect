@@ -1,8 +1,8 @@
-import { ProfileUpdateRequestOptions, StacksProvider } from '../types';
-import { MethodParams, MethodResult, UpdateProfileResult } from '../methods';
-import { requestRawLegacy } from '../request';
-import { getStacksProvider } from '../utils';
 import { PublicPersonProfile } from '@stacks/profile';
+import { MethodParams, MethodResult } from '../methods';
+import { requestRawLegacy } from '../request';
+import { ProfileUpdateRequestOptions, StacksProvider } from '../types';
+import { getStacksProvider } from '../utils';
 
 /** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
 export function getDefaultProfileUpdateRequestOptions(_options: ProfileUpdateRequestOptions) {}

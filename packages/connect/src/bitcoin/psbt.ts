@@ -1,80 +1,53 @@
-// TODO
-// import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-// import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
-// import { StacksProvider } from '../types';
-// import { PsbtPayload, PsbtPopup, PsbtRequestOptions } from '../types/bitcoin';
-// import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
+import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
+import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
+import { StacksProvider } from '../types';
+import {
+  PsbtData,
+  PsbtPayload,
+  PsbtPopup,
+  PsbtRequestOptions,
+  SignatureHash,
+} from '../types/bitcoin';
+import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
+import { requestRawLegacy } from '../request';
+import { MethodParams, MethodResult, SigHash, SignPsbtResult } from '../methods';
 
-// // eslint-disable-next-line @typescript-eslint/require-await
-// async function signPayload(payload: PsbtPayload, privateKey: string) {
-//   const tokenSigner = new TokenSigner('ES256k', privateKey);
-//   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-//   return tokenSigner.signAsync({ ...payload } as any);
-// }
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export function getDefaultPsbtRequestOptions(_options: PsbtRequestOptions) {}
 
-// export function getDefaultPsbtRequestOptions(options: PsbtRequestOptions) {
-//   const network = legacyNetworkFromConnectNetwork(options.network);
-//   const userSession = getUserSession(options.userSession);
-//   const defaults: PsbtRequestOptions = {
-//     ...options,
-//     network,
-//     userSession,
-//   };
-//   return {
-//     ...defaults,
-//   };
-// }
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makePsbtToken = async (_options: PsbtRequestOptions) => {};
 
-// async function openPsbtPopup({ token, options }: PsbtPopup, provider: StacksProvider) {
-//   if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+const METHOD = 'signPsbt' as const;
 
-//   try {
-//     const psbtResponse = await provider.psbtRequest(token);
-//     options.onFinish?.(psbtResponse);
-//   } catch (error) {
-//     console.error('[Connect] Error during psbt request', error);
-//     options.onCancel?.();
-//   }
-// }
+/** @internal */
+export const LEGACY_SIGN_PSBT_OPTIONS_MAP = (
+  options: PsbtRequestOptions
+): MethodParams<typeof METHOD> => {
+  return {
+    psbt: options.hex,
+    signInputs:
+      typeof options.signAtIndex === 'number' ? [options.signAtIndex] : options.signAtIndex,
+    allowedSigHash: options.allowedSighash?.map(hash => SignatureHash[hash] as SigHash),
+  };
+};
 
-// // eslint-disable-next-line @typescript-eslint/require-await
-// export const makePsbtToken = async (options: PsbtRequestOptions) => {
-//   const { allowedSighash, hex, signAtIndex, userSession, ..._options } = options;
-//   if (hasAppPrivateKey(userSession)) {
-//     const { privateKey, publicKey } = getKeys(userSession);
+/** @internal */
+export const LEGACY_SIGN_PSBT_RESPONSE_MAP = (response: MethodResult<typeof METHOD>): PsbtData => ({
+  hex: response.psbt,
+});
 
-//     const payload: PsbtPayload = {
-//       ..._options,
-//       allowedSighash,
-//       hex,
-//       signAtIndex,
-//       publicKey,
-//     };
-
-//     return signPayload(payload, privateKey);
-//   }
-//   const payload = { ..._options };
-//   return createUnsecuredToken(payload as Json);
-// };
-
-// async function generateTokenAndOpenPopup<T extends PsbtRequestOptions>(
-//   options: T,
-//   makeTokenFn: (options: T) => Promise<string>,
-//   provider: StacksProvider
-// ) {
-//   const token = await makeTokenFn({
-//     ...getDefaultPsbtRequestOptions(options),
-//     ...options,
-//   } as T);
-//   return openPsbtPopup({ token, options }, provider);
-// }
-
-// /**
-//  * @experimental
-//  */
-// export function openPsbtRequestPopup(
-//   options: PsbtRequestOptions,
-//   provider: StacksProvider = getStacksProvider()
-// ) {
-//   return generateTokenAndOpenPopup(options, makePsbtToken, provider);
-// }
+/**
+ * @experimental
+ * Compatible interface with previous Connect `openPsbtRequestPopup` version, but using new SIP-030 RPC method.
+ */
+export function openPsbtRequestPopup(
+  options: PsbtRequestOptions,
+  provider: StacksProvider = getStacksProvider()
+) {
+  requestRawLegacy(
+    METHOD,
+    LEGACY_SIGN_PSBT_OPTIONS_MAP,
+    LEGACY_SIGN_PSBT_RESPONSE_MAP
+  )(options, provider);
+}
