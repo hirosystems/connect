@@ -1,16 +1,8 @@
-import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
-import { StacksProvider } from '../types';
-import {
-  PsbtData,
-  PsbtPayload,
-  PsbtPopup,
-  PsbtRequestOptions,
-  SignatureHash,
-} from '../types/bitcoin';
-import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
+import { MethodParams, MethodResult, SigHash } from '../methods';
 import { requestRawLegacy } from '../request';
-import { MethodParams, MethodResult, SigHash, SignPsbtResult } from '../methods';
+import { StacksProvider } from '../types';
+import { PsbtData, PsbtRequestOptions, SignatureHash } from '../types/bitcoin';
+import { getStacksProvider } from '../utils';
 
 /** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
 export function getDefaultPsbtRequestOptions(_options: PsbtRequestOptions) {}

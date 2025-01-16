@@ -1,18 +1,16 @@
 import { getProviderFromId, getSelectedProviderId } from '@stacks/connect-ui';
 import { TransactionVersion } from '@stacks/network';
 import {
+  StacksDevnet as LegacyStacksDevnet,
   StacksMainnet as LegacyStacksMainnet,
+  StacksMocknet as LegacyStacksMocknet,
   StacksNetwork as LegacyStacksNetwork,
   StacksTestnet as LegacyStacksTestnet,
-  StacksDevnet as LegacyStacksDevnet,
-  StacksMocknet as LegacyStacksMocknet,
 } from '@stacks/network-v6';
-import { Address, Cl, ClarityValue, PostCondition } from '@stacks/transactions';
+import { Address, Cl, ClarityValue } from '@stacks/transactions';
 import {
   ClarityType as LegacyClarityType,
   ClarityValue as LegacyClarityValue,
-  PostCondition as LegacyPostCondition,
-  serializePostCondition as legacySerializePostCondition,
 } from '@stacks/transactions-v6';
 import { ConnectNetwork } from './types';
 

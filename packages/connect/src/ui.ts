@@ -1,12 +1,24 @@
 import { clearSelectedProviderId } from '@stacks/connect-ui';
+import { LEGACY_GET_ADDRESSES_OPTIONS_MAP, LEGACY_GET_ADDRESSES_RESPONSE_MAP } from './auth';
+import { MethodParams, MethodResult, Methods } from './methods';
+import { LEGACY_UPDATE_PROFILE_OPTIONS_MAP, LEGACY_UPDATE_PROFILE_RESPONSE_MAP } from './profile';
 import { ConnectRequestOptions, request } from './request';
-import { Methods, MethodParams, MethodResult } from './methods';
-import { StacksProvider } from './types';
+import { LEGACY_SIGN_MESSAGE_OPTIONS_MAP, LEGACY_SIGN_MESSAGE_RESPONSE_MAP } from './signature';
 import {
   LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP,
   LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP,
 } from './signature/structuredData';
-import { LEGACY_SIGN_MESSAGE_OPTIONS_MAP, LEGACY_SIGN_MESSAGE_RESPONSE_MAP } from './signature';
+import {
+  LEGACY_CALL_CONTRACT_OPTIONS_MAP,
+  LEGACY_CALL_CONTRACT_RESPONSE_MAP,
+  LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP,
+  LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP,
+  LEGACY_SIGN_TRANSACTION_OPTIONS_MAP,
+  LEGACY_SIGN_TRANSACTION_RESPONSE_MAP,
+  LEGACY_TRANSFER_STX_OPTIONS_MAP,
+  LEGACY_TRANSFER_STX_RESPONSE_MAP,
+} from './transactions';
+import { StacksProvider } from './types';
 
 // /** @internal */
 // function requestShowLegacy<M extends Methods>(
@@ -23,7 +35,7 @@ import { LEGACY_SIGN_MESSAGE_OPTIONS_MAP, LEGACY_SIGN_MESSAGE_RESPONSE_MAP } fro
  * @internal Legacy UI request.
  */
 function requestLegacy<
-  M extends Methods,
+  M extends keyof Methods,
   O extends {
     onCancel?: () => void;
     onFinish?: (response: R) => void;
@@ -54,22 +66,46 @@ function requestLegacy<
 // BACKWARDS COMPATIBILITY
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link authenticate} action. */
-export const showConnect = requestShowLegacy('stx_getAddresses');
+export const showConnect = requestLegacy(
+  'stx_getAddresses',
+  LEGACY_GET_ADDRESSES_OPTIONS_MAP,
+  LEGACY_GET_ADDRESSES_RESPONSE_MAP
+);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSTXTransfer} action. */
-export const showSTXTransfer = requestShowLegacy('stx_transferStx');
+export const showSTXTransfer = requestLegacy(
+  'stx_transferStx',
+  LEGACY_TRANSFER_STX_OPTIONS_MAP,
+  LEGACY_TRANSFER_STX_RESPONSE_MAP
+);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openContractCall} action. */
-export const showContractCall = requestShowLegacy('stx_callContract');
+export const showContractCall = requestLegacy(
+  'stx_callContract',
+  LEGACY_CALL_CONTRACT_OPTIONS_MAP,
+  LEGACY_CALL_CONTRACT_RESPONSE_MAP
+);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openContractDeploy} action. */
-export const showContractDeploy = requestShowLegacy('stx_deployContract');
+export const showContractDeploy = requestLegacy(
+  'stx_deployContract',
+  LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP,
+  LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP
+);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignTransaction} action. */
-export const showSignTransaction = requestShowLegacy('stx_signTransaction');
+export const showSignTransaction = requestLegacy(
+  'stx_signTransaction',
+  LEGACY_SIGN_TRANSACTION_OPTIONS_MAP,
+  LEGACY_SIGN_TRANSACTION_RESPONSE_MAP
+);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openProfileUpdateRequestPopup} action. */
-export const showProfileUpdate = requestShowLegacy('stx_updateProfile');
+export const showProfileUpdate = requestLegacy(
+  'stx_updateProfile',
+  LEGACY_UPDATE_PROFILE_OPTIONS_MAP,
+  LEGACY_UPDATE_PROFILE_RESPONSE_MAP
+);
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignatureRequestPopup} action. */
 export const showSignMessage = requestLegacy(

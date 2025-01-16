@@ -20,23 +20,23 @@ export async function requestRaw<M extends keyof Methods>(
   params?: MethodParams<M>
 ): Promise<MethodResult<M>> {
   const response = await provider.request(method, params);
-  if (response.error) {
-    // todo: add typed error handling (before merge)
-    throw new Error(response.error.message);
-  }
+  // if (response.error) {
+  //   // todo: add typed error handling (before merge)
+  //   throw new Error(response.error.message);
+  // }
   return response.result;
 }
 
-export async function request<M extends Methods>(
+export async function request<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
 ): Promise<MethodResult<M>>;
-export async function request<M extends Methods>(
+export async function request<M extends keyof Methods>(
   options: ConnectRequestOptions,
   method: M,
   params?: MethodParams<M>
 ): Promise<MethodResult<M>>;
-export async function request<M extends Methods>(
+export async function request<M extends keyof Methods>(
   ...args:
     | [method: M, params?: MethodParams<M>]
     | [options: ConnectRequestOptions, method: M, params?: MethodParams<M>]
@@ -57,7 +57,7 @@ export async function request<M extends Methods>(
   if (opts.provider && !opts.forceSelection) return requestRaw(opts.provider, method, params);
 
   // WITH UI
-  if (typeof window === 'undefined') return; // todo: throw error
+  if (typeof window === 'undefined') return undefined; // don't throw for SSR contexts
 
   void defineCustomElements(window);
 
@@ -102,7 +102,7 @@ export async function request<M extends Methods>(
 }
 
 /** @internal */
-function requestArgs<M extends Methods>(
+function requestArgs<M extends keyof Methods>(
   args:
     | [method: M, params?: MethodParams<M>]
     | [options: ConnectRequestOptions, method: M, params?: MethodParams<M>]

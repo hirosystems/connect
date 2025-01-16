@@ -1,3 +1,6 @@
+import { MethodParams, MethodResult } from './methods';
+import { AuthOptions, FinishedAuthData } from './types';
+
 /** @deprecated Not used anymore. */
 export const defaultAuthURL = 'https://app.blockstack.org';
 
@@ -16,3 +19,13 @@ export const isMobile = () => {
   }
   return /windows phone/i.test(ua);
 };
+
+/** @internal */
+export const LEGACY_GET_ADDRESSES_OPTIONS_MAP = (
+  _options: AuthOptions
+): MethodParams<'stx_getAddresses'> => ({});
+
+/** @internal */
+export const LEGACY_GET_ADDRESSES_RESPONSE_MAP = (
+  response: MethodResult<'stx_getAddresses'>
+): FinishedAuthData => response as unknown as FinishedAuthData;
