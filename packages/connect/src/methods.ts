@@ -31,6 +31,7 @@ export type PrincipalString = AddressString | ContractIdString;
 export type Integer = number | bigint | string;
 
 export interface AddressEntry {
+  symbol?: string;
   address: string;
   publicKey: string;
 }
@@ -191,6 +192,7 @@ export type Methods = {
     params: GetAddressesParams;
     result: GetAddressesResult;
   };
+
   // STX
   stx_transferStx: {
     params: TransferStxParams;

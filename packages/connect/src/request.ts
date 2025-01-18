@@ -19,12 +19,20 @@ export async function requestRaw<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
 ): Promise<MethodResult<M>> {
-  const response = await provider.request(method, params);
-  // if (response.error) {
-  //   // todo: add typed error handling (before merge)
-  //   throw new Error(response.error.message);
-  // }
-  return response.result;
+  console.log('requestRaw', arguments);
+  try {
+    const response = await provider.request(method, params);
+    // if (response.error) {
+    //   // todo: add typed error handling (before merge)
+    //   throw new Error(response.error.message);
+    // }
+    console.log('requestRaw response', response);
+    return response.result;
+  } catch (error) {
+    console.error('requestRaw error', error);
+    // todo: parse or something
+    throw error;
+  }
 }
 
 export async function request<M extends keyof Methods>(
@@ -54,7 +62,7 @@ export async function request<M extends keyof Methods>(
   );
 
   // WITHOUT UI
-  if (opts.provider && !opts.forceSelection) return requestRaw(opts.provider, method, params);
+  if (opts.provider && !opts.forceSelection) return await requestRaw(opts.provider, method, params);
 
   // WITH UI
   if (typeof window === 'undefined') return undefined; // don't throw for SSR contexts
@@ -129,14 +137,7 @@ function requestArgs<M extends keyof Methods>(
  * **Note:** Higher order function!
  * @internal Legacy non-UI request.
  */
-export function requestRawLegacy<
-  M extends keyof Methods,
-  O extends {
-    onCancel?: () => void;
-    onFinish?: (response: R) => void;
-  },
-  R,
->(
+export function requestRawLegacy<M extends keyof Methods, O, R>(
   method: M,
   mapOptions: (options: O) => MethodParams<M>,
   mapResponse: (response: MethodResult<M>) => R
@@ -146,12 +147,18 @@ export function requestRawLegacy<
 
     const params = mapOptions(options);
 
+    // Manual cast, since TypeScipt can't infer generic type of options
+    const o = options as {
+      onCancel?: () => void;
+      onFinish?: (response: R) => void;
+    };
+
     void requestRaw(provider, method, params)
       .then(response => {
         const r = mapResponse(response);
-        options.onFinish?.(r);
+        o.onFinish?.(r);
       })
-      .catch(options.onCancel);
+      .catch(o.onCancel);
   };
 }
 

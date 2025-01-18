@@ -1,6 +1,6 @@
 import { getSelectedProviderId } from '@stacks/connect-ui';
 import { useReducer } from 'react';
-import { disconnect, showConnect, showSignMessage } from '../ui';
+import { disconnect, showConnect, showSignMessage, showSTXTransfer } from '../ui';
 
 export const ConnectPage = ({ children }: { children?: any }) => {
   const refresh = useReducer(x => x + 1, 0)[1];
@@ -47,11 +47,13 @@ export const ConnectPage = ({ children }: { children?: any }) => {
         <button
           onClick={() => {
             showSignMessage({
+              message: 'test',
+
               appDetails: {
                 name: 'Connect Demo',
                 icon: window.location.origin + '/favicon.ico',
               },
-              message: 'test',
+
               onFinish: d => {
                 alert(JSON.stringify(d, null, 2));
                 refresh();
@@ -61,6 +63,28 @@ export const ConnectPage = ({ children }: { children?: any }) => {
           }}
         >
           <code>showSignMessage()</code>
+        </button>
+
+        <button
+          onClick={() => {
+            showSTXTransfer({
+              amount: '1000',
+              recipient: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+
+              appDetails: {
+                name: 'Connect Demo',
+                icon: window.location.origin + '/favicon.ico',
+              },
+
+              onFinish: d => {
+                alert(JSON.stringify(d, null, 2));
+                refresh();
+              },
+              onCancel: e => console.error('onCancel', e),
+            });
+          }}
+        >
+          <code>showSTXTransfer()</code>
         </button>
 
         <button

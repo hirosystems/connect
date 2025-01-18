@@ -19,6 +19,7 @@ import {
   LEGACY_TRANSFER_STX_RESPONSE_MAP,
 } from './transactions';
 import { StacksProvider } from './types';
+import { removeUnserializableKeys } from './utils';
 
 // /** @internal */
 // function requestShowLegacy<M extends Methods>(
@@ -34,14 +35,7 @@ import { StacksProvider } from './types';
  * **Note:** Higher order function!
  * @internal Legacy UI request.
  */
-function requestLegacy<
-  M extends keyof Methods,
-  O extends {
-    onCancel?: () => void;
-    onFinish?: (response: R) => void;
-  },
-  R,
->(
+function requestLegacy<M extends keyof Methods, O, R>(
   method: M,
   mapOptions: (options: O) => MethodParams<M>,
   mapResponse: (response: MethodResult<M>) => R,
@@ -50,18 +44,23 @@ function requestLegacy<
   }
 ) {
   return (options: O, provider?: StacksProvider) => {
-    // UI shouldn't throw if no provider is found
-    // if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-    if (provider) uiOptions.provider = provider;
+    const ui = { ...uiOptions }; // Be careful to not mutate higher order scope.
+    if (provider) ui.provider = provider;
 
-    const params = mapOptions(options);
+    const params = mapOptions(removeUnserializableKeys(options));
 
-    void request(uiOptions, method, params)
+    // Manual cast, since TypeScipt can't infer generic type of options
+    const o = options as {
+      onCancel?: () => void;
+      onFinish?: (response: R) => void;
+    };
+
+    void request(ui, method, params)
       .then(response => {
         const r = mapResponse(response);
-        options.onFinish?.(r);
+        o.onFinish?.(r);
       })
-      .catch(options.onCancel);
+      .catch(o.onCancel);
   };
 }
 
@@ -126,5 +125,3 @@ export const disconnect = clearSelectedProviderId;
  * @deprecated Use the renamed {@link showConnect} method
  */
 export const showBlockstackConnect = showConnect;
-
-// todo: below

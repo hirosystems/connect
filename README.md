@@ -71,8 +71,7 @@ Join our community and stay connected with the latest updates and discussions:
 
 #### CONTINUE
 
-- Done: signature, structured signature, profile
-- Continue: txs, bitcoin
+- Continue: Error handling and unwrapping on rethrow.
 
 #### TODO
 

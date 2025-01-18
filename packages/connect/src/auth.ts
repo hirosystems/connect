@@ -38,20 +38,23 @@ export const authenticate = async (
   if (userSession.isUserSignedIn()) userSession.signUserOut();
 
   try {
-    const response = await request({ forceSelection: true }, 'stx_getAddresses');
+    const response = await request({ forceSelection: true }, 'getAddresses');
 
     // Take first address and use it for legacy connect user session storing.
-    const address = response.addresses[0].address.toUpperCase();
+    const address = response.addresses
+      .find(a => a?.symbol === 'STX' || a.address.startsWith('S'))
+      .address.toUpperCase();
     const isMainnet = address[1] === 'P' || address[1] === 'M';
 
     const sessionData = userSession.store.getSessionData();
-    if (!sessionData.userData) sessionData.userData = { profile: {} };
-    if (!sessionData.userData.profile) sessionData.userData.profile = {};
-    if (!sessionData.userData.profile.stxAddress) sessionData.userData.profile.stxAddress = {};
+
+    // Ensure user data structure exists
+    sessionData.userData ??= { profile: {} };
+    sessionData.userData.profile ??= {};
+    sessionData.userData.profile.stxAddress ??= {};
 
     Object.assign(sessionData.userData.profile.stxAddress, {
-      mainnet: isMainnet ?? address,
-      testnet: !isMainnet ?? address,
+      [isMainnet ? 'mainnet' : 'testnet']: address,
     });
     userSession.store.setSessionData(sessionData);
 

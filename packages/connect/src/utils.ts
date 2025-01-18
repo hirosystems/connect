@@ -44,11 +44,13 @@ function isInstance<T>(object: any, clazz: { new (...args: any[]): T }): object 
 /** @internal */
 export function connectNetworkToString(network: ConnectNetwork): string {
   // not perfect, but good enough to identify the legacy network in most cases
+  if (!network) return 'mainnet';
   if (typeof network === 'string') return network;
   if (isInstance(network, LegacyStacksMainnet)) return 'mainnet';
   if (isInstance(network, LegacyStacksTestnet)) return 'testnet';
   if (isInstance(network, LegacyStacksDevnet)) return 'devnet';
   if (isInstance(network, LegacyStacksMocknet)) return 'devnet';
+
   if ('coreApiUrl' in (network as any)) return (network as any).coreApiUrl; // in case alternate network was used
   if ('url' in network) return network.url;
   if ('transactionVersion' in network) {
@@ -103,4 +105,15 @@ export function legacyCVToCV(cv: LegacyClarityValue | ClarityValue): ClarityValu
       const _exhaustiveCheck: never = cv;
       throw new Error(`Unknown clarity type: ${_exhaustiveCheck}`);
   }
+}
+
+/** @internal */
+export function removeUnserializableKeys<O>(
+  obj: O | { onFinish?: Function; onCancel?: Function }
+): O {
+  return {
+    ...obj,
+    onFinish: undefined,
+    onCancel: undefined,
+  } as O;
 }
