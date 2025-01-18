@@ -1,9 +1,9 @@
+export * from './auth'; // largely legacy exports for @stacks/auth
 export * from './providers';
 export * from './types';
 export * from './ui';
 
 // Manual exports to avoid exporting internals (e.g. `LEGACY_XYZ`)
-export { defaultAuthURL, isMobile } from './auth';
 export { getDefaultPsbtRequestOptions, makePsbtToken, openPsbtRequestPopup } from './bitcoin';
 export {
   getDefaultSignatureRequestOptions,

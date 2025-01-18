@@ -67,6 +67,7 @@ export const isProviderSelected = () => {
 
 /**
  * Get the currently selected wallet provider.
+ * Note that this will not return the default `window.StacksProvider` object.
  * @returns The wallet provider object, or null if no provider is selected.
  */
 export const getProvider = () => {

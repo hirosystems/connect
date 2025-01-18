@@ -10,23 +10,23 @@ import {
   FinishedAuthData,
   openContractCall,
   openContractDeploy,
-  openSignTransaction,
   openProfileUpdateRequestPopup,
   openPsbtRequestPopup,
   openSignatureRequestPopup,
+  openSignTransaction,
   openStructuredDataSignatureRequestPopup,
   openSTXTransfer,
-  PsbtRequestOptions,
   ProfileUpdateRequestOptions,
+  PsbtRequestOptions,
   showBlockstackConnect,
   SignatureRequestOptions,
+  SignTransactionOptions,
+  StacksProvider,
+  StructuredDataSignatureRequestOptions,
   STXTransferOptions,
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
-  StacksProvider,
-  SignTransactionOptions,
 } from '@stacks/connect';
-import { StructuredDataSignatureRequestOptions } from '@stacks/connect/src/types/structuredDataSignature';
 import { useContext } from 'react';
 import { ConnectContext, ConnectDispatchContext, States } from '../components/connect/context';
 

@@ -61,13 +61,10 @@ export async function request<M extends keyof Methods>(
 
   void defineCustomElements(window);
 
-  const defaultProviders = options?.defaultProviders ?? DEFAULT_PROVIDERS;
-  const installedProviders = getInstalledProviders(defaultProviders);
-
   return new Promise((resolve, reject) => {
     const element = document.createElement('connect-modal');
-    element.defaultProviders = defaultProviders;
-    element.installedProviders = installedProviders;
+    element.defaultProviders = opts.defaultProviders;
+    element.installedProviders = getInstalledProviders(opts.defaultProviders);
     element.persistSelection = opts.persistSelection;
 
     const originalOverflow = document.body.style.overflow;
@@ -91,11 +88,10 @@ export async function request<M extends keyof Methods>(
     document.body.appendChild(element);
 
     const handleEsc = (ev: KeyboardEvent) => {
-      if (ev.key === 'Escape') {
-        document.removeEventListener('keydown', handleEsc);
-        element.remove();
-        reject(new ConnectCanceledError());
-      }
+      if (ev.key !== 'Escape') return;
+      document.removeEventListener('keydown', handleEsc);
+      element.remove();
+      reject(new ConnectCanceledError());
     };
     document.addEventListener('keydown', handleEsc);
   });

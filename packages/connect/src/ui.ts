@@ -1,5 +1,5 @@
 import { clearSelectedProviderId } from '@stacks/connect-ui';
-import { LEGACY_GET_ADDRESSES_OPTIONS_MAP, LEGACY_GET_ADDRESSES_RESPONSE_MAP } from './auth';
+import { authenticate } from './auth';
 import { MethodParams, MethodResult, Methods } from './methods';
 import { LEGACY_UPDATE_PROFILE_OPTIONS_MAP, LEGACY_UPDATE_PROFILE_RESPONSE_MAP } from './profile';
 import { ConnectRequestOptions, request } from './request';
@@ -50,7 +50,9 @@ function requestLegacy<
   }
 ) {
   return (options: O, provider?: StacksProvider) => {
-    if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+    // UI shouldn't throw if no provider is found
+    // if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+    if (provider) uiOptions.provider = provider;
 
     const params = mapOptions(options);
 
@@ -66,11 +68,7 @@ function requestLegacy<
 // BACKWARDS COMPATIBILITY
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link authenticate} action. */
-export const showConnect = requestLegacy(
-  'stx_getAddresses',
-  LEGACY_GET_ADDRESSES_OPTIONS_MAP,
-  LEGACY_GET_ADDRESSES_RESPONSE_MAP
-);
+export const showConnect = authenticate;
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSTXTransfer} action. */
 export const showSTXTransfer = requestLegacy(
@@ -128,3 +126,5 @@ export const disconnect = clearSelectedProviderId;
  * @deprecated Use the renamed {@link showConnect} method
  */
 export const showBlockstackConnect = showConnect;
+
+// todo: below

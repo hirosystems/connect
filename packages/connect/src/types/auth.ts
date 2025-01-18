@@ -1,5 +1,6 @@
-import type { UserSession } from '@stacks/auth';
+import { UserSession } from '../auth';
 
+/** @deprecated */
 export interface AuthResponsePayload {
   private_key: string;
   username: string | null;
@@ -18,9 +19,12 @@ export interface AuthResponsePayload {
   public_keys: string[];
 }
 
+/** @deprecated */
 export interface FinishedAuthData {
-  authResponse: string;
-  authResponsePayload: AuthResponsePayload;
+  /** @deprecated Not used in the `request` flow anymore. */
+  authResponse?: string;
+  /** @deprecated Not used in the `request` flow anymore. */
+  authResponsePayload?: AuthResponsePayload;
   userSession: UserSession;
 }
 
@@ -32,6 +36,7 @@ declare global {
   const __VERSION__: string;
 }
 
+/** @deprecated */
 export interface AuthOptions {
   /** The URL you want the user to be redirected to after authentication. */
   redirectTo?: string;
