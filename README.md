@@ -68,6 +68,7 @@ Join our community and stay connected with the latest updates and discussions:
 - UPDATED StacksProvider to only have request
 - ADDED requestRaw, and similar
 - REMOVED shouldUsePopup
+- ALTERED UserSession, SessionData, and related types
 
 #### CONTINUE
 
@@ -76,7 +77,6 @@ Join our community and stay connected with the latest updates and discussions:
 #### TODO
 
 - Add `PostConditionModeName` to all options (new and old) — This might have been missing since the v7 release.
-- Try to make address to user session work.
 - Strip unserializable fields from RawLegacy wrapper just in case.
 - Remove exports from LEGACY_XYZ
 - Refactor types to namespace object to be tree shakeable

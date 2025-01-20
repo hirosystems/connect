@@ -73,6 +73,22 @@ export const authenticate = async (
 export const LOCALSTORAGE_SESSION_KEY = 'blockstack-session';
 
 /**
+ * Semi-compatible `AppConfig` type for configuring `UserSession`.
+ *
+ * @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession.
+ */
+export class AppConfig {
+  constructor(
+    _scopes?: any,
+    _appDomain?: any,
+    _redirectPath?: string,
+    _manifestPath?: string,
+    _coreNode?: string,
+    _authenticatorURL?: string
+  ) {}
+}
+
+/**
  * Semi-compatible `SessionOptions` type for accessing `userData`.
  *
  * @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession.
