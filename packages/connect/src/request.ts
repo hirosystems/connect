@@ -1,4 +1,9 @@
-import { getProvider, WebBTCProvider, getInstalledProviders } from '@stacks/connect-ui';
+import {
+  getProvider,
+  WebBTCProvider,
+  getInstalledProviders,
+  getSelectedProviderId,
+} from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
 import { StacksProvider } from './types';
 import { DEFAULT_PROVIDERS } from './providers';
@@ -10,6 +15,8 @@ export interface ConnectRequestOptions {
   provider?: StacksProvider;
   persistSelection?: boolean;
   forceSelection?: boolean;
+
+  disableOverrides?: boolean;
 
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
@@ -57,6 +64,7 @@ export async function request<M extends keyof Methods>(
       persistSelection: true,
       forceSelection: false,
       provider: getProvider(),
+      disableOverrides: false,
     },
     options
   );
@@ -85,6 +93,26 @@ export async function request<M extends keyof Methods>(
 
     element.callback = (selectedProvider: StacksProvider | undefined) => {
       closeModal();
+
+      // =======================================================================
+      // OVERRIDES
+      // We may need to maintain some overrides to make different providers semi-compatible.
+
+      // Xverse
+      if (
+        !opts.disableOverrides &&
+        // Best effort detection for Xverse
+        'signMultipleTransactions' in selectedProvider &&
+        'createRepeatInscriptions' in selectedProvider &&
+        // User has NOT previously selected Bitcoin provider from Xverse.
+        // We can assume this is a connect/authenticate request.
+        (method === 'stx_getAddresses' || method === 'stx_getAccounts') &&
+        getSelectedProviderId() !== 'XverseProviders.BitcoinProvider'
+      ) {
+        return resolve(requestRaw(selectedProvider, 'wallet_connect' as any, params)); // Use unknown 'wallet_connect' instead.
+      }
+      // =======================================================================
+
       resolve(requestRaw(selectedProvider, method, params));
     };
 

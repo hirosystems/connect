@@ -79,6 +79,7 @@ Join our community and stay connected with the latest updates and discussions:
 - Try to make address to user session work.
 - Strip unserializable fields from RawLegacy wrapper just in case.
 - Remove exports from LEGACY_XYZ
+- Refactor types to namespace object to be tree shakeable
 
 Search for the below and replace with inline return.
 

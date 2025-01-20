@@ -1,6 +1,12 @@
 import { DEFAULT_PROVIDERS } from '../providers';
 import { ConnectPage } from './ConnectPage';
 
+// set dark mode
+if (typeof document !== 'undefined') {
+  document.body.style.backgroundColor = '#303030';
+  document.body.style.color = '#d0d0d0';
+}
+
 export default {
   component: ConnectPage,
 };

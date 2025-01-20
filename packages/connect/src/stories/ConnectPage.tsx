@@ -1,11 +1,16 @@
 import { getSelectedProviderId } from '@stacks/connect-ui';
 import { useReducer } from 'react';
 import { disconnect, showConnect, showSignMessage, showSTXTransfer } from '../ui';
+import { UserSession } from '../auth';
+
+const userSession = new UserSession();
 
 export const ConnectPage = ({ children }: { children?: any }) => {
   const refresh = useReducer(x => x + 1, 0)[1];
 
   const selectedProviderId = getSelectedProviderId();
+
+  const userData = userSession.isUserSignedIn() ? userSession.loadUserData() : 'User not signed in';
 
   return (
     <div style={{ fontFamily: 'monospace' }}>
@@ -24,6 +29,8 @@ export const ConnectPage = ({ children }: { children?: any }) => {
           <button onClick={() => refresh()}>
             <code>Rerender</code>
           </button>
+          <br />
+          <code>userData</code>: {JSON.stringify(userData, null, 2)}
         </div>
 
         <button
@@ -101,7 +108,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
       <div
         style={{
           marginTop: '16px',
-          backgroundColor: '#f0f0f0',
+          backgroundColor: '#303030',
           height: '2000px', // very high, to test scrolling
         }}
       />

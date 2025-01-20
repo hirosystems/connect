@@ -21,16 +21,6 @@ import {
 import { StacksProvider } from './types';
 import { removeUnserializableKeys } from './utils';
 
-// /** @internal */
-// function requestShowLegacy<M extends Methods>(
-//   method: M,
-//   options: ConnectRequestOptions = {
-//     forceSelection: true,
-//   }
-// ) {
-//   return (params?: MethodParams<M>): Promise<MethodResult<M>> => request(options, method, params);
-// }
-
 /**
  * **Note:** Higher order function!
  * @internal Legacy UI request.
@@ -120,6 +110,8 @@ export const showSignStructuredMessage = requestLegacy(
 
 /** Disconnect selected wallet. Alias for {@link clearSelectedProviderId} */
 export const disconnect = clearSelectedProviderId;
+
+export { isProviderSelected } from '@stacks/connect-ui';
 
 /**
  * @deprecated Use the renamed {@link showConnect} method

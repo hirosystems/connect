@@ -38,7 +38,9 @@ export const authenticate = async (
   if (userSession.isUserSignedIn()) userSession.signUserOut();
 
   try {
-    const response = await request({ forceSelection: true }, 'getAddresses');
+    const method = 'stx_getAddresses';
+
+    const response = await request({ forceSelection: true }, method);
 
     // Take first address and use it for legacy connect user session storing.
     const address = response.addresses
