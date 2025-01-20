@@ -1,4 +1,3 @@
-import { UserSession } from '@stacks/auth';
 import type { AuthOptions } from '../types/auth';
 import {
   ClarityValue as LegacyClarityValue,
@@ -13,6 +12,7 @@ import {
   StacksTransactionWire,
 } from '@stacks/transactions';
 import { ConnectNetwork } from './network';
+import { UserSession } from '../auth';
 
 export interface TxBase {
   appDetails?: AuthOptions['appDetails'];

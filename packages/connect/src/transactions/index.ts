@@ -1,4 +1,3 @@
-import { AppConfig, UserSession } from '@stacks/auth';
 import { bytesToHex } from '@stacks/common';
 import { ChainId } from '@stacks/network';
 import {
@@ -36,6 +35,7 @@ import {
   legacyCVToCV,
   legacyNetworkFromConnectNetwork,
 } from '../utils';
+import { AppConfig, UserSession } from '../auth';
 
 /** @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession. */
 export const getUserSession = (_userSession?: UserSession) => {

@@ -1,4 +1,4 @@
-export * from './auth'; // largely legacy exports for @stacks/auth
+export * from './auth';
 export * from './providers';
 export * from './types';
 export * from './ui';

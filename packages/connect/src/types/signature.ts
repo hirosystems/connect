@@ -1,4 +1,4 @@
-import { UserSession } from '@stacks/auth';
+import { UserSession } from '../auth';
 import type { AuthOptions } from '../types/auth';
 import { ConnectNetwork } from './network';
 

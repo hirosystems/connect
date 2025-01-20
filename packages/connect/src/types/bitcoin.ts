@@ -1,5 +1,4 @@
-import { UserSession } from '@stacks/auth';
-
+import { UserSession } from '../auth';
 import { AuthOptions } from './auth';
 import { ConnectNetwork } from './network';
 

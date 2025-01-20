@@ -78,6 +78,7 @@ export const LOCALSTORAGE_SESSION_KEY = 'blockstack-session';
  * @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession.
  */
 export class AppConfig {
+  // Copied over from legacy @stacks/auth
   constructor(
     _scopes?: any,
     _appDomain?: any,

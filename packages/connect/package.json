@@ -15,7 +15,6 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@stacks/auth": "^7.0.0",
     "@stacks/common": "^7.0.0",
     "@stacks/connect-ui": "6.6.0",
     "@stacks/network": "^7.0.0",

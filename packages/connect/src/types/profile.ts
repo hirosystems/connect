@@ -1,7 +1,7 @@
-import { UserSession } from '@stacks/auth';
 import { AuthOptions } from './auth';
 import { PublicPersonProfile } from '@stacks/profile';
 import { ConnectNetwork } from './network';
+import { UserSession } from '../auth';
 
 /** @deprecated Update to the latest `request` RPC methods. */
 export type ProfileUpdateFinished = (data: PublicPersonProfile) => void;
