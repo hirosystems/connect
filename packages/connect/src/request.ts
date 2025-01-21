@@ -26,7 +26,7 @@ export async function requestRaw<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
 ): Promise<MethodResult<M>> {
-  console.log('requestRaw', arguments);
+  console.log('requestRaw', arguments); // todo: remove
   try {
     const response = await provider.request(method, params);
     // if (response.error) {
@@ -104,10 +104,8 @@ export async function request<M extends keyof Methods>(
         // Best effort detection for Xverse
         'signMultipleTransactions' in selectedProvider &&
         'createRepeatInscriptions' in selectedProvider &&
-        // User has NOT previously selected Bitcoin provider from Xverse.
-        // We can assume this is a connect/authenticate request.
-        (method === 'stx_getAddresses' || method === 'stx_getAccounts') &&
-        getSelectedProviderId() !== 'XverseProviders.BitcoinProvider'
+        // Permission granting method
+        ['getAddresses', 'stx_getAddresses', 'stx_getAccounts'].includes(method)
       ) {
         return resolve(requestRaw(selectedProvider, 'wallet_connect' as any, params)); // Use unknown 'wallet_connect' instead.
       }
