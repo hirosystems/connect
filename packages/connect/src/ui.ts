@@ -1,5 +1,5 @@
 import { clearSelectedProviderId } from '@stacks/connect-ui';
-import { authenticate } from './auth';
+import { authenticate, UserSession } from './auth';
 import { MethodParams, MethodResult, Methods } from './methods';
 import { LEGACY_UPDATE_PROFILE_OPTIONS_MAP, LEGACY_UPDATE_PROFILE_RESPONSE_MAP } from './profile';
 import { ConnectRequestOptions, request } from './request';
@@ -108,8 +108,11 @@ export const showSignStructuredMessage = requestLegacy(
   LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP
 );
 
-/** Disconnect selected wallet. Alias for {@link clearSelectedProviderId} */
-export const disconnect = clearSelectedProviderId;
+/** Disconnect selected wallet and clear session data. */
+export function disconnect() {
+  clearSelectedProviderId();
+  new UserSession().store.deleteSessionData();
+}
 
 export { isProviderSelected } from '@stacks/connect-ui';
 

@@ -53,8 +53,12 @@ export const authenticate = async (
     // Ensure user data structure exists
     sessionData.userData ??= { profile: {} };
     sessionData.userData.profile ??= {};
-    sessionData.userData.profile.stxAddress ??= {};
+    sessionData.userData.profile.stxAddress ??= {
+      mainnet: '',
+      testnet: '',
+    };
 
+    // Store only returned address
     Object.assign(sessionData.userData.profile.stxAddress, {
       [isMainnet ? 'mainnet' : 'testnet']: address,
     });
