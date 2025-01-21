@@ -1,22 +1,17 @@
-import {
-  getProvider,
-  WebBTCProvider,
-  getInstalledProviders,
-  getSelectedProviderId,
-} from '@stacks/connect-ui';
+import { getInstalledProviders, getProvider, WebBTCProvider } from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
-import { StacksProvider } from './types';
-import { DEFAULT_PROVIDERS } from './providers';
 import { ConnectCanceledError } from './errors';
-import { Methods, MethodParams, MethodResult } from './methods';
+import { MethodParams, MethodResult, Methods } from './methods';
+import { DEFAULT_PROVIDERS } from './providers';
+import { StacksProvider } from './types';
 
 export interface ConnectRequestOptions {
   defaultProviders?: WebBTCProvider[];
   provider?: StacksProvider;
+
   persistSelection?: boolean;
   forceSelection?: boolean;
-
-  disableOverrides?: boolean;
+  enableOverrides?: boolean;
 
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
@@ -58,13 +53,15 @@ export async function request<M extends keyof Methods>(
 ): Promise<MethodResult<M>> {
   const { options, method, params } = requestArgs(args);
 
+  // Default options
   const opts = Object.assign(
     {
       defaultProviders: DEFAULT_PROVIDERS,
+      provider: getProvider(),
+
       persistSelection: true,
       forceSelection: false,
-      provider: getProvider(),
-      disableOverrides: false,
+      enableOverrides: true,
     },
     options
   );
@@ -100,7 +97,7 @@ export async function request<M extends keyof Methods>(
 
       // Xverse
       if (
-        !opts.disableOverrides &&
+        opts.enableOverrides &&
         // Best effort detection for Xverse
         'signMultipleTransactions' in selectedProvider &&
         'createRepeatInscriptions' in selectedProvider &&
