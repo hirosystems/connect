@@ -21,6 +21,7 @@ export async function requestRaw<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
 ): Promise<MethodResult<M>> {
+  // eslint-disable-next-line prefer-rest-params
   console.log('requestRaw', arguments); // todo: remove
   try {
     const response = await provider.request(method, params);
