@@ -59,7 +59,7 @@ export interface AuthOptions {
   /** If `sendToSignIn` is `true`, then the user will be sent through the sign in flow. */
   sendToSignIn?: boolean;
   userSession?: UserSession;
-  appDetails: {
+  appDetails?: {
     /** A human-readable name for your application */
     name: string;
     /** A full URL that resolves to an image icon for your application */
