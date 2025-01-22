@@ -1,23 +1,23 @@
-import { getInstalledProviders, getProvider, WebBTCProvider } from '@stacks/connect-ui';
+import { getInstalledProviders, getProvider, WbipProvider } from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
-import { ConnectCanceledError } from './errors';
+import { JsonRpcError, JsonRpcErrorCode } from './errors';
 import { MethodParams, MethodResult, Methods } from './methods';
 import { DEFAULT_PROVIDERS } from './providers';
 import { StacksProvider } from './types';
 
 export interface ConnectRequestOptions {
   /**
-   * The default wallets to display in the modal.
-   * Defaults to some known popular wallets.
-   */
-  defaultProviders?: WebBTCProvider[];
-
-  /**
    * The provider to use for the request.
    * If none is provided the UI will be shown.
    * Defaults to the previously selected provider (unless `forceWalletSelect` is `true`).
    */
   provider?: StacksProvider;
+
+  /**
+   * The default wallets to display in the modal.
+   * Defaults to some known popular wallets.
+   */
+  defaultProviders?: WbipProvider[];
 
   /**
    * Forces the user to select a wallet.
@@ -45,20 +45,14 @@ export async function requestRaw<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
 ): Promise<MethodResult<M>> {
-  // eslint-disable-next-line prefer-rest-params
-  console.log('requestRaw', arguments); // todo: remove
   try {
     const response = await provider.request(method, params);
-    // if (response.error) {
-    //   // todo: add typed error handling (before merge)
-    //   throw new Error(response.error.message);
-    // }
-    console.log('requestRaw response', response);
+    if ('error' in response) throw JsonRpcError.fromResponse(response.error);
+
     return response.result;
   } catch (error) {
-    console.error('requestRaw error', error);
-    // todo: parse or something
-    throw error;
+    const code = error.code ?? JsonRpcErrorCode.UnknownError;
+    throw new JsonRpcError(error.message, code, error.data, error.cause);
   }
 }
 
@@ -81,8 +75,8 @@ export async function request<M extends keyof Methods>(
   // Default options
   const opts = Object.assign(
     {
-      defaultProviders: DEFAULT_PROVIDERS,
       provider: getProvider(),
+      defaultProviders: DEFAULT_PROVIDERS,
 
       forceWalletSelect: false,
       persistWalletSelect: true,
@@ -105,7 +99,7 @@ export async function request<M extends keyof Methods>(
     const element = document.createElement('connect-modal');
     element.defaultProviders = opts.defaultProviders;
     element.installedProviders = getInstalledProviders(opts.defaultProviders);
-    element.persistSelection = opts.persistWalletSelect;
+    element.persistWalletSelect = opts.persistWalletSelect;
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -138,7 +132,7 @@ export async function request<M extends keyof Methods>(
 
     element.cancelCallback = () => {
       closeModal();
-      reject(new ConnectCanceledError());
+      reject(new JsonRpcError('User canceled the request', JsonRpcErrorCode.UserCanceled));
     };
 
     document.body.appendChild(element);
@@ -147,7 +141,7 @@ export async function request<M extends keyof Methods>(
       if (ev.key !== 'Escape') return;
       document.removeEventListener('keydown', handleEsc);
       element.remove();
-      reject(new ConnectCanceledError());
+      reject(new JsonRpcError('User canceled the request', JsonRpcErrorCode.UserCanceled));
     };
     document.addEventListener('keydown', handleEsc);
   });

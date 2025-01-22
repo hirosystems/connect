@@ -65,7 +65,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
                 alert(JSON.stringify(d, null, 2));
                 refresh();
               },
-              onCancel: () => refresh(),
+              onCancel: () => alert('User canceled the request'),
             });
           }}
         >
@@ -87,7 +87,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
                 alert(JSON.stringify(d, null, 2));
                 refresh();
               },
-              onCancel: e => console.error('onCancel', e),
+              onCancel: () => alert('User canceled the request'),
             });
           }}
         >

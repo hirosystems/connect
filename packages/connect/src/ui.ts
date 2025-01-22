@@ -2,7 +2,7 @@ import { clearSelectedProviderId } from '@stacks/connect-ui';
 import { authenticate, UserSession } from './auth';
 import { MethodParams, MethodResult, Methods } from './methods';
 import { LEGACY_UPDATE_PROFILE_OPTIONS_MAP, LEGACY_UPDATE_PROFILE_RESPONSE_MAP } from './profile';
-import { ConnectRequestOptions, request } from './request';
+import { request } from './request';
 import { LEGACY_SIGN_MESSAGE_OPTIONS_MAP, LEGACY_SIGN_MESSAGE_RESPONSE_MAP } from './signature';
 import {
   LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP,
@@ -28,15 +28,9 @@ import { removeUnserializableKeys } from './utils';
 function requestLegacy<M extends keyof Methods, O, R>(
   method: M,
   mapOptions: (options: O) => MethodParams<M>,
-  mapResponse: (response: MethodResult<M>) => R,
-  uiOptions: ConnectRequestOptions = {
-    forceWalletSelect: true,
-  }
+  mapResponse: (response: MethodResult<M>) => R
 ) {
   return (options: O, provider?: StacksProvider) => {
-    const ui = { ...uiOptions }; // Be careful to not mutate higher order scope.
-    if (provider) ui.provider = provider;
-
     const params = mapOptions(removeUnserializableKeys(options));
 
     // Manual cast, since TypeScipt can't infer generic type of options
@@ -45,7 +39,7 @@ function requestLegacy<M extends keyof Methods, O, R>(
       onFinish?: (response: R) => void;
     };
 
-    void request(ui, method, params)
+    void request({ provider }, method, params)
       .then(response => {
         const r = mapResponse(response);
         o.onFinish?.(r);

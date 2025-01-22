@@ -50,3 +50,4 @@ export {
   setSelectedProviderId,
   isProviderSelected,
 } from '@stacks/connect-ui';
+export type { WebBTCProvider, WbipProvider } from '@stacks/connect-ui';

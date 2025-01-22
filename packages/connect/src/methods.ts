@@ -174,13 +174,24 @@ export interface SignPsbtResult {
   psbt: string;
 }
 
+export type JsonRpcResponseError = {
+  code: number;
+  message: string;
+  data?: any;
+};
+
 // todo: double check spec
 export type JsonRpcResponse<M extends keyof Methods> = {
   jsonrpc: '2.0';
-  id: number;
-  result: Methods[M]['result'];
-  // todo: add error
-};
+  id: string | number | null;
+} & (
+  | {
+      result: Methods[M]['result'];
+    }
+  | {
+      error: JsonRpcResponseError;
+    }
+);
 
 export type Methods = {
   // BTC
