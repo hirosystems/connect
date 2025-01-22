@@ -15,14 +15,11 @@ const METHOD = 'signPsbt' as const;
 /** @internal */
 export const LEGACY_SIGN_PSBT_OPTIONS_MAP = (
   options: PsbtRequestOptions
-): MethodParams<typeof METHOD> => {
-  return {
-    psbt: options.hex,
-    signInputs:
-      typeof options.signAtIndex === 'number' ? [options.signAtIndex] : options.signAtIndex,
-    allowedSigHash: options.allowedSighash?.map(hash => SignatureHash[hash] as SigHash),
-  };
-};
+): MethodParams<typeof METHOD> => ({
+  psbt: options.hex,
+  signInputs: typeof options.signAtIndex === 'number' ? [options.signAtIndex] : options.signAtIndex,
+  allowedSigHash: options.allowedSighash?.map(hash => SignatureHash[hash] as SigHash),
+});
 
 /** @internal */
 export const LEGACY_SIGN_PSBT_RESPONSE_MAP = (response: MethodResult<typeof METHOD>): PsbtData => ({

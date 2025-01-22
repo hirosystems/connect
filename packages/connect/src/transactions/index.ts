@@ -125,13 +125,11 @@ export const LEGACY_CALL_CONTRACT_OPTIONS_MAP = (
 /** @internal */
 export const LEGACY_CALL_CONTRACT_RESPONSE_MAP = (
   response: MethodResult<typeof METHOD_CALL_CONTRACT>
-): FinishedTxData | SponsoredFinishedTxData => {
-  return {
-    txId: response.txid,
-    txRaw: response.transaction,
-    stacksTransaction: deserializeTransaction(response.transaction),
-  };
-};
+): FinishedTxData | SponsoredFinishedTxData => ({
+  txId: response.txid,
+  txRaw: response.transaction,
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
 
 /** Compatible interface with previous Connect `openContractCall` version, but using new SIP-030 RPC method. */
 export function openContractCall(
@@ -152,28 +150,24 @@ const METHOD_DEPLOY_CONTRACT = 'stx_deployContract' as const;
 /** @internal */
 export const LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP = (
   options: ContractDeployOptions
-): MethodParams<typeof METHOD_DEPLOY_CONTRACT> => {
-  return {
-    ...options,
-    name: options.contractName,
-    clarityCode: options.codeBody,
-    network: connectNetworkToString(options.network),
-    postConditionMode: optPostConditionMode(options.postConditionMode),
-    postConditions: optPostCondition(options.postConditions),
-    address: options.stxAddress,
-  };
-};
+): MethodParams<typeof METHOD_DEPLOY_CONTRACT> => ({
+  ...options,
+  name: options.contractName,
+  clarityCode: options.codeBody,
+  network: connectNetworkToString(options.network),
+  postConditionMode: optPostConditionMode(options.postConditionMode),
+  postConditions: optPostCondition(options.postConditions),
+  address: options.stxAddress,
+});
 
 /** @internal */
 export const LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP = (
   response: MethodResult<typeof METHOD_DEPLOY_CONTRACT>
-): FinishedTxData | SponsoredFinishedTxData => {
-  return {
-    txId: response.txid,
-    txRaw: response.transaction,
-    stacksTransaction: deserializeTransaction(response.transaction),
-  };
-};
+): FinishedTxData | SponsoredFinishedTxData => ({
+  txId: response.txid,
+  txRaw: response.transaction,
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
 
 /** Compatible interface with previous Connect `openContractDeploy` version, but using new SIP-030 RPC method. */
 export function openContractDeploy(
@@ -194,25 +188,21 @@ const METHOD_TRANSFER_STX = 'stx_transferStx' as const;
 /** @internal */
 export const LEGACY_TRANSFER_STX_OPTIONS_MAP = (
   options: STXTransferOptions
-): MethodParams<typeof METHOD_TRANSFER_STX> => {
-  return {
-    ...options,
-    amount: options.amount.toString(),
-    network: connectNetworkToString(options.network),
-    address: options.stxAddress,
-  };
-};
+): MethodParams<typeof METHOD_TRANSFER_STX> => ({
+  ...options,
+  amount: options.amount.toString(),
+  network: connectNetworkToString(options.network),
+  address: options.stxAddress,
+});
 
 /** @internal */
 export const LEGACY_TRANSFER_STX_RESPONSE_MAP = (
   response: MethodResult<typeof METHOD_TRANSFER_STX>
-): FinishedTxData | SponsoredFinishedTxData => {
-  return {
-    txId: response.txid,
-    txRaw: response.transaction,
-    stacksTransaction: deserializeTransaction(response.transaction),
-  };
-};
+): FinishedTxData | SponsoredFinishedTxData => ({
+  txId: response.txid,
+  txRaw: response.transaction,
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
 
 /** Compatible interface with previous Connect `openSTXTransfer` version, but using new SIP-030 RPC method. */
 export function openSTXTransfer(
@@ -233,22 +223,18 @@ const METHOD_SIGN_TRANSACTION = 'stx_signTransaction' as const;
 /** @internal */
 export const LEGACY_SIGN_TRANSACTION_OPTIONS_MAP = (
   options: SignTransactionOptions
-): MethodParams<typeof METHOD_SIGN_TRANSACTION> => {
-  return {
-    ...options,
-    transaction: options.txHex,
-  };
-};
+): MethodParams<typeof METHOD_SIGN_TRANSACTION> => ({
+  ...options,
+  transaction: options.txHex,
+});
 
 /** @internal */
 export const LEGACY_SIGN_TRANSACTION_RESPONSE_MAP = (
   response: MethodResult<typeof METHOD_SIGN_TRANSACTION>
-): SignTransactionFinishedTxData => {
-  return {
-    ...response, // additional fields, in case previous type was incorrect
-    stacksTransaction: deserializeTransaction(response.transaction),
-  };
-};
+): SignTransactionFinishedTxData => ({
+  ...response, // additional fields, in case previous type was incorrect
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
 
 /** Compatible interface with previous Connect `openSignTransaction` version, but using new SIP-030 RPC method. */
 export function openSignTransaction(
