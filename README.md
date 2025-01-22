@@ -83,28 +83,10 @@ Join our community and stay connected with the latest updates and discussions:
 
 ### MIGRATION TODO
 
-#### BREAKING
-
-- REMOVED BlockstackProvider, StacksProvider
-- UPDATED StacksProvider to only have request
-- ADDED requestRaw, and similar
-- REMOVED shouldUsePopup
-- ALTERED UserSession, SessionData, and related types
-
-#### CONTINUE
-
-- Continue: Error handling and unwrapping on rethrow.
-
 #### TODO
 
 - Add `PostConditionModeName` to all options (new and old) — This might have been missing since the v7 release.
 - Strip unserializable fields from RawLegacy wrapper just in case.
 - Remove exports from LEGACY_XYZ
-- Refactor types to namespace object to be tree shakeable
 
 Search for the below and replace with inline return.
-
-```
-=> {
-  return {
-```

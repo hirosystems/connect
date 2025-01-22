@@ -6,4 +6,5 @@ Update UI properties
 
 BREAKING CHANGE:
 
-- `persistSelection` was renamed to `persistWalletSelect`
+- RENAMED `persistSelection` to `persistWalletSelect`
+- REMOVED `shouldUsePopup` from `@stacks/connect-ui`
