@@ -18,7 +18,7 @@ export const NoMocking = {
 
 // 2. Mocking
 const ConnectWithMockedRegister = () => {
-  window.webbtc_stx_providers = [DEFAULT_PROVIDERS[0]]; // simulate installed wallet
+  window.wbip_providers = [DEFAULT_PROVIDERS[0]]; // simulate installed wallet
   return <ConnectPage />;
 };
 export const WithMockedRegister = {
@@ -32,7 +32,7 @@ declare global {
   }
 }
 const ConnectWithMockedWallet = () => {
-  window.webbtc_stx_providers = [
+  window.wbip_providers = [
     {
       id: 'MockedProvider',
       name: 'Mocked Wallet',

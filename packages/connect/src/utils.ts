@@ -58,7 +58,7 @@ export function connectNetworkToString(network: ConnectNetwork): string {
       ? 'mainnet'
       : 'testnet';
   }
-  return 'mainnet'; // todo: what should the fallback be?
+  return 'mainnet';
 }
 
 /**

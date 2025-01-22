@@ -1,5 +1,5 @@
 import { Component, Element, Prop, h } from '@stencil/core';
-import { WebBTCProvider, getProviderFromId } from '../../providers';
+import { WbipProvider, getProviderFromId } from '../../providers';
 import { setSelectedProviderId } from '../../session';
 import CloseIcon from './assets/close-icon.svg';
 import { getBrowser, getPlatform } from './utils';
@@ -11,8 +11,8 @@ import { getBrowser, getPlatform } from './utils';
   shadow: true,
 })
 export class Modal {
-  @Prop() defaultProviders: WebBTCProvider[];
-  @Prop() installedProviders: WebBTCProvider[];
+  @Prop() defaultProviders: WbipProvider[];
+  @Prop() installedProviders: WbipProvider[];
 
   @Prop() persistSelection: boolean;
 
@@ -45,15 +45,15 @@ export class Modal {
   //   return null;
   // }
 
-  getBrowserUrl(provider: WebBTCProvider) {
+  getBrowserUrl(provider: WbipProvider) {
     return provider.chromeWebStoreUrl ?? provider.mozillaAddOnsUrl;
   }
 
-  getMobileUrl(provider: WebBTCProvider) {
+  getMobileUrl(provider: WbipProvider) {
     return provider.iOSAppStoreUrl ?? provider.googlePlayStoreUrl;
   }
 
-  getInstallUrl(provider: WebBTCProvider, browser: string, platform: string) {
+  getInstallUrl(provider: WbipProvider, browser: string, platform: string) {
     if (platform === 'IOS') {
       return provider.iOSAppStoreUrl ?? this.getBrowserUrl(provider) ?? provider.webUrl;
     } else if (browser === 'Chrome') {
@@ -115,7 +115,7 @@ export class Modal {
             <div class="mt-6">
               <p class="mb-4 text-sm font-medium">Installed wallets</p>
               <ul class="space-y-3">
-                {this.installedProviders.map((provider: WebBTCProvider) => (
+                {this.installedProviders.map((provider: WbipProvider) => (
                   <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
                     <div class="aspect-square basis-9 overflow-hidden">
                       <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
@@ -184,7 +184,7 @@ export class Modal {
                 </div>
               )}
               <ul class="space-y-3">
-                {notInstalledProviders.map((provider: WebBTCProvider) => (
+                {notInstalledProviders.map((provider: WbipProvider) => (
                   <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
                     <div class="aspect-square basis-9 overflow-hidden">
                       <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />

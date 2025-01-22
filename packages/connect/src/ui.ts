@@ -30,7 +30,7 @@ function requestLegacy<M extends keyof Methods, O, R>(
   mapOptions: (options: O) => MethodParams<M>,
   mapResponse: (response: MethodResult<M>) => R,
   uiOptions: ConnectRequestOptions = {
-    forceSelection: true,
+    forceWalletSelect: true,
   }
 ) {
   return (options: O, provider?: StacksProvider) => {
@@ -114,7 +114,7 @@ export function disconnect() {
   new UserSession().store.deleteSessionData();
 }
 
-export { isProviderSelected } from '@stacks/connect-ui';
+export { getProvider as getSelectedProvider, isProviderSelected } from '@stacks/connect-ui';
 
 /**
  * @deprecated Use the renamed {@link showConnect} method

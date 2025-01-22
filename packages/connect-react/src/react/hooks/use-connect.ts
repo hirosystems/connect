@@ -71,7 +71,7 @@ export const useConnect = () => {
       void authenticate(_options, provider);
       return;
     } else {
-      showBlockstackConnect({
+      void showBlockstackConnect({
         ...authOptions,
         sendToSignIn: false,
       });

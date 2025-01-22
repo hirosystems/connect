@@ -5,13 +5,13 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { WebBTCProvider } from "./providers";
+import { WbipProvider } from "./providers";
 export namespace Components {
     interface ConnectModal {
         "callback": Function;
         "cancelCallback": Function;
-        "defaultProviders": WebBTCProvider[];
-        "installedProviders": WebBTCProvider[];
+        "defaultProviders": WbipProvider[];
+        "installedProviders": WbipProvider[];
         "persistSelection": boolean;
     }
 }
@@ -30,8 +30,8 @@ declare namespace LocalJSX {
     interface ConnectModal {
         "callback"?: Function;
         "cancelCallback"?: Function;
-        "defaultProviders"?: WebBTCProvider[];
-        "installedProviders"?: WebBTCProvider[];
+        "defaultProviders"?: WbipProvider[];
+        "installedProviders"?: WbipProvider[];
         "persistSelection"?: boolean;
     }
     interface IntrinsicElements {

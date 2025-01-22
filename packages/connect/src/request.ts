@@ -6,11 +6,35 @@ import { DEFAULT_PROVIDERS } from './providers';
 import { StacksProvider } from './types';
 
 export interface ConnectRequestOptions {
+  /**
+   * The default wallets to display in the modal.
+   * Defaults to some known popular wallets.
+   */
   defaultProviders?: WebBTCProvider[];
+
+  /**
+   * The provider to use for the request.
+   * If none is provided the UI will be shown.
+   * Defaults to the previously selected provider (unless `forceWalletSelect` is `true`).
+   */
   provider?: StacksProvider;
 
-  persistSelection?: boolean;
-  forceSelection?: boolean;
+  /**
+   * Forces the user to select a wallet.
+   * Defaults to `false`.
+   */
+  forceWalletSelect?: boolean;
+
+  /**
+   * Persist the selected wallet across requests.
+   * Defaults to `true`.
+   */
+  persistWalletSelect?: boolean;
+
+  /**
+   * Adds manual request rewriting to make different providers behave more closely to SIP-030 / WBIPs.
+   * Defaults to `true`.
+   */
   enableOverrides?: boolean;
 
   // todo: maybe add callbacks, if set use them instead of throwing errors
@@ -60,15 +84,17 @@ export async function request<M extends keyof Methods>(
       defaultProviders: DEFAULT_PROVIDERS,
       provider: getProvider(),
 
-      persistSelection: true,
-      forceSelection: false,
+      forceWalletSelect: false,
+      persistWalletSelect: true,
       enableOverrides: true,
     },
     options
   );
 
   // WITHOUT UI
-  if (opts.provider && !opts.forceSelection) return await requestRaw(opts.provider, method, params);
+  if (opts.provider && !opts.forceWalletSelect) {
+    return await requestRaw(opts.provider, method, params);
+  }
 
   // WITH UI
   if (typeof window === 'undefined') return undefined; // don't throw for SSR contexts
@@ -79,7 +105,7 @@ export async function request<M extends keyof Methods>(
     const element = document.createElement('connect-modal');
     element.defaultProviders = opts.defaultProviders;
     element.installedProviders = getInstalledProviders(opts.defaultProviders);
-    element.persistSelection = opts.persistSelection;
+    element.persistSelection = opts.persistWalletSelect;
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -99,9 +125,7 @@ export async function request<M extends keyof Methods>(
       // Xverse
       if (
         opts.enableOverrides &&
-        // Best effort detection for Xverse
-        'signMultipleTransactions' in selectedProvider &&
-        'createRepeatInscriptions' in selectedProvider &&
+        isXverse(selectedProvider) &&
         // Permission granting method
         ['getAddresses', 'stx_getAddresses', 'stx_getAccounts'].includes(method)
       ) {
@@ -143,20 +167,6 @@ function requestArgs<M extends keyof Methods>(
   return { options: args[0], method: args[1] as M, params: args[2] };
 }
 
-// /** @internal */
-// export function requestOpenLegacy<M extends Methods>(
-//   provider: StacksProvider,
-//   method: M,
-//   params: MethodParams<M>,
-//   hooks: {
-//     onFinish: (response: JsonRpcResponse<M>) => void;
-//     onCancel: () => void;
-//   }
-// ) {
-//   if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-//   provider.request(method, params).then(hooks.onFinish).catch(hooks.onCancel);
-// }
-
 /**
  * **Note:** Higher order function!
  * @internal Legacy non-UI request.
@@ -194,3 +204,12 @@ export function requestRawLegacy<M extends keyof Methods, O, R>(
 // userSession?: UserSession;
 // onFinish?: ProfileUpdateFinished;
 // onCancel?: ProfileUpdateCanceled;
+
+function isXverse(provider: StacksProvider) {
+  return (
+    // Best effort detection for Xverse
+    'signMultipleTransactions' in provider &&
+    'createRepeatInscriptions' in provider &&
+    !provider?.['isLeather']
+  );
+}

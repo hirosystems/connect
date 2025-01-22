@@ -37,9 +37,11 @@ export {
 export { request, requestRaw } from './request';
 export { getStacksProvider, isStacksWalletInstalled } from './utils';
 
+// TODO: (next)
+// We won't expose these types (TypeBox and Zod) until they are final and stable.
 // TypeBox
 // Only export the outermost typebox schemas
-export { ClarityValueTypeBoxSchema, PostConditionTypeBoxSchema } from './types/typebox';
+// export { ClarityValueTypeBoxSchema, PostConditionTypeBoxSchema } from './types/typebox';
 
 // Re-exports
 export {
