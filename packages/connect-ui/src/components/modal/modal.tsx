@@ -14,7 +14,7 @@ export class Modal {
   @Prop() defaultProviders: WbipProvider[];
   @Prop() installedProviders: WbipProvider[];
 
-  @Prop() persistSelection: boolean;
+  @Prop() persistWalletSelect: boolean;
 
   @Prop() callback: Function;
   @Prop() cancelCallback: Function;
@@ -22,7 +22,7 @@ export class Modal {
   @Element() modalEl: HTMLConnectModalElement;
 
   handleSelectProvider(providerId: string) {
-    if (this.persistSelection) setSelectedProviderId(providerId);
+    if (this.persistWalletSelect) setSelectedProviderId(providerId);
     this.callback(getProviderFromId(providerId));
   }
 

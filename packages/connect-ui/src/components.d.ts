@@ -12,7 +12,7 @@ export namespace Components {
         "cancelCallback": Function;
         "defaultProviders": WbipProvider[];
         "installedProviders": WbipProvider[];
-        "persistSelection": boolean;
+        "persistWalletSelect": boolean;
     }
 }
 declare global {
@@ -32,7 +32,7 @@ declare namespace LocalJSX {
         "cancelCallback"?: Function;
         "defaultProviders"?: WbipProvider[];
         "installedProviders"?: WbipProvider[];
-        "persistSelection"?: boolean;
+        "persistWalletSelect"?: boolean;
     }
     interface IntrinsicElements {
         "connect-modal": ConnectModal;
