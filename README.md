@@ -54,6 +54,7 @@ window.MyProvider = {
       },
     });
   },
+  isMyWallet: true, // optional, a way of identifying the wallet for developers
 };
 
 window.wbip_providers = window.wbip_providers || [];
@@ -116,5 +117,6 @@ Join our community and stay connected with the latest updates and discussions:
 - Add `PostConditionModeName` to all options (new and old) — This might have been missing since the v7 release.
 - Strip unserializable fields from RawLegacy wrapper just in case.
 - Remove exports from LEGACY_XYZ
+- Make hex to base64 for psbt
 
 Search for the below and replace with inline return.
