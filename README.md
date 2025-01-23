@@ -60,6 +60,15 @@ window.MyProvider = {
 ### JSON RPC 2.0
 
 Wallets may add their own unstandardized methods.
+However, the minimum recommended methods are:
+
+- `getAddresses` [WBIP](https://wbips.netlify.app/request_api/getAddresses)
+- `signPsbt` [WBIP](https://wbips.netlify.app/request_api/signPsbt)
+- `stx_getAddresses` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_transferStx` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_callContract` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_signMessage` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_signStructuredMessage` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
 
 ## 🎁 Contribute
 
