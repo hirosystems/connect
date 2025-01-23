@@ -55,6 +55,25 @@ window.MyProvider = {
     });
   },
 };
+
+window.wbip_providers = window.wbip_providers || [];
+window.wbip_providers.push({
+  // `WbipProvider` type
+    /** The global "path" of the provider (e.g. `"MyProvider"` if registered at `window.MyProvider`) */
+  id: 'MyProvider',
+  /** The name of the provider, as displayed to the user */
+  name: 'My Wallet';
+  /** The data URL of an image to show (e.g. `data:image/png;base64,iVBORw0...`) @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs */
+  icon?: 'data:image/png;base64,iVBORw0...';
+  /** Web URL of the provider */
+  webUrl?: 'https://mywallet.example.com';
+
+  // Addional URLs
+  chromeWebStoreUrl?: string;
+  mozillaAddOnsUrl?: string;
+  googlePlayStoreUrl?: string;
+  iOSAppStoreUrl?: string;
+});
 ```
 
 ### JSON RPC 2.0
