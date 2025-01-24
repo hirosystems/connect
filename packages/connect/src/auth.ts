@@ -1,7 +1,6 @@
 import { NoSessionDataError } from '@stacks/common';
-import { AuthOptions, StacksProvider } from './types';
-import { getStacksProvider } from './utils';
 import { request } from './request';
+import { AuthOptions, StacksProvider } from './types';
 
 /** @deprecated Not used anymore. */
 export const defaultAuthURL = 'https://app.blockstack.org';
