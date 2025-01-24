@@ -26,12 +26,7 @@ export const isMobile = () => {
  * Special `authenticate` legacy request, to store addresses in userSession matching legacy behavior.
  * @internal Legacy UI request.
  */
-export const authenticate = async (
-  authOptions: AuthOptions,
-  provider: StacksProvider = getStacksProvider()
-) => {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-
+export const authenticate = async (authOptions: AuthOptions, provider?: StacksProvider) => {
   const { onFinish, onCancel, userSession: _userSession } = authOptions;
 
   const userSession = getOrCreateUserSession(_userSession);
@@ -39,14 +34,7 @@ export const authenticate = async (
 
   try {
     const method = 'getAddresses';
-
-    const response = await request({ forceWalletSelect: true }, method);
-
-    // Take first address and use it for legacy connect user session storing.
-    const address = response.addresses
-      .find(a => a?.symbol === 'STX' || a.address.startsWith('S'))
-      .address.toUpperCase();
-    const isMainnet = address[1] === 'P' || address[1] === 'M';
+    const response = await request({ provider, forceWalletSelect: true }, method);
 
     const sessionData = userSession.store.getSessionData();
 
@@ -57,6 +45,12 @@ export const authenticate = async (
       mainnet: '',
       testnet: '',
     };
+
+    // Take first address and use it for legacy connect user session storing.
+    const address = response.addresses
+      .find(a => a?.symbol === 'STX' || a.address.startsWith('S'))
+      .address.toUpperCase();
+    const isMainnet = address[1] === 'P' || address[1] === 'M';
 
     // Store only returned address
     Object.assign(sessionData.userData.profile.stxAddress, {

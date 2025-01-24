@@ -82,7 +82,7 @@ export async function request<M extends keyof Methods>(
       persistWalletSelect: true,
       enableOverrides: true,
     },
-    options
+    shallowDefined(options)
   );
 
   // WITHOUT UI
@@ -206,4 +206,12 @@ function isXverse(provider: StacksProvider) {
     'createRepeatInscriptions' in provider &&
     !provider?.['isLeather']
   );
+}
+
+function shallowDefined<T extends object>(obj: T): Partial<T> {
+  const result: Partial<T> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) result[key as keyof T] = value;
+  }
+  return result;
 }
