@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "jsx": "preserve"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "typedocOptions": {
     "entryPointStrategy": "resolve",
     "entryPoints": ["src/index.ts"]

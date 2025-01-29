@@ -44,7 +44,10 @@ function requestLegacy<M extends keyof Methods, O, R>(
         const r = mapResponse(response);
         o.onFinish?.(r);
       })
-      .catch(o.onCancel);
+      .catch(e => {
+        console.error(e); // todo: remove again? or maybe keep for legacy debugging
+        o.onCancel?.();
+      });
   };
 }
 
