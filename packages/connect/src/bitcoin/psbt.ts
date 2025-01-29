@@ -1,6 +1,6 @@
 import { base64 } from '@scure/base';
 import { bytesToHex, hexToBytes } from '@stacks/common';
-import { MethodParams, MethodResult, SigHash } from '../methods';
+import { MethodParams, MethodResult, Sighash } from '../methods';
 import { requestRawLegacy } from '../request';
 import { StacksProvider } from '../types';
 import { PsbtData, PsbtRequestOptions, SignatureHash } from '../types/bitcoin';
@@ -20,7 +20,7 @@ export const LEGACY_SIGN_PSBT_OPTIONS_MAP = (
 ): MethodParams<typeof METHOD> => ({
   psbt: base64.encode(hexToBytes(options.hex)),
   signInputs: typeof options.signAtIndex === 'number' ? [options.signAtIndex] : options.signAtIndex,
-  allowedSigHash: options.allowedSighash?.map(hash => SignatureHash[hash] as SigHash),
+  allowedSighash: options.allowedSighash?.map(hash => SignatureHash[hash] as Sighash),
 });
 
 /** @internal */

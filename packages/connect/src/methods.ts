@@ -156,17 +156,23 @@ export interface UpdateProfileResult {
 
 /// BITCOIN METHODS
 
-export type SigHash = 'ALL' | 'NONE' | 'SINGLE' | 'ANYONECANPAY';
+export type Sighash = 'ALL' | 'NONE' | 'SINGLE' | 'ANYONECANPAY';
 
 export interface SignInputsByAddress {
-  [address: string]: number[];
+  index: number;
+  address: string;
+  publicKey: string;
+
+  /** @experimental Might need a rename, when wallets adopt SIPs/WBIPs. */
+  allowedSighash?: Sighash[];
 }
 
 export interface SignPsbtParams {
   psbt: string;
-  signInputs?: number[] | SignInputsByAddress;
-  /** @experimental Might need a rename, when SIPs/WBIPs are finalized. */
-  allowedSigHash?: SigHash[];
+  signInputs?: number[] | SignInputsByAddress[];
+
+  /** @experimental Might need a rename, when wallets adopt SIPs/WBIPs. */
+  allowedSighash?: Sighash[];
 }
 
 export interface SignPsbtResult {
