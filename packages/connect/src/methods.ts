@@ -78,13 +78,13 @@ export interface TransferFungibleParams extends CommonTxParams {
 export interface TransferNonFungibleParams extends CommonTxParams {
   recipient: string;
   asset: string;
-  assetId: ClarityValue; // todo: add string (hex-encoded), add string (clarity syntax)
+  assetId: string | ClarityValue; // todo: add string (hex-encoded), add string (clarity syntax)
 }
 
 export interface CallContractParams extends CommonTxParams {
   contract: ContractIdString;
   functionName: string;
-  functionArgs?: ClarityValue[]; // todo: add string (hex-encoded), add string (clarity syntax)
+  functionArgs?: string[] | ClarityValue[]; // todo: add string (hex-encoded), add string (clarity syntax)
 }
 
 export interface DeployContractParams extends CommonTxParams {

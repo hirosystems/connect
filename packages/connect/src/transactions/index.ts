@@ -106,10 +106,13 @@ const METHOD_CALL_CONTRACT = 'stx_callContract' as const;
 export const LEGACY_CALL_CONTRACT_OPTIONS_MAP = (
   options: ContractCallOptions
 ): MethodParams<typeof METHOD_CALL_CONTRACT> => {
-  const functionArgs = options.functionArgs?.map(arg => {
-    if (typeof arg === 'string') return Cl.deserialize(arg);
-    return legacyCVToCV(arg);
-  });
+  const functionArgs = options.functionArgs
+    ?.map(arg => {
+      if (typeof arg === 'string') return Cl.deserialize(arg);
+      return legacyCVToCV(arg);
+    })
+    // serialize to hex, since some wallets expect hex-encoded args
+    .map(arg => Cl.serialize(arg));
 
   return {
     ...options,

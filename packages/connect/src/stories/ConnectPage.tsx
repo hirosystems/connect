@@ -162,21 +162,44 @@ const LegacyContractCallForm = () => {
   const [response, setResponse] = useState<any>(null);
 
   const onSubmit = handleSubmit(({ contractAddress, contractName, functionName, functionArgs }) => {
-    const parsedArgs = functionArgs ? JSON.parse(functionArgs) : [];
-    showContractCall({
-      contractAddress,
-      contractName,
-      functionName,
-      functionArgs: parsedArgs,
-      appDetails,
-      onFinish: d => {
-        setResponse(d);
-        refresh();
-      },
-      onCancel: () => {
-        setResponse({ error: 'User canceled the request' });
-      },
-    });
+    try {
+      const parsedArgs = functionArgs
+        ? functionArgs
+            .split('')
+            .reduce(
+              (acc, char) => {
+                if (char === '(') acc.p++;
+                if (char === ')') acc.p--;
+                if (char === ',' && !acc.p) {
+                  acc.segs.push('');
+                } else {
+                  acc.segs[acc.segs.length - 1] += char;
+                }
+                return acc;
+              },
+              { p: 0, segs: [''] }
+            )
+            .segs.filter(arg => arg.trim())
+            .map(arg => Cl.parse(arg.trim()))
+        : [];
+
+      showContractCall({
+        contractAddress,
+        contractName,
+        functionName,
+        functionArgs: parsedArgs,
+        appDetails,
+        onFinish: d => {
+          setResponse(d);
+          refresh();
+        },
+        onCancel: () => {
+          setResponse({ error: 'User canceled the request' });
+        },
+      });
+    } catch (e) {
+      setResponse({ error: `Failed to parse arguments: ${e.message}` });
+    }
   });
 
   return (
@@ -209,12 +232,8 @@ const LegacyContractCallForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="functionArgs">Function Arguments (JSON array)</label>
-            <input
-              id="functionArgs"
-              {...register('functionArgs')}
-              defaultValue='["Hello, World!"]'
-            />
+            <label htmlFor="functionArgs">Function Arguments (Clarity expressions)</label>
+            <input id="functionArgs" {...register('functionArgs')} defaultValue="3" />
           </div>
           <button type="submit">Call Contract</button>
         </form>
