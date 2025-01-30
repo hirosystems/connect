@@ -116,10 +116,10 @@ export async function request<M extends keyof Methods>(
       // OVERRIDES
       // We may need to maintain some overrides to make different providers semi-compatible.
 
-      // Xverse
+      // Xverse-ish wallets
       if (
         opts.enableOverrides &&
-        isXverse(selectedProvider) &&
+        (isXverse(selectedProvider) || isFordefi(selectedProvider)) &&
         // Permission granting method
         ['getAddresses', 'stx_getAddresses', 'stx_getAccounts'].includes(method)
       ) {
@@ -199,13 +199,18 @@ export function requestRawLegacy<M extends keyof Methods, O, R>(
 // onFinish?: ProfileUpdateFinished;
 // onCancel?: ProfileUpdateCanceled;
 
-function isXverse(provider: StacksProvider) {
+function isXverse(provider: StacksProvider): boolean {
   return (
     // Best effort detection for Xverse
     'signMultipleTransactions' in provider &&
     'createRepeatInscriptions' in provider &&
-    !provider?.['isLeather']
+    !provider?.['isLeather'] &&
+    !provider?.['isFordefi']
   );
+}
+
+function isFordefi(provider: StacksProvider): boolean {
+  return 'isFordefi' in provider && !!provider.isFordefi;
 }
 
 function shallowDefined<T extends object>(obj: T): Partial<T> {
