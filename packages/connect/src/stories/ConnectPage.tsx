@@ -16,6 +16,16 @@ import { useForm, FormProvider } from 'react-hook-form';
 import './connect.css';
 import { Cl } from '@stacks/transactions';
 
+declare global {
+  interface BigInt {
+    toJSON(): string;
+  }
+}
+
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
 const userSession = new UserSession();
 
 // Form Types
