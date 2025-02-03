@@ -83,7 +83,12 @@ jobs:
         env:
           BRANCH: ${{ steps.git-branch.outputs.branch }}
           PREID: ${{ steps.preid.outputs.preid }}
-        run: npx lerna publish prepatch --preid $PREID --dist-tag $BRANCH --yes --no-push
+        run: |
+          if [ "${{ steps.git-branch.outputs.branch }}" = "beta" ]; then
+            npx lerna publish premajor --preid $PREID --dist-tag $BRANCH --yes --no-push
+          else
+            npx lerna publish prepatch --preid $PREID --dist-tag $BRANCH --yes --no-push
+          fi
       - name: Get package versions
         id: versions
         run: |
