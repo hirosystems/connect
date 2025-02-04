@@ -4,10 +4,9 @@
     "baseUrl": ".",
     "outDir": "./dist/types",
     "rootDir": "./src",
-
     "jsx": "preserve"
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "typedocOptions": {
     "entryPointStrategy": "resolve",
     "entryPoints": ["src/index.ts"]
