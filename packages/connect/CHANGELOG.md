@@ -1,5 +1,11 @@
 # Change Log
 
+## 7.10.1
+
+### Patch Changes
+
+- [#405](https://github.com/hirosystems/connect/pull/405) [`ed9532a`](https://github.com/hirosystems/connect/commit/ed9532ac1b88cbcdb4d909cd6c45030fc00b78dd) Thanks [@martinsvinicius](https://github.com/martinsvinicius)! - Avoid Asigna initialization when the window object is not defined
+
 ## 7.10.0
 
 ### Minor Changes
