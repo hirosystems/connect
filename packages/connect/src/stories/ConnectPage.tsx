@@ -91,7 +91,7 @@ const LegacySignMessageForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignMessage</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="message">Message</label>
             <input
@@ -140,7 +140,7 @@ const LegacySTXTransferForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSTXTransfer</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="amount">Amount (uSTX)</label>
             <input id="amount" {...register('amount', { required: true })} defaultValue="1000" />
@@ -220,7 +220,7 @@ const LegacyContractCallForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showContractCall</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="contractAddress">Contract Address</label>
             <input
@@ -289,7 +289,7 @@ const LegacyContractDeployForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showContractDeploy</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="contractName">Contract Name</label>
             <input
@@ -354,7 +354,7 @@ const LegacySignTransactionForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignTransaction</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="txHex">Transaction (hex)</label>
             <textarea
@@ -417,7 +417,7 @@ const LegacySignStructuredMessageForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignStructuredMessage</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="domain">Domain</label>
             <input
