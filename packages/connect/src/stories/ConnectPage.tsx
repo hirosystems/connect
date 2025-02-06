@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import { AppConfig, UserSession } from '@stacks/auth';
 import { getSelectedProviderId } from '@stacks/connect-ui';
-import { useReducer } from 'react';
+import { Cl } from '@stacks/transactions';
+import { useReducer, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import {
   disconnect,
   showConnect,
-  showSignMessage,
-  showSTXTransfer,
   showContractCall,
   showContractDeploy,
-  showSignTransaction,
+  showSignMessage,
   showSignStructuredMessage,
+  showSignTransaction,
+  showSTXTransfer,
 } from '../ui';
-import { useForm, FormProvider } from 'react-hook-form';
 import './connect.css';
-import { Cl } from '@stacks/transactions';
-import { AppConfig, UserSession } from '@stacks/auth';
 
 declare global {
   interface BigInt {
@@ -125,6 +124,7 @@ const LegacySTXTransferForm = () => {
     showSTXTransfer({
       amount,
       recipient,
+      network: 'mainnet',
       appDetails,
       onFinish: d => {
         setResponse(d);
@@ -200,6 +200,7 @@ const LegacyContractCallForm = () => {
         contractName,
         functionName,
         functionArgs: parsedArgs,
+        network: 'mainnet',
         appDetails,
         onFinish: d => {
           setResponse(d);
@@ -210,6 +211,7 @@ const LegacyContractCallForm = () => {
         },
       });
     } catch (e) {
+      console.error(e);
       setResponse({ error: `Failed to parse arguments: ${e.message}` });
     }
   });
@@ -224,7 +226,7 @@ const LegacyContractCallForm = () => {
             <input
               id="contractAddress"
               {...register('contractAddress', { required: true })}
-              defaultValue="ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK"
+              defaultValue="SPGSJA8EMYDBAJDX6Z4ED8CWW071B6NB95PJC9WC"
             />
           </div>
           <div>
@@ -232,7 +234,7 @@ const LegacyContractCallForm = () => {
             <input
               id="contractName"
               {...register('contractName', { required: true })}
-              defaultValue="example-contract"
+              defaultValue="counters"
             />
           </div>
           <div>
@@ -240,7 +242,7 @@ const LegacyContractCallForm = () => {
             <input
               id="functionName"
               {...register('functionName', { required: true })}
-              defaultValue="vote"
+              defaultValue="count"
             />
           </div>
           <div>
@@ -271,6 +273,7 @@ const LegacyContractDeployForm = () => {
     showContractDeploy({
       contractName,
       codeBody,
+      network: 'mainnet',
       appDetails,
       onFinish: d => {
         setResponse(d);
@@ -335,6 +338,7 @@ const LegacySignTransactionForm = () => {
   const onSubmit = handleSubmit(({ txHex }) => {
     showSignTransaction({
       txHex,
+      network: 'mainnet',
       appDetails,
       onFinish: d => {
         setResponse(d);
@@ -383,15 +387,17 @@ const LegacySignStructuredMessageForm = () => {
   const onSubmit = handleSubmit(({ message, domain }) => {
     try {
       // Create a structured message using Clarity values
-      const clarityMessage = Cl.stringUtf8(message);
+      const clarityMessage = Cl.parse(message);
       const clarityDomain = Cl.tuple({
-        name: Cl.stringUtf8(domain),
-        version: Cl.stringUtf8('1.0.0'),
+        domain: Cl.stringAscii(domain),
+        version: Cl.stringAscii('1.0.0'),
+        'chain-id': Cl.uint(1),
       });
 
       showSignStructuredMessage({
         message: clarityMessage,
         domain: clarityDomain,
+        network: 'mainnet',
         appDetails,
         onFinish: d => {
           setResponse(d);
@@ -402,6 +408,7 @@ const LegacySignStructuredMessageForm = () => {
         },
       });
     } catch (e) {
+      console.error(e);
       setResponse({ error: 'Failed to create Clarity values' });
     }
   });
@@ -417,6 +424,7 @@ const LegacySignStructuredMessageForm = () => {
               id="domain"
               {...register('domain', { required: true })}
               defaultValue="example.com"
+              // style={{ fontFamily: 'monospace' }}
             />
           </div>
           <div>
@@ -424,7 +432,8 @@ const LegacySignStructuredMessageForm = () => {
             <input
               id="structuredMessage"
               {...register('message', { required: true })}
-              defaultValue="Hello, Structured World!"
+              defaultValue='{ structured: "message", num: u3 }'
+              style={{ fontFamily: 'monospace' }}
             />
           </div>
           <button type="submit">Sign Structured Message</button>
@@ -460,6 +469,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
           onClick={() => {
             if (isSignedIn) {
               disconnect();
+              userSession.store.deleteSessionData();
               setConnectResponse(null);
             } else {
               void showConnect({

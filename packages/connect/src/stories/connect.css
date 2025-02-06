@@ -115,6 +115,8 @@ div[data-response] {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 pre {
@@ -123,6 +125,11 @@ pre {
   border-radius: 4px;
   font-size: 0.875rem;
   margin-bottom: 0;
+  max-height: 200px; /* Approximately 10 lines of text */
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
 }
 
 code {
