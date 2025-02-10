@@ -8,7 +8,10 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@stacks/auth": "^7.0.0",
@@ -39,20 +42,24 @@
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-react": "^7.23.3",
-    "@storybook/addon-essentials": "^7.6.0-alpha.5",
-    "@storybook/addon-interactions": "^7.6.0-alpha.5",
-    "@storybook/addon-links": "^7.6.0-alpha.5",
-    "@storybook/addon-onboarding": "^1.0.8",
-    "@storybook/blocks": "^7.6.0-alpha.5",
-    "@storybook/react": "^7.6.0-alpha.5",
-    "@storybook/react-vite": "^7.6.0-alpha.5",
-    "@storybook/react-webpack5": "^7.6.0-alpha.5",
-    "@storybook/testing-library": "^0.2.2",
+    "@chromatic-com/storybook": "^3.2.4",
+    "@storybook/addon-essentials": "^8.5.2",
+    "@storybook/addon-interactions": "^8.5.2",
+    "@storybook/addon-links": "^8.5.2",
+    "@storybook/addon-onboarding": "^8.5.2",
+    "@storybook/addon-webpack5-compiler-swc": "^2.0.0",
+    "@storybook/blocks": "^8.5.2",
+    "@storybook/react": "^8.5.2",
+    "@storybook/react-vite": "^8.5.2",
+    "@storybook/react-webpack5": "^8.5.2",
+    "@storybook/test": "^8.5.2",
+    "@storybook/testing-library": "^0.2.1",
     "esbuild-plugin-replace": "^1.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.6.0-alpha.5",
-    "vite": "^4.5.0"
+    "react-hook-form": "^7.54.2",
+    "storybook": "^8.5.2",
+    "vitest": "^3.0.4"
   }
 }

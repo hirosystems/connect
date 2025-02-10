@@ -50,3 +50,5 @@ web-ext-artifacts
 docs/
 
 storybook-static/
+
+*storybook.log

@@ -1,44 +1,61 @@
+import type { Meta, StoryObj } from '@storybook/react';
 import { DEFAULT_PROVIDERS } from '../providers';
 import { ConnectPage } from './ConnectPage';
+import { WebBTCProvider } from '@stacks/connect-ui';
 
-export default {
-  component: ConnectPage,
-};
-
-// 1. No mocking
-export const NoMocking = {
-  render: () => <ConnectPage />,
-};
-
-// 2. Mocking
-const ConnectWithMockedRegister = () => {
-  window.webbtc_stx_providers = [DEFAULT_PROVIDERS[0]]; // simulate installed wallet
-  return <ConnectPage />;
-};
-export const WithMockedRegister = {
-  render: () => <ConnectWithMockedRegister />,
-};
-
-// 3. Mocking
+// Define window types
 declare global {
   interface Window {
-    MockedProvider: any;
+    MockedProvider?: {
+      authenticationRequest: () => void;
+    };
+    wbip_providers?: WebBTCProvider[];
   }
 }
-const ConnectWithMockedWallet = () => {
-  window.webbtc_stx_providers = [
-    {
-      id: 'MockedProvider',
-      name: 'Mocked Wallet',
+
+const meta = {
+  title: 'Connect/Connect',
+  component: ConnectPage,
+  parameters: {
+    layout: 'fullscreen',
+    backgrounds: {
+      default: 'dark',
+      values: [
+        {
+          name: 'dark',
+          value: '#303030',
+        },
+      ],
     },
-  ];
-  window.MockedProvider = {
-    authenticationRequest: () => {
-      alert('MockedProvider.authenticationRequest()');
-    },
-  };
-  return <ConnectPage />;
+  },
+} satisfies Meta<typeof ConnectPage>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// 1. Default state - no mocking
+export const Default: Story = {};
+
+// 2. With default provider
+export const WithDefaultProvider: Story = {
+  play: () => {
+    window.wbip_providers = [DEFAULT_PROVIDERS[0]];
+  },
 };
-export const WithMockedWallet = {
-  render: () => <ConnectWithMockedWallet />,
+
+// 3. With mocked wallet
+export const WithMockedWallet: Story = {
+  play: () => {
+    window.wbip_providers = [
+      {
+        id: 'MockedProvider',
+        name: 'Mocked Wallet',
+      },
+    ];
+    window.MockedProvider = {
+      authenticationRequest: () => {
+        alert('MockedProvider.authenticationRequest()');
+      },
+    };
+  },
 };
