@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getSelectedProviderId } from '@stacks/connect-ui';
-import { useReducer } from 'react';
+import { Cl } from '@stacks/transactions';
+import { useReducer, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { UserSession } from '../auth';
 import {
   disconnect,
   showConnect,
-  showSignMessage,
-  showSTXTransfer,
   showContractCall,
   showContractDeploy,
-  showSignTransaction,
+  showSignMessage,
   showSignStructuredMessage,
+  showSignTransaction,
+  showSTXTransfer,
 } from '../ui';
-import { UserSession } from '../auth';
-import { useForm, FormProvider } from 'react-hook-form';
 import './connect.css';
-import { Cl } from '@stacks/transactions';
 
 declare global {
   interface BigInt {
@@ -90,7 +90,7 @@ const LegacySignMessageForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignMessage</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="message">Message</label>
             <input
@@ -123,6 +123,7 @@ const LegacySTXTransferForm = () => {
     showSTXTransfer({
       amount,
       recipient,
+      network: 'mainnet',
       appDetails,
       onFinish: d => {
         setResponse(d);
@@ -138,7 +139,7 @@ const LegacySTXTransferForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSTXTransfer</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="amount">Amount (uSTX)</label>
             <input id="amount" {...register('amount', { required: true })} defaultValue="1000" />
@@ -198,6 +199,7 @@ const LegacyContractCallForm = () => {
         contractName,
         functionName,
         functionArgs: parsedArgs,
+        network: 'mainnet',
         appDetails,
         onFinish: d => {
           setResponse(d);
@@ -208,6 +210,7 @@ const LegacyContractCallForm = () => {
         },
       });
     } catch (e) {
+      console.error(e);
       setResponse({ error: `Failed to parse arguments: ${e.message}` });
     }
   });
@@ -216,13 +219,13 @@ const LegacyContractCallForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showContractCall</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="contractAddress">Contract Address</label>
             <input
               id="contractAddress"
               {...register('contractAddress', { required: true })}
-              defaultValue="ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK"
+              defaultValue="SPGSJA8EMYDBAJDX6Z4ED8CWW071B6NB95PJC9WC"
             />
           </div>
           <div>
@@ -230,7 +233,7 @@ const LegacyContractCallForm = () => {
             <input
               id="contractName"
               {...register('contractName', { required: true })}
-              defaultValue="example-contract"
+              defaultValue="counters"
             />
           </div>
           <div>
@@ -238,7 +241,7 @@ const LegacyContractCallForm = () => {
             <input
               id="functionName"
               {...register('functionName', { required: true })}
-              defaultValue="vote"
+              defaultValue="count"
             />
           </div>
           <div>
@@ -269,6 +272,7 @@ const LegacyContractDeployForm = () => {
     showContractDeploy({
       contractName,
       codeBody,
+      network: 'mainnet',
       appDetails,
       onFinish: d => {
         setResponse(d);
@@ -284,7 +288,7 @@ const LegacyContractDeployForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showContractDeploy</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="contractName">Contract Name</label>
             <input
@@ -333,6 +337,7 @@ const LegacySignTransactionForm = () => {
   const onSubmit = handleSubmit(({ txHex }) => {
     showSignTransaction({
       txHex,
+      network: 'mainnet',
       appDetails,
       onFinish: d => {
         setResponse(d);
@@ -348,7 +353,7 @@ const LegacySignTransactionForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignTransaction</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="txHex">Transaction (hex)</label>
             <textarea
@@ -381,15 +386,17 @@ const LegacySignStructuredMessageForm = () => {
   const onSubmit = handleSubmit(({ message, domain }) => {
     try {
       // Create a structured message using Clarity values
-      const clarityMessage = Cl.stringUtf8(message);
+      const clarityMessage = Cl.parse(message);
       const clarityDomain = Cl.tuple({
-        name: Cl.stringUtf8(domain),
-        version: Cl.stringUtf8('1.0.0'),
+        domain: Cl.stringAscii(domain),
+        version: Cl.stringAscii('1.0.0'),
+        'chain-id': Cl.uint(1),
       });
 
       showSignStructuredMessage({
         message: clarityMessage,
         domain: clarityDomain,
+        network: 'mainnet',
         appDetails,
         onFinish: d => {
           setResponse(d);
@@ -400,6 +407,7 @@ const LegacySignStructuredMessageForm = () => {
         },
       });
     } catch (e) {
+      console.error(e);
       setResponse({ error: 'Failed to create Clarity values' });
     }
   });
@@ -408,7 +416,7 @@ const LegacySignStructuredMessageForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignStructuredMessage</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={void onSubmit}>
           <div>
             <label htmlFor="domain">Domain</label>
             <input
@@ -422,7 +430,8 @@ const LegacySignStructuredMessageForm = () => {
             <input
               id="structuredMessage"
               {...register('message', { required: true })}
-              defaultValue="Hello, Structured World!"
+              defaultValue='{ structured: "message", num: u3 }'
+              style={{ fontFamily: 'monospace' }}
             />
           </div>
           <button type="submit">Sign Structured Message</button>
