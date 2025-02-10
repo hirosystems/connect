@@ -45,16 +45,33 @@ export const authenticate = async (authOptions: AuthOptions, provider?: StacksPr
       testnet: '',
     };
 
-    // Take first address and use it for legacy connect user session storing.
+    // Take first STX address and use it for legacy connect user session storing.
     const address = response.addresses
       .find(a => a?.symbol === 'STX' || a.address.startsWith('S'))
       .address.toUpperCase();
     const isMainnet = address[1] === 'P' || address[1] === 'M';
 
-    // Store only returned address
     Object.assign(sessionData.userData.profile.stxAddress, {
       [isMainnet ? 'mainnet' : 'testnet']: address,
     });
+
+    // Take first BTC address and use it for legacy connect user session storing.
+    const btcAddress = response.addresses.find(a => {
+      if (a?.address?.startsWith('S')) return false;
+      if (a['purpose'] === 'payment') return true;
+
+      // If it's taproot, only select it if no non-taproot addresses exist
+      if (isAddressTaproot(a?.address)) {
+        const onlyTaprootAddressesExist = response.addresses.every(
+          addr => addr?.address?.startsWith('S') || isAddressTaproot(addr?.address)
+        );
+        return onlyTaprootAddressesExist;
+      }
+
+      return true;
+    })?.address;
+    if (btcAddress) sessionData.userData.profile.btcAddress = btcAddress;
+
     userSession.store.setSessionData(sessionData);
 
     onFinish?.({ userSession });
@@ -328,3 +345,14 @@ export const getUserData = async (userSession?: UserSession) => {
   if (userSession.isUserSignedIn()) return Promise.resolve(userSession.loadUserData());
   return Promise.resolve(null);
 };
+
+/** @internal */
+export function isAddressTaproot(address: string) {
+  const PREFIXES = ['bc1p', 'tb1p', 'bcrt1p'];
+  const LENGTHS = [62, 62, 64];
+
+  const index = PREFIXES.findIndex(p => address.startsWith(p));
+  if (index === -1) return false;
+
+  return address.length === LENGTHS[index];
+}
