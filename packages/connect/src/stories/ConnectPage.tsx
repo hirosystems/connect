@@ -72,7 +72,8 @@ const LegacySignMessageForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ message }) => {
+  const onSubmit = handleSubmit(({ message }, e) => {
+    e.preventDefault();
     showSignMessage({
       message,
       appDetails,
@@ -90,7 +91,7 @@ const LegacySignMessageForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignMessage</h3>
-        <form onSubmit={void onSubmit}>
+        <form onSubmit={e => void onSubmit(e)}>
           <div>
             <label htmlFor="message">Message</label>
             <input
@@ -119,7 +120,8 @@ const LegacySTXTransferForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ amount, recipient }) => {
+  const onSubmit = handleSubmit(({ amount, recipient }, e) => {
+    e.preventDefault();
     showSTXTransfer({
       amount,
       recipient,
@@ -139,7 +141,7 @@ const LegacySTXTransferForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSTXTransfer</h3>
-        <form onSubmit={void onSubmit}>
+        <form onSubmit={e => void onSubmit(e)}>
           <div>
             <label htmlFor="amount">Amount (uSTX)</label>
             <input id="amount" {...register('amount', { required: true })} defaultValue="1000" />
@@ -172,54 +174,57 @@ const LegacyContractCallForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ contractAddress, contractName, functionName, functionArgs }) => {
-    try {
-      const parsedArgs = functionArgs
-        ? functionArgs
-            .split('')
-            .reduce(
-              (acc, char) => {
-                if (char === '(') acc.p++;
-                if (char === ')') acc.p--;
-                if (char === ',' && !acc.p) {
-                  acc.segs.push('');
-                } else {
-                  acc.segs[acc.segs.length - 1] += char;
-                }
-                return acc;
-              },
-              { p: 0, segs: [''] }
-            )
-            .segs.filter(arg => arg.trim())
-            .map(arg => Cl.parse(arg.trim()))
-        : [];
+  const onSubmit = handleSubmit(
+    ({ contractAddress, contractName, functionName, functionArgs }, e) => {
+      e.preventDefault();
+      try {
+        const parsedArgs = functionArgs
+          ? functionArgs
+              .split('')
+              .reduce(
+                (acc, char) => {
+                  if (char === '(') acc.p++;
+                  if (char === ')') acc.p--;
+                  if (char === ',' && !acc.p) {
+                    acc.segs.push('');
+                  } else {
+                    acc.segs[acc.segs.length - 1] += char;
+                  }
+                  return acc;
+                },
+                { p: 0, segs: [''] }
+              )
+              .segs.filter(arg => arg.trim())
+              .map(arg => Cl.parse(arg.trim()))
+          : [];
 
-      showContractCall({
-        contractAddress,
-        contractName,
-        functionName,
-        functionArgs: parsedArgs,
-        network: 'mainnet',
-        appDetails,
-        onFinish: d => {
-          setResponse(d);
-          refresh();
-        },
-        onCancel: () => {
-          setResponse({ error: 'User canceled the request' });
-        },
-      });
-    } catch (e) {
-      console.error(e);
-      setResponse({ error: `Failed to parse arguments: ${e.message}` });
+        showContractCall({
+          contractAddress,
+          contractName,
+          functionName,
+          functionArgs: parsedArgs,
+          network: 'mainnet',
+          appDetails,
+          onFinish: d => {
+            setResponse(d);
+            refresh();
+          },
+          onCancel: () => {
+            setResponse({ error: 'User canceled the request' });
+          },
+        });
+      } catch (e) {
+        console.error(e);
+        setResponse({ error: `Failed to parse arguments: ${e.message}` });
+      }
     }
-  });
+  );
 
   return (
     <FormProvider {...methods}>
       <section>
         <h3>showContractCall</h3>
-        <form onSubmit={void onSubmit}>
+        <form onSubmit={e => void onSubmit(e)}>
           <div>
             <label htmlFor="contractAddress">Contract Address</label>
             <input
@@ -268,7 +273,8 @@ const LegacyContractDeployForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ contractName, codeBody }) => {
+  const onSubmit = handleSubmit(({ contractName, codeBody }, e) => {
+    e.preventDefault();
     showContractDeploy({
       contractName,
       codeBody,
@@ -288,7 +294,7 @@ const LegacyContractDeployForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showContractDeploy</h3>
-        <form onSubmit={void onSubmit}>
+        <form onSubmit={e => void onSubmit(e)}>
           <div>
             <label htmlFor="contractName">Contract Name</label>
             <input
@@ -334,7 +340,8 @@ const LegacySignTransactionForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ txHex }) => {
+  const onSubmit = handleSubmit(({ txHex }, e) => {
+    e.preventDefault();
     showSignTransaction({
       txHex,
       network: 'mainnet',
@@ -353,7 +360,7 @@ const LegacySignTransactionForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignTransaction</h3>
-        <form onSubmit={void onSubmit}>
+        <form onSubmit={e => void onSubmit(e)}>
           <div>
             <label htmlFor="txHex">Transaction (hex)</label>
             <textarea
@@ -383,7 +390,8 @@ const LegacySignStructuredMessageForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ message, domain }) => {
+  const onSubmit = handleSubmit(({ message, domain }, e) => {
+    e.preventDefault();
     try {
       // Create a structured message using Clarity values
       const clarityMessage = Cl.parse(message);
@@ -416,7 +424,7 @@ const LegacySignStructuredMessageForm = () => {
     <FormProvider {...methods}>
       <section>
         <h3>showSignStructuredMessage</h3>
-        <form onSubmit={void onSubmit}>
+        <form onSubmit={e => void onSubmit(e)}>
           <div>
             <label htmlFor="domain">Domain</label>
             <input
