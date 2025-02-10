@@ -48,5 +48,8 @@
     "typedoc": "^0.26.10",
     "typescript": "^5.3.2",
     "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "type-fest": "^4.34.1"
   }
 }

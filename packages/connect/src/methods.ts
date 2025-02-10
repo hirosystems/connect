@@ -6,6 +6,7 @@ import type {
   PostConditionModeName,
   TupleCV,
 } from '@stacks/transactions';
+import { LiteralUnion } from 'type-fest';
 
 // Re-export types from Stacks.js
 export type {
@@ -24,7 +25,7 @@ export type {
 
 // TYPES
 
-export type NetworkString = 'mainnet' | 'testnet' | 'regtest' | 'devnet' | string;
+export type NetworkString = LiteralUnion<'mainnet' | 'testnet' | 'regtest' | 'devnet', string>;
 
 export type PrincipalString = AddressString | ContractIdString;
 
