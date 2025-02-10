@@ -16,7 +16,7 @@ export interface PsbtData {
   hex: string;
 }
 
-export type PsbtCanceled = () => void;
+export type PsbtCanceled = (error?: Error) => void;
 export type PsbtFinished = (data: PsbtData) => void;
 
 export interface PsbtBase {

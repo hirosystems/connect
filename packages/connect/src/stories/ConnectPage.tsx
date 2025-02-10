@@ -81,10 +81,10 @@ const LegacySignMessageForm = () => {
         setResponse(d);
         refresh();
       },
-      onCancel: () => {
-        setResponse({ error: 'User canceled the request' });
+      onCancel: e => {
+        setResponse({ onCancel: e?.toString() });
       },
-    });
+    } as any);
   });
 
   return (
@@ -131,8 +131,8 @@ const LegacySTXTransferForm = () => {
         setResponse(d);
         refresh();
       },
-      onCancel: () => {
-        setResponse({ error: 'User canceled the request' });
+      onCancel: e => {
+        setResponse({ onCancel: e?.toString() });
       },
     });
   });
@@ -209,8 +209,8 @@ const LegacyContractCallForm = () => {
             setResponse(d);
             refresh();
           },
-          onCancel: () => {
-            setResponse({ error: 'User canceled the request' });
+          onCancel: e => {
+            setResponse({ onCancel: e?.toString() });
           },
         });
       } catch (e) {
@@ -284,8 +284,8 @@ const LegacyContractDeployForm = () => {
         setResponse(d);
         refresh();
       },
-      onCancel: () => {
-        setResponse({ error: 'User canceled the request' });
+      onCancel: e => {
+        setResponse({ onCancel: e?.toString() });
       },
     });
   });
@@ -350,8 +350,8 @@ const LegacySignTransactionForm = () => {
         setResponse(d);
         refresh();
       },
-      onCancel: () => {
-        setResponse({ error: 'User canceled the request' });
+      onCancel: e => {
+        setResponse({ onCancel: e?.toString() });
       },
     });
   });
@@ -410,8 +410,8 @@ const LegacySignStructuredMessageForm = () => {
           setResponse(d);
           refresh();
         },
-        onCancel: () => {
-          setResponse({ error: 'User canceled the request' });
+        onCancel: e => {
+          setResponse({ onCancel: e?.toString() });
         },
       });
     } catch (e) {

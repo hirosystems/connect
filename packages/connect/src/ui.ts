@@ -35,7 +35,7 @@ function requestLegacy<M extends keyof Methods, O, R>(
 
     // Manual cast, since TypeScipt can't infer generic type of options
     const o = options as {
-      onCancel?: () => void;
+      onCancel?: (error?: Error) => void;
       onFinish?: (response: R) => void;
     };
 
@@ -46,7 +46,7 @@ function requestLegacy<M extends keyof Methods, O, R>(
       })
       .catch(e => {
         console.error(e); // todo: remove again? or maybe keep for legacy debugging
-        o.onCancel?.();
+        o.onCancel?.(e);
       });
   };
 }

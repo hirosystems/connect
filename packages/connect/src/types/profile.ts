@@ -6,7 +6,7 @@ import { UserSession } from '../auth';
 /** @deprecated Update to the latest `request` RPC methods. */
 export type ProfileUpdateFinished = (data: PublicPersonProfile) => void;
 /** @deprecated Update to the latest `request` RPC methods. */
-export type ProfileUpdateCanceled = () => void;
+export type ProfileUpdateCanceled = (error?: Error) => void;
 
 /** @deprecated Update to the latest `request` RPC methods. */
 export interface ProfileUpdateBase {

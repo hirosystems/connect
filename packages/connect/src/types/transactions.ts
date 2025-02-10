@@ -99,7 +99,7 @@ export interface OptionsBase {
 
 export type SponsoredFinished = (data: SponsoredFinishedTxData) => void;
 export type Finished = (data: FinishedTxData) => void;
-export type Canceled = () => void;
+export type Canceled = (error?: Error) => void;
 
 export interface SponsoredOptionsBase extends TxBase, OptionsBase {
   sponsored: true;

@@ -77,7 +77,7 @@ export const authenticate = async (authOptions: AuthOptions, provider?: StacksPr
     onFinish?.({ userSession });
   } catch (error) {
     console.error('[Connect] Error during auth request', error);
-    onCancel?.();
+    onCancel?.(error);
   }
 };
 

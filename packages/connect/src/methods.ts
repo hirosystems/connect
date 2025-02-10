@@ -161,8 +161,8 @@ export type Sighash = 'ALL' | 'NONE' | 'SINGLE' | 'ANYONECANPAY';
 
 export interface SignInputsByAddress {
   index: number;
-  address: string;
-  publicKey: string;
+  address?: string;
+  publicKey?: string;
 
   /** @experimental Might need a rename, when wallets adopt SIPs/WBIPs. */
   allowedSighash?: Sighash[];

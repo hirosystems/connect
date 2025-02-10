@@ -50,7 +50,7 @@ export interface AuthOptions {
    * */
   onFinish?: (payload: FinishedAuthData) => void;
   /** This callback is fired if the user exits before finishing */
-  onCancel?: () => void;
+  onCancel?: (error?: Error) => void;
   /**
    * @deprecated Authentication is no longer supported through a hosted
    * version. Users must install an extension.

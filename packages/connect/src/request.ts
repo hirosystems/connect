@@ -4,6 +4,8 @@ import { JsonRpcError, JsonRpcErrorCode } from './errors';
 import { MethodParams, MethodResult, Methods } from './methods';
 import { DEFAULT_PROVIDERS } from './providers';
 import { StacksProvider } from './types';
+import { base64 } from '@scure/base';
+import { bytesToHex } from '@stacks/common';
 
 export interface ConnectRequestOptions {
   /**
@@ -51,8 +53,11 @@ export async function requestRaw<M extends keyof Methods>(
 
     return response.result;
   } catch (error) {
+    if (error instanceof JsonRpcError) throw error;
+    if ('jsonrpc' in error) throw JsonRpcError.fromResponse(error.error);
+
     const code = error.code ?? JsonRpcErrorCode.UnknownError;
-    throw new JsonRpcError(error.message, code, error.data, error.cause);
+    throw new JsonRpcError(error.message, code, error.data, error);
   }
 }
 
@@ -125,6 +130,20 @@ export async function request<M extends keyof Methods>(
       ) {
         return resolve(requestRaw(selectedProvider, 'wallet_connect' as any, params)); // Use unknown 'wallet_connect' instead.
       }
+
+      // Leather `signPsbt`
+      if (opts.enableOverrides && isLeather(selectedProvider) && method === 'signPsbt') {
+        const paramsLeather = {
+          hex: bytesToHex(base64.decode((params as MethodParams<'signPsbt'>).psbt)),
+          signAtIndex: (params as MethodParams<'signPsbt'>).signInputs.map(i => {
+            if (typeof i === 'number') return i;
+            return i.index;
+          }),
+          allowedSighash: (params as MethodParams<'signPsbt'>).allowedSighash,
+        };
+
+        return resolve(requestRaw(selectedProvider, method, paramsLeather as any));
+      }
       // =======================================================================
 
       resolve(requestRaw(selectedProvider, method, params));
@@ -177,7 +196,7 @@ export function requestRawLegacy<M extends keyof Methods, O, R>(
 
     // Manual cast, since TypeScipt can't infer generic type of options
     const o = options as {
-      onCancel?: () => void;
+      onCancel?: (error?: Error) => void;
       onFinish?: (response: R) => void;
     };
 
@@ -211,6 +230,10 @@ function isXverse(provider: StacksProvider): boolean {
 
 function isFordefi(provider: StacksProvider): boolean {
   return 'isFordefi' in provider && !!provider.isFordefi;
+}
+
+function isLeather(provider: StacksProvider): boolean {
+  return 'isLeather' in provider && !!provider.isLeather;
 }
 
 function shallowDefined<T extends object>(obj: T): Partial<T> {

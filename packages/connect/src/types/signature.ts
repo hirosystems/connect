@@ -5,7 +5,7 @@ import { ConnectNetwork } from './network';
 /** @deprecated Update to the latest `request` RPC methods. */
 export type SignatureFinished = (data: SignatureData) => void;
 /** @deprecated Update to the latest `request` RPC methods. */
-export type SignatureCanceled = () => void;
+export type SignatureCanceled = (error?: Error) => void;
 
 /** @deprecated Update to the latest `request` RPC methods. */
 export interface CommonSignatureRequestOptions {
