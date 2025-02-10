@@ -11,7 +11,6 @@ import {
   PostCondition as LegacyPostCondition,
   serializePostCondition as legacySerializePostCondition,
 } from '@stacks/transactions-v6';
-import { SECP256K1Client } from 'jsontokens';
 import { MethodParams, MethodResult } from '../methods';
 import { requestRawLegacy } from '../request';
 import { StacksProvider } from '../types';
@@ -58,14 +57,8 @@ export function hasAppPrivateKey(userSession?: UserSession) {
   }
 }
 
-/** @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession. */
-export const getKeys = (_userSession?: UserSession) => {
-  const userSession = getUserSession(_userSession);
-  const privateKey = userSession.loadUserData().appPrivateKey;
-  const publicKey = SECP256K1Client.derivePublicKey(privateKey);
-
-  return { privateKey, publicKey };
-};
+/** @deprecated No-op. Update to the latest `request` RPC methods. */
+export const getKeys = (_userSession?: UserSession) => {};
 
 /** @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession. */
 export function getStxAddress(options: TransactionOptions) {
