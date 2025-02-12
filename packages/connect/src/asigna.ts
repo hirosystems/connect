@@ -21,9 +21,7 @@ const AsignaIframeProvider = {
     return generateCall(payload, 'transactionRequest');
   },
 };
-const generateAsignaMessage = (payload: string, key: string) => {
-  return { source, [key]: payload };
-};
+const generateAsignaMessage = (payload: string, key: string) => ({ source, [key]: payload });
 
 export const initializeAsignaProvider = () => {
   if (typeof window === 'undefined') return;

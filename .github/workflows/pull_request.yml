@@ -67,11 +67,14 @@ jobs:
       - name: Get git commit
         id: git-commit
         run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
-      - name: print preid
-        env:
-          BRANCH: ${{ steps.git-branch.outputs.branch }}
-          SHA: ${{ steps.git-commit.outputs.sha }}
-        run: echo $BRANCH.$SHA
+      - name: Set preid
+        id: preid
+        run: |
+          if [ "${{ steps.git-branch.outputs.branch }}" = "beta" ]; then
+            echo "preid=beta" >> "$GITHUB_OUTPUT"
+          else
+            echo "preid=alpha.${{ steps.git-commit.outputs.sha }}" >> "$GITHUB_OUTPUT"
+          fi
       - name: Setup git
         run: |
           git config --local user.email "action@github.com"
@@ -79,15 +82,15 @@ jobs:
       - name: Publish to NPM
         env:
           BRANCH: ${{ steps.git-branch.outputs.branch }}
-          SHA: ${{ steps.git-commit.outputs.sha }}
-        run: npx lerna publish prepatch --preid alpha.$SHA --dist-tag $BRANCH --yes --no-push
-      - name: Get alpha package versions
-        id: alpha
+          PREID: ${{ steps.preid.outputs.preid }}
+        run: npx lerna publish prepatch --preid $PREID --dist-tag $BRANCH --yes --no-push
+      - name: Get package versions
+        id: versions
         run: |
           echo "connect=$(cat packages/connect/package.json | jq -r '.version')" >> "$GITHUB_OUTPUT"
           echo "connectreact=$(cat packages/connect-react/package.json | jq -r '.version')" >> "$GITHUB_OUTPUT"
           echo "connectui=$(cat packages/connect-ui/package.json | jq -r '.version')" >> "$GITHUB_OUTPUT"
       - uses: janniks/pull-request-fixed-header@v1.0.1
         with:
-          header: "> This PR was published to npm with the alpha versions:\n> - connect `npm install @stacks/connect@${{ steps.alpha.outputs.connect }} --save-exact`\n> - connect-react `npm install @stacks/connect-react@${{ steps.alpha.outputs.connectreact }} --save-exact`\n> - connect-ui `npm install @stacks/connect-ui@${{ steps.alpha.outputs.connectui }} --save-exact`"
+          header: "> This PR was published to npm with versions:\n> - connect `npm install @stacks/connect@${{ steps.versions.outputs.connect }} --save-exact`\n> - connect-react `npm install @stacks/connect-react@${{ steps.versions.outputs.connectreact }} --save-exact`\n> - connect-ui `npm install @stacks/connect-ui@${{ steps.versions.outputs.connectui }} --save-exact`"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

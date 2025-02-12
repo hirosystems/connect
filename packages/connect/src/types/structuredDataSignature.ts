@@ -10,11 +10,13 @@ import {
   SignatureFinished,
 } from './signature';
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface StructuredDataSignatureRequestOptions extends CommonSignatureRequestOptions {
   message: LegacyClarityValue | ClarityValue;
   domain: LegacyTupleCV | TupleCV;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface StructuredDataSignatureOptions {
   message: LegacyClarityValue | ClarityValue;
   domain: LegacyTupleCV | TupleCV;
@@ -22,11 +24,13 @@ export interface StructuredDataSignatureOptions {
   onCancel?: SignatureCanceled;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export type StructuredDataSignaturePopup = {
   token: string;
   options: StructuredDataSignatureOptions;
 };
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface StructuredDataSignaturePayload extends CommonSignaturePayload {
   message: LegacyClarityValue | ClarityValue;
   domain: LegacyTupleCV | TupleCV;

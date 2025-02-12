@@ -1,8 +1,8 @@
-import { UserSession } from '@stacks/auth';
 import type { AuthOptions } from '../types/auth';
 import {
   ClarityValue as LegacyClarityValue,
   PostCondition as LegacyPostCondition,
+  PostConditionMode as LegacyPostConditionMode,
 } from '@stacks/transactions-v6';
 import {
   PostConditionMode,
@@ -12,10 +12,11 @@ import {
   StacksTransactionWire,
 } from '@stacks/transactions';
 import { ConnectNetwork } from './network';
+import { UserSession } from '../auth';
 
 export interface TxBase {
   appDetails?: AuthOptions['appDetails'];
-  postConditionMode?: PostConditionMode;
+  postConditionMode?: LegacyPostConditionMode | PostConditionMode;
   postConditions?: (string | LegacyPostCondition | PostCondition)[];
   network?: ConnectNetwork;
   anchorMode?: AnchorMode;
@@ -98,7 +99,7 @@ export interface OptionsBase {
 
 export type SponsoredFinished = (data: SponsoredFinishedTxData) => void;
 export type Finished = (data: FinishedTxData) => void;
-export type Canceled = () => void;
+export type Canceled = (error?: Error) => void;
 
 export interface SponsoredOptionsBase extends TxBase, OptionsBase {
   sponsored: true;

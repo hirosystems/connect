@@ -1,79 +1,44 @@
-import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
+import { base64 } from '@scure/base';
+import { bytesToHex, hexToBytes } from '@stacks/common';
+import { MethodParams, MethodResult, Sighash } from '../methods';
+import { requestRawLegacy } from '../request';
 import { StacksProvider } from '../types';
-import { PsbtPayload, PsbtPopup, PsbtRequestOptions } from '../types/bitcoin';
-import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
+import { PsbtData, PsbtRequestOptions, SignatureHash } from '../types/bitcoin';
+import { getStacksProvider } from '../utils';
 
-// eslint-disable-next-line @typescript-eslint/require-await
-async function signPayload(payload: PsbtPayload, privateKey: string) {
-  const tokenSigner = new TokenSigner('ES256k', privateKey);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  return tokenSigner.signAsync({ ...payload } as any);
-}
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export function getDefaultPsbtRequestOptions(_options: PsbtRequestOptions) {}
 
-export function getDefaultPsbtRequestOptions(options: PsbtRequestOptions) {
-  const network = legacyNetworkFromConnectNetwork(options.network);
-  const userSession = getUserSession(options.userSession);
-  const defaults: PsbtRequestOptions = {
-    ...options,
-    network,
-    userSession,
-  };
-  return {
-    ...defaults,
-  };
-}
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makePsbtToken = async (_options: PsbtRequestOptions) => {};
 
-async function openPsbtPopup({ token, options }: PsbtPopup, provider: StacksProvider) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
+const METHOD = 'signPsbt' as const;
 
-  try {
-    const psbtResponse = await provider.psbtRequest(token);
-    options.onFinish?.(psbtResponse);
-  } catch (error) {
-    console.error('[Connect] Error during psbt request', error);
-    options.onCancel?.();
-  }
-}
+/** @internal */
+export const LEGACY_SIGN_PSBT_OPTIONS_MAP = (
+  options: PsbtRequestOptions
+): MethodParams<typeof METHOD> => ({
+  psbt: base64.encode(hexToBytes(options.hex)),
+  signInputs: typeof options.signAtIndex === 'number' ? [options.signAtIndex] : options.signAtIndex,
+  allowedSighash: options.allowedSighash?.map(hash => SignatureHash[hash] as Sighash),
+});
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export const makePsbtToken = async (options: PsbtRequestOptions) => {
-  const { allowedSighash, hex, signAtIndex, userSession, ..._options } = options;
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
-
-    const payload: PsbtPayload = {
-      ..._options,
-      allowedSighash,
-      hex,
-      signAtIndex,
-      publicKey,
-    };
-
-    return signPayload(payload, privateKey);
-  }
-  const payload = { ..._options };
-  return createUnsecuredToken(payload as Json);
-};
-
-async function generateTokenAndOpenPopup<T extends PsbtRequestOptions>(
-  options: T,
-  makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider
-) {
-  const token = await makeTokenFn({
-    ...getDefaultPsbtRequestOptions(options),
-    ...options,
-  } as T);
-  return openPsbtPopup({ token, options }, provider);
-}
+/** @internal */
+export const LEGACY_SIGN_PSBT_RESPONSE_MAP = (response: MethodResult<typeof METHOD>): PsbtData => ({
+  hex: bytesToHex(base64.decode(response.psbt)),
+});
 
 /**
  * @experimental
+ * Compatible interface with previous Connect `openPsbtRequestPopup` version, but using new SIP-030 RPC method.
  */
 export function openPsbtRequestPopup(
   options: PsbtRequestOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
-  return generateTokenAndOpenPopup(options, makePsbtToken, provider);
+  requestRawLegacy(
+    METHOD,
+    LEGACY_SIGN_PSBT_OPTIONS_MAP,
+    LEGACY_SIGN_PSBT_RESPONSE_MAP
+  )(options, provider);
 }

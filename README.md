@@ -20,25 +20,75 @@ This repository includes three packages:
 - [`@stacks/connect-react`](./packages/connect-react): A wrapper library for making `@stacks/connect` use in React even easier
 - [`@stacks/connect-ui`](./packages/connect-ui): A web-component UI for displaying an intro modal in Stacks web-apps during authentication _(used in the background by `@stacks/connect`)_.
 
-## 🌎 More Information
+## 🛠️ Wallet Implementation Guide
 
-The [Stacks documentation website](https://docs.stacks.co/build-apps/overview) includes more examples for building apps using Connect.
+Wallets implement a "Provider" interface.
+The latest spec uses a simple JS Object exposing a `.request(method: string, params?: object)` method.
 
-It also includes guides for various aspects of Stacks application development:
+Pseudo-code:
 
-- [Authentication](https://docs.stacks.co/build-apps/references/authentication)
-- [Transactions](https://docs.stacks.co/understand-stacks/technical-specs#transactions)
-- [Data storage](https://docs.stacks.co/build-apps/references/gaia#understand-data-storage)
+```ts
+window.MyProvider = {
+  async request(method, params) {
+    // Somehow communicate with the wallet (e.g. via events)
 
-## 🐛 Bugs and feature requests
+    // Recommendation: Create a JSON RPC 2.0 request object
+    // https://www.jsonrpc.org/specification
 
-If you encounter a bug or have a feature request, we encourage you to follow the steps below:
+    return Promise.resolve({
+      // Respond with a JSON RPC 2.0 response object
+      id: crypto.randomUUID(), // required, same as request
+      jsonrpc: '2.0', // required
 
-1.  **Search for existing issues:** Before submitting a new issue, please search [existing and closed issues](https://github.com/hirosystems/connect/issues) to check if a similar problem or feature request has already been reported.
-1.  **Open a new issue:** If it hasn't been addressed, please [open a new issue](https://github.com/hirosystems/connect/issues/new/choose). Choose the appropriate issue template and provide as much detail as possible, including steps to reproduce the bug or a clear description of the requested feature.
-1.  **Evaluation SLA:** Our team reads and evaluates all the issues and pull requests. We are avaliable Monday to Friday and we make a best effort to respond within 7 business days.
+      // `.result` is required on success
+      result: {
+        // object matching specified RPC methods
+      },
 
-Please **do not** use the issue tracker for personal support requests or to ask for the status of a transaction. You'll find help at the [#stacks-js Discord channel](https://stacks.chat/).
+      // `.error` is required on error
+      error: {
+        // Use existing codes from https://www.jsonrpc.org/specification#error_object
+        code: number, // required, integer
+        message: string, // recommended, single sentence
+        data: object, // optional
+      },
+    });
+  },
+  isMyWallet: true, // optional, a way of identifying the wallet for developers
+};
+
+window.wbip_providers = window.wbip_providers || [];
+window.wbip_providers.push({
+  // `WbipProvider` type
+    /** The global "path" of the provider (e.g. `"MyProvider"` if registered at `window.MyProvider`) */
+  id: 'MyProvider',
+  /** The name of the provider, as displayed to the user */
+  name: 'My Wallet';
+  /** The data URL of an image to show (e.g. `data:image/png;base64,iVBORw0...`) @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs */
+  icon?: 'data:image/png;base64,iVBORw0...';
+  /** Web URL of the provider */
+  webUrl?: 'https://mywallet.example.com';
+
+  // Addional URLs
+  chromeWebStoreUrl?: string;
+  mozillaAddOnsUrl?: string;
+  googlePlayStoreUrl?: string;
+  iOSAppStoreUrl?: string;
+});
+```
+
+### JSON RPC 2.0
+
+Wallets may add their own unstandardized methods.
+However, the minimum recommended methods are:
+
+- `getAddresses` [WBIP](https://wbips.netlify.app/request_api/getAddresses)
+- `signPsbt` [WBIP](https://wbips.netlify.app/request_api/signPsbt)
+- `stx_getAddresses` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_transferStx` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_callContract` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_signMessage` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
+- `stx_signStructuredMessage` [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md)
 
 ## 🎁 Contribute
 
@@ -59,3 +109,14 @@ Join our community and stay connected with the latest updates and discussions:
 - [Join our Discord community chat](https://stacks.chat/) to engage with other users, ask questions, and participate in discussions.
 - [Visit hiro.so](https://www.hiro.so/) for updates and subcribing to the mailing list.
 - Follow [Hiro on Twitter.](https://twitter.com/hirosystems)
+
+### MIGRATION TODO
+
+#### TODO
+
+- Add `PostConditionModeName` to all options (new and old) — This might have been missing since the v7 release.
+- Strip unserializable fields from RawLegacy wrapper just in case.
+- Remove exports from LEGACY_XYZ
+- Make hex to base64 for psbt
+
+Search for the below and replace with inline return.

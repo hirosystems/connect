@@ -1,125 +1,117 @@
+import { clearSelectedProviderId } from '@stacks/connect-ui';
+import { authenticate, UserSession } from './auth';
+import { MethodParams, MethodResult, Methods } from './methods';
+import { LEGACY_UPDATE_PROFILE_OPTIONS_MAP, LEGACY_UPDATE_PROFILE_RESPONSE_MAP } from './profile';
+import { request } from './request';
+import { LEGACY_SIGN_MESSAGE_OPTIONS_MAP, LEGACY_SIGN_MESSAGE_RESPONSE_MAP } from './signature';
 import {
-  WebBTCProvider,
-  clearSelectedProviderId,
-  getInstalledProviders,
-  getSelectedProviderId,
-} from '@stacks/connect-ui';
-import { defineCustomElements } from '@stacks/connect-ui/loader';
-import { authenticate } from './auth';
-import { openPsbtRequestPopup } from './bitcoin';
-import { openProfileUpdateRequestPopup } from './profile';
-import { openSignatureRequestPopup } from './signature';
-import { openStructuredDataSignatureRequestPopup } from './signature/structuredData';
+  LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP,
+  LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP,
+} from './signature/structuredData';
 import {
-  openContractCall,
-  openContractDeploy,
-  openSTXTransfer,
-  openSignTransaction,
+  LEGACY_CALL_CONTRACT_OPTIONS_MAP,
+  LEGACY_CALL_CONTRACT_RESPONSE_MAP,
+  LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP,
+  LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP,
+  LEGACY_SIGN_TRANSACTION_OPTIONS_MAP,
+  LEGACY_SIGN_TRANSACTION_RESPONSE_MAP,
+  LEGACY_TRANSFER_STX_OPTIONS_MAP,
+  LEGACY_TRANSFER_STX_RESPONSE_MAP,
 } from './transactions';
-import {
-  ContractCallOptions,
-  ContractDeployOptions,
-  ProfileUpdateRequestOptions,
-  PsbtRequestOptions,
-  STXTransferOptions,
-  SignatureRequestOptions,
-  StacksProvider,
-  StructuredDataSignatureRequestOptions,
-  TransactionOptions,
-} from './types';
-import type { AuthOptions } from './types/auth';
-import { getStacksProvider } from './utils';
-import { DEFAULT_PROVIDERS } from './providers';
+import { StacksProvider } from './types';
+import { removeUnserializableKeys } from './utils';
 
-export type ActionOptions = (
-  | AuthOptions
-  | STXTransferOptions
-  | ContractCallOptions
-  | ContractDeployOptions
-  | TransactionOptions
-  | PsbtRequestOptions
-  | ProfileUpdateRequestOptions
-  | SignatureRequestOptions
-  | StructuredDataSignatureRequestOptions
-) & {
-  defaultProviders?: WebBTCProvider[];
-};
-
-/** Helper higher-order function for creating connect methods that allow for wallet selection */
-function wrapConnectCall<O extends ActionOptions>(
-  action: (options: O, provider?: StacksProvider) => any,
-  persistSelection = true
+/**
+ * **Note:** Higher order function!
+ * @internal Legacy UI request.
+ */
+function requestLegacy<M extends keyof Methods, O, R>(
+  method: M,
+  mapOptions: (options: O) => MethodParams<M>,
+  mapResponse: (response: MethodResult<M>) => R
 ) {
-  return function wrapped(options: O, provider?: StacksProvider) {
-    if (provider) return action(options, provider); // if a provider is passed, use it
+  return (options: O, provider?: StacksProvider) => {
+    const params = mapOptions(removeUnserializableKeys(options));
 
-    const selectedId = getSelectedProviderId();
-    const selectedProvider = getStacksProvider();
-    if (selectedId && selectedProvider) return action(options, selectedProvider); // if a provider is selected, use it
-
-    if (typeof window === 'undefined') return;
-    void defineCustomElements(window);
-
-    const defaultProviders = options?.defaultProviders ?? DEFAULT_PROVIDERS;
-    const installedProviders = getInstalledProviders(defaultProviders);
-
-    const element = document.createElement('connect-modal');
-    element.defaultProviders = defaultProviders;
-    element.installedProviders = installedProviders;
-    element.persistSelection = persistSelection;
-
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const closeModal = () => {
-      element.remove();
-      document.body.style.overflow = originalOverflow;
+    // Manual cast, since TypeScipt can't infer generic type of options
+    const o = options as {
+      onCancel?: (error?: Error) => void;
+      onFinish?: (response: R) => void;
     };
 
-    element.callback = (selectedProvider: StacksProvider | undefined) => {
-      closeModal();
-      action(options, selectedProvider);
-    };
-    element.cancelCallback = () => {
-      closeModal();
-      options.onCancel?.();
-    };
-
-    document.body.appendChild(element);
-
-    const handleEsc = (ev: KeyboardEvent) => {
-      if (ev.key === 'Escape') {
-        document.removeEventListener('keydown', handleEsc);
-        element.remove();
-      }
-    };
-    document.addEventListener('keydown', handleEsc);
+    void request({ provider }, method, params)
+      .then(response => {
+        const r = mapResponse(response);
+        o.onFinish?.(r);
+      })
+      .catch(e => {
+        console.error(e); // todo: remove again? or maybe keep for legacy debugging
+        o.onCancel?.(e);
+      });
   };
 }
 
+// BACKWARDS COMPATIBILITY
+
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link authenticate} action. */
-export const showConnect = wrapConnectCall(authenticate, false);
+export const showConnect = authenticate;
 
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSTXTransfer} action. */
-export const showSTXTransfer = wrapConnectCall(openSTXTransfer);
+export const showSTXTransfer = requestLegacy(
+  'stx_transferStx',
+  LEGACY_TRANSFER_STX_OPTIONS_MAP,
+  LEGACY_TRANSFER_STX_RESPONSE_MAP
+);
+
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openContractCall} action. */
-export const showContractCall = wrapConnectCall(openContractCall);
+export const showContractCall = requestLegacy(
+  'stx_callContract',
+  LEGACY_CALL_CONTRACT_OPTIONS_MAP,
+  LEGACY_CALL_CONTRACT_RESPONSE_MAP
+);
+
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openContractDeploy} action. */
-export const showContractDeploy = wrapConnectCall(openContractDeploy);
+export const showContractDeploy = requestLegacy(
+  'stx_deployContract',
+  LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP,
+  LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP
+);
+
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignTransaction} action. */
-export const showSignTransaction = wrapConnectCall(openSignTransaction);
+export const showSignTransaction = requestLegacy(
+  'stx_signTransaction',
+  LEGACY_SIGN_TRANSACTION_OPTIONS_MAP,
+  LEGACY_SIGN_TRANSACTION_RESPONSE_MAP
+);
 
-/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openPsbtRequestPopup} action. */
-export const showPsbt = wrapConnectCall(openPsbtRequestPopup);
 /** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openProfileUpdateRequestPopup} action. */
-export const showProfileUpdate = wrapConnectCall(openProfileUpdateRequestPopup);
-/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignatureRequestPopup} action. */
-export const showSignMessage = wrapConnectCall(openSignatureRequestPopup);
-/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openStructuredDataSignatureRequestPopup} action. */
-export const showSignStructuredMessage = wrapConnectCall(openStructuredDataSignatureRequestPopup);
+export const showProfileUpdate = requestLegacy(
+  'stx_updateProfile',
+  LEGACY_UPDATE_PROFILE_OPTIONS_MAP,
+  LEGACY_UPDATE_PROFILE_RESPONSE_MAP
+);
 
-/** Disconnect selected wallet. Alias for {@link clearSelectedProviderId} */
-export const disconnect = clearSelectedProviderId;
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openSignatureRequestPopup} action. */
+export const showSignMessage = requestLegacy(
+  'stx_signMessage',
+  LEGACY_SIGN_MESSAGE_OPTIONS_MAP,
+  LEGACY_SIGN_MESSAGE_RESPONSE_MAP
+);
+
+/** A wrapper for selecting a wallet (if none is selected) and then calling the {@link openStructuredDataSignatureRequestPopup} action. */
+export const showSignStructuredMessage = requestLegacy(
+  'stx_signStructuredMessage',
+  LEGACY_SIGN_STRUCTURED_MESSAGE_OPTIONS_MAP,
+  LEGACY_SIGN_STRUCTURED_MESSAGE_RESPONSE_MAP
+);
+
+/** Disconnect selected wallet and clear session data. */
+export function disconnect() {
+  clearSelectedProviderId();
+  new UserSession().store.deleteSessionData();
+}
+
+export { getProvider as getSelectedProvider, isProviderSelected } from '@stacks/connect-ui';
 
 /**
  * @deprecated Use the renamed {@link showConnect} method

@@ -1,6 +1,11 @@
 // AUTO REGISTERED PROVIDERS
 
-export interface WebBTCProvider {
+import { getSelectedProviderId } from './session';
+
+/** Backwards compatible alias for `WbipProvider` */
+export type WebBTCProvider = WbipProvider;
+
+export interface WbipProvider {
   /** The global "path" of the provider (e.g. `"MyProvider"` if registered at `window.MyProvider`) */
   id: string;
   /** The name of the provider, as displayed to the user */
@@ -27,18 +32,23 @@ declare global {
      * The provider objects are WBIP004 compliant.
      * It may happen that no wallet implements this feature before `@stacks/connect` switches to `webbtc`.
      */
-    webbtc_stx_providers?: WebBTCProvider[];
+    webbtc_stx_providers?: WbipProvider[];
+
+    /** @experimental @beta */
+    wbip_providers?: WbipProvider[];
   }
 }
 
 export const getRegisteredProviders = () => {
   if (typeof window === 'undefined') return [];
-  if (!window.webbtc_stx_providers) return [];
 
-  return window.webbtc_stx_providers;
+  const legacyProviders = window.webbtc_stx_providers || [];
+  const wbipProviders = window.wbip_providers || [];
+
+  return [...legacyProviders, ...wbipProviders];
 };
 
-export const getInstalledProviders = (defaultProviders: WebBTCProvider[] = []) => {
+export const getInstalledProviders = (defaultProviders: WbipProvider[] = []) => {
   if (typeof window === 'undefined') return [];
 
   const registeredProviders = getRegisteredProviders();
@@ -53,6 +63,24 @@ export const getInstalledProviders = (defaultProviders: WebBTCProvider[] = []) =
   });
 
   return registeredProviders.concat(additionalInstalledProviders);
+};
+
+/**
+ * Check if a wallet provider was previously selected via Connect.
+ * @returns `true` if a provider was selected, `false` otherwise.
+ */
+export const isProviderSelected = () => {
+  return !!getSelectedProviderId();
+};
+
+/**
+ * Get the currently selected wallet provider.
+ * Note that this will not return the default `window.StacksProvider` object.
+ * @returns The wallet provider object, or null if no provider is selected.
+ */
+export const getProvider = () => {
+  const providerId = getSelectedProviderId();
+  return getProviderFromId(providerId);
 };
 
 export const getProviderFromId = (id: string | undefined) => {

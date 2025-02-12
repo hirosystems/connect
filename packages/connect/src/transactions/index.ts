@@ -1,44 +1,42 @@
-import { AppConfig, UserSession } from '@stacks/auth';
-import { bytesToHex, hexToBytes } from '@stacks/common';
+import { bytesToHex } from '@stacks/common';
 import { ChainId } from '@stacks/network';
 import {
+  Cl,
   deserializeTransaction,
   PostCondition,
-  postConditionToHex,
-  serializeCV,
+  PostConditionMode,
+  PostConditionModeName,
 } from '@stacks/transactions';
 import {
   PostCondition as LegacyPostCondition,
-  serializeCV as legacySerializeCV,
   serializePostCondition as legacySerializePostCondition,
 } from '@stacks/transactions-v6';
-import { createUnsecuredToken, Json, SECP256K1Client, TokenSigner } from 'jsontokens';
+import { MethodParams, MethodResult } from '../methods';
+import { requestRawLegacy } from '../request';
 import { StacksProvider } from '../types';
 import {
   ContractCallOptions,
-  ContractCallPayload,
   ContractCallRegularOptions,
   ContractCallSponsoredOptions,
   ContractDeployOptions,
-  ContractDeployPayload,
-  ContractDeployRegularOptions,
-  ContractDeploySponsoredOptions,
-  FinishedTxPayload,
+  FinishedTxData,
+  SignTransactionFinishedTxData,
   SignTransactionOptions,
-  SignTransactionPayload,
-  SponsoredFinishedTxPayload,
+  SponsoredFinishedTxData,
   STXTransferOptions,
-  STXTransferPayload,
   STXTransferRegularOptions,
   STXTransferSponsoredOptions,
   TransactionOptions,
-  TransactionPayload,
-  TransactionPopup,
-  TransactionTypes,
 } from '../types/transactions';
-import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
+import {
+  connectNetworkToString,
+  getStacksProvider,
+  legacyCVToCV,
+  legacyNetworkFromConnectNetwork,
+} from '../utils';
+import { AppConfig, UserSession } from '../auth';
 
-// TODO extract out of transactions
+/** @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession. */
 export const getUserSession = (_userSession?: UserSession) => {
   let userSession = _userSession;
 
@@ -49,6 +47,7 @@ export const getUserSession = (_userSession?: UserSession) => {
   return userSession;
 };
 
+/** @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession. */
 export function hasAppPrivateKey(userSession?: UserSession) {
   try {
     const session = getUserSession(userSession).loadUserData();
@@ -58,15 +57,10 @@ export function hasAppPrivateKey(userSession?: UserSession) {
   }
 }
 
-export const getKeys = (_userSession?: UserSession) => {
-  const userSession = getUserSession(_userSession);
-  const privateKey = userSession.loadUserData().appPrivateKey;
-  const publicKey = SECP256K1Client.derivePublicKey(privateKey);
+/** @deprecated No-op. Update to the latest `request` RPC methods. */
+export const getKeys = (_userSession?: UserSession) => {};
 
-  return { privateKey, publicKey };
-};
-
-// TODO extract out of transactions
+/** @deprecated Update to the latest `request` RPC methods. It's not recommended to use the UserSession. */
 export function getStxAddress(options: TransactionOptions) {
   const { stxAddress, userSession, network: _network } = options;
 
@@ -83,230 +77,203 @@ export function getStxAddress(options: TransactionOptions) {
   return address;
 }
 
-function getDefaults(options: TransactionOptions) {
-  const network = legacyNetworkFromConnectNetwork(options.network);
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makeContractCallToken = async (_options: ContractCallOptions) => {};
 
-  const userSession = getUserSession(options.userSession);
-  const defaults: TransactionOptions = {
-    ...options,
-    network,
-    userSession,
-  };
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makeContractDeployToken = async (_options: ContractDeployOptions) => {};
+
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makeSTXTransferToken = async (_options: STXTransferOptions) => {};
+
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makeSignTransaction = async (_options: SignTransactionOptions) => {};
+
+// # TRANSACTION METHODS
+
+// ## Contract Call
+
+const METHOD_CALL_CONTRACT = 'stx_callContract' as const;
+
+/** @internal */
+export const LEGACY_CALL_CONTRACT_OPTIONS_MAP = (
+  options: ContractCallOptions
+): MethodParams<typeof METHOD_CALL_CONTRACT> => {
+  const functionArgs = options.functionArgs
+    ?.map(arg => {
+      if (typeof arg === 'string') return Cl.deserialize(arg);
+      return legacyCVToCV(arg);
+    })
+    // serialize to hex, since some wallets expect hex-encoded args
+    .map(arg => Cl.serialize(arg));
 
   return {
-    stxAddress: getStxAddress(defaults),
-    ...defaults,
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/require-await
-async function signPayload(payload: TransactionPayload, privateKey: string) {
-  let { postConditions } = payload;
-  if (postConditions && postConditions.length > 0 && typeof postConditions[0] !== 'string') {
-    if (typeof postConditions[0].type === 'string') {
-      // new readable types
-      postConditions = (postConditions as PostCondition[]).map(postConditionToHex);
-    } else {
-      // legacy types
-      postConditions = (postConditions as LegacyPostCondition[]).map(pc => {
-        return bytesToHex(legacySerializePostCondition(pc));
-      });
-    }
-  }
-  const tokenSigner = new TokenSigner('ES256k', privateKey);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  return tokenSigner.signAsync({ ...payload, postConditions } as any);
-}
-
-function createUnsignedTransactionPayload(payload: Partial<TransactionPayload>) {
-  let { postConditions } = payload;
-  if (postConditions && postConditions.length > 0 && typeof postConditions[0] !== 'string') {
-    if (typeof postConditions[0].type === 'string') {
-      // new readable types
-      postConditions = (postConditions as PostCondition[]).map(postConditionToHex);
-    } else {
-      // legacy types
-      postConditions = (postConditions as LegacyPostCondition[]).map(pc => {
-        return bytesToHex(legacySerializePostCondition(pc));
-      });
-    }
-  }
-  return createUnsecuredToken({ ...payload, postConditions } as unknown as Json);
-}
-
-const openTransactionPopup = async (
-  { token, options }: TransactionPopup,
-  provider: StacksProvider
-) => {
-  try {
-    const txResponse = await provider.transactionRequest(token);
-    const { txRaw } = txResponse;
-    const txBytes = hexToBytes(txRaw.replace(/^0x/, ''));
-    const stacksTransaction = deserializeTransaction(txBytes);
-
-    if ('sponsored' in options && options.sponsored) {
-      options.onFinish?.({
-        ...(txResponse as SponsoredFinishedTxPayload),
-        stacksTransaction,
-      });
-      return;
-    }
-    options.onFinish?.({
-      ...(txResponse as FinishedTxPayload),
-      stacksTransaction,
-    });
-  } catch (error) {
-    console.error('[Connect] Error during transaction request', error);
-    options.onCancel?.();
-  }
-};
-
-// eslint-disable-next-line @typescript-eslint/require-await
-export const makeContractCallToken = async (options: ContractCallOptions) => {
-  const { functionArgs, appDetails, userSession, ..._options } = options;
-
-  const args: string[] = functionArgs.map(arg => {
-    if (typeof arg === 'string') {
-      return arg;
-    }
-    if (typeof arg.type === 'string') {
-      // new readable types
-      return serializeCV(arg);
-    }
-
-    // legacy types
-    return bytesToHex(legacySerializeCV(arg));
-  });
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
-    const payload: ContractCallPayload = {
-      ..._options,
-      functionArgs: args,
-      txType: TransactionTypes.ContractCall,
-      publicKey,
-    };
-    if (appDetails) payload.appDetails = appDetails;
-    return signPayload(payload, privateKey);
-  }
-  const payload: Partial<ContractCallPayload> = {
-    ..._options,
-    functionArgs: args,
-    txType: TransactionTypes.ContractCall,
-  };
-  if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedTransactionPayload(payload);
-};
-
-// eslint-disable-next-line @typescript-eslint/require-await
-export const makeContractDeployToken = async (options: ContractDeployOptions) => {
-  const { appDetails, userSession, ..._options } = options;
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
-    const payload: ContractDeployPayload = {
-      ..._options,
-      publicKey,
-      txType: TransactionTypes.ContractDeploy,
-    };
-    if (appDetails) payload.appDetails = appDetails;
-    return signPayload(payload, privateKey);
-  }
-
-  const payload: Partial<ContractDeployPayload> = {
-    ..._options,
-    txType: TransactionTypes.ContractDeploy,
-  };
-  if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedTransactionPayload(payload);
-};
-
-// eslint-disable-next-line @typescript-eslint/require-await
-export const makeSTXTransferToken = async (options: STXTransferOptions) => {
-  const { amount, appDetails, userSession, ..._options } = options;
-
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
-    const payload: STXTransferPayload = {
-      ..._options,
-      amount: amount.toString(10),
-      publicKey,
-      txType: TransactionTypes.STXTransfer,
-    };
-    if (appDetails) payload.appDetails = appDetails;
-    return signPayload(payload, privateKey);
-  }
-
-  const payload: Partial<STXTransferPayload> = {
-    ..._options,
-    amount: amount.toString(10),
-    txType: TransactionTypes.STXTransfer,
-  };
-  if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedTransactionPayload(payload);
-};
-
-export const makeSignTransaction = async (options: SignTransactionOptions) => {
-  const { txHex, appDetails, userSession, ..._options } = options;
-
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
-    const payload: SignTransactionPayload = {
-      ..._options,
-      txHex,
-      publicKey,
-    };
-    if (appDetails) payload.appDetails = appDetails;
-    return signPayload(payload, privateKey);
-  }
-
-  const payload: Partial<SignTransactionOptions> = {
-    ..._options,
-    txHex,
-  };
-  if (appDetails) payload.appDetails = appDetails;
-  return createUnsignedTransactionPayload(payload);
-};
-
-async function generateTokenAndOpenPopup<T extends TransactionOptions>(
-  options: T,
-  makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider
-) {
-  const token = await makeTokenFn({
-    ...getDefaults(options),
     ...options,
-    network: legacyNetworkFromConnectNetwork(options.network), // ensure network is legacy compatible
-  } as T);
-  return openTransactionPopup({ token, options }, provider);
-}
+    contract: `${options.contractAddress}.${options.contractName}`,
+    functionArgs,
+    network: connectNetworkToString(options.network),
+    postConditionMode: optPostConditionMode(options.postConditionMode),
+    postConditions: optPostCondition(options.postConditions),
+    address: options.stxAddress,
+  };
+};
 
+/** @internal */
+export const LEGACY_CALL_CONTRACT_RESPONSE_MAP = (
+  response: MethodResult<typeof METHOD_CALL_CONTRACT>
+): FinishedTxData | SponsoredFinishedTxData => ({
+  txId: response.txid,
+  txRaw: response.transaction,
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
+
+/** Compatible interface with previous Connect `openContractCall` version, but using new SIP-030 RPC method. */
 export function openContractCall(
   options: ContractCallOptions | ContractCallRegularOptions | ContractCallSponsoredOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, makeContractCallToken, provider);
+  requestRawLegacy(
+    METHOD_CALL_CONTRACT,
+    LEGACY_CALL_CONTRACT_OPTIONS_MAP,
+    LEGACY_CALL_CONTRACT_RESPONSE_MAP
+  )(options, provider);
 }
 
+// ## Contract Deploy
+
+const METHOD_DEPLOY_CONTRACT = 'stx_deployContract' as const;
+
+/** @internal */
+export const LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP = (
+  options: ContractDeployOptions
+): MethodParams<typeof METHOD_DEPLOY_CONTRACT> => ({
+  ...options,
+  name: options.contractName,
+  clarityCode: options.codeBody,
+  network: connectNetworkToString(options.network),
+  postConditionMode: optPostConditionMode(options.postConditionMode),
+  postConditions: optPostCondition(options.postConditions),
+  address: options.stxAddress,
+});
+
+/** @internal */
+export const LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP = (
+  response: MethodResult<typeof METHOD_DEPLOY_CONTRACT>
+): FinishedTxData | SponsoredFinishedTxData => ({
+  txId: response.txid,
+  txRaw: response.transaction,
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
+
+/** Compatible interface with previous Connect `openContractDeploy` version, but using new SIP-030 RPC method. */
 export function openContractDeploy(
-  options: ContractDeployOptions | ContractDeployRegularOptions | ContractDeploySponsoredOptions,
+  options: ContractDeployOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, makeContractDeployToken, provider);
+  requestRawLegacy(
+    METHOD_DEPLOY_CONTRACT,
+    LEGACY_DEPLOY_CONTRACT_OPTIONS_MAP,
+    LEGACY_DEPLOY_CONTRACT_RESPONSE_MAP
+  )(options, provider);
 }
 
+// ## STX Transfer
+
+const METHOD_TRANSFER_STX = 'stx_transferStx' as const;
+
+/** @internal */
+export const LEGACY_TRANSFER_STX_OPTIONS_MAP = (
+  options: STXTransferOptions
+): MethodParams<typeof METHOD_TRANSFER_STX> => ({
+  ...options,
+  amount: options.amount.toString(),
+  network: connectNetworkToString(options.network),
+  address: options.stxAddress,
+});
+
+/** @internal */
+export const LEGACY_TRANSFER_STX_RESPONSE_MAP = (
+  response: MethodResult<typeof METHOD_TRANSFER_STX>
+): FinishedTxData | SponsoredFinishedTxData => ({
+  txId: response.txid,
+  txRaw: response.transaction,
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
+
+/** Compatible interface with previous Connect `openSTXTransfer` version, but using new SIP-030 RPC method. */
 export function openSTXTransfer(
   options: STXTransferOptions | STXTransferRegularOptions | STXTransferSponsoredOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, makeSTXTransferToken, provider);
+  requestRawLegacy(
+    METHOD_TRANSFER_STX,
+    LEGACY_TRANSFER_STX_OPTIONS_MAP,
+    LEGACY_TRANSFER_STX_RESPONSE_MAP
+  )(options, provider);
 }
 
+// ## Sign Transaction
+
+const METHOD_SIGN_TRANSACTION = 'stx_signTransaction' as const;
+
+/** @internal */
+export const LEGACY_SIGN_TRANSACTION_OPTIONS_MAP = (
+  options: SignTransactionOptions
+): MethodParams<typeof METHOD_SIGN_TRANSACTION> => ({
+  ...options,
+  transaction: options.txHex,
+});
+
+/** @internal */
+export const LEGACY_SIGN_TRANSACTION_RESPONSE_MAP = (
+  response: MethodResult<typeof METHOD_SIGN_TRANSACTION>
+): SignTransactionFinishedTxData => ({
+  ...response, // additional fields, in case previous type was incorrect
+  stacksTransaction: deserializeTransaction(response.transaction),
+});
+
+/** Compatible interface with previous Connect `openSignTransaction` version, but using new SIP-030 RPC method. */
 export function openSignTransaction(
   options: SignTransactionOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, makeSignTransaction, provider);
+  requestRawLegacy(
+    METHOD_SIGN_TRANSACTION,
+    LEGACY_SIGN_TRANSACTION_OPTIONS_MAP,
+    LEGACY_SIGN_TRANSACTION_RESPONSE_MAP
+  )(options, provider);
+}
+
+// ## Helpers
+
+/** @internal */
+function optPostCondition(pcs?: (string | LegacyPostCondition | PostCondition)[]) {
+  if (typeof pcs === 'undefined') return undefined;
+  return pcs.map(pc => {
+    if (typeof pc === 'string') return pc;
+    if (typeof pc.type === 'string') {
+      return {
+        ...pc,
+        amount: 'amount' in pc ? pc.amount.toString() : undefined, // ensure amount is not bigint
+      };
+    }
+    return bytesToHex(legacySerializePostCondition(pc));
+  });
+}
+
+/** @internal */
+function optPostConditionMode(mode?: PostConditionModeName | PostConditionMode) {
+  if (typeof mode === 'undefined') return undefined;
+  if (typeof mode === 'string') return mode;
+  switch (mode) {
+    case PostConditionMode.Allow:
+      return 'allow';
+    case PostConditionMode.Deny:
+      return 'deny';
+    default:
+      const _exhaustiveCheck: never = mode;
+      throw new Error(
+        `Unknown post condition mode: ${_exhaustiveCheck}. Should be one of: 'allow', 'deny'`
+      );
+  }
 }

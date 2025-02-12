@@ -2,7 +2,7 @@ import { StacksNetwork } from '@stacks/network';
 import { StacksNetwork as LegacyNetwork, StacksNetworkName } from '@stacks/network-v6';
 
 /**
- * ⚠️ Warning: The new Stacks.js v7 network type is still experimental.
+ * ⚠︎ Warning: The new Stacks.js v7 network type is still experimental.
  */
 export type ConnectNetwork =
   | StacksNetworkName

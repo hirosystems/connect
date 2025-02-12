@@ -1,5 +1,6 @@
-import type { UserSession } from '@stacks/auth';
+import { UserSession } from '../auth';
 
+/** @deprecated */
 export interface AuthResponsePayload {
   private_key: string;
   username: string | null;
@@ -18,9 +19,12 @@ export interface AuthResponsePayload {
   public_keys: string[];
 }
 
+/** @deprecated */
 export interface FinishedAuthData {
-  authResponse: string;
-  authResponsePayload: AuthResponsePayload;
+  /** @deprecated Not used in the `request` flow anymore. */
+  authResponse?: string;
+  /** @deprecated Not used in the `request` flow anymore. */
+  authResponsePayload?: AuthResponsePayload;
   userSession: UserSession;
 }
 
@@ -32,6 +36,7 @@ declare global {
   const __VERSION__: string;
 }
 
+/** @deprecated */
 export interface AuthOptions {
   /** The URL you want the user to be redirected to after authentication. */
   redirectTo?: string;
@@ -45,7 +50,7 @@ export interface AuthOptions {
    * */
   onFinish?: (payload: FinishedAuthData) => void;
   /** This callback is fired if the user exits before finishing */
-  onCancel?: () => void;
+  onCancel?: (error?: Error) => void;
   /**
    * @deprecated Authentication is no longer supported through a hosted
    * version. Users must install an extension.
@@ -54,7 +59,7 @@ export interface AuthOptions {
   /** If `sendToSignIn` is `true`, then the user will be sent through the sign in flow. */
   sendToSignIn?: boolean;
   userSession?: UserSession;
-  appDetails: {
+  appDetails?: {
     /** A human-readable name for your application */
     name: string;
     /** A full URL that resolves to an image icon for your application */

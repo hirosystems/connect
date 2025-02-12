@@ -1,11 +1,14 @@
-import { UserSession } from '@stacks/auth';
 import { AuthOptions } from './auth';
 import { PublicPersonProfile } from '@stacks/profile';
 import { ConnectNetwork } from './network';
+import { UserSession } from '../auth';
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export type ProfileUpdateFinished = (data: PublicPersonProfile) => void;
-export type ProfileUpdateCanceled = () => void;
+/** @deprecated Update to the latest `request` RPC methods. */
+export type ProfileUpdateCanceled = (error?: Error) => void;
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface ProfileUpdateBase {
   appDetails?: AuthOptions['appDetails'];
   authOrigin?: string;
@@ -16,22 +19,22 @@ export interface ProfileUpdateBase {
   onCancel?: ProfileUpdateCanceled;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface CommonProfileUpdatePayload extends ProfileUpdateBase {
   publicKey: string;
 }
 
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface ProfileUpdatePayload extends CommonProfileUpdatePayload {
   profile: PublicPersonProfile;
 }
 
-// same as ProfileUpdatePayload without publicKey
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface ProfileUpdateRequestOptions extends ProfileUpdateBase {
   profile: PublicPersonProfile;
 }
 
-/**
- * Transaction Popup
- */
+/** @deprecated Update to the latest `request` RPC methods. */
 export interface ProfileUpdatePopup {
   token: string;
   options: ProfileUpdateRequestOptions;

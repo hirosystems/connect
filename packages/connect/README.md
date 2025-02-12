@@ -1,11 +1,19 @@
 # `@stacks/connect` [![npm](https://img.shields.io/npm/v/@stacks/connect)](https://www.npmjs.com/package/@stacks/connect) <!-- omit in toc -->
 
-## 🐎 Getting Started <!-- omit in toc -->
+> [!NOTE]
+> The `7.x.x` version may still be more well supported by some wallets.
 
-### 1. Add the dependency <!-- omit in toc -->
+For the legacy version of `@stacks/connect` using JWT tokens, please use the following command:
 
-Add the `@stacks/connect` dependency to your project using your favorite package manager.
-_Some options below_
+```sh
+npm install @stacks/connect@7.10.1
+```
+
+---
+
+## Getting Started <!-- omit in toc -->
+
+### Install `@stacks/connect` <!-- omit in toc -->
 
 ```shell
 npm install @stacks/connect
@@ -13,213 +21,164 @@ pnpm install @stacks/connect
 yarn add @stacks/connect
 ```
 
-### 2. Creating `AppConfig` and `UserSession` <!-- omit in toc -->
-
-Add a reusable `UserSession` instance to your project.
-This will allow your website to store authentication state in localStorage.
+### Use `request` to trigger wallet interactions <!-- omit in toc -->
 
 ```js
-/* ./userSession.js */
-import { AppConfig, UserSession } from '@stacks/connect';
+import { request } from '@stacks/connect';
 
-const appConfig = new AppConfig(['store_write', 'publish_data']);
-export const userSession = new UserSession({ appConfig }); // we will use this export from other files
+// CONNECT
+const response = await request('getAddresses');
 ```
 
-### 3. Interacting with the wallet <!-- omit in toc -->
+### Available methods <!-- omit in toc -->
 
-- ["Connect" aka authentication (`showConnect`)](#connect-aka-authentication-showconnect)
-- [Sending STX (`openSTXTransfer`)](#sending-stx-openstxtransfer)
-- [Calling Smart-Contracts (`openContractCall`)](#calling-smart-contracts-opencontractcall)
-- [Sending transactions with post-conditions (`openContractCall`)](#sending-transactions-with-post-conditions-opencontractcall)
-  - [Post-Condition Modes](#post-condition-modes)
+- [`getAddresses`](#getaddresses)
+- [`stx_getAddresses`](#stx_getaddresses)
+- [`stx_getAccounts`](#stx_getaccounts)
+- [`stx_transferStx`](#stx_transferstx)
+- [`stx_callContract`](#stx_callcontract)
+- [`stx_deployContract`](#stx_deploycontract)
+- [`stx_signMessage`](#stx_signmessage)
+- [`stx_signStructuredMessage`](#stx_signstructuredmessage)
 
-#### "Connect" aka authentication (`showConnect`)
-
-Connecting the wallet is a very simple form of authentication.
-This process gives the web-app information about a wallet account (selected by the user).
-
-The snippet below lets your web-app trigger the wallet to open and _authenticate_ an account.
-If no wallet is installed, an informational modal will be displayed in the web-app.
+#### `getAddresses`
 
 ```js
-import { showConnect } from '@stacks/connect';
-import { userSession } from './userSession';
+const response = await request('getAddresses');
+// {
+//   "addresses": [
+//     {
+//       "address": "bc1pp3ha248m0mnaevhp0txfxj5xaxmy03h0j7zuj2upg34mt7s7e32q7mdfae",
+//       "publicKey": "062bd2c825300d74f4f9feb6b2fec2590beac02b8938f0fc042a34254581ee69",
+//     },
+//     {
+//       "address": "bc1qtmqe7hg4etkq4t384nzg0mrmwf2sam9fjsz0mr",
+//       "publicKey": "025b65a0ec0e00699794847f2af1b5d8a53db02a2f48e09417598bef09cfea1114",
+//     },
+//     {
+//       "address": "SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN",
+//       "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304",
+//     }
+//   ]
+// }
+```
 
-const myAppName = 'My Stacks Web-App'; // shown in wallet pop-up
-const myAppIcon = window.location.origin + '/my_logo.png'; // shown in wallet pop-up
+#### `stx_getAddresses`
 
-showConnect({
-  userSession, // `userSession` from previous step, to access storage
-  appDetails: {
-    name: myAppName,
-    icon: myAppIcon,
-  },
-  onFinish: () => {
-    window.location.reload(); // WHEN user confirms pop-up
-  },
-  onCancel: () => {
-    console.log('oops'); // WHEN user cancels/closes pop-up
-  },
+```js
+const response = await request('stx_getAddresses');
+// {
+//   "addresses": [
+//     {
+//       "address": "bc1pp3ha248m0mnaevhp0txfxj5xaxmy03h0j7zuj2upg34mt7s7e32q7mdfae",
+//       "publicKey": "062bd2c825300d74f4f9feb6b2fec2590beac02b8938f0fc042a34254581ee69",
+//     },
+//     {
+//       "address": "bc1qtmqe7hg4etkq4t384nzg0mrmwf2sam9fjsz0mr",
+//       "publicKey": "025b65a0ec0e00699794847f2af1b5d8a53db02a2f48e09417598bef09cfea1114",
+//     },
+//     {
+//       "address": "SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN",
+//       "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304",
+//     }
+//   ]
+// }
+```
+
+#### `stx_getAccounts`
+
+```js
+const response = await request('stx_getAccounts');
+// {
+//   "addresses": [
+//     {
+//       "address": "SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN",
+//       "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cd...",
+//       "gaiaHubUrl": "https://hub.hiro.so",
+//       "gaiaAppKey": "0488ade4040658015580000000dc81e3a5..."
+//     }
+//   ]
+// }
+```
+
+#### `stx_transferStx`
+
+```js
+const response = await request('stx_transferStx', {
+  amount: '1000', // amount in micro-STX (1 STX = 1,000,000 micro-STX)
+  recipient: 'SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN', // recipient address
+  network: 'mainnet', // optional, defaults to mainnet
+  memo: 'Optional memo', // optional memo field
 });
+// {
+//   "txid": "0x1234...", // The transaction ID
+// }
 ```
 
-#### Sending STX (`openSTXTransfer`)
-
-Sending STX tokens is also possible through web-apps interacting with a user's wallet.
-
-The snippet below will open the wallet to _confirm and broadcast_ a smart-contract transaction.
-Here, we are sending `10000` micro-STX tokens to a recipient address.
+#### `stx_callContract`
 
 ```js
-import { openSTXTransfer } from '@stacks/connect';
-import { AnchorMode, PostConditionMode } from '@stacks/transactions';
-import { userSession } from './userSession';
-
-openSTXTransfer({
-  network: 'testnet', // which network to use; ('mainnet' or 'testnet')
-  anchorMode: AnchorMode.Any, // which type of block the tx should be mined in
-
-  recipient: 'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK', // which address we are sending to
-  amount: 10000, // tokens, denominated in micro-STX
-  memo: 'Nr. 1337', // optional; a memo to help identify the tx
-
-  onFinish: response => {
-    // WHEN user confirms pop-up
-    console.log(response.txid); // the response includes the txid of the transaction
-  },
-  onCancel: () => {
-    // WHEN user cancels/closes pop-up
-    console.log('User canceled');
-  },
+const response = await request('stx_callContract', {
+  contract: 'SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN.counters', // contract in format: address.contract-name
+  functionName: 'count', // name of the function to call
+  functionArgs: [Cl.int(3)], // array of Clarity values as arguments
+  network: 'mainnet', // optional, defaults to mainnet
 });
+// {
+//   "txid": "0x1234...", // The transaction ID
+// }
 ```
 
-#### Calling Smart-Contracts (`openContractCall`)
-
-Calling smart-contracts lets users interact with the blockchain through transactions.
-
-The snippet below will open the wallet to _confirm and broadcast_ a smart-contract transaction.
-Here, we are passing our pick `Alice` to an imaginary deployed voting smart-contract.
+#### `stx_deployContract`
 
 ```js
-import { openContractCall } from '@stacks/connect';
-import { AnchorMode, PostConditionMode, stringUtf8CV } from '@stacks/transactions';
-import { userSession } from './userSession';
+const response = await request('stx_deployContract', {
+  name: 'counters', // name of the contract
+  clarityCode: `(define-map counters principal int)
 
-const pick = stringUtf8CV('Alice');
+(define-public (count (change int))
+  (ok (map-set counters tx-sender (+ (get-count tx-sender) change)))
+)
 
-openContractCall({
-  network: 'testnet', // which network to use; ('mainnet' or 'testnet')
-  anchorMode: AnchorMode.Any, // which type of block the tx should be mined in
-
-  contractAddress: 'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK',
-  contractName: 'example-contract',
-  functionName: 'vote',
-  functionArgs: [pick],
-
-  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
-  postConditions: [], // for an example using post-conditions, see next example
-
-  onFinish: response => {
-    // WHEN user confirms pop-up
-  },
-  onCancel: () => {
-    // WHEN user cancels/closes pop-up
-  },
+(define-read-only (get-count (who principal))
+  (default-to 0 (map-get? counters who))
+)`, // Clarity code as string
+  clarityVersion: '2', // optional, defaults to latest version
+  network: 'mainnet', // optional, defaults to mainnet
 });
+// {
+//   "txid": "0x1234...", // The transaction ID
+// }
 ```
 
-#### Sending transactions with post-conditions (`openContractCall`)
-
-Consider the example above.
-Using [post-conditions](https://docs.hiro.so/get-started/transactions#post-conditions), a feature of the Stacks blockchain, we can ensure something happened after a transaction.
-Here, we could ensure that the recipient indeed receives a certain amount of STX.
+#### `stx_signMessage`
 
 ```js
-import {
-  PostConditionMode,
-  FungibleConditionCode,
-  makeStandardSTXPostCondition,
-} from '@stacks/transactions';
-
-// this post-condition ensures that our recipient receives at least 5000 STX tokens
-const myPostCondition = makeStandardSTXPostCondition(
-  'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK', // address of recipient
-  FungibleConditionCode.GreaterEqual, // comparator
-  5000000000 // relative amount to previous balance (denoted in micro-STX)
-);
-
-// passing to `openContractCall` options, e.g. modifying our previous example ...
-  postConditionMode: PostConditionMode.Deny, // whether the tx should fail when unexpected assets are transferred
-  postConditions: [ myPostCondition ],
-// ...
+const response = await request('stx_signMessage', {
+  message: 'Hello, World!', // message to sign
+});
+// {
+//   "signature": "0x1234...", // The signature of the message
+//   "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304" // The public key that signed the message
+// }
 ```
 
-> For more examples on constructing different kinds of post-conditions read the [Post-Conditions Guide of Stacks.js](https://github.com/hirosystems/stacks.js/tree/main/packages/transactions#post-conditions).
-
-##### Post-Condition Modes
-
-If post-conditions `postConditions: [ ... ]` are specified, they will ALWAYS be checked by blockchain nodes.
-If ANY conditions fails, the transaction will fail.
-
-The _Post-Condition Mode_ only relates to transfers of assets, which were not specified in the `postConditions`.
-
-- `PostConditionMode.Deny` fails the transaction if any unspecified assets are transferred
-- `PostConditionMode.Allow` allows unspecified assets to be transferred
-- In both cases, all `postConditions` are checked
-
-### 🛠 Advanced <!-- omit in toc -->
-
-#### Opening a specific wallet <!-- omit in toc -->
-
-By default, `@stacks/connect` defers to the `window.StacksProvider` object to interact with wallets.
-However, if multiple wallets are installed, they might interfere with each other.
-To avoid this, you can specify which wallet to use in the wallet interaction methods.
+#### `stx_signStructuredMessage`
 
 ```js
-// Only opens requests in Leather
-authenticate({ ...opts }, LeatherProvider);
-openPsbtRequestPopup({ ...opts }, LeatherProvider);
-openProfileUpdateRequestPopup({ ...opts }, LeatherProvider);
-openSignatureRequestPopup({ ...opts }, LeatherProvider);
-openStructuredDataSignatureRequestPopup({ ...opts }, LeatherProvider);
+const clarityMessage = Cl.parse('{ structured: "message", num: u3 }');
+const clarityDomain = Cl.tuple({
+  domain: Cl.stringAscii('example.com'),
+  version: Cl.stringAscii('1.0.0'),
+  'chain-id': Cl.uint(1),
+});
+
+const response = await request('stx_signStructuredMessage', {
+  message: clarityMessage, // Clarity value representing the structured message
+  domain: clarityDomain, // domain object for SIP-018 style signing
+});
+// {
+//   "signature": "0x1234...", // The signature of the structured message
+//   "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304" // The public key that signed the message
+// }
 ```
-
-## 🤔 Pitfalls <!-- omit in toc -->
-
-- Connect can currently not set manual nonces, since this is not supported by wallets.
-- For some projects it might be necessary to also install the `regenerator-runtime` package. `npm install --save-dev regenerator-runtime`. This is a build issue of older versions of `@stacks/connect`.
-
-## 📚 Method Parameters <!-- omit in toc -->
-
-A glossary of the most common options of `openSTXTransfer` and `openContractCall`
-
-### `openSTXTransfer` _Required_ <!-- omit in toc -->
-
-|             | Description                           | Type                              | Example                                       |
-| :---------- | :------------------------------------ | :-------------------------------- | :-------------------------------------------- |
-| `recipient` | The recipient (STX principal) address | `string`                          | `'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK'` |
-| `amount`    | The amount (in micro-STX) to transfer | Integer (e.g. `number`, `bigint`) | `10000`                                       |
-
-### `openContractCall` _Required_ <!-- omit in toc -->
-
-|                   | Description                                      | Type                    | Example                                       |
-| :---------------- | :----------------------------------------------- | :---------------------- | :-------------------------------------------- |
-| `contractAddress` | The (STX contract) address of the smart contract | `string`                | `'ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK'` |
-| `contractName`    | The contract name                                | `string`                | `'example-contract'`                          |
-| `functionName`    | The contract function name                       | `string`                | `'vote'`                                      |
-| `functionArgs`    | The contract function arguments                  | Array of Clarity Values | `[]`, `[uintCV(100)]`                         |
-
-### _Optional_ <!-- omit in toc -->
-
-|                     | Default             | Description                                                                 | Type                                                                            | Example                   |
-| :------------------ | :------------------ | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------ | :------------------------ |
-| `network`           | Mainnet             | The network to broadcast the transaction to                                 | string                                                                          | 'mainnet'                 |
-| `anchorMode`        | Any                 | The type of block the transaction should be mined in                        | [AnchorMode Enum](https://stacks.js.org/enums/transactions.AnchorMode.html)     | `AnchorMode.OnChainOnly`  |
-| `memo`              | _Empty_ `''`        | The memo field (used for additional data)                                   | `string`                                                                        | `'a memo'`                |
-| `fee`               | _Handled by Wallet_ | The transaction fee (the wallet will estimate fees as well)                 | Integer (e.g. `number`, `bigint`)                                               | `1000`                    |
-| `postConditionMode` | Deny                | The post condition mode, _i.e. whether to allow unspecified asset transfer_ | [PostConditionMode](https://stacks.js.org/enums/transactions.PostConditionMode) | `PostConditionMode.Allow` |
-| `postConditions`    | _Empty_ `[]`        | The list of post conditions to check, regardless of postConditionMode       | [PostCondition](https://stacks.js.org/types/transactions.PostCondition)[]       |                           |
-| `onFinish`          | _No-op_             | The callback function to run after broadcasting the transaction             | Function (receiving `response`)                                                 |                           |
-| `onCancel`          | _No-op_             | The callback function to run after the user cancels/closes the wallet       | Function                                                                        |                           |

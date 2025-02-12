@@ -1,81 +1,35 @@
-import { createUnsecuredToken, Json, TokenSigner } from 'jsontokens';
-import { getKeys, getUserSession, hasAppPrivateKey } from '../transactions';
-import {
-  ProfileUpdatePayload,
-  ProfileUpdatePopup,
-  ProfileUpdateRequestOptions,
-  StacksProvider,
-} from '../types';
+import { PublicPersonProfile } from '@stacks/profile';
+import { MethodParams, MethodResult } from '../methods';
+import { requestRawLegacy } from '../request';
+import { ProfileUpdateRequestOptions, StacksProvider } from '../types';
+import { getStacksProvider } from '../utils';
 
-import { getStacksProvider, legacyNetworkFromConnectNetwork } from '../utils';
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export function getDefaultProfileUpdateRequestOptions(_options: ProfileUpdateRequestOptions) {}
 
-// eslint-disable-next-line @typescript-eslint/require-await
-async function signPayload(payload: ProfileUpdatePayload, privateKey: string) {
-  const tokenSigner = new TokenSigner('ES256k', privateKey);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  return tokenSigner.signAsync({ ...payload } as any);
-}
+/** @deprecated No-op. Tokens are not needed for latest RPC endpoints. */
+export const makeProfileUpdateToken = async (_options: ProfileUpdateRequestOptions) => {};
 
-export function getDefaultProfileUpdateRequestOptions(options: ProfileUpdateRequestOptions) {
-  const network = legacyNetworkFromConnectNetwork(options.network);
-  const userSession = getUserSession(options.userSession);
-  const defaults: ProfileUpdateRequestOptions = {
-    ...options,
-    network,
-    userSession,
-  };
-  return {
-    ...defaults,
-  };
-}
+const METHOD = 'stx_updateProfile' as const;
 
-async function openProfileUpdatePopup(
-  { token, options }: ProfileUpdatePopup,
-  provider: StacksProvider
-) {
-  try {
-    const profileUpdateResponse = await provider.profileUpdateRequest(token);
-    options.onFinish?.(profileUpdateResponse);
-  } catch (error) {
-    console.error('[Connect] Error during signature request', error);
-    options.onCancel?.();
-  }
-}
+/** @internal */
+export const LEGACY_UPDATE_PROFILE_OPTIONS_MAP = (
+  options: ProfileUpdateRequestOptions
+): MethodParams<typeof METHOD> => options;
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export const makeProfileUpdateToken = async (options: ProfileUpdateRequestOptions) => {
-  const { userSession, profile, ..._options } = options;
-  if (hasAppPrivateKey(userSession)) {
-    const { privateKey, publicKey } = getKeys(userSession);
+/** @internal */
+export const LEGACY_UPDATE_PROFILE_RESPONSE_MAP = (
+  response: MethodResult<typeof METHOD>
+): PublicPersonProfile => response.profile as PublicPersonProfile;
 
-    const payload: ProfileUpdatePayload = {
-      ..._options,
-      profile,
-      publicKey,
-    };
-
-    return signPayload(payload, privateKey);
-  }
-  const payload = { ..._options };
-  return createUnsecuredToken(payload as Json);
-};
-
-async function generateTokenAndOpenPopup<T extends ProfileUpdateRequestOptions>(
-  options: T,
-  makeTokenFn: (options: T) => Promise<string>,
-  provider: StacksProvider
-) {
-  const token = await makeTokenFn({
-    ...getDefaultProfileUpdateRequestOptions(options),
-    ...options,
-  } as T);
-  return openProfileUpdatePopup({ token, options }, provider);
-}
-
+/** Compatible interface with previous Connect `openProfileUpdateRequestPopup` version, but using new SIP-030 RPC method. */
 export function openProfileUpdateRequestPopup(
   options: ProfileUpdateRequestOptions,
   provider: StacksProvider = getStacksProvider()
 ) {
-  if (!provider) throw new Error('[Connect] No installed Stacks wallet found');
-  return generateTokenAndOpenPopup(options, makeProfileUpdateToken, provider);
+  requestRawLegacy(
+    METHOD,
+    LEGACY_UPDATE_PROFILE_OPTIONS_MAP,
+    LEGACY_UPDATE_PROFILE_RESPONSE_MAP
+  )(options, provider);
 }
