@@ -1,5 +1,16 @@
 # Change Log
 
+## 7.0.0
+
+### Major Changes
+
+- [#403](https://github.com/hirosystems/connect/pull/403) [`cb82258`](https://github.com/hirosystems/connect/commit/cb822582318348e3b36b2e5d048db465b0668ebc) Thanks [@janniks](https://github.com/janniks)! - Update UI properties
+
+  BREAKING CHANGE:
+
+  - RENAMED `persistSelection` to `persistWalletSelect`
+  - REMOVED `shouldUsePopup` from `@stacks/connect-ui`
+
 ## 6.6.0
 
 ### Minor Changes

@@ -1,5 +1,27 @@
 # Change Log
 
+## 8.0.0
+
+### Major Changes
+
+- [#403](https://github.com/hirosystems/connect/pull/403) [`cb82258`](https://github.com/hirosystems/connect/commit/cb822582318348e3b36b2e5d048db465b0668ebc) Thanks [@janniks](https://github.com/janniks)! - Switch to new RPC API with SIP-030
+
+  BREAKING CHANGE:
+
+  Adds the new `request` method to the `@stacks/connect` package.
+  Which is the default way of interacting with Bitcoin and Stacks wallets.
+  This update needs a slightly breaking change to the `showXyz` and `openXyz` methods.
+
+  - ADDED `request` (UI) and `requestRaw` for calling wallet RPC methods
+  - UPDATED `SessionData` and `UserSession` to only expose a light `UserData` with `profile.stxAddress`
+  - UPDATED `StacksProvider` to only have a `request` method
+  - REMOVED `BlockstackProvider`, `StacksProvider`
+
+### Patch Changes
+
+- Updated dependencies [[`cb82258`](https://github.com/hirosystems/connect/commit/cb822582318348e3b36b2e5d048db465b0668ebc)]:
+  - @stacks/connect-ui@7.0.0
+
 ## 7.10.1
 
 ### Patch Changes
