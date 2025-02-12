@@ -551,11 +551,11 @@ const STXGetAccountsForm = () => {
     network?: string;
   };
   const methods = useForm<STXGetAccountsFormData>();
-  const { register, handleSubmit } = methods;
+  const { handleSubmit } = methods;
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ network }, e) => {
+  const onSubmit = handleSubmit(({}, e) => {
     e.preventDefault();
     request('stx_getAccounts')
       .then(d => {
@@ -670,7 +670,7 @@ const STXContractCallForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ contract, functionName, functionArgs, network }, e) => {
+  const onSubmit = handleSubmit(({ contract, functionName, functionArgs }, e) => {
     e.preventDefault();
     try {
       const parsedArgs = functionArgs
