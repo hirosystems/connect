@@ -92,7 +92,13 @@ export async function request<M extends keyof Methods>(
 
   // WITHOUT UI
   if (opts.provider && !opts.forceWalletSelect) {
-    return await requestRaw(opts.provider, method, params);
+    const { method: finalMethod, params: finalParams } = getMethodOverrides(
+      opts.provider,
+      method,
+      params,
+      opts.enableOverrides
+    );
+    return await requestRaw(opts.provider, finalMethod as any, finalParams);
   }
 
   // WITH UI
@@ -117,36 +123,14 @@ export async function request<M extends keyof Methods>(
     element.callback = (selectedProvider: StacksProvider | undefined) => {
       closeModal();
 
-      // =======================================================================
-      // OVERRIDES
-      // We may need to maintain some overrides to make different providers semi-compatible.
+      const { method: finalMethod, params: finalParams } = getMethodOverrides(
+        selectedProvider,
+        method,
+        params,
+        opts.enableOverrides
+      );
 
-      // Xverse-ish wallets
-      if (
-        opts.enableOverrides &&
-        (isXverse(selectedProvider) || isFordefi(selectedProvider)) &&
-        // Permission granting method
-        ['getAddresses', 'stx_getAddresses', 'stx_getAccounts'].includes(method)
-      ) {
-        return resolve(requestRaw(selectedProvider, 'wallet_connect' as any, params)); // Use unknown 'wallet_connect' instead.
-      }
-
-      // Leather `signPsbt`
-      if (opts.enableOverrides && isLeather(selectedProvider) && method === 'signPsbt') {
-        const paramsLeather = {
-          hex: bytesToHex(base64.decode((params as MethodParams<'signPsbt'>).psbt)),
-          signAtIndex: (params as MethodParams<'signPsbt'>).signInputs.map(i => {
-            if (typeof i === 'number') return i;
-            return i.index;
-          }),
-          allowedSighash: (params as MethodParams<'signPsbt'>).allowedSighash,
-        };
-
-        return resolve(requestRaw(selectedProvider, method, paramsLeather as any));
-      }
-      // =======================================================================
-
-      resolve(requestRaw(selectedProvider, method, params));
+      resolve(requestRaw(selectedProvider, finalMethod as any, finalParams));
     };
 
     element.cancelCallback = () => {
@@ -237,9 +221,43 @@ function isLeather(provider: StacksProvider): boolean {
 }
 
 function shallowDefined<T extends object>(obj: T): Partial<T> {
+  if (obj === undefined) return {};
   const result: Partial<T> = {};
   for (const [key, value] of Object.entries(obj)) {
     if (value !== undefined) result[key as keyof T] = value;
   }
   return result;
+}
+
+function getMethodOverrides<M extends keyof Methods>(
+  provider: StacksProvider,
+  method: M,
+  params?: MethodParams<M>,
+  enableOverrides: boolean = true
+): { method: string; params: any } {
+  if (!enableOverrides) return { method, params };
+
+  // Xverse-ish wallets
+  if (
+    (isXverse(provider) || isFordefi(provider)) &&
+    // Permission granting method
+    ['getAddresses', 'stx_getAddresses'].includes(method)
+  ) {
+    return { method: 'wallet_connect', params };
+  }
+
+  // Leather `signPsbt`
+  if (isLeather(provider) && method === 'signPsbt') {
+    const paramsLeather = {
+      hex: bytesToHex(base64.decode((params as MethodParams<'signPsbt'>).psbt)),
+      signAtIndex: (params as MethodParams<'signPsbt'>).signInputs.map(i => {
+        if (typeof i === 'number') return i;
+        return i.index;
+      }),
+      allowedSighash: (params as MethodParams<'signPsbt'>).allowedSighash,
+    };
+    return { method, params: paramsLeather };
+  }
+
+  return { method, params };
 }
