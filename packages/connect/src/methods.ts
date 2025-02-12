@@ -91,7 +91,7 @@ export interface CallContractParams extends CommonTxParams {
 export interface DeployContractParams extends CommonTxParams {
   name: string;
   clarityCode: string;
-  clarityVersion?: number;
+  clarityVersion?: number | string;
 }
 
 export interface SignTransactionParams {

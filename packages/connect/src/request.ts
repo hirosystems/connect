@@ -6,6 +6,7 @@ import { DEFAULT_PROVIDERS } from './providers';
 import { StacksProvider } from './types';
 import { base64 } from '@scure/base';
 import { bytesToHex } from '@stacks/common';
+import { Cl } from '@stacks/transactions';
 
 export interface ConnectRequestOptions {
   /**
@@ -98,7 +99,7 @@ export async function request<M extends keyof Methods>(
       params,
       opts.enableOverrides
     );
-    return await requestRaw(opts.provider, finalMethod as any, finalParams);
+    return await requestRaw(opts.provider, finalMethod as any, serializeParams(finalParams));
   }
 
   // WITH UI
@@ -130,7 +131,7 @@ export async function request<M extends keyof Methods>(
         opts.enableOverrides
       );
 
-      resolve(requestRaw(selectedProvider, finalMethod as any, finalParams));
+      resolve(requestRaw(selectedProvider, finalMethod as any, serializeParams(finalParams)));
     };
 
     element.cancelCallback = () => {
@@ -184,7 +185,13 @@ export function requestRawLegacy<M extends keyof Methods, O, R>(
       onFinish?: (response: R) => void;
     };
 
-    void requestRaw(provider, method, params)
+    const { method: finalMethod, params: finalParams } = getMethodOverrides(
+      provider,
+      method,
+      params
+    );
+
+    void requestRaw(provider, finalMethod as any, serializeParams(finalParams))
       .then(response => {
         const r = mapResponse(response);
         o.onFinish?.(r);
@@ -260,4 +267,36 @@ function getMethodOverrides<M extends keyof Methods>(
   }
 
   return { method, params };
+}
+
+/**
+ * @internal
+ * Simple function for serializing clarity object values to hex strings, in case wallets don't support them.
+ */
+function serializeParams<M extends keyof Methods>(params: MethodParams<M>): MethodParams<M> {
+  if (!params || typeof params !== 'object') return params;
+
+  const result = { ...params };
+
+  for (const [key, value] of Object.entries(params)) {
+    if (!value) continue;
+
+    // Handle array of Clarity values
+    if (Array.isArray(value)) {
+      result[key] = value.map(item => {
+        if (item && typeof item === 'object' && 'type' in item) {
+          return Cl.serialize(item);
+        }
+        return item;
+      });
+      continue;
+    }
+
+    // Handle direct Clarity value
+    if (typeof value === 'object' && 'type' in value) {
+      result[key] = Cl.serialize(value);
+    }
+  }
+
+  return result;
 }
