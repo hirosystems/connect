@@ -1,5 +1,13 @@
 # Change Log
 
+## 8.0.1
+
+### Patch Changes
+
+- [#410](https://github.com/hirosystems/connect/pull/410) [`7a18f63`](https://github.com/hirosystems/connect/commit/7a18f63d76ba3dc2308c98df5f75fdf984ddde4a) Thanks [@janniks](https://github.com/janniks)! - Add missing `sendTransfer` method
+
+- [#410](https://github.com/hirosystems/connect/pull/410) [`7a18f63`](https://github.com/hirosystems/connect/commit/7a18f63d76ba3dc2308c98df5f75fdf984ddde4a) Thanks [@janniks](https://github.com/janniks)! - Fix raw methods for `requestRaw` function
+
 ## 8.0.0
 
 ### Major Changes
