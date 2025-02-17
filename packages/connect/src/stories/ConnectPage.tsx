@@ -497,6 +497,63 @@ const GetAddressesForm = () => {
   );
 };
 
+// Send Transfer Form Component
+const SendTransferForm = () => {
+  type SendTransferFormData = {
+    address: string;
+    amount: string;
+  };
+  const methods = useForm<SendTransferFormData>();
+  const { register, handleSubmit } = methods;
+  const refresh = useReducer(x => x + 1, 0)[1];
+  const [response, setResponse] = useState<any>(null);
+
+  const onSubmit = handleSubmit(({ address, amount }, e) => {
+    e.preventDefault();
+    request('sendTransfer', {
+      recipients: [{ address, amount }],
+    })
+      .then(d => {
+        setResponse(d);
+        refresh();
+      })
+      .catch(e => {
+        setResponse({ error: e?.toString() });
+        refresh();
+        throw e;
+      });
+  });
+
+  return (
+    <FormProvider {...methods}>
+      <section>
+        <h3>sendTransfer</h3>
+        <form onSubmit={e => void onSubmit(e)}>
+          <div>
+            <label htmlFor="recipient">Recipient</label>
+            <input
+              id="address"
+              {...register('address', { required: true })}
+              defaultValue="bc1qul02aptw6x3t0ltn0mvdrlask3r6uqyln3pfeg"
+            />
+          </div>
+          <div>
+            <label htmlFor="amount">Amount (sats)</label>
+            <input id="amount" {...register('amount', { required: true })} defaultValue="1000" />
+          </div>
+          <button type="submit">Send Transfer</button>
+        </form>
+        {response && (
+          <div data-response>
+            <h3>Response</h3>
+            <pre>{JSON.stringify(response, null, 2)}</pre>
+          </div>
+        )}
+      </section>
+    </FormProvider>
+  );
+};
+
 // STX Get Addresses Form Component
 const STXGetAddressesForm = () => {
   type STXGetAddressesFormData = {
@@ -1030,6 +1087,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
 
             {/* MODERN REQUEST METHODS GO HERE */}
             <GetAddressesForm />
+            <SendTransferForm />
             <STXGetAddressesForm />
             <STXGetAccountsForm />
             <STXTransferForm />
