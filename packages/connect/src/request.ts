@@ -1,7 +1,15 @@
 import { getInstalledProviders, getProvider, WbipProvider } from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
 import { JsonRpcError, JsonRpcErrorCode } from './errors';
-import { MethodParams, MethodResult, Methods } from './methods';
+import {
+  MethodParams,
+  MethodParamsRaw,
+  MethodResult,
+  MethodResultRaw,
+  Methods,
+  MethodsRaw,
+  SendTransferParams,
+} from './methods';
 import { DEFAULT_PROVIDERS } from './providers';
 import { StacksProvider } from './types';
 import { base64 } from '@scure/base';
@@ -43,11 +51,11 @@ export interface ConnectRequestOptions {
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
 
-export async function requestRaw<M extends keyof Methods>(
+export async function requestRaw<M extends keyof MethodsRaw>(
   provider: StacksProvider,
   method: M,
-  params?: MethodParams<M>
-): Promise<MethodResult<M>> {
+  params?: MethodParamsRaw<M>
+): Promise<MethodResultRaw<M>> {
   try {
     const response = await provider.request(method, params);
     if ('error' in response) throw JsonRpcError.fromResponse(response.error);
@@ -253,6 +261,30 @@ function getMethodOverrides<M extends keyof Methods>(
     return { method: 'wallet_connect', params };
   }
 
+  // Xverse-ish `sendTransfer`
+  if (isXverse(provider) && method === 'sendTransfer') {
+    const paramsXverse = {
+      ...params,
+      recipients: (params as SendTransferParams).recipients.map(r => ({
+        ...r,
+        amount: Number(r.amount), // Xverse expects amount as number
+      })),
+    };
+    return { method, params: paramsXverse };
+  }
+
+  // Leather `sendTransfer`
+  if (isLeather(provider) && method === 'sendTransfer') {
+    const paramsLeather = {
+      ...params,
+      recipients: (params as SendTransferParams).recipients.map(r => ({
+        ...r,
+        amount: r.amount.toString(), // Leather expects amount as string
+      })),
+    };
+    return { method, params: paramsLeather };
+  }
+
   // Leather `signPsbt`
   if (isLeather(provider) && method === 'signPsbt') {
     const paramsLeather = {
@@ -281,9 +313,16 @@ function serializeParams<M extends keyof Methods>(params: MethodParams<M>): Meth
   for (const [key, value] of Object.entries(params)) {
     if (!value) continue;
 
-    // Handle array of Clarity values
+    // Handle bigint values
+    if (typeof value === 'bigint') {
+      result[key] = value.toString();
+      continue;
+    }
+
+    // Handle array of Clarity values or bigints
     if (Array.isArray(value)) {
       result[key] = value.map(item => {
+        if (typeof item === 'bigint') return item.toString();
         if (item && typeof item === 'object' && 'type' in item) {
           return Cl.serialize(item);
         }
