@@ -27,7 +27,7 @@ yarn add @stacks/connect
 import { request } from '@stacks/connect';
 
 // CONNECT
-const response = await request('getAddresses');
+const response = await request({ forceWalletSelect: true }, 'getAddresses');
 ```
 
 ### Available methods <!-- omit in toc -->

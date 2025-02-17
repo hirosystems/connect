@@ -112,6 +112,13 @@ export interface GetAddressesParams {
   network?: NetworkString;
 }
 
+export interface SendTransferParams {
+  recipients: {
+    address: string;
+    amount: Integer;
+  }[];
+}
+
 export interface GetAccountsParams {
   network?: NetworkString;
 }
@@ -121,6 +128,10 @@ export interface UpdateProfileParams {
 }
 
 // RESULTS
+
+export interface TxidResult {
+  txid: string;
+}
 
 export interface TransactionResult {
   txid?: string;
@@ -139,6 +150,10 @@ export interface SignMessageResult {
 
 export interface GetAddressesResult {
   addresses: AddressEntry[];
+}
+
+export interface SendTransferResult {
+  txid: string;
 }
 
 export interface GetAccountsResult {
@@ -188,12 +203,12 @@ export type JsonRpcResponseError = {
 };
 
 // todo: double check spec
-export type JsonRpcResponse<M extends keyof Methods> = {
+export type JsonRpcResponse<M extends keyof MethodsRaw> = {
   jsonrpc: '2.0';
   id: string | number | null;
 } & (
   | {
-      result: Methods[M]['result'];
+      result: MethodsRaw[M]['result'];
     }
   | {
       error: JsonRpcResponseError;
@@ -202,13 +217,17 @@ export type JsonRpcResponse<M extends keyof Methods> = {
 
 export type Methods = {
   // BTC
-  signPsbt: {
-    params: SignPsbtParams;
-    result: SignPsbtResult;
-  };
   getAddresses: {
     params: GetAddressesParams;
     result: GetAddressesResult;
+  };
+  sendTransfer: {
+    params: SendTransferParams;
+    result: TxidResult;
+  };
+  signPsbt: {
+    params: SignPsbtParams;
+    result: SignPsbtResult;
   };
 
   // STX
@@ -261,3 +280,27 @@ export type Methods = {
 export type MethodParams<M extends keyof Methods> = Methods[M]['params'];
 
 export type MethodResult<M extends keyof Methods> = Methods[M]['result'];
+
+/** @internal */
+type TransformBigIntAndClarityToString<T> = T extends ClarityValue
+  ? string
+  : T extends bigint
+    ? string
+    : T extends (infer U)[]
+      ? TransformBigIntAndClarityToString<U>[]
+      : T extends object
+        ? {
+            [K in keyof T]: TransformBigIntAndClarityToString<T[K]>;
+          }
+        : T;
+
+export type MethodsRaw = {
+  [K in keyof Methods]: {
+    params: TransformBigIntAndClarityToString<Methods[K]['params']>;
+    result: TransformBigIntAndClarityToString<Methods[K]['result']>;
+  };
+};
+
+export type MethodParamsRaw<M extends keyof Methods> = MethodsRaw[M]['params'];
+
+export type MethodResultRaw<M extends keyof Methods> = MethodsRaw[M]['result'];

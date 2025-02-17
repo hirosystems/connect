@@ -1,8 +1,8 @@
-import { JsonRpcResponse, MethodParams, Methods } from '../methods';
+import { JsonRpcResponse, MethodParamsRaw, MethodsRaw } from '../methods';
 
 export interface StacksProvider {
-  request<M extends keyof Methods>(
+  request<M extends keyof MethodsRaw>(
     method: M,
-    params?: MethodParams<M>
+    params?: MethodParamsRaw<M>
   ): Promise<JsonRpcResponse<M>>;
 }
