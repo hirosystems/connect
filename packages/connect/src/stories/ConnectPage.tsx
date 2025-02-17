@@ -390,7 +390,7 @@ const LegacySignStructuredMessageForm = () => {
       // Create a structured message using Clarity values
       const clarityMessage = Cl.parse(message);
       const clarityDomain = Cl.tuple({
-        domain: Cl.stringAscii(domain),
+        name: Cl.stringAscii(domain),
         version: Cl.stringAscii('1.0.0'),
         'chain-id': Cl.uint(1),
       });
