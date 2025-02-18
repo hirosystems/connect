@@ -83,7 +83,7 @@ jobs:
         env:
           BRANCH: ${{ steps.git-branch.outputs.branch }}
           PREID: ${{ steps.preid.outputs.preid }}
-        run: npx lerna publish prepatch --preid $PREID --dist-tag $BRANCH --yes --no-push
+        run: npx lerna publish prepatch --preid $PREID --dist-tag pr --yes --no-push
       - name: Get package versions
         id: versions
         run: |
