@@ -1,0 +1,48 @@
+name: Cleanup NPM Dist Tags
+
+on:
+  push:
+    branches:
+      - chore/cleanup-npm-tags
+
+jobs:
+  cleanup-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Cleanup dist-tags for @stacks/connect
+        run: |
+          TAGS=$(npm dist-tag ls @stacks/connect | grep -v "latest:" | cut -d: -f1)
+          for tag in $TAGS; do
+            echo "Removing tag: $tag from @stacks/connect"
+            npm dist-tag rm @stacks/connect $tag
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Cleanup dist-tags for @stacks/connect-react
+        run: |
+          TAGS=$(npm dist-tag ls @stacks/connect-react | grep -v "latest:" | cut -d: -f1)
+          for tag in $TAGS; do
+            echo "Removing tag: $tag from @stacks/connect-react"
+            npm dist-tag rm @stacks/connect-react $tag
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Cleanup dist-tags for @stacks/connect-ui
+        run: |
+          TAGS=$(npm dist-tag ls @stacks/connect-ui | grep -v "latest:" | cut -d: -f1)
+          for tag in $TAGS; do
+            echo "Removing tag: $tag from @stacks/connect-ui"
+            npm dist-tag rm @stacks/connect-ui $tag
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
