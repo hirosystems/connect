@@ -186,6 +186,7 @@ export interface SignInputsByAddress {
 export interface SignPsbtParams {
   psbt: string;
   signInputs?: number[] | SignInputsByAddress[];
+  broadcast?: boolean;
 
   /** @experimental Might need a rename, when wallets adopt SIPs/WBIPs. */
   allowedSighash?: Sighash[];
