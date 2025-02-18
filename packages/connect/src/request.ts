@@ -217,6 +217,10 @@ export function requestRawLegacy<M extends keyof Methods, O, R>(
 // onFinish?: ProfileUpdateFinished;
 // onCancel?: ProfileUpdateCanceled;
 
+function isXverseLike(provider: StacksProvider): boolean {
+  return isXverse(provider) || isFordefi(provider);
+}
+
 function isXverse(provider: StacksProvider): boolean {
   return (
     // Best effort detection for Xverse
@@ -254,7 +258,7 @@ function getMethodOverrides<M extends keyof Methods>(
 
   // Xverse-ish wallets
   if (
-    (isXverse(provider) || isFordefi(provider)) &&
+    isXverseLike(provider) &&
     // Permission granting method
     ['getAddresses', 'stx_getAddresses'].includes(method)
   ) {
@@ -262,7 +266,7 @@ function getMethodOverrides<M extends keyof Methods>(
   }
 
   // Xverse-ish `sendTransfer`
-  if (isXverse(provider) && method === 'sendTransfer') {
+  if (isXverseLike(provider) && method === 'sendTransfer') {
     const paramsXverse = {
       ...params,
       recipients: (params as SendTransferParams).recipients.map(r => ({
