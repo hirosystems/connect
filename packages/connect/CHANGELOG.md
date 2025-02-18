@@ -1,5 +1,13 @@
 # Change Log
 
+## 8.0.2
+
+### Patch Changes
+
+- [#415](https://github.com/hirosystems/connect/pull/415) [`bcf50b4`](https://github.com/hirosystems/connect/commit/bcf50b4c58bc8fa1e8fb93b638482c679ebf9f81) Thanks [@janniks](https://github.com/janniks)! - Add missing broadcast argument for signPsbt
+
+- [#412](https://github.com/hirosystems/connect/pull/412) [`006af80`](https://github.com/hirosystems/connect/commit/006af801676661fc407722157a39052123fd3e16) Thanks [@janniks](https://github.com/janniks)! - Fix case where Xverse-like wallet isn't included in overrides
+
 ## 8.0.1
 
 ### Patch Changes
