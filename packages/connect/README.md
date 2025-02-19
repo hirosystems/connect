@@ -33,6 +33,8 @@ const response = await request({ forceWalletSelect: true }, 'getAddresses');
 ### Available methods <!-- omit in toc -->
 
 - [`getAddresses`](#getaddresses)
+- [`sendTransfer`](#sendtransfer)
+- [`signPsbt`](#signpsbt)
 - [`stx_getAddresses`](#stx_getaddresses)
 - [`stx_getAccounts`](#stx_getaccounts)
 - [`stx_transferStx`](#stx_transferstx)
@@ -60,6 +62,41 @@ const response = await request('getAddresses');
 //       "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304",
 //     }
 //   ]
+// }
+```
+
+#### `sendTransfer`
+
+```js
+const response = await request('sendTransfer', {
+  recipients: [
+    {
+      address: 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4', // recipient address
+      amount: '1000', // amount in sats
+    },
+    // You can specify multiple recipients
+    {
+      address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+      amount: '2000',
+    },
+  ],
+});
+// {
+//   "txid": "0x1234...", // The transaction ID
+// }
+```
+
+#### `signPsbt`
+
+```js
+const response = await request('signPsbt', {
+  psbt: 'cHNidP...', // base64 encoded PSBT string
+  signInputs: [{ index: 0, address }], // indices of inputs to sign (optional)
+  broadcast: false, // whether to broadcast the transaction after signing (optional)
+});
+// {
+//   "txid": "0x1234...", // The transaction ID (if broadcast is true)
+//   "psbt": "cHNidP..." // The signed PSBT in base64 format
 // }
 ```
 
