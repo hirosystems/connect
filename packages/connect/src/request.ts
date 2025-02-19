@@ -13,8 +13,9 @@ import {
 import { DEFAULT_PROVIDERS } from './providers';
 import { StacksProvider } from './types';
 import { base64 } from '@scure/base';
-import { bytesToHex } from '@stacks/common';
 import { Cl } from '@stacks/transactions';
+import { bytesToHex } from '@stacks/common';
+import { StorageData, setLocalStorageData } from './storage';
 
 export interface ConnectRequestOptions {
   /**
@@ -48,6 +49,12 @@ export interface ConnectRequestOptions {
    */
   enableOverrides?: boolean;
 
+  /**
+   * Enable local storage caching of addresses.
+   * Defaults to `true`.
+   */
+  enableLocalStorage?: boolean;
+
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
 
@@ -68,6 +75,34 @@ export async function requestRaw<M extends keyof MethodsRaw>(
     const code = error.code ?? JsonRpcErrorCode.UnknownError;
     throw new JsonRpcError(error.message, code, error.data, error);
   }
+}
+
+/**
+ * @internal Helper function that wraps requestRaw with local storage support
+ */
+function createRequestWithStorage(enableLocalStorage: boolean): typeof requestRaw {
+  if (!enableLocalStorage) return requestRaw;
+
+  return async function requestRawWithStorage<M extends keyof MethodsRaw>(
+    provider: StacksProvider,
+    method: M,
+    params?: MethodParamsRaw<M>
+  ): Promise<MethodResultRaw<M>> {
+    const result = await requestRaw(provider, method, params);
+    // Only store addresses if the request was successful (no error thrown)
+    if (method === 'stx_getAddresses' && 'addresses' in result) {
+      const { stx, btc } = result.addresses.reduce(
+        (acc, addr) => {
+          acc[addr.address.startsWith('S') ? 'stx' : 'btc'].push(addr);
+          return acc;
+        },
+        { stx: [], btc: [] } as StorageData['addresses']
+      );
+
+      setLocalStorageData({ addresses: { stx, btc } });
+    }
+    return result;
+  };
 }
 
 export async function request<M extends keyof Methods>(
@@ -95,9 +130,12 @@ export async function request<M extends keyof Methods>(
       forceWalletSelect: false,
       persistWalletSelect: true,
       enableOverrides: true,
+      enableLocalStorage: true,
     },
     shallowDefined(options)
   );
+
+  const req = createRequestWithStorage(opts.enableLocalStorage);
 
   // WITHOUT UI
   if (opts.provider && !opts.forceWalletSelect) {
@@ -107,7 +145,7 @@ export async function request<M extends keyof Methods>(
       params,
       opts.enableOverrides
     );
-    return await requestRaw(opts.provider, finalMethod as any, serializeParams(finalParams));
+    return await req(opts.provider, finalMethod as any, serializeParams(finalParams));
   }
 
   // WITH UI
@@ -139,7 +177,7 @@ export async function request<M extends keyof Methods>(
         opts.enableOverrides
       );
 
-      resolve(requestRaw(selectedProvider, finalMethod as any, serializeParams(finalParams)));
+      resolve(req(selectedProvider, finalMethod as any, serializeParams(finalParams)));
     };
 
     element.cancelCallback = () => {

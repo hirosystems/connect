@@ -34,7 +34,7 @@ export {
   openSTXTransfer,
   openSignTransaction,
 } from './transactions';
-export { request, requestRaw } from './request';
+export { request, requestRaw, getLocalStorage, clearLocalStorage } from './request';
 export { getStacksProvider, isStacksWalletInstalled } from './utils';
 
 // TODO: (next)
