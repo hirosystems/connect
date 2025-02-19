@@ -226,7 +226,7 @@ const response = await request('stx_signStructuredMessage', {
 
 ### `request`
 
-The `request` method can be called with an optional options object as the first parameter:
+The `request` method is called with an optional options object as the first parameter:
 
 ```ts
 import { request } from '@stacks/connect';
