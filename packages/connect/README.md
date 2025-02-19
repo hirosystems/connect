@@ -13,6 +13,8 @@ npm install @stacks/connect@7.10.1
 
 ## Getting Started <!-- omit in toc -->
 
+> Try the [Connect Method Demo App 🏁](https://connect-hirosystems.vercel.app/iframe?id=connect-connect--default&viewMode=story) to see which methods/features are available for wallets
+
 ### Install `@stacks/connect` <!-- omit in toc -->
 
 ```shell
