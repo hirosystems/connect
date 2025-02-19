@@ -11,7 +11,7 @@ npm install @stacks/connect@7.10.1
 
 ---
 
-## Getting Started <!-- omit in toc -->
+## Usage <!-- omit in toc -->
 
 > Try the [Connect Method Demo App 🏁](https://connect-hirosystems.vercel.app/iframe?id=connect-connect--default&viewMode=story) to see which methods/features are available for wallets
 
@@ -221,3 +221,46 @@ const response = await request('stx_signStructuredMessage', {
 //   "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304" // The public key that signed the message
 // }
 ```
+
+## Advanced Usage
+
+### `request`
+
+The `request` method can be called with an optional options object as the first parameter:
+
+```ts
+import { request } from '@stacks/connect';
+
+// WITH options
+const response = await request(
+  {
+    provider?: StacksProvider;        // Custom provider to use for the request
+    defaultProviders?: WbipProvider[]; // Default wallets to display in modal
+    forceWalletSelect?: boolean;      // Force user to select a wallet (default: false)
+    persistWalletSelect?: boolean;     // Persist selected wallet (default: true)
+    enableOverrides?: boolean;         // Enable provider compatibility (default: true)
+  },
+  'method',
+  params
+);
+
+// WITHOUT options
+const response = await request('method', params);
+```
+
+> The `enableOverrides` option enables automatic compatibility fixes for different wallet providers.
+> For example, it handles converting numeric types between string and number formats as needed by different wallets, and remaps certain method names to match wallet-specific implementations.
+> This ensures consistent behavior across different wallet providers without requiring manual adjustments.
+
+### `requestRaw`
+
+The `requestRaw` method provides direct access to wallet providers without the additional features of `request`:
+
+```ts
+import { requestRaw } from '@stacks/connect';
+
+const response = await requestRaw(provider, 'method', params);
+```
+
+> Note: `requestRaw` bypasses the UI wallet selector, automatic provider compatibility fixes, and other features that come with `request`.
+> Use this when you need more manual control over the wallet interaction process.
