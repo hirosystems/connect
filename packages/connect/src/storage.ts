@@ -7,8 +7,8 @@ export const LOCAL_STORAGE_KEY = '@stacks/connect';
 
 export interface StorageData {
   addresses: {
-    stx: AddressEntry[];
-    btc: AddressEntry[];
+    stx: Omit<AddressEntry, 'publicKey'>[];
+    btc: Omit<AddressEntry, 'publicKey'>[];
   };
   updatedAt?: number;
   version: string;
@@ -24,19 +24,24 @@ const INITIAL_STORAGE: StorageData = {
 };
 
 /**
- * @internal Helper to deduplicate address entries by address
+ * @internal Helper to deduplicate address entries and strip sensitive data
  */
-export const deduplicateAddresses = (addresses: AddressEntry[]): AddressEntry[] => [
-  ...new Map(addresses.map(a => [a.address, a])).values(),
-];
+export const normalizeAddresses = (
+  addresses: AddressEntry[]
+): Omit<AddressEntry, 'publicKey'>[] => {
+  const deduped = [...new Map(addresses.map(a => [a.address, a])).values()];
+  return deduped.map(({ publicKey, ...rest }) => rest);
+};
 
 /**
  * @internal Helper to safely store data in localStorage
  */
-export function setLocalStorageData(data: Partial<Pick<StorageData, 'addresses'>>) {
+export function setLocalStorageData(data: {
+  addresses?: { stx?: AddressEntry[]; btc?: AddressEntry[] };
+}) {
   try {
-    const existingData = getLocalStorage();
-    const current: StorageData = existingData || INITIAL_STORAGE;
+    const existing = getLocalStorage();
+    const current: StorageData = existing || INITIAL_STORAGE;
 
     const updated = {
       ...current,
@@ -46,10 +51,16 @@ export function setLocalStorageData(data: Partial<Pick<StorageData, 'addresses'>
         ...(data.addresses && {
           stx:
             data.addresses.stx &&
-            deduplicateAddresses([...current.addresses.stx, ...data.addresses.stx]),
+            normalizeAddresses([
+              ...(current.addresses.stx as AddressEntry[]),
+              ...data.addresses.stx,
+            ]),
           btc:
             data.addresses.btc &&
-            deduplicateAddresses([...current.addresses.btc, ...data.addresses.btc]),
+            normalizeAddresses([
+              ...(current.addresses.btc as AddressEntry[]),
+              ...data.addresses.btc,
+            ]),
         }),
       },
     };
