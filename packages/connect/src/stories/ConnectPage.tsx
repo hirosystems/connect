@@ -6,7 +6,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { UserSession } from '../auth';
 import { request } from '../request';
 import {
-  disconnect,
   showConnect,
   showContractCall,
   showContractDeploy,
@@ -16,6 +15,7 @@ import {
   showSTXTransfer,
 } from '../ui';
 import './connect.css';
+import { disconnect } from '../storage';
 
 declare global {
   interface BigInt {
