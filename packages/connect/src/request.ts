@@ -1,5 +1,8 @@
+import { base64 } from '@scure/base';
+import { bytesToHex } from '@stacks/common';
 import { getInstalledProviders, getProvider, WbipProvider } from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
+import { Cl } from '@stacks/transactions';
 import { JsonRpcError, JsonRpcErrorCode } from './errors';
 import {
   MethodParams,
@@ -11,11 +14,8 @@ import {
   SendTransferParams,
 } from './methods';
 import { DEFAULT_PROVIDERS } from './providers';
+import { setLocalStorageData } from './storage';
 import { StacksProvider } from './types';
-import { base64 } from '@scure/base';
-import { Cl } from '@stacks/transactions';
-import { bytesToHex } from '@stacks/common';
-import { StorageData, setLocalStorageData } from './storage';
 
 export interface ConnectRequestOptions {
   /**
@@ -96,7 +96,7 @@ function createRequestWithStorage(enableLocalStorage: boolean): typeof requestRa
           acc[addr.address.startsWith('S') ? 'stx' : 'btc'].push(addr);
           return acc;
         },
-        { stx: [], btc: [] } as StorageData['addresses']
+        { stx: [], btc: [] }
       );
 
       setLocalStorageData({ addresses: { stx, btc } });
