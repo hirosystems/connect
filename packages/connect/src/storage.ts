@@ -1,4 +1,6 @@
-import { bytesToHex, hexToBytes, bytesToUtf8, utf8ToBytes } from '@stacks/common';
+import { bytesToHex, bytesToUtf8, hexToBytes, utf8ToBytes } from '@stacks/common';
+import { clearSelectedProviderId } from '@stacks/connect-ui';
+import { UserSession } from './auth';
 import { AddressEntry } from './methods';
 
 export const LOCAL_STORAGE_KEY = '@stacks/connect';
@@ -12,7 +14,8 @@ export interface StorageData {
   version: string;
 }
 
-export const INITIAL_STORAGE: StorageData = {
+/** @internal */
+const INITIAL_STORAGE: StorageData = {
   addresses: {
     stx: [],
     btc: [],
@@ -79,4 +82,21 @@ export function getLocalStorage(): StorageData | null {
     console.warn('Failed to get data from localStorage:', error);
     return null;
   }
+}
+
+/** Disconnect selected wallet, clear session data and potentially clear local storage. */
+export function disconnect() {
+  clearSelectedProviderId();
+  clearLocalStorage();
+  new UserSession().store.deleteSessionData();
+}
+
+/**
+ * Checks if the user is connected.
+ * Aka has successfully connected to a wallet and received an address.
+ * This requires the {@link request} method to have been called with `enableLocalStorage: true`.
+ */
+export function isConnected(): boolean {
+  const storage = getLocalStorage();
+  return storage?.addresses.stx.length > 0 || storage?.addresses.btc.length > 0;
 }
