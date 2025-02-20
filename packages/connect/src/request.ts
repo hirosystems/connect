@@ -105,6 +105,35 @@ function createRequestWithStorage(enableLocalStorage: boolean): typeof requestRa
   };
 }
 
+/**
+ * The main `request` method for interacting with wallets.
+ * This method adds automatic error handling, request parameter serialization, and optional local storage.
+ * For more advanced use cases, consider using the {@link requestRaw} method directly.
+ *
+ * @example
+ * ```
+ * // Send BTC
+ * const result = await request('sendTransfer', {
+ *   recipients: [{
+ *     address: 'bc1...',
+ *     amount: 100_000_000n, // 1 BTC = 100,000,000 sats
+ *   }],
+ * });
+ * ```
+ *
+ * @example
+ * ```
+ * // Optional features
+ * const result = await request({
+ *   provider: MyCustomProvider,
+ *   defaultProviders: [MyCustomProvider, ...],
+ *   forceWalletSelect: false,
+ *   persistWalletSelect: true,
+ *   enableOverrides: true,
+ *   enableLocalStorage: true,
+ * }, 'method', params);
+ * ```
+ */
 export async function request<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
@@ -209,6 +238,14 @@ function requestArgs<M extends keyof Methods>(
 } {
   if (typeof args[0] === 'string') return { method: args[0], params: args[1] as MethodParams<M> };
   return { options: args[0], method: args[1] as M, params: args[2] };
+}
+
+/**
+ * Initiate a wallet connection and request addresses.
+ * Alias for `request` to `getAddresses` with `forceWalletSelect: true`.
+ */
+export function connect(options?: ConnectRequestOptions) {
+  return request({ ...options, forceWalletSelect: true }, 'getAddresses');
 }
 
 /**

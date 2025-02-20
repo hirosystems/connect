@@ -21,9 +21,54 @@ pnpm install @stacks/connect
 yarn add @stacks/connect
 ```
 
+### Connect to a wallet <!-- omit in toc -->
+
+Initiate a wallet connection and request addresses.
+
+```ts
+import { connect } from '@stacks/connect';
+
+const response = await connect(); // stores users address in local storage by default
+```
+
+Get the local storage data (stored by a `connect` call).
+
+```ts
+import { getLocalStorage } from '@stacks/connect';
+
+const data = getLocalStorage();
+// {
+//   "addresses": {
+//     "stx": [
+//       {
+//         "address": "SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN",
+//         "publicKey": "02d3331cbb9f72fe635e6f87c2cf1a13cdea520f08c0cc68584a96e8ac19d8d304"
+//       }
+//     ],
+//     "btc": [
+//       {
+//         "address": "bc1pp3ha248m0mnaevhp0txfxj5xaxmy03h0j7zuj2upg34mt7s7e32q7mdfae",
+//         "publicKey": "062bd2c825300d74f4f9feb6b2fec2590beac02b8938f0fc042a34254581ee69"
+//       }
+//     ]
+//   }
+```
+
+Managing the connection state.
+
+```ts
+import { connect, disconnect, isConnected } from '@stacks/connect';
+
+isConnected(); // false
+await connect(); // similar to the `getAddresses` method
+isConnected(); // true
+disconnect(); // clears local storage and selected wallet
+isConnected(); // false
+```
+
 ### Use `request` to trigger wallet interactions <!-- omit in toc -->
 
-```js
+```ts
 import { request } from '@stacks/connect';
 
 // CONNECT
@@ -43,7 +88,7 @@ const response = await request({ forceWalletSelect: true }, 'getAddresses');
 
 #### `getAddresses`
 
-```js
+```ts
 const response = await request('getAddresses');
 // {
 //   "addresses": [
@@ -65,7 +110,7 @@ const response = await request('getAddresses');
 
 #### `stx_getAddresses`
 
-```js
+```ts
 const response = await request('stx_getAddresses');
 // {
 //   "addresses": [
@@ -87,7 +132,7 @@ const response = await request('stx_getAddresses');
 
 #### `stx_getAccounts`
 
-```js
+```ts
 const response = await request('stx_getAccounts');
 // {
 //   "addresses": [
@@ -103,7 +148,7 @@ const response = await request('stx_getAccounts');
 
 #### `stx_transferStx`
 
-```js
+```ts
 const response = await request('stx_transferStx', {
   amount: '1000', // amount in micro-STX (1 STX = 1,000,000 micro-STX)
   recipient: 'SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN', // recipient address
@@ -117,7 +162,7 @@ const response = await request('stx_transferStx', {
 
 #### `stx_callContract`
 
-```js
+```ts
 const response = await request('stx_callContract', {
   contract: 'SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN.counters', // contract in format: address.contract-name
   functionName: 'count', // name of the function to call
@@ -131,7 +176,7 @@ const response = await request('stx_callContract', {
 
 #### `stx_deployContract`
 
-```js
+```ts
 const response = await request('stx_deployContract', {
   name: 'counters', // name of the contract
   clarityCode: `(define-map counters principal int)
@@ -153,7 +198,7 @@ const response = await request('stx_deployContract', {
 
 #### `stx_signMessage`
 
-```js
+```ts
 const response = await request('stx_signMessage', {
   message: 'Hello, World!', // message to sign
 });
@@ -165,7 +210,7 @@ const response = await request('stx_signMessage', {
 
 #### `stx_signStructuredMessage`
 
-```js
+```ts
 const clarityMessage = Cl.parse('{ structured: "message", num: u3 }');
 const clarityDomain = Cl.tuple({
   domain: Cl.stringAscii('example.com'),
