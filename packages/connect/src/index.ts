@@ -35,7 +35,13 @@ export {
   openSignTransaction,
 } from './transactions';
 export { request, requestRaw } from './request';
-export { getLocalStorage, clearLocalStorage, StorageData } from './storage';
+export {
+  getLocalStorage,
+  clearLocalStorage,
+  StorageData,
+  disconnect,
+  isConnected,
+} from './storage';
 export { getStacksProvider, isStacksWalletInstalled } from './utils';
 
 // TODO: (next)
