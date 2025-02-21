@@ -3,8 +3,8 @@ import { getSelectedProviderId } from '@stacks/connect-ui';
 import { Cl } from '@stacks/transactions';
 import { useReducer, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { UserSession } from '../auth';
-import { request } from '../request';
+import { AppConfig, UserSession } from '../auth';
+import { connect, request } from '../request';
 import {
   showConnect,
   showContractCall,
@@ -15,7 +15,7 @@ import {
   showSTXTransfer,
 } from '../ui';
 import './connect.css';
-import { disconnect } from '../storage';
+import { disconnect, isConnected } from '../storage';
 
 declare global {
   interface BigInt {
@@ -27,7 +27,7 @@ BigInt.prototype.toJSON = function () {
   return this.toString();
 };
 
-const userSession = new UserSession();
+const userSession = new UserSession({ appConfig: new AppConfig() });
 
 const appDetails = {
   name: 'Connect',
@@ -1044,6 +1044,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
             } else {
               void showConnect({
                 appDetails,
+                userSession,
                 onFinish: d => {
                   setConnectResponse(d);
                   refresh();
@@ -1060,7 +1061,26 @@ export const ConnectPage = ({ children }: { children?: any }) => {
             backgroundColor: isSignedIn ? 'grey' : 'black',
           }}
         >
-          {isSignedIn ? 'Disconnect' : 'Connect'}
+          {isSignedIn ? 'Disconnect' : <code>`showConnect()`</code>}
+        </button>
+
+        <button
+          className="connect"
+          onClick={() => {
+            if (isConnected()) {
+              disconnect();
+              setConnectResponse(null);
+              refresh();
+              return;
+            }
+
+            void connect().then(setConnectResponse).then(refresh);
+          }}
+          style={{
+            backgroundColor: isConnected() ? 'grey' : 'black',
+          }}
+        >
+          {isConnected() ? 'Disconnect' : <code>`connect()`</code>}
         </button>
       </header>
 
@@ -1079,7 +1099,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
           )}
         </section>
 
-        {isSignedIn && (
+        {(isSignedIn || isConnected()) && (
           <>
             <br />
 

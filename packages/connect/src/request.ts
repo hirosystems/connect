@@ -89,8 +89,7 @@ function createRequestWithStorage(enableLocalStorage: boolean): typeof requestRa
     params?: MethodParamsRaw<M>
   ): Promise<MethodResultRaw<M>> {
     const result = await requestRaw(provider, method, params);
-    // Only store addresses if the request was successful (no error thrown)
-    if (method === 'stx_getAddresses' && 'addresses' in result) {
+    if (method === 'getAddresses' && 'addresses' in result) {
       const { stx, btc } = result.addresses.reduce(
         (acc, addr) => {
           acc[addr.address.startsWith('S') ? 'stx' : 'btc'].push(addr);
