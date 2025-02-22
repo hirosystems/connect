@@ -1,5 +1,19 @@
 # Change Log
 
+## 8.1.0
+
+### Minor Changes
+
+- [#417](https://github.com/hirosystems/connect/pull/417) [`eeeeef6`](https://github.com/hirosystems/connect/commit/eeeeef62cf2fb780190653f28213994f3d707446) Thanks [@janniks](https://github.com/janniks)! - Add local storage features: `isConnected`, `getLocalStorage` and cache address requests
+
+- [#417](https://github.com/hirosystems/connect/pull/417) [`eeeeef6`](https://github.com/hirosystems/connect/commit/eeeeef62cf2fb780190653f28213994f3d707446) Thanks [@janniks](https://github.com/janniks)! - Add localstorage helpers to ease migration
+
+### Patch Changes
+
+- [#420](https://github.com/hirosystems/connect/pull/420) [`2e7eff5`](https://github.com/hirosystems/connect/commit/2e7eff5e5b5c935a937e55ba0c8b0eca76c9f5eb) Thanks [@janniks](https://github.com/janniks)! - Fix faulty param serialization
+
+- [#417](https://github.com/hirosystems/connect/pull/417) [`eeeeef6`](https://github.com/hirosystems/connect/commit/eeeeef62cf2fb780190653f28213994f3d707446) Thanks [@janniks](https://github.com/janniks)! - Add `connect` method as alias for default connection request
+
 ## 8.0.2
 
 ### Patch Changes
