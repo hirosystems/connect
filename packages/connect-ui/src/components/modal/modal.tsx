@@ -1,6 +1,5 @@
 import { Component, Element, Prop, h } from '@stencil/core';
-import { WbipProvider, getProviderFromId } from '../../providers';
-import { setSelectedProviderId } from '../../session';
+import { WbipProvider } from '../../providers';
 import CloseIcon from './assets/close-icon.svg';
 import { getBrowser, getPlatform } from './utils';
 
@@ -14,16 +13,13 @@ export class Modal {
   @Prop() defaultProviders: WbipProvider[];
   @Prop() installedProviders: WbipProvider[];
 
-  @Prop() persistWalletSelect: boolean;
-
   @Prop() callback: Function;
   @Prop() cancelCallback: Function;
 
   @Element() modalEl: HTMLConnectModalElement;
 
   handleSelectProvider(providerId: string) {
-    if (this.persistWalletSelect) setSelectedProviderId(providerId);
-    this.callback(getProviderFromId(providerId));
+    this.callback(providerId);
   }
 
   handleCloseModal() {
