@@ -14,6 +14,7 @@ import {
   SendTransferParams,
 } from './methods';
 import { DEFAULT_PROVIDERS } from './providers';
+import { setLocalStorageData } from './storage';
 import { StacksProvider } from './types';
 
 export interface ConnectRequestOptions {
@@ -48,6 +49,12 @@ export interface ConnectRequestOptions {
    */
   enableOverrides?: boolean;
 
+  /**
+   * Enable local storage caching of addresses.
+   * Defaults to `true`.
+   */
+  enableLocalStorage?: boolean;
+
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
 
@@ -70,6 +77,62 @@ export async function requestRaw<M extends keyof MethodsRaw>(
   }
 }
 
+/**
+ * @internal Helper function that wraps requestRaw with local storage support
+ */
+function createRequestWithStorage(enableLocalStorage: boolean): typeof requestRaw {
+  if (!enableLocalStorage) return requestRaw;
+
+  return async function requestRawWithStorage<M extends keyof MethodsRaw>(
+    provider: StacksProvider,
+    method: M,
+    params?: MethodParamsRaw<M>
+  ): Promise<MethodResultRaw<M>> {
+    const result = await requestRaw(provider, method, params);
+    if (method === 'getAddresses' && 'addresses' in result) {
+      const { stx, btc } = result.addresses.reduce(
+        (acc, addr) => {
+          acc[addr.address.startsWith('S') ? 'stx' : 'btc'].push(addr);
+          return acc;
+        },
+        { stx: [], btc: [] }
+      );
+
+      setLocalStorageData({ addresses: { stx, btc } });
+    }
+    return result;
+  };
+}
+
+/**
+ * The main `request` method for interacting with wallets.
+ * This method adds automatic error handling, request parameter serialization, and optional local storage.
+ * For more advanced use cases, consider using the {@link requestRaw} method directly.
+ *
+ * @example
+ * ```
+ * // Send BTC
+ * const result = await request('sendTransfer', {
+ *   recipients: [{
+ *     address: 'bc1...',
+ *     amount: 100_000_000n, // 1 BTC = 100,000,000 sats
+ *   }],
+ * });
+ * ```
+ *
+ * @example
+ * ```
+ * // Optional features
+ * const result = await request({
+ *   provider: MyCustomProvider,
+ *   defaultProviders: [MyCustomProvider, ...],
+ *   forceWalletSelect: false,
+ *   persistWalletSelect: true,
+ *   enableOverrides: true,
+ *   enableLocalStorage: true,
+ * }, 'method', params);
+ * ```
+ */
 export async function request<M extends keyof Methods>(
   method: M,
   params?: MethodParams<M>
@@ -95,9 +158,12 @@ export async function request<M extends keyof Methods>(
       forceWalletSelect: false,
       persistWalletSelect: true,
       enableOverrides: true,
+      enableLocalStorage: true,
     },
     shallowDefined(options)
   );
+
+  const req = createRequestWithStorage(opts.enableLocalStorage);
 
   // WITHOUT UI
   if (opts.provider && !opts.forceWalletSelect) {
@@ -107,7 +173,7 @@ export async function request<M extends keyof Methods>(
       params,
       opts.enableOverrides
     );
-    return await requestRaw(opts.provider, finalMethod as any, serializeParams(finalParams));
+    return await req(opts.provider, finalMethod as any, serializeParams(finalParams));
   }
 
   // WITH UI
@@ -139,7 +205,7 @@ export async function request<M extends keyof Methods>(
         opts.enableOverrides
       );
 
-      resolve(requestRaw(selectedProvider, finalMethod as any, serializeParams(finalParams)));
+      resolve(req(selectedProvider, finalMethod as any, serializeParams(finalParams)));
     };
 
     element.cancelCallback = () => {
@@ -171,6 +237,14 @@ function requestArgs<M extends keyof Methods>(
 } {
   if (typeof args[0] === 'string') return { method: args[0], params: args[1] as MethodParams<M> };
   return { options: args[0], method: args[1] as M, params: args[2] };
+}
+
+/**
+ * Initiate a wallet connection and request addresses.
+ * Alias for `request` to `getAddresses` with `forceWalletSelect: true`.
+ */
+export function connect(options?: ConnectRequestOptions) {
+  return request({ ...options, forceWalletSelect: true }, 'getAddresses');
 }
 
 /**
