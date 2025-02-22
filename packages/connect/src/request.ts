@@ -2,7 +2,7 @@ import { base64 } from '@scure/base';
 import { bytesToHex } from '@stacks/common';
 import { getInstalledProviders, getProvider, WbipProvider } from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
-import { Cl } from '@stacks/transactions';
+import { Cl, PostCondition, postConditionToHex } from '@stacks/transactions';
 import { JsonRpcError, JsonRpcErrorCode } from './errors';
 import {
   MethodParams,
@@ -379,39 +379,49 @@ function getMethodOverrides<M extends keyof Methods>(
   return { method, params };
 }
 
+const POST_CONDITIONS = [
+  'stx-postcondition',
+  'ft-postcondition',
+  'nft-postcondition',
+] satisfies PostCondition['type'][];
+
 /**
  * @internal
  * Simple function for serializing clarity object values to hex strings, in case wallets don't support them.
  */
-function serializeParams<M extends keyof Methods>(params: MethodParams<M>): MethodParams<M> {
+export function serializeParams<M extends keyof Methods>(params: MethodParams<M>): MethodParams<M> {
   if (!params || typeof params !== 'object') return params;
 
   const result = { ...params };
 
   for (const [key, value] of Object.entries(params)) {
-    if (!value) continue;
-
     // Handle bigint values
     if (typeof value === 'bigint') {
       result[key] = value.toString();
       continue;
     }
 
-    // Handle array of Clarity values or bigints
+    // Keep original value, don't override
+    if (!value) continue;
+
+    // Handle array of things
     if (Array.isArray(value)) {
       result[key] = value.map(item => {
         if (typeof item === 'bigint') return item.toString();
-        if (item && typeof item === 'object' && 'type' in item) {
-          return Cl.serialize(item);
-        }
-        return item;
+        if (!item || typeof item !== 'object' || !('type' in item)) return item;
+        if (POST_CONDITIONS.includes(item.type)) return postConditionToHex(item);
+        return Cl.serialize(item);
       });
       continue;
     }
 
-    // Handle direct Clarity value
+    // Handle things
     if (typeof value === 'object' && 'type' in value) {
-      result[key] = Cl.serialize(value);
+      result[key] = POST_CONDITIONS.includes(value.type)
+        ? // Post condition
+          postConditionToHex(value)
+        : // Clarity value
+          Cl.serialize(value);
     }
   }
 
