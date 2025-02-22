@@ -1,5 +1,14 @@
 # Change Log
 
+## 8.1.1
+
+### Patch Changes
+
+- [#422](https://github.com/hirosystems/connect/pull/422) [`886746b`](https://github.com/hirosystems/connect/commit/886746b53815d1370938e1b4d385fa589ee61b42) Thanks [@janniks](https://github.com/janniks)! - Only persist wallet selection on success case
+
+- Updated dependencies [[`886746b`](https://github.com/hirosystems/connect/commit/886746b53815d1370938e1b4d385fa589ee61b42)]:
+  - @stacks/connect-ui@8.0.0
+
 ## 8.1.0
 
 ### Minor Changes
