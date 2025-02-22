@@ -1,6 +1,12 @@
 import { base64 } from '@scure/base';
 import { bytesToHex } from '@stacks/common';
-import { getInstalledProviders, getProvider, WbipProvider } from '@stacks/connect-ui';
+import {
+  getInstalledProviders,
+  getProvider,
+  getProviderFromId,
+  setSelectedProviderId,
+  WbipProvider,
+} from '@stacks/connect-ui';
 import { defineCustomElements } from '@stacks/connect-ui/loader';
 import { Cl } from '@stacks/transactions';
 import { JsonRpcError, JsonRpcErrorCode } from './errors';
@@ -185,7 +191,6 @@ export async function request<M extends keyof Methods>(
     const element = document.createElement('connect-modal');
     element.defaultProviders = opts.defaultProviders;
     element.installedProviders = getInstalledProviders(opts.defaultProviders);
-    element.persistWalletSelect = opts.persistWalletSelect;
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -195,8 +200,10 @@ export async function request<M extends keyof Methods>(
       document.body.style.overflow = originalOverflow;
     };
 
-    element.callback = (selectedProvider: StacksProvider | undefined) => {
+    element.callback = (selectedProviderId: string | undefined) => {
       closeModal();
+
+      const selectedProvider = getProviderFromId(selectedProviderId);
 
       const { method: finalMethod, params: finalParams } = getMethodOverrides(
         selectedProvider,
@@ -205,7 +212,8 @@ export async function request<M extends keyof Methods>(
         opts.enableOverrides
       );
 
-      resolve(req(selectedProvider, finalMethod as any, serializeParams(finalParams)));
+      const proxy = createPersistProviderProxy(opts.persistWalletSelect, selectedProviderId);
+      resolve(req(selectedProvider, finalMethod as any, serializeParams(finalParams)).then(proxy));
     };
 
     element.cancelCallback = () => {
@@ -383,7 +391,7 @@ function getMethodOverrides<M extends keyof Methods>(
  * @internal
  * Simple function for serializing clarity object values to hex strings, in case wallets don't support them.
  */
-function serializeParams<M extends keyof Methods>(params: MethodParams<M>): MethodParams<M> {
+export function serializeParams<M extends keyof Methods>(params: MethodParams<M>): MethodParams<M> {
   if (!params || typeof params !== 'object') return params;
 
   const result = { ...params };
@@ -416,4 +424,19 @@ function serializeParams<M extends keyof Methods>(params: MethodParams<M>): Meth
   }
 
   return result;
+}
+
+/** @internal Higher order function for persisting the selected provider */
+function createPersistProviderProxy(shouldPersist: boolean, providerId: string) {
+  return function persistProvider<T>(result: T) {
+    if (shouldPersist) {
+      try {
+        setSelectedProviderId(providerId);
+      } catch (e) {
+        // ignore errors
+      }
+    }
+
+    return result;
+  };
 }

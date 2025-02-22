@@ -7,13 +7,12 @@
 
 ## Properties
 
-| Property              | Attribute               | Description | Type             | Default     |
-| --------------------- | ----------------------- | ----------- | ---------------- | ----------- |
-| `callback`            | --                      |             | `Function`       | `undefined` |
-| `cancelCallback`      | --                      |             | `Function`       | `undefined` |
-| `defaultProviders`    | --                      |             | `WbipProvider[]` | `undefined` |
-| `installedProviders`  | --                      |             | `WbipProvider[]` | `undefined` |
-| `persistWalletSelect` | `persist-wallet-select` |             | `boolean`        | `undefined` |
+| Property             | Attribute | Description | Type             | Default     |
+| -------------------- | --------- | ----------- | ---------------- | ----------- |
+| `callback`           | --        |             | `Function`       | `undefined` |
+| `cancelCallback`     | --        |             | `Function`       | `undefined` |
+| `defaultProviders`   | --        |             | `WbipProvider[]` | `undefined` |
+| `installedProviders` | --        |             | `WbipProvider[]` | `undefined` |
 
 
 ----------------------------------------------
