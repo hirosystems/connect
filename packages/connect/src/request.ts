@@ -355,6 +355,7 @@ function getMethodOverrides<M extends keyof Methods>(
         ...r,
         amount: Number(r.amount), // Xverse expects amount as number
       })),
+      network: undefined, // strip network until Xverse adds it as optional
     };
     return { method, params: paramsXverse };
   }
