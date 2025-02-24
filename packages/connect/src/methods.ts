@@ -177,7 +177,7 @@ export type Sighash = 'ALL' | 'NONE' | 'SINGLE' | 'ANYONECANPAY';
 
 export interface SignInputsByAddress {
   index: number;
-  address?: string;
+  address: string; // todo: make optional again when Xverse adopts it
   publicKey?: string;
 
   /** @experimental Might need a rename, when wallets adopt SIPs/WBIPs. */
@@ -188,6 +188,7 @@ export interface SignPsbtParams {
   psbt: string;
   signInputs?: number[] | SignInputsByAddress[];
   broadcast?: boolean;
+  network?: NetworkString;
 
   /** @experimental Might need a rename, when wallets adopt SIPs/WBIPs. */
   allowedSighash?: Sighash[];
