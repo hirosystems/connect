@@ -360,6 +360,31 @@ function getMethodOverrides<M extends keyof Methods>(
     return { method, params: paramsXverse };
   }
 
+  // Xverse-ish `signPsbt`
+  if (isXverseLike(provider) && method === 'signPsbt') {
+    const signInputs = (params as MethodParams<'signPsbt'>).signInputs;
+    if (!signInputs) return { method, params };
+
+    // Transform array of SignInputsByAddress into Record<string, number[]>
+    const signRecord: Record<string, number[]> = {};
+    for (const input of signInputs) {
+      if (typeof input === 'number') continue; // Skip plain numbers
+      if (!input.address) continue; // Skip entries without address
+
+      if (!signRecord[input.address]) signRecord[input.address] = [];
+
+      signRecord[input.address].push(input.index);
+    }
+
+    const paramsXverse = {
+      psbt: (params as MethodParams<'signPsbt'>).psbt,
+      signInputs: signRecord,
+      broadcast: (params as MethodParams<'signPsbt'>).broadcast,
+      // todo: add `network` when Xverse supports it
+    };
+    return { method, params: paramsXverse };
+  }
+
   // Leather `sendTransfer`
   if (isLeather(provider) && method === 'sendTransfer') {
     const paramsLeather = {
@@ -381,6 +406,8 @@ function getMethodOverrides<M extends keyof Methods>(
         return i.index;
       }),
       allowedSighash: (params as MethodParams<'signPsbt'>).allowedSighash,
+      broadcast: (params as MethodParams<'signPsbt'>).broadcast,
+      network: (params as MethodParams<'signPsbt'>).network,
     };
     return { method, params: paramsLeather };
   }
