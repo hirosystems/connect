@@ -34,7 +34,7 @@ export {
   openSTXTransfer,
   openSignTransaction,
 } from './transactions';
-export { request, requestRaw } from './request';
+export { connect, request, requestRaw } from './request';
 export {
   getLocalStorage,
   clearLocalStorage,
