@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.3
+
+### Patch Changes
+
+- [#427](https://github.com/hirosystems/connect/pull/427) [`b0f8251`](https://github.com/hirosystems/connect/commit/b0f8251ac7daf16d05c77885c45d004cedef4302) Thanks [@janniks](https://github.com/janniks)! - Add missing export
+
 ## 8.1.2
 
 ### Patch Changes
