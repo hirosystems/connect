@@ -1,5 +1,13 @@
 # Change Log
 
+## 8.1.2
+
+### Patch Changes
+
+- [#426](https://github.com/hirosystems/connect/pull/426) [`3866f88`](https://github.com/hirosystems/connect/commit/3866f888755a344041a797c2553854db45a9f76d) Thanks [@janniks](https://github.com/janniks)! - Fix signPsbt overrides for Xverse and Leather
+
+- [#424](https://github.com/hirosystems/connect/pull/424) [`ebe41f7`](https://github.com/hirosystems/connect/commit/ebe41f733a49293429a82e7710b679d0762ad40b) Thanks [@janniks](https://github.com/janniks)! - Strip `network` from sendTransfer method on Xverse-like wallets
+
 ## 8.1.1
 
 ### Patch Changes
