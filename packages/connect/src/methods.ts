@@ -117,6 +117,7 @@ export interface SendTransferParams {
     address: string;
     amount: Integer;
   }[];
+  network?: NetworkString;
 }
 
 export interface GetAccountsParams {
