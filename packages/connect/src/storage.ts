@@ -30,7 +30,12 @@ export const normalizeAddresses = (
   addresses: AddressEntry[]
 ): Omit<AddressEntry, 'publicKey'>[] => {
   const deduped = [...new Map(addresses.map(a => [a.address, a])).values()];
-  return deduped.map(({ publicKey, ...rest }) => rest);
+  return deduped.map(({ ...a }) => {
+    if ('publicKey' in a) delete a.publicKey;
+    if ('derivationPath' in a) delete a.derivationPath;
+    if ('tweakedPublicKey' in a) delete a.tweakedPublicKey;
+    return a;
+  });
 };
 
 /**
