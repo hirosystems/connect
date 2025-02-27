@@ -11,6 +11,7 @@ import { defineCustomElements } from '@stacks/connect-ui/loader';
 import { Cl, PostCondition, postConditionToHex } from '@stacks/transactions';
 import { JsonRpcError, JsonRpcErrorCode } from './errors';
 import {
+  AddressEntry,
   MethodParams,
   MethodParamsRaw,
   MethodResult,
@@ -95,8 +96,11 @@ function createRequestWithStorage(enableLocalStorage: boolean): typeof requestRa
     params?: MethodParamsRaw<M>
   ): Promise<MethodResultRaw<M>> {
     const result = await requestRaw(provider, method, params);
-    if (method === 'getAddresses' && 'addresses' in result) {
-      const { stx, btc } = result.addresses.reduce(
+    if (
+      (method === 'getAddresses' || (method as string) === 'wallet_connect') &&
+      'addresses' in result
+    ) {
+      const { stx, btc } = sortAddresses(result.addresses).reduce(
         (acc, addr) => {
           acc[addr.address.startsWith('S') ? 'stx' : 'btc'].push(addr);
           return acc;
@@ -478,4 +482,17 @@ function createPersistProviderProxy(shouldPersist: boolean, providerId: string) 
 
     return result;
   };
+}
+
+/** @internal */
+function sortAddresses(addresses: AddressEntry[]) {
+  return addresses.slice().sort((a, b) => {
+    const aPayment = 'purpose' in a && a.purpose === 'payment';
+    const bPayment = 'purpose' in b && b.purpose === 'payment';
+
+    // Move payment addresses to the beginning
+    if (aPayment && !bPayment) return -1;
+    if (!aPayment && bPayment) return 1;
+    return 0;
+  });
 }
