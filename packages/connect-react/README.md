@@ -1,5 +1,3 @@
-# `@stacks/connect`
+# `@stacks/connect-react`
 
-A library for building excellent user experiences with [Blockstack](https://blockstack.org/).
-
-:blue_book: [View documentation](https://docs.blockstack.org/develop/connect/overview.html)
+A new `@stacks/react` experience is coming soon 🤫

@@ -68,8 +68,8 @@ Follow the **Getting Started** section of the [`@stacks/connect` README](https:/
 This repository includes three packages:
 
 - [`@stacks/connect`](./packages/connect): The one-stop-shop tool for letting web-apps interact with Stacks web wallets.
-- [`@stacks/connect-react`](./packages/connect-react): A wrapper library for making `@stacks/connect` use in React even easier
 - [`@stacks/connect-ui`](./packages/connect-ui): A web-component UI for displaying an intro modal in Stacks web-apps during authentication _(used in the background by `@stacks/connect`)_.
+- ~~[`@stacks/connect-react`](./packages/connect-react): A wrapper library for making `@stacks/connect` use in React even easier~~
 
 ## 🛠️ Wallet Implementation Guide
 
