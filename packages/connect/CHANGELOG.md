@@ -1,5 +1,17 @@
 # Change Log
 
+## 8.1.4
+
+### Patch Changes
+
+- [#429](https://github.com/hirosystems/connect/pull/429) [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6) Thanks [@janniks](https://github.com/janniks)! - Add authResponsePayload to authentication result for more backwards compatibility
+
+- [#429](https://github.com/hirosystems/connect/pull/429) [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6) Thanks [@janniks](https://github.com/janniks)! - Allow `connect()` to take any `getAddresses` params as options
+
+- [#429](https://github.com/hirosystems/connect/pull/429) [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6) Thanks [@janniks](https://github.com/janniks)! - Fix address storage issue for Xverse-like wallets
+
+- [#429](https://github.com/hirosystems/connect/pull/429) [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6) Thanks [@janniks](https://github.com/janniks)! - Remove potentially unwanted private information from being stored in local storage
+
 ## 8.1.3
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 23.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6), [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6), [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6), [`cf1fcb4`](https://github.com/hirosystems/connect/commit/cf1fcb48efcf0abd630b031b2db346b702f3b6b6)]:
+  - @stacks/connect@8.1.4
+
 ## 23.0.6
 
 ### Patch Changes
