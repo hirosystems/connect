@@ -251,8 +251,9 @@ function requestArgs<M extends keyof Methods>(
  * Initiate a wallet connection and request addresses.
  * Alias for `request` to `getAddresses` with `forceWalletSelect: true`.
  */
-export function connect(options?: ConnectRequestOptions) {
-  return request({ ...options, forceWalletSelect: true }, 'getAddresses');
+export function connect(options?: ConnectRequestOptions & MethodParams<'getAddresses'>) {
+  const params = 'network' in options ? { network: options.network } : undefined;
+  return request({ ...options, forceWalletSelect: true }, 'getAddresses', params);
 }
 
 /**

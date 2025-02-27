@@ -110,6 +110,8 @@ export interface SignStructuredMessageParams {
 
 export interface GetAddressesParams {
   network?: NetworkString;
+  // When updating this interface, make sure to update the `connect` function
+  // in `request.ts`, to pass all available params to the wrapped method.
 }
 
 export interface SendTransferParams {
