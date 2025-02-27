@@ -2,21 +2,36 @@ import { UserSession } from '../auth';
 
 /** @deprecated */
 export interface AuthResponsePayload {
-  private_key: string;
-  username: string | null;
-  hubUrl: string;
-  associationToken: string;
-  blockstackAPIUrl: string | null;
-  core_token: string | null;
-  email: string | null;
-  exp: number;
-  iat: number;
-  iss: string;
-  jti: string;
-  version: string;
   profile: any;
-  profile_url: string;
-  public_keys: string[];
+
+  /** @deprecated Not set in the `request` flow anymore. */
+  private_key?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  username?: string | null;
+  /** @deprecated Not set in the `request` flow anymore. */
+  hubUrl?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  associationToken?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  blockstackAPIUrl?: string | null;
+  /** @deprecated Not set in the `request` flow anymore. */
+  core_token?: string | null;
+  /** @deprecated Not set in the `request` flow anymore. */
+  email?: string | null;
+  /** @deprecated Not set in the `request` flow anymore. */
+  exp?: number;
+  /** @deprecated Not set in the `request` flow anymore. */
+  iat?: number;
+  /** @deprecated Not set in the `request` flow anymore. */
+  iss?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  jti?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  version?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  profile_url?: string;
+  /** @deprecated Not set in the `request` flow anymore. */
+  public_keys?: string[];
 }
 
 /** @deprecated */

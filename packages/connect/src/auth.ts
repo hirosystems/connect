@@ -74,7 +74,7 @@ export const authenticate = async (authOptions: AuthOptions, provider?: StacksPr
 
     userSession.store.setSessionData(sessionData);
 
-    onFinish?.({ userSession });
+    onFinish?.({ userSession, authResponsePayload: sessionData.userData });
   } catch (error) {
     console.error('[Connect] Error during auth request', error);
     onCancel?.(error);

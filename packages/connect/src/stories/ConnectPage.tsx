@@ -1,7 +1,7 @@
 import React from 'react';
 import { getSelectedProviderId } from '@stacks/connect-ui';
 import { Cl } from '@stacks/transactions';
-import { useReducer, useState } from 'react';
+import { useReducer, useState, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AppConfig, UserSession } from '../auth';
 import { connect, request } from '../request';
@@ -15,7 +15,7 @@ import {
   showSTXTransfer,
 } from '../ui';
 import './connect.css';
-import { disconnect, isConnected } from '../storage';
+import { disconnect, isConnected, getLocalStorage } from '../storage';
 
 declare global {
   interface BigInt {
@@ -1025,6 +1025,11 @@ export const ConnectPage = ({ children }: { children?: any }) => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const isSignedIn = userSession.isUserSignedIn();
   const [connectResponse, setConnectResponse] = useState<any>(null);
+  const [localStorageData, setLocalStorageData] = useState<any>(null);
+
+  useEffect(() => {
+    setLocalStorageData(getLocalStorage());
+  }, [refresh]);
 
   const appDetails = {
     name: 'Connect',
@@ -1041,12 +1046,16 @@ export const ConnectPage = ({ children }: { children?: any }) => {
             if (isSignedIn) {
               disconnect();
               setConnectResponse(null);
+              setLocalStorageData(null);
+              refresh();
             } else {
               void showConnect({
                 appDetails,
                 userSession,
                 onFinish: d => {
                   setConnectResponse(d);
+                  // Explicitly update localStorage data after successful connection
+                  setLocalStorageData(getLocalStorage());
                   refresh();
                 },
                 onCancel: () => {
@@ -1055,7 +1064,6 @@ export const ConnectPage = ({ children }: { children?: any }) => {
                 },
               });
             }
-            refresh();
           }}
           style={{
             backgroundColor: isSignedIn ? 'grey' : 'black',
@@ -1070,11 +1078,19 @@ export const ConnectPage = ({ children }: { children?: any }) => {
             if (isConnected()) {
               disconnect();
               setConnectResponse(null);
+              // Explicitly clear localStorage data display after disconnect
+              setLocalStorageData(null);
               refresh();
               return;
             }
 
-            void connect().then(setConnectResponse).then(refresh);
+            void connect()
+              .then(setConnectResponse)
+              .then(() => {
+                // Explicitly update the localStorage data after successful connection
+                setLocalStorageData(getLocalStorage());
+                refresh();
+              });
           }}
           style={{
             backgroundColor: isConnected() ? 'grey' : 'black',
@@ -1097,6 +1113,10 @@ export const ConnectPage = ({ children }: { children?: any }) => {
               <pre>{JSON.stringify(connectResponse, null, 2)}</pre>
             </div>
           )}
+          <div data-response>
+            <h3>LocalStorage Content</h3>
+            <pre>{JSON.stringify(localStorageData, null, 2)}</pre>
+          </div>
         </section>
 
         {(isSignedIn || isConnected()) && (
