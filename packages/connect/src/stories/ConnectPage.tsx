@@ -197,7 +197,7 @@ const LegacyContractCallForm = () => {
         });
       } catch (e) {
         console.error(e);
-        setResponse({ error: `Failed to parse arguments: ${e.message}` });
+        setResponse({ error: `Failed to parse arguments: ${e.message || e}` });
       }
     }
   );
@@ -767,7 +767,7 @@ const STXContractCallForm = () => {
         });
     } catch (e) {
       console.error(e);
-      setResponse({ error: `Failed to parse arguments: ${e.message}` });
+      setResponse({ error: `Failed to parse arguments: ${e.message || e}` });
     }
   });
 
@@ -1113,10 +1113,12 @@ export const ConnectPage = ({ children }: { children?: any }) => {
               <pre>{JSON.stringify(connectResponse, null, 2)}</pre>
             </div>
           )}
-          <div data-response>
-            <h3>LocalStorage Content</h3>
-            <pre>{JSON.stringify(localStorageData, null, 2)}</pre>
-          </div>
+          {localStorageData && (
+            <div data-response>
+              <h3>LocalStorage Content</h3>
+              <pre>{JSON.stringify(localStorageData, null, 2)}</pre>
+            </div>
+          )}
         </section>
 
         {(isSignedIn || isConnected()) && (
