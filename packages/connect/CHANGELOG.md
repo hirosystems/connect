@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.5
+
+### Patch Changes
+
+- [#432](https://github.com/hirosystems/connect/pull/432) [`a054271`](https://github.com/hirosystems/connect/commit/a0542714aab1a99e97847e0b21d9e0f2c7318fb2) Thanks [@janniks](https://github.com/janniks)! - Export method types
+
 ## 8.1.4
 
 ### Patch Changes
