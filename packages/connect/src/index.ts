@@ -35,6 +35,13 @@ export {
   openSignTransaction,
 } from './transactions';
 export { connect, request, requestRaw } from './request';
+export type {
+  Methods,
+  MethodParams,
+  MethodResult,
+  MethodParamsRaw,
+  MethodResultRaw,
+} from './methods';
 export {
   getLocalStorage,
   clearLocalStorage,
