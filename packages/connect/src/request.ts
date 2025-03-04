@@ -1,5 +1,5 @@
 import { base64 } from '@scure/base';
-import { bytesToHex } from '@stacks/common';
+import { bytesToHex, hexToBytes } from '@stacks/common';
 import {
   getInstalledProviders,
   getProvider,
@@ -173,7 +173,10 @@ export async function request<M extends keyof Methods>(
     shallowDefined(options)
   );
 
-  const req = createRequestWithStorage(opts.enableLocalStorage);
+  const req = wrapResultOverrides(
+    opts.enableOverrides,
+    createRequestWithStorage(opts.enableLocalStorage)
+  );
 
   // WITHOUT UI
   if (opts.provider && !opts.forceWalletSelect) {
@@ -333,6 +336,42 @@ function shallowDefined<T extends object>(obj: T): Partial<T> {
     if (value !== undefined) result[key as keyof T] = value;
   }
   return result;
+}
+
+/** @internal Higher-order function for proxying request results with overrides */
+function wrapResultOverrides<
+  M extends keyof MethodsRaw,
+  P extends MethodParamsRaw<M>,
+  R extends MethodResultRaw<M>,
+>(
+  enableOverrides: boolean,
+  request: (provider: StacksProvider, method: M, params?: P) => Promise<R>
+) {
+  if (!enableOverrides) return request;
+
+  return async (provider: StacksProvider, method: M, params?: P): Promise<R> => {
+    const result = await request(provider, method, params);
+
+    const modifiedResult = { ...result };
+
+    // Handle txId/txid case variation (Fordefi returns `txId`, others return `txid`)
+    if (result !== null && 'txId' in result && result.txId && !('txid' in modifiedResult)) {
+      (modifiedResult as any).txid = result.txId;
+    }
+
+    // Handle Leather returning `hex` instead of `psbt` (base64 encoded)
+    if (
+      result !== null &&
+      'hex' in result &&
+      result.hex &&
+      typeof result.hex === 'string' &&
+      !('psbt' in modifiedResult)
+    ) {
+      (modifiedResult as any).psbt = base64.encode(hexToBytes(result.hex));
+    }
+
+    return modifiedResult;
+  };
 }
 
 function getMethodOverrides<M extends keyof Methods>(
