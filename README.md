@@ -10,49 +10,7 @@ Connect is a JavaScript library for building web applications connected to [Stac
   <code><a href="./packages/connect-ui">@stacks/connect-ui</a></code>
 </div>
 
-## 🛬 Migration Guide
-
-**Welcome to the new Stacks Connect! ✨** Read the [`@stacks/connect` docs](./packages/connect) for more information.
-
-For a while now the Stacks community has been working on a new standard for wallet-to-dapp communication.
-Stacks Connect and related projects now use standards like [WBIPs](https://wbips.netlify.app/) and [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md) to allow wallets to communicate with dapps in a more simplified and flexible way.
-
-### ⚠️ Deprecations
-
-The following classes, methods, and types are deprecated in favor of the new `request` RPC methods:
-
-- `show...` and `open...` methods
-- `authenticate` method
-- `UserSession` class and related functionality
-- `AppConfig` class
-- `SessionOptions` interface
-- `SessionData` interface
-- `UserData` interface
-- `SessionDataStore` class
-- `InstanceDataStore` class
-- `LocalStorageStore` class
-
-> [!NOTE]
-> To make migrating easier, the familiar `UserSession` & `AppConfig` class still exists and is semi-backwards compatible for the `8.x.x` release.
-> It will "cache" the user's address in local storage and allow access to it via the `loadUserData` method (as previously done).
-
-### 🪪 Address Access
-
-Previously, the `UserSession` class was used to access the user's addresses and data, which abstracted away the underlying implementation details.
-Now, the `request` method is used to directly interact with the wallet, giving developers more explicit control and clarity over what's happening under the hood.
-This manual approach makes the wallet interaction more transparent and customizable.
-This means the developer needs to manually manage the currently connected user's address in e.g. local storage, jotai, etc.
-
-```ts
-import { request } from '@stacks/connect';
-
-// `getAddresses` is often a permission-granting method, so we consider this the "connect" step.
-
-const addresses = await request('getAddresses');
-const addresses = await request({ forceWalletSelect: true }, 'getAddresses');
-```
-
-_See more methods in the [`@stacks/connect` documentation](./packages/connect)._
+> See methods and migration notes in the [`@stacks/connect` documentation](./packages/connect).
 
 ---
 
