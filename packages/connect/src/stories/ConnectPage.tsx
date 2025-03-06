@@ -1021,7 +1021,13 @@ const STXSignStructuredMessageForm = () => {
 };
 
 // Main ConnectPage Component
-export const ConnectPage = ({ children }: { children?: any }) => {
+export const ConnectPage = ({
+  children,
+  customConnectFunction,
+}: {
+  children?: any;
+  customConnectFunction?: () => Promise<any>;
+}) => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const isSignedIn = userSession.isUserSignedIn();
   const [connectResponse, setConnectResponse] = useState<any>(null);
@@ -1084,7 +1090,7 @@ export const ConnectPage = ({ children }: { children?: any }) => {
               return;
             }
 
-            void connect()
+            void (customConnectFunction ? customConnectFunction() : connect())
               .then(setConnectResponse)
               .then(() => {
                 // Explicitly update the localStorage data after successful connection
@@ -1101,6 +1107,8 @@ export const ConnectPage = ({ children }: { children?: any }) => {
       </header>
 
       <main>
+        <center>{children}</center>
+
         <section>
           <h2>Wallet</h2>
           <div>
@@ -1152,8 +1160,6 @@ export const ConnectPage = ({ children }: { children?: any }) => {
           </>
         )}
       </main>
-
-      {children}
     </div>
   );
 };

@@ -399,10 +399,14 @@ import { request } from '@stacks/connect';
 const response = await request(
   {
     provider?: StacksProvider;        // Custom provider to use for the request
-    defaultProviders?: WbipProvider[]; // Default wallets to display in modal
+
     forceWalletSelect?: boolean;      // Force user to select a wallet (default: false)
     persistWalletSelect?: boolean;     // Persist selected wallet (default: true)
     enableOverrides?: boolean;         // Enable provider compatibility (default: true)
+    enableLocalStorage?: boolean;      // Store address in local storage (default: true)
+
+    defaultProviders?: WbipProvider[]; // Default wallets to display in modal
+    approvedProviderIds?: string[];    // List of approved provider IDs to show in modal
   },
   'method',
   params
@@ -415,6 +419,20 @@ const response = await request('method', params);
 > The `enableOverrides` option enables automatic compatibility fixes for different wallet providers.
 > For example, it handles converting numeric types between string and number formats as needed by different wallets, and remaps certain method names to match wallet-specific implementations.
 > This ensures consistent behavior across different wallet providers without requiring manual adjustments.
+
+> The `approvedProviderIds` option allows you to filter which wallet providers are shown in the connect modal.
+> This is useful when you want to limit the available wallet options to specific providers.
+> For example, you might only want to support Leather wallet:
+>
+> ```ts
+> connect({ approvedProviderIds: ['LeatherProvider'] });
+> ```
+>
+> Or multiple specific wallets:
+>
+> ```ts
+> connect({ approvedProviderIds: ['LeatherProvider', 'xverse'] });
+> ```
 
 ### `requestRaw`
 
