@@ -1,5 +1,13 @@
 # Change Log
 
+## 8.1.6
+
+### Patch Changes
+
+- [#436](https://github.com/hirosystems/connect/pull/436) [`1323dc0`](https://github.com/hirosystems/connect/commit/1323dc0ec89932b765335adc0e447eb99b5e7720) Thanks [@janniks](https://github.com/janniks)! - Add `approvedProviderIds` options to filter allowed wallets
+
+- [#436](https://github.com/hirosystems/connect/pull/436) [`1323dc0`](https://github.com/hirosystems/connect/commit/1323dc0ec89932b765335adc0e447eb99b5e7720) Thanks [@janniks](https://github.com/janniks)! - Export error types
+
 ## 8.1.5
 
 ### Patch Changes
