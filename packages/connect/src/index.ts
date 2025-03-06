@@ -2,6 +2,7 @@ export * from './auth';
 export * from './providers';
 export * from './types';
 export * from './ui';
+export * from './errors';
 
 // Manual exports to avoid exporting internals (e.g. `LEGACY_XYZ`)
 export { getDefaultPsbtRequestOptions, makePsbtToken, openPsbtRequestPopup } from './bitcoin';
