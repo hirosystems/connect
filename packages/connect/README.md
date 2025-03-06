@@ -1,6 +1,14 @@
 # `@stacks/connect` [![npm](https://img.shields.io/npm/v/@stacks/connect)](https://www.npmjs.com/package/@stacks/connect) <!-- omit in toc -->
 
 > [!NOTE]
+> Please be patient during this latest migration.
+> There has been a long-running effort together with wallets to modernize and move forward the Stacks web ecosystem.
+> It is now culminating in [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md) and the new `request` method in Stacks Connect `8.x.x`.
+> Bear with us during this migration.
+> Wallets are still working through some bugs, details, and improvements.
+> **We're working on it!**
+>
+> _Feel free to continue using Stacks Connect `7.x.x` while things stabilize._
 > The `7.x.x` version may still be more well supported by some wallets.
 
 For the legacy version of `@stacks/connect` using JWT tokens, please use the following command:
@@ -9,11 +17,75 @@ For the legacy version of `@stacks/connect` using JWT tokens, please use the fol
 npm install @stacks/connect@7.10.1
 ```
 
+## 🛬 Migration Guide <!-- omit in toc -->
+
+**Welcome to the new Stacks Connect! ✨** Read the [`@stacks/connect` docs](./packages/connect) for more information.
+
+For a while now the Stacks community has been working on a new standard for wallet-to-dapp communication.
+Stacks Connect and related projects now use standards like [WBIPs](https://wbips.netlify.app/) and [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md) to allow wallets to communicate with dapps in a more simplified and flexible way.
+
+### ⚠️ Deprecations
+
+The following classes, methods, and types are deprecated in favor of the new `request` RPC methods:
+
+- `show...` and `open...` methods
+- `authenticate` method
+- `UserSession` class and related functionality
+- `AppConfig` class
+- `SessionOptions` interface
+- `SessionData` interface
+- `UserData` interface
+- `SessionDataStore` class
+- `InstanceDataStore` class
+- `LocalStorageStore` class
+
+> [!NOTE]
+> To make migrating easier, the familiar `UserSession` & `AppConfig` class still exists and is semi-backwards compatible for the `8.x.x` release.
+> It will "cache" the user's address in local storage and allow access to it via the `loadUserData` method (as previously done).
+
+### ▶️ Migration Steps
+
+> To update from `<=7.x.x` to latest/`8.x.x`, follow these steps.
+
+1. Update your `@stacks/connect` version:
+
+```sh
+npm install @stacks/connect@latest
+```
+
+2. Switch from `showXyz`, `openXyz`, `doXyz` methods to the `request` method.
+
+- `request` follows the pattern `request(method: string, params: object)`, see [Usage](#usage) for more details
+- `request` is an async function, so replace the `onFinish` and `onCancel` callbacks with `.then().catch()` or `try & await`
+
+3. Switch from `showConnect` or`authenticate` to `connect()` methods
+
+   - `connect()` is an alias for `request({forceWalletSelect: true}, 'getAddresses')`
+   - `connect()` by default caches the user's address in local storage
+
+4. Switch from `UserSession.isSignedIn()` to `isConnected()`
+5. Switch from `UserSession.signUserOut()` to `disconnect()`
+6. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
+7. Remove the `@stacks/connect-react` package.
+   - You may need to manually reload a component to see local storage updates.
+   - No custom hooks are needed to use Stacks Connect anymore.
+   - We are working on a new `@stacks/react` package that will make usage even easier in the future (e.g. tracking transaction status, reloading components when a connection is established, updating the page when the network changes, and more).
+
+### 🪪 Address Access
+
+Previously, the `UserSession` class was used to access the user's addresses and data, which abstracted away the underlying implementation details.
+Now, the `request` method is used to directly interact with the wallet, giving developers more explicit control and clarity over what's happening under the hood.
+This manual approach makes the wallet interaction more transparent and customizable.
+Developer can manually manage the currently connected user's address in e.g. local storage, jotai, etc. or use the `connect()` method to cache the address in local storage.
+
+> [!IMPORTANT]
+> For security reasons, the `8.x.x` release only returns the current network's address (where previously both mainnet and testnet addresses were returned).
+
 ---
 
 ## Usage <!-- omit in toc -->
 
-> Try the [Connect Method Demo App 🏁](https://connect-hirosystems.vercel.app/iframe?id=connect-connect--default&viewMode=story) to see which methods/features are available for wallets
+> Try the [Connect Method Demo App 🌏](https://connect-hirosystems.vercel.app/iframe?id=connect-connect--default&viewMode=story) to see which methods/features are available for wallets
 
 ### Install `@stacks/connect` <!-- omit in toc -->
 
@@ -303,3 +375,11 @@ const response = await requestRaw(provider, 'method', params);
 
 > Note: `requestRaw` bypasses the UI wallet selector, automatic provider compatibility fixes, and other features that come with `request`.
 > Use this when you need more manual control over the wallet interaction process.
+
+---
+
+<div align="center"><br>
+
+[![Hiro Docs](https://img.shields.io/badge/%2F--%2F-Docs-orange?labelColor=gray)](https://docs.hiro.so/)&nbsp;&nbsp;[![Hiro Twitter](https://img.shields.io/badge/Follow%20%40hirosystems-orange?labelColor=gray&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHBhdGggZmlsbD0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNNTAgMTAuNGMtMS44LjktMy44IDEuNC01LjggMS43IDItMS4zIDMuNy0zLjMgNC41LTUuNy0yIDEuMS00LjIgMi02LjYgMi41YTEwLjMgMTAuMyAwIDAgMC0xNy41IDkuM0EyOS4yIDI5LjIgMCAwIDEgMy40IDcuNWExMC4yIDEwLjIgMCAwIDAgMy4yIDEzLjdDNSAyMS4yIDMuMyAyMC43IDIgMjB2LjJjMCA1IDMuNSA5LjEgOC4yIDEwYTEwLjMgMTAuMyAwIDAgMS00LjYuMmMxLjMgNC4xIDUgNyA5LjYgNy4yQTIwLjYgMjAuNiAwIDAgMS0uMSA0MS43YTI5IDI5IDAgMCAwIDQ1LTI2YzItMS40IDMuOC0zLjIgNS4yLTUuM3oiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXNpemU9Im5vbmUiIGZvbnQtd2VpZ2h0PSJub25lIiBzdHlsZT0ibWl4LWJsZW5kLW1vZGU6bm9ybWFsIiB0ZXh0LWFuY2hvcj0ibm9uZSIgdHJhbnNmb3JtPSJzY2FsZSg1LjEpIi8+PC9zdmc+&logoColor=white)](https://twitter.com/hirosystems)&nbsp;&nbsp;[![Stacks Discord](https://img.shields.io/badge/%23stacks--js_on%20Discord-orange?labelColor=gray&logo=discord&logoColor=white)](https://stacks.chat/)
+
+</div>
