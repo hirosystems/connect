@@ -76,7 +76,7 @@ npm install @stacks/connect@latest
 Previously, the `UserSession` class was used to access the user's addresses and data, which abstracted away the underlying implementation details.
 Now, the `request` method is used to directly interact with the wallet, giving developers more explicit control and clarity over what's happening under the hood.
 This manual approach makes the wallet interaction more transparent and customizable.
-Developer can manually manage the currently connected user's address in e.g. local storage, jotai, etc. or use the `connect()` method to cache the address in local storage.
+Developer can manually manage the currently connected user's address in e.g. local storage, jotai, etc. or use the `connect()`/`request()` method to cache the address in local storage.
 
 > [!IMPORTANT]
 > For security reasons, the `8.x.x` release only returns the current network's address (where previously both mainnet and testnet addresses were returned).
@@ -333,6 +333,59 @@ const response = await request('stx_signStructuredMessage', {
 // }
 ```
 
+## Error Handling
+
+The `request` method returns a Promise, allowing you to handle errors using standard Promise-based error handling patterns. You can use either `try/catch` with `async/await` or the `.catch()` method with Promise chains.
+
+### Using try/catch with async/await
+
+```ts
+import { request } from '@stacks/connect';
+
+try {
+  const response = await request('stx_transferStx', {
+    amount: '1000',
+    recipient: 'SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN',
+  });
+  // SUCCESS
+  console.log('Transaction successful:', response.txid);
+} catch (error) {
+  // ERROR
+  console.error('Wallet returned an error:', error);
+}
+```
+
+## Compatibility
+
+The `request` method by default adds a layer of auto-compatibility for different wallet providers.
+This is meant to unify the interface where wallet providers may not implement methods and results the same way.
+
+| Method                      |     | Notes                                                                                                |
+| --------------------------- | --- | ---------------------------------------------------------------------------------------------------- |
+| `getAddresses`              | 🔵  | <sub>Maps to `wallet_connect` for Xverse-like wallets</sub>                                          |
+| `sendTransfer`              | 🔵  | <sub>Converts `amount` to number for Xverse, string for Leather</sub>                                |
+| `signPsbt`                  | 🟡  | <sub>Transforms PSBT format for Leather (base64 to hex) with lossy restructure of `signInputs`</sub> |
+| `stx_getAddresses`          | 🔵  | <sub>Maps to `wallet_connect` for Xverse-like wallets</sub>                                          |
+| `stx_getAccounts`           | 🟢  |                                                                                                      |
+| `stx_getNetworks`           | 🟢  |                                                                                                      |
+| `stx_transferStx`           | 🟢  |                                                                                                      |
+| `stx_transferSip10Ft`       | 🟢  |                                                                                                      |
+| `stx_transferSip9Nft`       | 🟢  |                                                                                                      |
+| `stx_callContract`          | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_deployContract`        | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_signTransaction`       | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_signMessage`           | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_signStructuredMessage` | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_updateProfile`         | 🟢  |                                                                                                      |
+| `stx_accountChange` (event) | 🟢  |                                                                                                      |
+| `stx_networkChange` (event) | 🟢  |                                                                                                      |
+
+- 🟢 No overrides needed for any wallet
+- 🔵 Has compatibility overrides that maintain functionality
+- 🟡 Has breaking overrides that may lose some information
+
+> To disable this behavior, you can set the `enableOverrides` option to `false` or use the `requestRaw` method detailed below.
+
 ## Advanced Usage
 
 ### `request`
@@ -375,6 +428,37 @@ const response = await requestRaw(provider, 'method', params);
 
 > Note: `requestRaw` bypasses the UI wallet selector, automatic provider compatibility fixes, and other features that come with `request`.
 > Use this when you need more manual control over the wallet interaction process.
+
+## Support
+
+Here's a list of methods and events that are supported by popular wallets:
+
+| Method                      | Leather                                            | Xverse                                                  |
+| --------------------------- | -------------------------------------------------- | ------------------------------------------------------- |
+| `getAddresses`              | 🟡 <sub>No support for experimental purposes</sub> | 🟡 <sub>Use `wallet_connect` instead</sub>              |
+| `sendTransfer`              | 🟡 <sub>Expects `amount` as string</sub>           | 🟡 <sub>Expects `amount` as number</sub>                |
+| `signPsbt`                  | 🟡 <sub>Uses signing index array only</sub>        | 🟡 <sub>Uses `signInputs` record instead of array</sub> |
+| `stx_getAddresses`          | 🟢                                                 | 🔴                                                      |
+| `stx_getAccounts`           | 🔴                                                 | 🟢                                                      |
+| `stx_getNetworks`           | 🔴                                                 | 🔴                                                      |
+| `stx_transferStx`           | 🟢                                                 | 🟢                                                      |
+| `stx_transferSip10Ft`       | 🟢                                                 | 🔴                                                      |
+| `stx_transferSip9Nft`       | 🟢                                                 | 🔴                                                      |
+| `stx_callContract`          | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>           |
+| `stx_deployContract`        | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>           |
+| `stx_signTransaction`       | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>           |
+| `stx_signMessage`           | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>           |
+| `stx_signStructuredMessage` | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>           |
+| `stx_updateProfile`         | 🔴                                                 | 🔴                                                      |
+
+| Event               | Leather | Xverse |
+| ------------------- | ------- | ------ |
+| `stx_accountChange` | 🔴      | 🔴     |
+| `stx_networkChange` | 🔴      | 🔴     |
+
+- 🔴 No support (yet)
+- 🟡 Partial support
+- 🟢 Supported
 
 ---
 
