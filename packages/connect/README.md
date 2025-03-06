@@ -57,16 +57,19 @@ npm install @stacks/connect@latest
 
 - `request` follows the pattern `request(method: string, params: object)`, see [Usage](#usage) for more details
 - `request` is an async function, so replace the `onFinish` and `onCancel` callbacks with `.then().catch()` or `try & await`
+- e.g., `showConnect()`, `authenticate()` → `connect()`
+- e.g., `useConnect().doContractCall({})` → `request("stx_callContract", {})`
+- e.g., `openContractDeploy()` → `request("stx_deployContract", {})`
 
-3. Switch from `showConnect` or`authenticate` to `connect()` methods
+1. Switch from `showConnect` or`authenticate` to `connect()` methods
 
    - `connect()` is an alias for `request({forceWalletSelect: true}, 'getAddresses')`
    - `connect()` by default caches the user's address in local storage
 
-4. Switch from `UserSession.isSignedIn()` to `isConnected()`
-5. Switch from `UserSession.signUserOut()` to `disconnect()`
-6. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
-7. Remove the `@stacks/connect-react` package.
+2. Switch from `UserSession.isSignedIn()` to `isConnected()`
+3. Switch from `UserSession.signUserOut()` to `disconnect()`
+4. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
+5. Remove the `@stacks/connect-react` package.
    - You may need to manually reload a component to see local storage updates.
    - No custom hooks are needed to use Stacks Connect anymore.
    - We are working on a new `@stacks/react` package that will make usage even easier in the future (e.g. tracking transaction status, reloading components when a connection is established, updating the page when the network changes, and more).
@@ -76,7 +79,7 @@ npm install @stacks/connect@latest
 Previously, the `UserSession` class was used to access the user's addresses and data, which abstracted away the underlying implementation details.
 Now, the `request` method is used to directly interact with the wallet, giving developers more explicit control and clarity over what's happening under the hood.
 This manual approach makes the wallet interaction more transparent and customizable.
-Developer can manually manage the currently connected user's address in e.g. local storage, jotai, etc. or use the `connect()` method to cache the address in local storage.
+Developer can manually manage the currently connected user's address in e.g. local storage, jotai, etc. or use the `connect()`/`request()` method to cache the address in local storage.
 
 > [!IMPORTANT]
 > For security reasons, the `8.x.x` release only returns the current network's address (where previously both mainnet and testnet addresses were returned).
@@ -333,6 +336,59 @@ const response = await request('stx_signStructuredMessage', {
 // }
 ```
 
+## Error Handling
+
+The `request` method returns a Promise, allowing you to handle errors using standard Promise-based error handling patterns. You can use either `try/catch` with `async/await` or the `.catch()` method with Promise chains.
+
+### Using try/catch with async/await
+
+```ts
+import { request } from '@stacks/connect';
+
+try {
+  const response = await request('stx_transferStx', {
+    amount: '1000',
+    recipient: 'SP2MF04VAGYHGAZWGTEDW5VYCPDWWSY08Z1QFNDSN',
+  });
+  // SUCCESS
+  console.log('Transaction successful:', response.txid);
+} catch (error) {
+  // ERROR
+  console.error('Wallet returned an error:', error);
+}
+```
+
+## Compatibility
+
+The `request` method by default adds a layer of auto-compatibility for different wallet providers.
+This is meant to unify the interface where wallet providers may not implement methods and results the same way.
+
+| Method                      |     | Notes                                                                                                |
+| --------------------------- | --- | ---------------------------------------------------------------------------------------------------- |
+| `getAddresses`              | 🔵  | <sub>Maps to `wallet_connect` for Xverse-like wallets</sub>                                          |
+| `sendTransfer`              | 🔵  | <sub>Converts `amount` to number for Xverse, string for Leather</sub>                                |
+| `signPsbt`                  | 🟡  | <sub>Transforms PSBT format for Leather (base64 to hex) with lossy restructure of `signInputs`</sub> |
+| `stx_getAddresses`          | 🔵  | <sub>Maps to `wallet_connect` for Xverse-like wallets</sub>                                          |
+| `stx_getAccounts`           | 🟢  |                                                                                                      |
+| `stx_getNetworks`           | 🟢  |                                                                                                      |
+| `stx_transferStx`           | 🟢  |                                                                                                      |
+| `stx_transferSip10Ft`       | 🟢  |                                                                                                      |
+| `stx_transferSip9Nft`       | 🟢  |                                                                                                      |
+| `stx_callContract`          | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_deployContract`        | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_signTransaction`       | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_signMessage`           | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_signStructuredMessage` | 🔵  | <sub>Transforms Clarity values to hex-encoded format for compatibility</sub>                         |
+| `stx_updateProfile`         | 🟢  |                                                                                                      |
+| `stx_accountChange` (event) | 🟢  |                                                                                                      |
+| `stx_networkChange` (event) | 🟢  |                                                                                                      |
+
+- 🟢 No overrides needed for any wallet
+- 🔵 Has compatibility overrides that maintain functionality
+- 🟡 Has breaking overrides that may lose some information
+
+> To disable this behavior, you can set the `enableOverrides` option to `false` or use the `requestRaw` method detailed below.
+
 ## Advanced Usage
 
 ### `request`
@@ -346,10 +402,14 @@ import { request } from '@stacks/connect';
 const response = await request(
   {
     provider?: StacksProvider;        // Custom provider to use for the request
-    defaultProviders?: WbipProvider[]; // Default wallets to display in modal
+
     forceWalletSelect?: boolean;      // Force user to select a wallet (default: false)
     persistWalletSelect?: boolean;     // Persist selected wallet (default: true)
     enableOverrides?: boolean;         // Enable provider compatibility (default: true)
+    enableLocalStorage?: boolean;      // Store address in local storage (default: true)
+
+    defaultProviders?: WbipProvider[]; // Default wallets to display in modal
+    approvedProviderIds?: string[];    // List of approved provider IDs to show in modal
   },
   'method',
   params
@@ -363,6 +423,20 @@ const response = await request('method', params);
 > For example, it handles converting numeric types between string and number formats as needed by different wallets, and remaps certain method names to match wallet-specific implementations.
 > This ensures consistent behavior across different wallet providers without requiring manual adjustments.
 
+> The `approvedProviderIds` option allows you to filter which wallet providers are shown in the connect modal.
+> This is useful when you want to limit the available wallet options to specific providers.
+> For example, you might only want to support Leather wallet:
+>
+> ```ts
+> connect({ approvedProviderIds: ['LeatherProvider'] });
+> ```
+>
+> Or multiple specific wallets:
+>
+> ```ts
+> connect({ approvedProviderIds: ['LeatherProvider', 'xverse'] });
+> ```
+
 ### `requestRaw`
 
 The `requestRaw` method provides direct access to wallet providers without the additional features of `request`:
@@ -375,6 +449,40 @@ const response = await requestRaw(provider, 'method', params);
 
 > Note: `requestRaw` bypasses the UI wallet selector, automatic provider compatibility fixes, and other features that come with `request`.
 > Use this when you need more manual control over the wallet interaction process.
+
+## Support
+
+Here's a list of methods and events that are supported by popular wallets:
+
+| Method                      | Leather                                            | Xverse-like                                                                    |
+| --------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `getAddresses`              | 🟡 <sub>No support for experimental purposes</sub> | 🟡 <sub>Use `wallet_connect` instead</sub>                                     |
+| `sendTransfer`              | 🟡 <sub>Expects `amount` as string</sub>           | 🟡 <sub>Expects `amount` as number</sub>                                       |
+| `signPsbt`                  | 🟡 <sub>Uses signing index array only</sub>        | 🟡 <sub>Uses `signInputs` record instead of array</sub>                        |
+| `stx_getAddresses`          | 🟢                                                 | 🔴                                                                             |
+| `stx_getAccounts`           | 🔴                                                 | 🟢                                                                             |
+| `stx_getNetworks`           | 🔴                                                 | 🔴                                                                             |
+| `stx_transferStx`           | 🟢                                                 | 🟢                                                                             |
+| `stx_transferSip10Ft`       | 🟢                                                 | 🔴                                                                             |
+| `stx_transferSip9Nft`       | 🟢                                                 | 🔴                                                                             |
+| `stx_callContract`          | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only, no support for `postConditions`</sub> |
+| `stx_deployContract`        | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only, no support for `postConditions`</sub> |
+| `stx_signTransaction`       | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
+| `stx_signMessage`           | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
+| `stx_signStructuredMessage` | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
+| `stx_updateProfile`         | 🔴                                                 | 🔴                                                                             |
+
+| Event                 | Leather | Xverse |
+| --------------------- | ------- | ------ |
+| `accountChange`       | 🔴      | 🟢     |
+| `accountDisconnected` | 🔴      | 🟢     |
+| `networkChange`       | 🔴      | 🟢     |
+| `stx_accountChange`   | 🔴      | 🔴     |
+| `stx_networkChange`   | 🔴      | 🔴     |
+
+- 🔴 No support (yet)
+- 🟡 Partial support
+- 🟢 Supported
 
 ---
 

@@ -2,26 +2,15 @@
   <img src="/.github/img/banner.svg" alt="Stacks Connect">
 </div>
 
-Connect is a JavaScript library for building web applications connected to [Stacks](https://stacks.co).
+## ⚡️ Building a Stacks-enabled web app?
 
-<div align="center">
-  <code><a href="./packages/connect">@stacks/connect</a></code> •
-  <code><a href="./packages/connect-react">@stacks/connect-react</a></code> •
-  <code><a href="./packages/connect-ui">@stacks/connect-ui</a></code>
-</div>
-
-> See methods and migration notes in the [`@stacks/connect` documentation](./packages/connect).
+Head over to the [`@stacks/connect` README](https://github.com/hirosystems/connect/tree/main/packages/connect).
 
 ---
 
-## ⚡️ Installation
+## Development Notes
 
-Use your favorite package manager to install `@stacks/connect` in your project.
-Follow the **Getting Started** section of the [`@stacks/connect` README](https://github.com/hirosystems/connect/tree/main/packages/connect).
-
-> Or use one of our starter-templates to bootstrap a fresh project already including connect using the [command-line](https://github.com/hirosystems/stacks.js-starters) locally via `npm create stacks`
-
-## 📦 Packages
+### Packages
 
 This repository includes three packages:
 
@@ -29,7 +18,7 @@ This repository includes three packages:
 - [`@stacks/connect-ui`](./packages/connect-ui): A web-component UI for displaying an intro modal in Stacks web-apps during authentication _(used in the background by `@stacks/connect`)_.
 - ~~[`@stacks/connect-react`](./packages/connect-react): A wrapper library for making `@stacks/connect` use in React even easier~~
 
-## 🛠️ Wallet Implementation Guide
+### Wallet Implementation Guide
 
 Wallets implement a "Provider" interface.
 The latest spec uses a simple JS Object exposing a `.request(method: string, params?: object)` method.
@@ -86,7 +75,7 @@ window.wbip_providers.push({
 });
 ```
 
-### JSON RPC 2.0
+#### JSON RPC 2.0
 
 Wallets may add their own unstandardized methods.
 However, the minimum recommended methods are:

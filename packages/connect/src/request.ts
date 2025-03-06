@@ -33,12 +33,6 @@ export interface ConnectRequestOptions {
   provider?: StacksProvider;
 
   /**
-   * The default wallets to display in the modal.
-   * Defaults to some known popular wallets.
-   */
-  defaultProviders?: WbipProvider[];
-
-  /**
    * Forces the user to select a wallet.
    * Defaults to `false`.
    */
@@ -61,6 +55,18 @@ export interface ConnectRequestOptions {
    * Defaults to `true`.
    */
   enableLocalStorage?: boolean;
+
+  /**
+   * The default wallets to display in the modal.
+   * Defaults to some known popular wallets.
+   */
+  defaultProviders?: WbipProvider[];
+
+  /**
+   * A list of provider IDs that are approved to be shown in the Stacks Connect modal.
+   * If not provided, all default and installed providers will be shown.
+   */
+  approvedProviderIds?: string[];
 
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
@@ -196,8 +202,11 @@ export async function request<M extends keyof Methods>(
 
   return new Promise((resolve, reject) => {
     const element = document.createElement('connect-modal');
-    element.defaultProviders = opts.defaultProviders;
-    element.installedProviders = getInstalledProviders(opts.defaultProviders);
+    element.defaultProviders = filterProviders(opts.approvedProviderIds, opts.defaultProviders);
+    element.installedProviders = filterProviders(
+      opts.approvedProviderIds,
+      getInstalledProviders(opts.defaultProviders)
+    );
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -252,6 +261,12 @@ function requestArgs<M extends keyof Methods>(
 } {
   if (typeof args[0] === 'string') return { method: args[0], params: args[1] as MethodParams<M> };
   return { options: args[0], method: args[1] as M, params: args[2] };
+}
+
+/** @internal */
+function filterProviders(approvedProviderIds: string[], providers: WbipProvider[]): WbipProvider[] {
+  if (!approvedProviderIds) return providers;
+  return providers.filter(p => approvedProviderIds.includes(p.id));
 }
 
 /**
