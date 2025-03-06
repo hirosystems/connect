@@ -1,5 +1,13 @@
 # Change Log
 
+## 8.1.5
+
+### Patch Changes
+
+- [#432](https://github.com/hirosystems/connect/pull/432) [`a054271`](https://github.com/hirosystems/connect/commit/a0542714aab1a99e97847e0b21d9e0f2c7318fb2) Thanks [@janniks](https://github.com/janniks)! - Export method types
+
+- [#433](https://github.com/hirosystems/connect/pull/433) [`a980e7e`](https://github.com/hirosystems/connect/commit/a980e7e7b7d5be6d5b4d66e06572303db1c43afe) Thanks [@janniks](https://github.com/janniks)! - Add wallet result overrides for inconsistent wallet results
+
 ## 8.1.4
 
 ### Patch Changes
