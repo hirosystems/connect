@@ -57,16 +57,19 @@ npm install @stacks/connect@latest
 
 - `request` follows the pattern `request(method: string, params: object)`, see [Usage](#usage) for more details
 - `request` is an async function, so replace the `onFinish` and `onCancel` callbacks with `.then().catch()` or `try & await`
+- e.g., `showConnect()`, `authenticate()` → `connect()`
+- e.g., `useConnect().doContractCall({})` → `request("stx_callContract", {})`
+- e.g., `openContractDeploy()` → `request("stx_deployContract", {})`
 
-3. Switch from `showConnect` or`authenticate` to `connect()` methods
+1. Switch from `showConnect` or`authenticate` to `connect()` methods
 
    - `connect()` is an alias for `request({forceWalletSelect: true}, 'getAddresses')`
    - `connect()` by default caches the user's address in local storage
 
-4. Switch from `UserSession.isSignedIn()` to `isConnected()`
-5. Switch from `UserSession.signUserOut()` to `disconnect()`
-6. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
-7. Remove the `@stacks/connect-react` package.
+2. Switch from `UserSession.isSignedIn()` to `isConnected()`
+3. Switch from `UserSession.signUserOut()` to `disconnect()`
+4. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
+5. Remove the `@stacks/connect-react` package.
    - You may need to manually reload a component to see local storage updates.
    - No custom hooks are needed to use Stacks Connect anymore.
    - We are working on a new `@stacks/react` package that will make usage even easier in the future (e.g. tracking transaction status, reloading components when a connection is established, updating the page when the network changes, and more).
