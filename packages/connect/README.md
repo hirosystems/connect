@@ -472,10 +472,13 @@ Here's a list of methods and events that are supported by popular wallets:
 | `stx_signStructuredMessage` | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
 | `stx_updateProfile`         | 🔴                                                 | 🔴                                                                             |
 
-| Event               | Leather | Xverse |
-| ------------------- | ------- | ------ |
-| `stx_accountChange` | 🔴      | 🔴     |
-| `stx_networkChange` | 🔴      | 🔴     |
+| Event                 | Leather | Xverse |
+| --------------------- | ------- | ------ |
+| `accountChange`       | 🔴      | 🟢     |
+| `accountDisconnected` | 🔴      | 🟢     |
+| `networkChange`       | 🔴      | 🟢     |
+| `stx_accountChange`   | 🔴      | 🔴     |
+| `stx_networkChange`   | 🔴      | 🔴     |
 
 - 🔴 No support (yet)
 - 🟡 Partial support
