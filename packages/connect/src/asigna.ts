@@ -26,8 +26,8 @@ const generateAsignaMessage = (payload: string, key: string) => ({ source, [key]
 export const initializeAsignaProvider = () => {
   if (typeof window === 'undefined') return;
 
-  const isAsignaIframe = !!window.top && document.referrer.endsWith('.asigna.io/');
-  if (isAsignaIframe) {
+  const isIframe = window.top !== window.self;
+  if (isIframe) {
     window['AsignaProvider'] = AsignaIframeProvider;
   }
 };
