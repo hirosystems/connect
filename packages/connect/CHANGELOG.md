@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.7
+
+### Patch Changes
+
+- [#440](https://github.com/hirosystems/connect/pull/440) [`693c5d2`](https://github.com/hirosystems/connect/commit/693c5d28c1423a142523d2c2f2b5f1fbca6e6458) Thanks [@jeffrystone](https://github.com/jeffrystone)! - Fix Asigna iframe check
+
 ## 8.1.6
 
 ### Patch Changes
