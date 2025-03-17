@@ -55,20 +55,22 @@ npm install @stacks/connect@latest
 
 2. Switch from `showXyz`, `openXyz`, `doXyz` methods to the `request` method.
 
-- `request` follows the pattern `request(method: string, params: object)`, see [Usage](#usage) for more details
-- `request` is an async function, so replace the `onFinish` and `onCancel` callbacks with `.then().catch()` or `try & await`
-- e.g., `showConnect()`, `authenticate()` → `connect()`
-- e.g., `useConnect().doContractCall({})` → `request("stx_callContract", {})`
-- e.g., `openContractDeploy()` → `request("stx_deployContract", {})`
+   - `request` follows the pattern `request(method: string, params: object)`, see [Usage](#usage) for more details
+   - `request` is an async function, so replace the `onFinish` and `onCancel` callbacks with `.then().catch()` or `try & await`
+   - e.g., `showConnect()`, `authenticate()` → `connect()`
+   - e.g., `useConnect().doContractCall({})` → `request("stx_callContract", {})`
+   - e.g., `openContractDeploy()` → `request("stx_deployContract", {})`
 
-1. Switch from `showConnect` or`authenticate` to `connect()` methods
+3. Switch from `showConnect` or`authenticate` to `connect()` methods
 
    - `connect()` is an alias for `request({forceWalletSelect: true}, 'getAddresses')`
    - `connect()` by default caches the user's address in local storage
 
-2. Switch from `UserSession.isSignedIn()` to `isConnected()`
-3. Switch from `UserSession.signUserOut()` to `disconnect()`
 4. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
+
+   - Switch from `UserSession.isSignedIn()` to `isConnected()`
+   - Switch from `UserSession.signUserOut()` to `disconnect()`
+
 5. Remove the `@stacks/connect-react` package.
    - You may need to manually reload a component to see local storage updates.
    - No custom hooks are needed to use Stacks Connect anymore.
@@ -472,13 +474,10 @@ Here's a list of methods and events that are supported by popular wallets:
 | `stx_signStructuredMessage` | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
 | `stx_updateProfile`         | 🔴                                                 | 🔴                                                                             |
 
-| Event                 | Leather | Xverse |
-| --------------------- | ------- | ------ |
-| `accountChange`       | 🔴      | 🟢     |
-| `accountDisconnected` | 🔴      | 🟢     |
-| `networkChange`       | 🔴      | 🟢     |
-| `stx_accountChange`   | 🔴      | 🔴     |
-| `stx_networkChange`   | 🔴      | 🔴     |
+| Event               | Leather | Xverse |
+| ------------------- | ------- | ------ |
+| `stx_accountChange` | 🔴      | 🔴     |
+| `stx_networkChange` | 🔴      | 🔴     |
 
 - 🔴 No support (yet)
 - 🟡 Partial support
