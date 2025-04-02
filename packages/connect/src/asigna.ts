@@ -1,6 +1,8 @@
+import { MethodParams, Methods } from "./methods";
+
 const source = 'asigna-stx';
 
-const generateCall = (payload: string, key: string) => {
+const generateCall = (payload: string | MethodParams<keyof Methods>, key: string) => {
   return new Promise(res => {
     function listener(message: MessageEvent<any>) {
       if (message.data.source === source && message.data[key]) {
@@ -20,8 +22,12 @@ const AsignaIframeProvider = {
   transactionRequest: async (payload: string) => {
     return generateCall(payload, 'transactionRequest');
   },
+  request: async <M extends keyof Methods>(method: M, options: MethodParams<M>) => {
+    return generateCall(options, method)
+  }
 };
-const generateAsignaMessage = (payload: string, key: string) => ({ source, [key]: payload });
+
+const generateAsignaMessage = (payload: string | MethodParams<keyof Methods>, key: string) => ({ source, [key]: payload });
 
 export const initializeAsignaProvider = () => {
   if (typeof window === 'undefined') return;
