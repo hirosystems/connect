@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.8
+
+### Patch Changes
+
+- [#443](https://github.com/hirosystems/connect/pull/443) [`e39f915`](https://github.com/hirosystems/connect/commit/e39f915c7b14234cdfde6e6944509b7333f020e4) Thanks [@jeffrystone](https://github.com/jeffrystone)! - Add request method to Asigna iframe provider
+
 ## 8.1.7
 
 ### Patch Changes

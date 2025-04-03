@@ -1,6 +1,6 @@
 {
   "name": "@stacks/connect",
-  "version": "8.1.7",
+  "version": "8.1.8",
   "license": "MIT",
   "scripts": {
     "build": "concurrently 'tsup src/index.ts' 'npm run types'",
