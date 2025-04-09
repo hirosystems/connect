@@ -101,6 +101,11 @@ export interface SignTransactionParams {
 
 export interface SignMessageParams {
   message: string;
+  /**
+   * ⚠︎ **Attention**: `.publicKey` is a non-standard parameter. Its usage is not recommended, but may be supported by some wallets.
+   * @experimental This parameter may be removed in the future, when wallets align more.
+   */
+  publicKey?: string;
 }
 
 export interface SignStructuredMessageParams {

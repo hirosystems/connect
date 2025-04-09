@@ -456,23 +456,23 @@ const response = await requestRaw(provider, 'method', params);
 
 Here's a list of methods and events that are supported by popular wallets:
 
-| Method                      | Leather                                            | Xverse-like                                                                    |
-| --------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `getAddresses`              | 🟡 <sub>No support for experimental purposes</sub> | 🟡 <sub>Use `wallet_connect` instead</sub>                                     |
-| `sendTransfer`              | 🟡 <sub>Expects `amount` as string</sub>           | 🟡 <sub>Expects `amount` as number</sub>                                       |
-| `signPsbt`                  | 🟡 <sub>Uses signing index array only</sub>        | 🟡 <sub>Uses `signInputs` record instead of array</sub>                        |
-| `stx_getAddresses`          | 🟢                                                 | 🔴                                                                             |
-| `stx_getAccounts`           | 🔴                                                 | 🟢                                                                             |
-| `stx_getNetworks`           | 🔴                                                 | 🔴                                                                             |
-| `stx_transferStx`           | 🟢                                                 | 🟢                                                                             |
-| `stx_transferSip10Ft`       | 🟢                                                 | 🔴                                                                             |
-| `stx_transferSip9Nft`       | 🟢                                                 | 🔴                                                                             |
-| `stx_callContract`          | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only, no support for `postConditions`</sub> |
-| `stx_deployContract`        | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only, no support for `postConditions`</sub> |
-| `stx_signTransaction`       | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
-| `stx_signMessage`           | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
-| `stx_signStructuredMessage` | 🟡 <sub>Hex-encoded Clarity values only</sub>      | 🟡 <sub>Hex-encoded Clarity values only</sub>                                  |
-| `stx_updateProfile`         | 🔴                                                 | 🔴                                                                             |
+| Method                      | Leather                                                         | Xverse-like                                                                                      |
+| --------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `getAddresses`              | 🟡 <sub>No support for experimental `purpose`</sub>             | 🟡 <sub>Use `wallet_connect` instead</sub>                                                       |
+| `sendTransfer`              | 🟡 <sub>Expects `amount` as string</sub>                        | 🟡 <sub>Expects `amount` as number</sub>                                                         |
+| `signPsbt`                  | 🟡 <sub>Uses signing index array only</sub>                     | 🟡 <sub>Uses `signInputs` record instead of array</sub>                                          |
+| `stx_getAddresses`          | 🟢                                                              | 🔴                                                                                               |
+| `stx_getAccounts`           | 🔴                                                              | 🟢                                                                                               |
+| `stx_getNetworks`           | 🔴                                                              | 🔴                                                                                               |
+| `stx_transferStx`           | 🟢                                                              | 🟢                                                                                               |
+| `stx_transferSip10Ft`       | 🟢                                                              | 🔴                                                                                               |
+| `stx_transferSip9Nft`       | 🟢                                                              | 🔴                                                                                               |
+| `stx_callContract`          | 🟡 <sub>Hex-encoded Clarity values & post-conditions only</sub> | 🟡 <sub>Hex-encoded Clarity values & post-conditions only, no support for `postConditions`</sub> |
+| `stx_deployContract`        | 🟡 <sub>Hex-encoded post-conditions only</sub>                  | 🟡 <sub>Hex-encoded post-conditions only, no support for `postConditions`</sub>                  |
+| `stx_signTransaction`       | 🟢                                                              | 🟢                                                                                               |
+| `stx_signMessage`           | 🟡 <sub>No support for non-standard `publicKey` parameter</sub> | 🟡 <sub>Requires non-standard `publicKey` parameter</sub>                                        |
+| `stx_signStructuredMessage` | 🟡 <sub>Hex-encoded Clarity values only</sub>                   | 🟡 <sub>Hex-encoded Clarity values only</sub>                                                    |
+| `stx_updateProfile`         | 🔴                                                              | 🔴                                                                                               |
 
 | Event               | Leather | Xverse |
 | ------------------- | ------- | ------ |
