@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.9
+
+### Patch Changes
+
+- [#448](https://github.com/hirosystems/connect/pull/448) [`caed78e`](https://github.com/hirosystems/connect/commit/caed78ebf17c3628eac407b95e1d6404fe50af72) Thanks [@janniks](https://github.com/janniks)! - Add override for experimental non-standard parameter `publicKey` in the `stx_signMessage` wallet method. This parameter will now be stripped for non-Xverse-like wallets.
+
 ## 8.1.8
 
 ### Patch Changes
