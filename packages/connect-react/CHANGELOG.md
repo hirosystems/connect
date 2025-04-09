@@ -1,5 +1,12 @@
 # Change Log
 
+## 23.0.12
+
+### Patch Changes
+
+- Updated dependencies [[`caed78e`](https://github.com/hirosystems/connect/commit/caed78ebf17c3628eac407b95e1d6404fe50af72)]:
+  - @stacks/connect@8.1.9
+
 ## 23.0.11
 
 ### Patch Changes
