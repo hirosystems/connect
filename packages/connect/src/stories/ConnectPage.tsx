@@ -896,16 +896,18 @@ const STXDeployContractForm = () => {
 const STXSignMessageForm = () => {
   type STXSignMessageFormData = {
     message: string;
+    publicKey?: string;
   };
   const methods = useForm<STXSignMessageFormData>();
   const { register, handleSubmit } = methods;
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({ message }, e) => {
+  const onSubmit = handleSubmit(({ message, publicKey }, e) => {
     e.preventDefault();
     request('stx_signMessage', {
       message,
+      publicKey,
     })
       .then(d => {
         setResponse(d);
@@ -930,6 +932,10 @@ const STXSignMessageForm = () => {
               {...register('message', { required: true })}
               defaultValue="Hello, World!"
             />
+          </div>
+          <div>
+            <label htmlFor="publicKey">Public Key (optional)</label>
+            <input id="publicKey" {...register('publicKey')} placeholder="Optional public key" />
           </div>
           <button type="submit">Sign Message</button>
         </form>

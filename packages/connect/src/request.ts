@@ -444,6 +444,13 @@ function getMethodOverrides<M extends keyof Methods>(
     return { method, params: paramsXverse };
   }
 
+  // Non-Xverse-ish `stx_signMessage`
+  if (!isXverseLike(provider) && method === 'stx_signMessage') {
+    const p = { ...(params as MethodParams<'stx_signMessage'>) };
+    delete p.publicKey;
+    return { method, params: p };
+  }
+
   // Leather `sendTransfer`
   if (isLeather(provider) && method === 'sendTransfer') {
     const paramsLeather = {
