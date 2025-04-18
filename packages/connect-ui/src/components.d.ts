@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { WbipProvider } from "./providers";
+export { WbipProvider } from "./providers";
 export namespace Components {
     interface ConnectModal {
         "callback": Function;

@@ -5,7 +5,7 @@ import { getBrowser, getPlatform } from './utils';
 
 @Component({
   tag: 'connect-modal',
-  styleUrl: 'modal.scss',
+  styleUrl: 'modal.css',
   assetsDirs: ['assets'],
   shadow: true,
 })
