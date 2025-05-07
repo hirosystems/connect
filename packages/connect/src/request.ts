@@ -506,6 +506,12 @@ export function serializeParams<M extends keyof Methods>(params: MethodParams<M>
     // Keep original value, don't override
     if (!value) continue;
 
+    // Don't serialize functions (like `onFinish`, `onCancel`)
+    if (typeof value === 'function') {
+      delete result[key];
+      continue;
+    }
+
     // Handle array of things
     if (Array.isArray(value)) {
       result[key] = value.map(item => {
