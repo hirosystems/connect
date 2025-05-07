@@ -66,4 +66,18 @@ describe('serializeParams', () => {
     };
     expect(serializeParams(params as any)).toEqual(params);
   });
+
+  it('should remove functions from params', () => {
+    const params = {
+      str: 'hello',
+      onFinish: () => {
+        console.log('finished');
+      },
+      num: 123,
+    };
+    expect(serializeParams(params as any)).toEqual({
+      str: 'hello',
+      num: 123,
+    });
+  });
 });
