@@ -612,7 +612,7 @@ const STXGetAccountsForm = () => {
   const refresh = useReducer(x => x + 1, 0)[1];
   const [response, setResponse] = useState<any>(null);
 
-  const onSubmit = handleSubmit(({}, e) => {
+  const onSubmit = handleSubmit((_, e) => {
     e.preventDefault();
     request('stx_getAccounts')
       .then(d => {

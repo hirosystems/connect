@@ -129,8 +129,8 @@ export const WithApprovedAndCustomProviders: Story = {
     return (
       <ConnectPage customConnectFunction={handleConnect}>
         <p>
-          This demo combines approvedProviderIds with custom defaultProviders. Only "Custom Leather"
-          should appear.
+          This demo combines approvedProviderIds with custom defaultProviders. Only `&quot;Custom
+          Leather`&quot; should appear.
         </p>
       </ConnectPage>
     );

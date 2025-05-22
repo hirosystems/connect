@@ -94,7 +94,7 @@ export class Modal {
               <p>Select the wallet you want to connect to.</p>
             ) : (
               <p>
-                You don't have any wallets in your browser that support this app. You need to
+                You don&apos;t have any wallets in your browser that support this app. You need to
                 install a wallet to proceed.
               </p>
             )}
@@ -102,7 +102,7 @@ export class Modal {
 
           {!mobile && !browser && (
             <div class="mx-auto mt-4 rounded-xl bg-gray-200 px-3 py-1.5 text-sm font-medium text-gray-500">
-              Unfortunately, your browser isn't supported
+              Unfortunately, your browser isn&apos;t supported
             </div>
           )}
 
@@ -111,8 +111,11 @@ export class Modal {
             <div class="mt-6">
               <p class="mb-4 text-sm font-medium">Installed wallets</p>
               <ul class="space-y-3">
-                {this.installedProviders.map((provider: WbipProvider) => (
-                  <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
+                {this.installedProviders.map((provider: WbipProvider, i: number) => (
+                  <li
+                    class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]"
+                    key={i}
+                  >
                     <div class="aspect-square basis-9 overflow-hidden">
                       <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
                     </div>
@@ -180,8 +183,11 @@ export class Modal {
                 </div>
               )}
               <ul class="space-y-3">
-                {notInstalledProviders.map((provider: WbipProvider) => (
-                  <li class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]">
+                {notInstalledProviders.map((provider: WbipProvider, i: number) => (
+                  <li
+                    class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]"
+                    key={i}
+                  >
                     <div class="aspect-square basis-9 overflow-hidden">
                       <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
                     </div>
