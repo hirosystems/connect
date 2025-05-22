@@ -403,6 +403,19 @@ function getMethodOverrides<M extends keyof Methods>(
     // Permission granting method
     ['getAddresses', 'stx_getAddresses'].includes(method)
   ) {
+    // Xverse
+    if (isXverse(provider)) {
+      const paramsXverse =
+        params && 'network' in params
+          ? {
+              ...params,
+              // Capitalize first letter of network name to match Xverse's expected format
+              network: params.network.charAt(0).toUpperCase() + params.network.slice(1),
+            }
+          : params;
+      return { method: 'wallet_connect', params: paramsXverse };
+    }
+
     return { method: 'wallet_connect', params };
   }
 
