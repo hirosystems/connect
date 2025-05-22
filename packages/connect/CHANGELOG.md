@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.10
+
+### Patch Changes
+
+- [#454](https://github.com/hirosystems/connect/pull/454) [`c6217ff`](https://github.com/hirosystems/connect/commit/c6217ffaaa15b7fb4f31f5e204b1bc7aa78c47db) Thanks [@janniks](https://github.com/janniks)! - Strip unserializable function values from parameters passed into the request function. This previously caused errors during JSON serialization in some providers.
+
 ## 8.1.9
 
 ### Patch Changes
