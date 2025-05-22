@@ -527,7 +527,7 @@ export function serializeParams<M extends keyof Methods>(params: MethodParams<M>
     }
   }
 
-  return result;
+  return JSON.parse(JSON.stringify(result)); // Strip unserializable values
 }
 
 /** @internal Higher order function for persisting the selected provider */
