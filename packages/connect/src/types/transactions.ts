@@ -160,7 +160,7 @@ export interface ContractDeployPayload extends ContractDeployBase {
 
 export interface STXTransferBase extends TxBase {
   recipient: string;
-  amount: BigInt | string;
+  amount: bigint | string;
   memo?: string;
 }
 

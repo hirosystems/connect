@@ -6,15 +6,15 @@ declare global {
   // tslint:disable-next-line: interface-name
   interface Window {
     __useScrollLockStyle: string | undefined | null;
-    __useScrollLockInstances: Set<{}> | undefined | null;
+    __useScrollLockInstances: Set<object> | undefined | null;
   }
 }
 
-let instances: Set<{}> = new Set();
+let instances: Set<object> = new Set();
 
 if (typeof window !== 'undefined') {
   // this is necessary because we may share instances of this file on a page so we store these globally
-  window.__useScrollLockInstances = window.__useScrollLockInstances || new Set<{}>();
+  window.__useScrollLockInstances = window.__useScrollLockInstances || new Set<object>();
   instances = window.__useScrollLockInstances;
 }
 
@@ -25,7 +25,7 @@ const originalStyle = () => {
   return window.__useScrollLockStyle;
 };
 
-const registerInstance = (instance: {}) => {
+const registerInstance = (instance: object) => {
   if (instances.size === 0) {
     setBodyOverflow(true);
   }
@@ -33,7 +33,7 @@ const registerInstance = (instance: {}) => {
   instances.add(instance);
 };
 
-const unregisterInstance = (instance: {}) => {
+const unregisterInstance = (instance: object) => {
   instances.delete(instance);
 
   if (instances.size === 0) {
