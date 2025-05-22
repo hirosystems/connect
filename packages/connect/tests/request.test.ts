@@ -73,10 +73,16 @@ describe('serializeParams', () => {
       onFinish: () => {
         console.log('finished');
       },
+      network: {
+        client: {
+          fetch: () => Promise.resolve({}),
+        },
+      },
       num: 123,
     };
     expect(serializeParams(params as any)).toEqual({
       str: 'hello',
+      network: { client: {} },
       num: 123,
     });
   });
