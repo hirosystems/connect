@@ -9,7 +9,7 @@
     "types": "tsc --project tsconfig.json --emitDeclarationOnly"
   },
   "dependencies": {
-    "@stacks/connect": "link:../connect",
+    "@stacks/connect": "8.1.9",
     "tsup": "^8.5.0"
   },
   "devDependencies": {
