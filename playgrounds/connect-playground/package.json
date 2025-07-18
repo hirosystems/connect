@@ -14,6 +14,8 @@
     "@stacks/network": "^6.11.3",
     "@stacks/transactions": "^6.11.3",
     "@stacks/connect-react": "../../packages/connect-react",
+    "@stacks/connect-ui": "../../packages/connect-ui",
+    "@stacks/connect": "../../packages/connect",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "buffer": "^6.0.3"

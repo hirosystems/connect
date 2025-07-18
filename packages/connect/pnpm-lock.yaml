@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@reown/appkit':
+        specifier: link:../../../appkit/packages/appkit
+        version: link:../../../appkit/packages/appkit
       '@reown/appkit-universal-connector':
         specifier: link:../../../appkit/packages/universal-connector
         version: link:../../../appkit/packages/universal-connector

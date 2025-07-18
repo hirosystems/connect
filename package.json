@@ -1,9 +1,7 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/**"
-  ],
+
   "scripts": {
     "build": "lerna run build",
     "build:connect": "lerna run build --scope @stacks/connect",

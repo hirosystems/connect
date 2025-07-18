@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@reown/appkit-universal-connector": "link:../../../appkit/packages/universal-connector",
+    "@reown/appkit": "link:../../../appkit/packages/appkit",
     "@scure/base": "^1.2.4",
     "@stacks/common": "^7.0.0",
     "@stacks/connect-ui": "8.0.0",

@@ -1,26 +1,51 @@
 
+
 import './App.css'
-import { Connect } from '@stacks/connect-react'
+import { Connect, disconnect } from '@stacks/connect-react'
+import { getProviderFromId, getSelectedProviderId, type WebBTCProvider} from '@stacks/connect-ui';
 import { useConnect } from '@stacks/connect-react'
+import { useEffect, useState } from 'react';
 
 function ConnectDemo() {
-  const { doOpenAuth, userSession, authData } = useConnect()
-
+  const { doOpenAuth } = useConnect()
+  const [provider, setProvider] = useState<WebBTCProvider | null>(null)
+  const providerId = getSelectedProviderId()
+  console.log('>> providerId', providerId);
   const handleConnect = () => {
     doOpenAuth()
   }
 
-  console.log('userSession', userSession);
-  console.log('authData', authData);
+  const handleDisconnect = () => {
+    console.log('>> handleDisconnect');
+    disconnect()
+    setProvider(null)
+  }
+
+  useEffect(() => {
+    if (providerId) {
+      setProvider(getProviderFromId(providerId))
+    } else {
+      setProvider(null)
+    }
+  }, [providerId])
 
   return (
     <div className="connect-demo">
       <h2>Stacks Connect Demo</h2>
       <div className="demo-section">
-        <h3>Authentication</h3>
-        <button onClick={handleConnect}>
-          Connect Wallet
-        </button>
+        { provider ? (
+          <div>
+            <h3>Provider</h3>
+            <p>{provider.name}</p>
+            <button onClick={handleDisconnect}>
+              Disconnect
+            </button>
+          </div>
+        ) : (
+          <button onClick={handleConnect}>
+            Connect Wallet
+          </button>
+        )}
       </div>
     </div>
   )

@@ -11,9 +11,15 @@ importers:
       '@stacks/common':
         specifier: ^6.11.3
         version: 6.16.0
+      '@stacks/connect':
+        specifier: ../../packages/connect
+        version: link:../../packages/connect
       '@stacks/connect-react':
         specifier: ../../packages/connect-react
         version: link:../../packages/connect-react
+      '@stacks/connect-ui':
+        specifier: ../../packages/connect-ui
+        version: link:../../packages/connect-ui
       '@stacks/network':
         specifier: ^6.11.3
         version: 6.17.0
