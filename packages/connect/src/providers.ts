@@ -1,9 +1,7 @@
 import { WebBTCProvider } from '@stacks/connect-ui';
 import { initializeAsignaProvider } from './asigna';
-import { initializeWalletConnectProvider } from './walletconnect';
 
 initializeAsignaProvider();
-initializeWalletConnectProvider();
 
 export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
   {
@@ -45,11 +43,12 @@ export const DEFAULT_PROVIDERS: WebBTCProvider[] = [
     chromeWebStoreUrl:
       'https://chromewebstore.google.com/detail/fordefi/hcmehenccjdmfbojapcbcofkgdpbnlle',
   },
-  {
-    id: 'WalletConnectProvider',
-    name: 'WalletConnect',
-    icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDIiIGhlaWdodD0iNDIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZmlsbD0iIzEwMTExNCIgZD0iTTAgMGg0MnY0MkgweiIvPgogIDxwYXRoIGQ9Ik0xOS40NyAyNi44OUg1djMuNTdhNC41NyA0LjU3IDAgMCAwIDQuNTggNC41N2g1LjgzbDQuMDYtOC4xNFoiIGZpbGw9IiM3OTk0RkYiLz4KICA8cGF0aCBkPSJNNSAxNy40aDI3LjU4bC0zLjIgNi43OEg1VjE3LjRaIiBmaWxsPSIjNDg2REZGIi8+CiAgPHBhdGggZD0iTTE0LjY3IDdINXY3LjY4aDMzVjdoLTkuNjd2NS43NGgtMlY3aC05LjY3djUuNzRoLTEuOTlWN1oiIGZpbGw9IiM1Q0QxRkEiLz4KPC9zdmc+Cg==',
-    webUrl: 'https://walletconnect.com/',
-    chromeWebStoreUrl: ''
-  }
 ];
+
+export const WALLET_CONNECT_PROVIDER: WebBTCProvider = {
+  id: 'WalletConnectProvider',
+  name: 'WalletConnect',
+  icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDIiIGhlaWdodD0iNDIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZmlsbD0iIzEwMTExNCIgZD0iTTAgMGg0MnY0MkgweiIvPgogIDxwYXRoIGQ9Ik0xOS40NyAyNi44OUg1djMuNTdhNC41NyA0LjU3IDAgMCAwIDQuNTggNC41N2g1LjgzbDQuMDYtOC4xNFoiIGZpbGw9IiM3OTk0RkYiLz4KICA8cGF0aCBkPSJNNSAxNy40aDI3LjU4bC0zLjIgNi43OEg1VjE3LjRaIiBmaWxsPSIjNDg2REZGIi8+CiAgPHBhdGggZD0iTTE0LjY3IDdINXY3LjY4aDMzVjdoLTkuNjd2NS43NGgtMlY3aC05LjY3djUuNzRoLTEuOTlWN1oiIGZpbGw9IiM1Q0QxRkEiLz4KPC9zdmc+Cg==',
+  webUrl: 'https://walletconnect.com/',
+  chromeWebStoreUrl: '',
+};

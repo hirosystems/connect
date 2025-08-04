@@ -157,8 +157,8 @@ class WalletConnectProvider implements StacksProvider {
   }
 }
 
-export const initializeWalletConnectProvider = async () => {
-  const provider = await UniversalConnector.init(config);
+export const initializeWalletConnectProvider = async (projectId: string) => {
+  const provider = await UniversalConnector.init({ ...config, projectId });
 
   const walletConnectProvider = new WalletConnectProvider(provider);
 
