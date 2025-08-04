@@ -1,18 +1,23 @@
 import { UniversalConnector } from '@reown/appkit-universal-connector';
-import { GetAddressesResult, JsonRpcResponse, MethodParamsRaw, MethodsRaw, SignMessageResult } from '../methods';
+import {
+  AddressEntry,
+  GetAddressesResult,
+  JsonRpcResponse,
+  MethodParamsRaw,
+  MethodsRaw,
+  SignMessageResult,
+} from '../methods';
 import { StacksProvider } from '../types/provider';
 import { config, stacksMainnet } from './config';
 import { bitcoin } from '@reown/appkit/networks';
-
 
 function jsonRpcResponse<M extends keyof MethodsRaw>(result: unknown): JsonRpcResponse<M> {
   return {
     jsonrpc: '2.0',
     id: 1,
-    result
+    result,
   } as JsonRpcResponse<M>;
 }
-
 
 class WalletConnectProvider implements StacksProvider {
   private connector: UniversalConnector;
@@ -30,80 +35,117 @@ class WalletConnectProvider implements StacksProvider {
     }
   }
 
+  private get stacksAddresses(): AddressEntry[] {
+    const session = this.connector.provider?.session;
+    const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
+    const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '{}');
+    const stacksAddresses = session.namespaces.stacks.accounts.map(account => ({
+      address: account,
+      publicKey: '',
+    }));
+
+    const addresses = stacksSessionAddresses || stacksAddresses;
+
+    return addresses;
+  }
+
+  private get btcAddresses(): AddressEntry[] {
+    const session = this.connector.provider?.session;
+    const btcSessionAddressesString = session?.sessionProperties['bip122_getAccountAddresses'];
+    const btcSessionAddresses = JSON.parse(btcSessionAddressesString || '{}');
+    const btcAddresses = session.namespaces.bip122.accounts.map(account => ({
+      address: account.split(':')[2],
+      publicKey: '',
+    }));
+
+    const addresses = btcSessionAddresses?.payment || btcAddresses;
+
+    return addresses;
+  }
+
   private async getAddresses(): Promise<GetAddressesResult> {
-    let session = this.connector.session;
+    let session = this.connector.provider?.session;
     if (!session) {
       session = await this.connect();
     }
 
-    const stacksAddresses = session?.namespaces?.stacks?.accounts || [];
-    const btcAddresses = session?.namespaces?.bip122?.accounts || [];
-    const caipAddresses = [...stacksAddresses, ...btcAddresses];
-    const accounts = caipAddresses.map((caipAddress) => {
-      const address = caipAddress.split(':')[2];
+    const stacksAddresses = this.stacksAddresses || [];
+    const btcAddresses = this.btcAddresses || [];
+    const addresses = [...stacksAddresses, ...btcAddresses];
 
-      // TODO: get public key from the connector
-      return { address, publicKey: '' }
-    })
-
-    return {
-      addresses: accounts
-    }
+    return { addresses };
   }
 
   private validateRpcMethod(method: keyof MethodsRaw) {
-    if (!this.connector.session) {
+    const accountMethods = ['getAddresses', 'stx_getAccounts', 'stx_getAddresses'];
+    if (accountMethods.includes(method)) {
+      return;
+    }
+
+    if (!this.connector.provider?.session) {
       throw new Error('WalletConnectProvider not connected. Please connect first.');
     }
-    const namespaces = this.connector.session.namespaces;
-    console.log('>> WC session', this.connector.session);
+    const namespaces = this.connector.provider?.session.namespaces;
     const stacksMethods = namespaces['stacks']?.methods || [];
     const btcMethods = namespaces['bip122']?.methods || [];
     const methods = [...stacksMethods, ...btcMethods];
 
     if (!methods.includes(method)) {
-      throw new Error(`WalletConnectProvider does not support method ${method}. Please use a supported method.`);
+      throw new Error(
+        `WalletConnectProvider does not support method ${method}. Please use a supported method.`
+      );
     }
   }
 
   private getTargetCaipNetworkId(method: keyof MethodsRaw) {
-    if (this.connector.session?.namespaces?.stacks?.methods.includes(method)) {
+    const accountMethods = ['getAddresses', 'stx_getAccounts', 'stx_getAddresses'];
+    if (accountMethods.includes(method)) {
       return stacksMainnet.caipNetworkId;
     }
 
-    if (this.connector.session?.namespaces?.bip122?.methods.includes(method)) {
+    if (this.connector.provider?.session?.namespaces?.stacks?.methods.includes(method)) {
+      return stacksMainnet.caipNetworkId;
+    }
+
+    if (this.connector.provider?.session?.namespaces?.bip122?.methods.includes(method)) {
       return bitcoin.caipNetworkId;
     }
 
-    throw new Error(`WalletConnectProvider does not support method ${method}. Please use a supported method.`);
+    throw new Error(
+      `WalletConnectProvider does not support method ${method}. Please use a supported method.`
+    );
   }
 
-  async request<M extends keyof MethodsRaw>(method: M, params?: MethodParamsRaw<M>): Promise<JsonRpcResponse<M>> {
+  async request<M extends keyof MethodsRaw>(
+    method: M,
+    params?: MethodParamsRaw<M>
+  ): Promise<JsonRpcResponse<M>> {
     try {
-      console.log('>> WalletConnectProvider request', method, params);
-
-      if (method === 'getAddresses') {
-        const addresses = await this.getAddresses();
-        return jsonRpcResponse(addresses);
-      }
-  
       this.validateRpcMethod(method);
       const caipNetworkId = this.getTargetCaipNetworkId(method);
 
       switch (method) {
+        case 'getAddresses':
+        case 'stx_getAddresses':
+        case 'stx_getAccounts':
+          const addresses = await this.getAddresses();
+          return jsonRpcResponse(addresses);
+
         case 'stx_signMessage':
-          console.log('>> WC stx_signMessage', params);
-          const caipAddress = this.connector.session?.namespaces?.stacks?.accounts[0];
+          const caipAddress = this.connector.provider?.session?.namespaces?.stacks?.accounts[0];
           const address = caipAddress.split(':')[2];
-          console.log('>> WC address', address);
-          const accountAddresses = await this.request('getAccountAddresses' as keyof MethodsRaw)
-          console.log('>> WC accountAddresses', accountAddresses);
-          const result = await this.connector.request({ method, params: { address, ...params } }, caipNetworkId) as SignMessageResult;
+          const result = (await this.connector.request(
+            { method, params: { address, ...params } },
+            caipNetworkId
+          )) as SignMessageResult;
           return jsonRpcResponse(result);
 
         default:
-            return await this.connector.request({ method, params }, caipNetworkId) as JsonRpcResponse<M>;
-        }
+          return (await this.connector.request(
+            { method, params },
+            caipNetworkId
+          )) as JsonRpcResponse<M>;
+      }
     } catch (error) {
       console.error('>> WalletConnectProvider request error', error);
       throw error;
@@ -115,9 +157,8 @@ class WalletConnectProvider implements StacksProvider {
   }
 }
 
-
 export const initializeWalletConnectProvider = async () => {
-  const provider = await UniversalConnector.init(config)
+  const provider = await UniversalConnector.init(config);
 
   const walletConnectProvider = new WalletConnectProvider(provider);
 

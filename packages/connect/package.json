@@ -2,8 +2,11 @@
   "name": "@stacks/connect",
   "version": "8.1.9",
   "license": "MIT",
+  "workspaces": [
+    "packages/**"
+  ],
   "scripts": {
-    "build": "concurrently 'tsup src/index.ts'",
+    "build": "concurrently 'tsup src/index.ts' 'npm run types'",
     "dev": "tsc --project tsconfig.json --watch",
     "prepublishOnly": "npm run build",
     "typecheck": "tsc --project tsconfig.json --noEmit",
@@ -15,8 +18,8 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@reown/appkit-universal-connector": "1.7.16-uc-canary.0",
-    "@reown/appkit": "1.7.16-uc-canary.0",
+    "@reown/appkit-universal-connector": "1.7.17",
+    "@reown/appkit": "1.7.17",
     "@scure/base": "^1.2.4",
     "@stacks/common": "^7.0.0",
     "@stacks/connect-ui": "8.0.0",
