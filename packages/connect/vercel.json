@@ -1,5 +1,5 @@
 {
-    "projects": [
+    "builds": [
       {
         "src": "packages/connect/package.json",
         "use": "@vercel/static-build",
