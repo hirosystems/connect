@@ -114,7 +114,7 @@ export class Modal {
                 {this.installedProviders.map((provider: WbipProvider, i: number) => (
                   <li
                     class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]"
-                    key={i}
+                    key={provider?.id ?? i}
                   >
                     <div class="aspect-square basis-9 overflow-hidden">
                       <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
@@ -186,7 +186,7 @@ export class Modal {
                 {notInstalledProviders.map((provider: WbipProvider, i: number) => (
                   <li
                     class="flex items-center gap-3 rounded-[10px] border border-[#EFEFF2] p-[14px]"
-                    key={i}
+                    key={provider?.id ?? i}
                   >
                     <div class="aspect-square basis-9 overflow-hidden">
                       <img src={provider.icon} class="h-full w-full rounded-[10px] bg-gray-700" />
