@@ -1,0 +1,11 @@
+{
+    "projects": [
+      {
+        "src": "packages/connect/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "storybook-static"
+        }
+      }
+    ]
+  }

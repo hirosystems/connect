@@ -12,7 +12,7 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build -o storybook-static",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
