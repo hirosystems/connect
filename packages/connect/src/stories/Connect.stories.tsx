@@ -67,6 +67,7 @@ export const WithApprovedProvidersOnly: Story = {
   render: () => {
     const handleConnect = () => {
       return connect({
+        walletConnectProjectId: 'your_project_id',
         approvedProviderIds: ['LeatherProvider'],
       });
     };
@@ -84,7 +85,12 @@ export const WithMultipleApprovedProviders: Story = {
   render: () => {
     const handleConnect = () => {
       return connect({
-        approvedProviderIds: ['LeatherProvider', 'FordefiProviders.UtxoProvider'],
+        walletConnectProjectId: 'your_project_id',
+        approvedProviderIds: [
+          'LeatherProvider',
+          'FordefiProviders.UtxoProvider',
+          'WalletConnectProvider',
+        ],
       });
     };
 
