@@ -67,7 +67,7 @@ export const WithApprovedProvidersOnly: Story = {
   render: () => {
     const handleConnect = () => {
       return connect({
-        walletConnectProjectId: '702e2d45d9debca66795614cddb5c1ca',
+        walletConnectProjectId: 'your_project_id',
         approvedProviderIds: ['LeatherProvider'],
       });
     };
@@ -85,7 +85,7 @@ export const WithMultipleApprovedProviders: Story = {
   render: () => {
     const handleConnect = () => {
       return connect({
-        walletConnectProjectId: '702e2d45d9debca66795614cddb5c1ca',
+        walletConnectProjectId: 'your_project_id',
         approvedProviderIds: [
           'LeatherProvider',
           'FordefiProviders.UtxoProvider',

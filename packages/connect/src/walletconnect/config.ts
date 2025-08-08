@@ -29,7 +29,7 @@ export const stacksMainnet: CustomCaipNetwork<'stacks'> = {
 };
 
 export const config: UniversalConnectorConfig = {
-  projectId: '702e2d45d9debca66795614cddb5c1ca',
+  projectId: 'your_project_id',
   metadata: {
     name: 'Universal Connector',
     description: 'Universal Connector',

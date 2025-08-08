@@ -182,7 +182,7 @@ export async function request<M extends keyof Methods>(
   const opts = Object.assign(
     {
       provider: getProvider(),
-      defaultProviders: DEFAULT_PROVIDERS,
+      defaultProviders,
 
       forceWalletSelect: false,
       persistWalletSelect: true,
