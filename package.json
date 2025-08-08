@@ -8,7 +8,7 @@
     "build:connect-ui": "lerna run build --scope @stacks/connect-ui",
     "build:docs": "typedoc && mkdir -p docs/.github && cp -r .github/img docs/.github/img",
     "deploy-contracts": "lerna run deploy-contracts --stream",
-    "postinstall": "npm run build:connect-ui",
+    "postinstall": "concurrently 'husky .github/.husky' 'npm run build:connect-ui'",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"packages/**/src/**/*.{ts,tsx}\"",
     "lint:eslint:fix": "eslint \"packages/**/src/**/*.{ts,tsx}\" --fix",
