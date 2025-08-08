@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@stacks/connect": "8.1.9",
-    "tsup": "^8.5.0"
   },
   "devDependencies": {
     "@types/react-dom": "^18.3.1",
