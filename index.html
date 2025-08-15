@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stacks Connect</title>
+</head>
+<body>
+    <h1>Stacks Connect</h1>
+    <script type="module">
+        // Minimal ESM.sh + Stencil fix: Only patch if connect-modal property access fails
+        const origDefineProperty = Object.defineProperty;
+        let needsPatch = false;
+        
+        // Test if we need the patch by trying to access a connect-modal property
+        setTimeout(() => {
+            const testEl = document.createElement('connect-modal');
+            try {
+                testEl.defaultProviders = [];
+            } catch (e) {
+                if (e.message?.includes('$instanceValues$')) {
+                    needsPatch = true;
+                    console.log('🔧 ESM.sh broke Stencil - applying minimal patch');
+                }
+            }
+        }, 100);
+        
+        Object.defineProperty = function(obj, prop, desc) {
+            // Only patch connect-modal properties if we detected the ESM.sh issue
+            if (needsPatch && desc?.get && desc?.set && 
+                obj?.constructor?.name?.includes('Element')) {
+                const {get, set} = desc;
+                desc.get = function() {
+                    try { return get.call(this); }
+                    catch (e) {
+                        if (e.message?.includes('$instanceValues$')) {
+                            return this[`_${prop}`] ?? (prop.endsWith('Providers') ? [] : 
+                                   prop.endsWith('Callback') ? () => {} : undefined);
+                        }
+                        throw e;
+                    }
+                };
+                desc.set = function(val) {
+                    try { return set.call(this, val); }
+                    catch (e) {
+                        if (e.message?.includes('$instanceValues$')) {
+                            this[`_${prop}`] = val;
+                            // For callbacks, also ensure they're accessible from the element
+                            if (prop.endsWith('Callback')) {
+                                this[prop] = val;
+                            }
+                            return val;
+                        }
+                        throw e;
+                    }
+                };
+            }
+            return origDefineProperty.call(this, obj, prop, desc);
+        };
+        
+        import('https://esm.sh/@stacks/connect@@8.1.10-alpha.2478d50.0')
+            .then(({connect}) => connect())
+            .then(() => console.log('✅ Connect loaded'));
+    </script>
+</body>
+</html>
