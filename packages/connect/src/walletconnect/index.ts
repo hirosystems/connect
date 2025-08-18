@@ -38,13 +38,13 @@ class WalletConnectProvider implements StacksProvider {
   private get stacksAddresses(): AddressEntry[] {
     const session = this.connector.provider?.session;
     const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
-    const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '{}');
+    const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '[]');
     const stacksAddresses = session.namespaces.stacks.accounts.map(account => ({
       address: account,
       publicKey: '',
     }));
 
-    const addresses = stacksSessionAddresses || stacksAddresses;
+    const addresses = stacksSessionAddresses || stacksAddresses || [];
 
     return addresses;
   }

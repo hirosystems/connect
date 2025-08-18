@@ -215,10 +215,10 @@ export async function request<M extends keyof Methods>(
 
   return new Promise((resolve, reject) => {
     const element = document.createElement('connect-modal');
-    element.defaultProviders = filterProviders(opts.approvedProviderIds, opts.defaultProviders);
+    element.defaultProviders = filterProviders(opts.approvedProviderIds, defaultProviders);
     element.installedProviders = filterProviders(
       opts.approvedProviderIds,
-      getInstalledProviders(opts.defaultProviders)
+      getInstalledProviders(defaultProviders)
     );
 
     const originalOverflow = document.body.style.overflow;
