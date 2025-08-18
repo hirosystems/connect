@@ -175,7 +175,7 @@ export async function request<M extends keyof Methods>(
   // Default options
   let defaultProviders = DEFAULT_PROVIDERS;
   if (options.walletConnectProjectId) {
-    initializeWalletConnectProvider(options.walletConnectProjectId).catch(console.error);
+    await initializeWalletConnectProvider(options.walletConnectProjectId).catch(console.error);
     defaultProviders = [...defaultProviders, WALLET_CONNECT_PROVIDER];
   }
 
