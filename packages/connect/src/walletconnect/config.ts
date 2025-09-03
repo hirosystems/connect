@@ -25,7 +25,7 @@ export const stacksMainnet: CustomCaipNetwork<'stacks'> = {
   caipNetworkId: 'stacks:1',
   name: 'Stacks',
   nativeCurrency: { name: 'STX', symbol: 'STX', decimals: 6 },
-  rpcUrls: { default: { http: ['https://stacks-node-mainnet.stacks.co'] } },
+  rpcUrls: { default: { http: ['https://api.mainnet.hiro.so'] } },
 };
 
 export const config: UniversalConnectorConfig = {
@@ -38,15 +38,15 @@ export const config: UniversalConnectorConfig = {
   },
   networks: [
     {
-      methods: stacksMethods,
-      chains: [stacksMainnet as CustomCaipNetwork],
-      events: ['stx_chainChanged', 'stx_accountsChanged'],
       namespace: 'stacks',
+      chains: [stacksMainnet as CustomCaipNetwork],
+      methods: stacksMethods,
+      events: ['stx_chainChanged', 'stx_accountsChanged'],
     },
     {
-      methods: ['signMessage', 'sendTransfer', 'signPsbt', 'getAccountAddresses'],
-      chains: [bitcoin],
       namespace: 'bip122',
+      chains: [bitcoin],
+      methods: ['signMessage', 'sendTransfer', 'signPsbt', 'getAccountAddresses'],
       events: ['bip122_addressesChanged'],
     },
   ],
