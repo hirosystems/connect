@@ -1,5 +1,18 @@
 # Change Log
 
+## 23.1.0
+
+### Minor Changes
+
+- [#458](https://github.com/hirosystems/connect/pull/458) [`976e77a`](https://github.com/hirosystems/connect/commit/976e77a6bffce12aad32dc5ec0e87560350d5d16) Thanks [@tomiir](https://github.com/tomiir)! - Add WalletConnect support to Stacks Connect. Setup a project at https://dashboard.reown.com/onboarding and create an App project. Then set the new `walletConnectProjectId` option in the `connect`/`request` params.
+
+### Patch Changes
+
+- [#453](https://github.com/hirosystems/connect/pull/453) [`7c90b51`](https://github.com/hirosystems/connect/commit/7c90b516742f62b4ef881d08fd963cee2f4ea00a) Thanks [@janniks](https://github.com/janniks)! - Update underlying dependencies
+
+- Updated dependencies [[`7c90b51`](https://github.com/hirosystems/connect/commit/7c90b516742f62b4ef881d08fd963cee2f4ea00a), [`c6217ff`](https://github.com/hirosystems/connect/commit/c6217ffaaa15b7fb4f31f5e204b1bc7aa78c47db), [`976e77a`](https://github.com/hirosystems/connect/commit/976e77a6bffce12aad32dc5ec0e87560350d5d16), [`1bd329e`](https://github.com/hirosystems/connect/commit/1bd329ee4ad1f2dc68eb5d293d739aceb7ac5355)]:
+  - @stacks/connect@8.2.0
+
 ## 23.0.12
 
 ### Patch Changes
@@ -95,7 +108,6 @@
   Adds the new `request` method to the `@stacks/connect` package.
   Which is the default way of interacting with Bitcoin and Stacks wallets.
   This update needs a slightly breaking change to the `showXyz` and `openXyz` methods.
-
   - ADDED `request` (UI) and `requestRaw` for calling wallet RPC methods
   - UPDATED `SessionData` and `UserSession` to only expose a light `UserData` with `profile.stxAddress`
   - UPDATED `StacksProvider` to only have a `request` method
