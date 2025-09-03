@@ -20,9 +20,10 @@ import {
   MethodsRaw,
   SendTransferParams,
 } from './methods';
-import { DEFAULT_PROVIDERS } from './providers';
+import { DEFAULT_PROVIDERS, WALLET_CONNECT_PROVIDER } from './providers';
 import { setLocalStorageData } from './storage';
 import { StacksProvider } from './types';
+import { initializeWalletConnectProvider } from './walletconnect';
 
 export interface ConnectRequestOptions {
   /**
@@ -67,6 +68,12 @@ export interface ConnectRequestOptions {
    * If not provided, all default and installed providers will be shown.
    */
   approvedProviderIds?: string[];
+
+  /**
+   * The project ID for WalletConnect.
+   * If provided, the WalletConnect provider will be created.
+   */
+  walletConnectProjectId?: string;
 
   // todo: maybe add callbacks, if set use them instead of throwing errors
 }
@@ -166,10 +173,16 @@ export async function request<M extends keyof Methods>(
   const { options, method, params } = requestArgs(args);
 
   // Default options
+  let defaultProviders = DEFAULT_PROVIDERS;
+  if (options?.walletConnectProjectId) {
+    await initializeWalletConnectProvider(options.walletConnectProjectId).catch(console.error);
+    defaultProviders = [...defaultProviders, WALLET_CONNECT_PROVIDER];
+  }
+
   const opts = Object.assign(
     {
       provider: getProvider(),
-      defaultProviders: DEFAULT_PROVIDERS,
+      defaultProviders,
 
       forceWalletSelect: false,
       persistWalletSelect: true,
@@ -202,10 +215,10 @@ export async function request<M extends keyof Methods>(
 
   return new Promise((resolve, reject) => {
     const element = document.createElement('connect-modal');
-    element.defaultProviders = filterProviders(opts.approvedProviderIds, opts.defaultProviders);
+    element.defaultProviders = filterProviders(opts.approvedProviderIds, defaultProviders);
     element.installedProviders = filterProviders(
       opts.approvedProviderIds,
-      getInstalledProviders(opts.defaultProviders)
+      getInstalledProviders(defaultProviders)
     );
 
     const originalOverflow = document.body.style.overflow;
@@ -527,7 +540,7 @@ export function serializeParams<M extends keyof Methods>(params: MethodParams<M>
     }
   }
 
-  return result;
+  return JSON.parse(JSON.stringify(result)); // Strip unserializable values
 }
 
 /** @internal Higher order function for persisting the selected provider */

@@ -5,6 +5,8 @@ import { ConnectPage } from './ConnectPage';
 import { WebBTCProvider } from '@stacks/connect-ui';
 import { connect } from '../request';
 
+const WALLET_CONNECT_PROJECT_ID = '929f58021c980cb8b9975a6fe7e986f2';
+
 // Define window types
 declare global {
   interface Window {
@@ -67,6 +69,7 @@ export const WithApprovedProvidersOnly: Story = {
   render: () => {
     const handleConnect = () => {
       return connect({
+        walletConnectProjectId: WALLET_CONNECT_PROJECT_ID,
         approvedProviderIds: ['LeatherProvider'],
       });
     };
@@ -84,7 +87,12 @@ export const WithMultipleApprovedProviders: Story = {
   render: () => {
     const handleConnect = () => {
       return connect({
-        approvedProviderIds: ['LeatherProvider', 'FordefiProviders.UtxoProvider'],
+        walletConnectProjectId: WALLET_CONNECT_PROJECT_ID,
+        approvedProviderIds: [
+          'LeatherProvider',
+          'FordefiProviders.UtxoProvider',
+          'WalletConnectProvider',
+        ],
       });
     };
 

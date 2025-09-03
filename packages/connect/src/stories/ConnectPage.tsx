@@ -165,8 +165,8 @@ const LegacyContractCallForm = () => {
               .split('')
               .reduce(
                 (acc, char) => {
-                  if (char === '(') acc.p++;
-                  if (char === ')') acc.p--;
+                  if (char === '(' || char === '{') acc.p++;
+                  if (char === ')' || char === '}') acc.p--;
                   if (char === ',' && !acc.p) {
                     acc.segs.push('');
                   } else {
@@ -735,8 +735,8 @@ const STXContractCallForm = () => {
             .split('')
             .reduce(
               (acc, char) => {
-                if (char === '(') acc.p++;
-                if (char === ')') acc.p--;
+                if (char === '(' || char === '{') acc.p++;
+                if (char === ')' || char === '}') acc.p--;
                 if (char === ',' && !acc.p) {
                   acc.segs.push('');
                 } else {

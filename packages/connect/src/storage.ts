@@ -2,6 +2,7 @@ import { bytesToHex, bytesToUtf8, hexToBytes, utf8ToBytes } from '@stacks/common
 import { clearSelectedProviderId } from '@stacks/connect-ui';
 import { UserSession } from './auth';
 import { AddressEntry } from './methods';
+import { getSelectedProvider } from './ui';
 
 export const LOCAL_STORAGE_KEY = '@stacks/connect';
 
@@ -102,6 +103,11 @@ export function getLocalStorage(): StorageData | null {
 
 /** Disconnect selected wallet, clear session data and potentially clear local storage. */
 export function disconnect() {
+  // Custom disconnect (needed for WalletConnect)
+  const provider = getSelectedProvider();
+  if (provider && 'disconnect' in provider) provider.disconnect();
+
+  // Default disconnect
   clearSelectedProviderId();
   clearLocalStorage();
   new UserSession().store.deleteSessionData();

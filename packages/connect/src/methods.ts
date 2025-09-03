@@ -249,7 +249,7 @@ export type Methods = {
     params: TransferFungibleParams;
     result: TransactionResult;
   };
-  stx_transferSip10Nft: {
+  stx_transferSip9Nft: {
     params: TransferNonFungibleParams;
     result: TransactionResult;
   };

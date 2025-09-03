@@ -100,16 +100,10 @@ export class Modal {
             )}
           </div>
 
-          {!mobile && !browser && (
-            <div class="mx-auto mt-4 rounded-xl bg-gray-200 px-3 py-1.5 text-sm font-medium text-gray-500">
-              Unfortunately, your browser isn&apos;t supported
-            </div>
-          )}
-
           {/* INSTALLED SECTION */}
           {hasInstalled && (
             <div class="mt-6">
-              <p class="mb-4 text-sm font-medium">Installed wallets</p>
+              <p class="mb-4 text-sm font-medium">Available wallets</p>
               <ul class="space-y-3">
                 {this.installedProviders.map((provider: WbipProvider, i: number) => (
                   <li
