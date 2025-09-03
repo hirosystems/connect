@@ -1,5 +1,15 @@
 # Change Log
 
+## 8.1.0
+
+### Minor Changes
+
+- [#458](https://github.com/hirosystems/connect/pull/458) [`976e77a`](https://github.com/hirosystems/connect/commit/976e77a6bffce12aad32dc5ec0e87560350d5d16) Thanks [@tomiir](https://github.com/tomiir)! - Add WalletConnect support to Stacks Connect. Setup a project at https://dashboard.reown.com/onboarding and create an App project. Then set the new `walletConnectProjectId` option in the `connect`/`request` params.
+
+### Patch Changes
+
+- [#453](https://github.com/hirosystems/connect/pull/453) [`7c90b51`](https://github.com/hirosystems/connect/commit/7c90b516742f62b4ef881d08fd963cee2f4ea00a) Thanks [@janniks](https://github.com/janniks)! - Update underlying dependencies
+
 ## 8.0.0
 
 ### Major Changes
@@ -13,7 +23,6 @@
 - [#403](https://github.com/hirosystems/connect/pull/403) [`cb82258`](https://github.com/hirosystems/connect/commit/cb822582318348e3b36b2e5d048db465b0668ebc) Thanks [@janniks](https://github.com/janniks)! - Update UI properties
 
   BREAKING CHANGE:
-
   - RENAMED `persistSelection` to `persistWalletSelect`
   - REMOVED `shouldUsePopup` from `@stacks/connect-ui`
 
