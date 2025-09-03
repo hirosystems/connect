@@ -44,12 +44,12 @@ class WalletConnectProvider implements StacksProvider {
       publicKey: '',
     }));
 
-
-    // Merge these two arrays keeping unique addresses by address field
+    console.log('>> Stacks addresses', stacksAddresses);
+    console.log('>> Stacks session addresses', stacksSessionAddresses);
     const allAddresses: AddressEntry[] = [
       ...(stacksSessionAddresses || []),
       ...(stacksAddresses || []),
-    ];
+    ].sort(a => (a.publicKey ? 1 : -1));
     const addresses = Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
 
     return addresses;
