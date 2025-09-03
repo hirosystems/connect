@@ -11,7 +11,7 @@ const stacksMethods: (keyof MethodsRaw)[] = [
   'stx_updateProfile',
   'stx_transferStx',
   'stx_transferSip10Ft',
-  'stx_transferSip10Nft',
+  'stx_transferSip9Nft',
   'stx_callContract',
   'stx_deployContract',
   'sendTransfer',
