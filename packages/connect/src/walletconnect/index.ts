@@ -35,7 +35,7 @@ class WalletConnectProvider implements StacksProvider {
     }
   }
 
-  private get stacksAddresses(): AddressEntry[] {
+  private get stacksAddresses(): (AddressEntry & { path?: string; purpose?: string })[] {
     const session = this.connector.provider?.session;
     const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
     const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '[]');
@@ -45,12 +45,11 @@ class WalletConnectProvider implements StacksProvider {
     }));
 
     const allAddresses: AddressEntry[] = [
-      ...(stacksSessionAddresses || []),
       ...(stacksAddresses || []),
+      ...(stacksSessionAddresses || []),
     ].sort(a => (a.publicKey ? 1 : -1));
-    const addresses = Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
 
-    return addresses;
+    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
   }
 
   private get btcAddresses(): AddressEntry[] {
@@ -62,10 +61,15 @@ class WalletConnectProvider implements StacksProvider {
       publicKey: '',
     }));
 
-    const allAddresses: AddressEntry[] = [
-      ...(btcSessionAddresses?.payment || []),
+    const allAddresses: (AddressEntry & { path?: string; purpose?: string })[] = [
+      ...(btcSessionAddresses?.payment.map(a => ({ ...a, purpose: 'payment' })) || []),
+      ...(btcSessionAddresses?.ordinal.map(a => ({ ...a, purpose: 'ordinal' })) || []),
       ...(btcAddresses || []),
-    ].sort(a => (a.publicKey ? 1 : -1));
+    ]
+      // Sort entries without public key first, to overwrite with entries from session with public key
+      .sort(a => (a.publicKey ? 1 : -1))
+      // Sort by address length ascending (payment first)
+      .sort((a, b) => a?.address.length - b?.address.length);
 
     return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
   }
