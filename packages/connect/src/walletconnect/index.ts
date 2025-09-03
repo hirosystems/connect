@@ -40,11 +40,17 @@ class WalletConnectProvider implements StacksProvider {
     const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
     const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '[]');
     const stacksAddresses = session.namespaces.stacks.accounts.map(account => ({
-      address: account,
+      address: account.split(':')[2],
       publicKey: '',
     }));
 
-    const addresses = stacksSessionAddresses || stacksAddresses || [];
+
+    // Merge these two arrays keeping unique addresses by address field
+    const allAddresses: AddressEntry[] = [
+      ...(stacksSessionAddresses || []),
+      ...(stacksAddresses || []),
+    ];
+    const addresses = Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
 
     return addresses;
   }
@@ -58,9 +64,12 @@ class WalletConnectProvider implements StacksProvider {
       publicKey: '',
     }));
 
-    const addresses = btcSessionAddresses?.payment || btcAddresses;
+    const allAddresses: AddressEntry[] = [
+      ...(btcSessionAddresses?.payment || []),
+      ...(btcAddresses || []),
+    ];
 
-    return addresses;
+    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
   }
 
   private async getAddresses(): Promise<GetAddressesResult> {
