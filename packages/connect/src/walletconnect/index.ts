@@ -44,8 +44,6 @@ class WalletConnectProvider implements StacksProvider {
       publicKey: '',
     }));
 
-    console.log('>> Stacks addresses', stacksAddresses);
-    console.log('>> Stacks session addresses', stacksSessionAddresses);
     const allAddresses: AddressEntry[] = [
       ...(stacksSessionAddresses || []),
       ...(stacksAddresses || []),
@@ -67,7 +65,7 @@ class WalletConnectProvider implements StacksProvider {
     const allAddresses: AddressEntry[] = [
       ...(btcSessionAddresses?.payment || []),
       ...(btcAddresses || []),
-    ];
+    ].sort(a => (a.publicKey ? 1 : -1));
 
     return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
   }
