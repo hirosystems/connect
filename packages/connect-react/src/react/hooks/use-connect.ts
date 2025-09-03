@@ -76,7 +76,8 @@ export const useConnect = () => {
         sendToSignIn: false,
       });
     }
-    authOptions && doUpdateAuthOptions(authOptions);
+
+    if (authOptions) doUpdateAuthOptions(authOptions);
   };
 
   const doAuth = (options: Partial<AuthOptions> = {}, provider?: StacksProvider) => {

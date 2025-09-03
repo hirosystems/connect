@@ -1,22 +1,5 @@
 # `@stacks/connect` [![npm](https://img.shields.io/npm/v/@stacks/connect)](https://www.npmjs.com/package/@stacks/connect) <!-- omit in toc -->
 
-> [!NOTE]
-> Please be patient during this latest migration.
-> There has been a long-running effort together with wallets to modernize and move forward the Stacks web ecosystem.
-> It is now culminating in [SIP-030](https://github.com/janniks/sips/blob/main/sips/sip-030/sip-030-wallet-interface.md) and the new `request` method in Stacks Connect `8.x.x`.
-> Bear with us during this migration.
-> Wallets are still working through some bugs, details, and improvements.
-> **We're working on it!**
->
-> _Feel free to continue using Stacks Connect `7.x.x` while things stabilize._
-> The `7.x.x` version may still be more well supported by some wallets.
-
-For the legacy version of `@stacks/connect` using JWT tokens, please use the following command:
-
-```sh
-npm install @stacks/connect@7.10.1
-```
-
 ## 🛬 Migration Guide <!-- omit in toc -->
 
 **Welcome to the new Stacks Connect! ✨** Read the [`@stacks/connect` docs](./packages/connect) for more information.
@@ -54,7 +37,6 @@ npm install @stacks/connect@latest
 ```
 
 2. Switch from `showXyz`, `openXyz`, `doXyz` methods to the `request` method.
-
    - `request` follows the pattern `request(method: string, params: object)`, see [Usage](#usage) for more details
    - `request` is an async function, so replace the `onFinish` and `onCancel` callbacks with `.then().catch()` or `try & await`
    - e.g., `showConnect()`, `authenticate()` → `connect()`
@@ -62,12 +44,10 @@ npm install @stacks/connect@latest
    - e.g., `openContractDeploy()` → `request("stx_deployContract", {})`
 
 3. Switch from `showConnect` or`authenticate` to `connect()` methods
-
    - `connect()` is an alias for `request({forceWalletSelect: true}, 'getAddresses')`
    - `connect()` by default caches the user's address in local storage
 
 4. Remove code referencing deprecated methods (`AppConfig`, `UserSession`, etc.)
-
    - Switch from `UserSession.isSignedIn()` to `isConnected()`
    - Switch from `UserSession.signUserOut()` to `disconnect()`
 
@@ -138,6 +118,16 @@ isConnected(); // true
 disconnect(); // clears local storage and selected wallet
 isConnected(); // false
 ```
+
+#### WalletConnect
+
+To use WalletConnect as a provider configure the `walletConnectProjectId` option in the `connect`/`request` params.
+
+```ts
+await connect({ walletConnectProjectId: 'YOUR_PROJECT_ID' });
+```
+
+You can get your project ID from the [Reown dashboard](https://dashboard.reown.com/onboarding) after creating an App project.
 
 ### Use `request` to trigger wallet interactions <!-- omit in toc -->
 
@@ -403,15 +393,17 @@ import { request } from '@stacks/connect';
 // WITH options
 const response = await request(
   {
-    provider?: StacksProvider;        // Custom provider to use for the request
+    provider?: StacksProvider;         // Custom provider to use for the request
 
-    forceWalletSelect?: boolean;      // Force user to select a wallet (default: false)
+    forceWalletSelect?: boolean;       // Force user to select a wallet (default: false)
     persistWalletSelect?: boolean;     // Persist selected wallet (default: true)
     enableOverrides?: boolean;         // Enable provider compatibility (default: true)
     enableLocalStorage?: boolean;      // Store address in local storage (default: true)
 
     defaultProviders?: WbipProvider[]; // Default wallets to display in modal
     approvedProviderIds?: string[];    // List of approved provider IDs to show in modal
+
+    walletConnectProjectId?: string;   // WalletConnect project ID
   },
   'method',
   params
