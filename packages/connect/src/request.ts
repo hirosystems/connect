@@ -24,6 +24,7 @@ import { DEFAULT_PROVIDERS, WALLET_CONNECT_PROVIDER } from './providers';
 import { setLocalStorageData } from './storage';
 import { StacksProvider } from './types';
 import { initializeWalletConnectProvider } from './walletconnect';
+import { UniversalConnectorConfig } from '@reown/appkit-universal-connector';
 
 export interface ConnectRequestOptions {
   /**
@@ -70,12 +71,24 @@ export interface ConnectRequestOptions {
   approvedProviderIds?: string[];
 
   /**
+   * @deprecated Use `walletConnectConfig` instead. If `walletConnectConfig` is provided, `walletConnectProjectId` is ignored.
+   *
    * The project ID for WalletConnect.
-   * If provided, the WalletConnect provider will be created.
+   * If provided, the WalletConnect provider will be created with default metadata and networks.
    */
   walletConnectProjectId?: string;
 
-  // todo: maybe add callbacks, if set use them instead of throwing errors
+  /**
+   * The config for WalletConnect.
+   * If provided, the WalletConnect provider will be created.
+   * - `config.projectId` is required.
+   * - `config.metadata` and `config.networks` are optional and will use default values if not provided.
+   *
+   * If using `walletConnectConfig` alongside `approvedProviderIds`, make sure to include
+   * `"WalletConnectProvider"` in the `approvedProviderIds` array.
+   */
+  walletConnectConfig?: Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
+    Omit<UniversalConnectorConfig, 'metadata' | 'networks'>;
 }
 
 export async function requestRaw<M extends keyof MethodsRaw>(
@@ -85,6 +98,9 @@ export async function requestRaw<M extends keyof MethodsRaw>(
 ): Promise<MethodResultRaw<M>> {
   try {
     const response = await provider.request(method, params);
+    if (!response) {
+      throw new JsonRpcError('Provider did not return a response', JsonRpcErrorCode.UnknownError);
+    }
     if ('error' in response) throw JsonRpcError.fromResponse(response.error);
 
     return response.result;
@@ -170,27 +186,29 @@ export async function request<M extends keyof Methods>(
     | [method: M, params?: MethodParams<M>]
     | [options: ConnectRequestOptions, method: M, params?: MethodParams<M>]
 ): Promise<MethodResult<M>> {
-  const { options, method, params } = requestArgs(args);
-
-  // Default options
-  let defaultProviders = DEFAULT_PROVIDERS;
-  if (options?.walletConnectProjectId) {
-    await initializeWalletConnectProvider(options.walletConnectProjectId).catch(console.error);
-    defaultProviders = [...defaultProviders, WALLET_CONNECT_PROVIDER];
-  }
+  const { options: _options, method, params } = requestArgs(args);
 
   const opts = Object.assign(
     {
       provider: getProvider(),
-      defaultProviders,
+      defaultProviders: DEFAULT_PROVIDERS,
 
       forceWalletSelect: false,
       persistWalletSelect: true,
       enableOverrides: true,
       enableLocalStorage: true,
     },
-    shallowDefined(options)
+    shallowDefined(_options)
   );
+
+  // Handle WalletConnect optional provider
+  if (opts?.walletConnectConfig) {
+    await initializeWalletConnectProvider(opts.walletConnectConfig).catch(console.error);
+    opts.defaultProviders = [...opts.defaultProviders, WALLET_CONNECT_PROVIDER];
+  } else if (opts?.walletConnectProjectId) {
+    await initializeWalletConnectProvider(opts.walletConnectProjectId).catch(console.error);
+    opts.defaultProviders = [...opts.defaultProviders, WALLET_CONNECT_PROVIDER];
+  }
 
   const req = wrapResultOverrides(
     opts.enableOverrides,
@@ -215,10 +233,10 @@ export async function request<M extends keyof Methods>(
 
   return new Promise((resolve, reject) => {
     const element = document.createElement('connect-modal');
-    element.defaultProviders = filterProviders(opts.approvedProviderIds, defaultProviders);
+    element.defaultProviders = filterProviders(opts.approvedProviderIds, opts.defaultProviders);
     element.installedProviders = filterProviders(
       opts.approvedProviderIds,
-      getInstalledProviders(defaultProviders)
+      getInstalledProviders(opts.defaultProviders)
     );
 
     const originalOverflow = document.body.style.overflow;

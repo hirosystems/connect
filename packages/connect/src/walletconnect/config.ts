@@ -28,8 +28,7 @@ export const stacksMainnet: CustomCaipNetwork<'stacks'> = {
   rpcUrls: { default: { http: ['https://api.mainnet.hiro.so'] } },
 };
 
-export const config: UniversalConnectorConfig = {
-  projectId: 'your_project_id',
+export const DEFAULT_WALLETCONNECT_CONFIG: Omit<UniversalConnectorConfig, 'projectId'> = {
   metadata: {
     name: 'Universal Connector',
     description: 'Universal Connector',
