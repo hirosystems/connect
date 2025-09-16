@@ -62,8 +62,6 @@ export const getInstalledProviders = (defaultProviders: WbipProvider[] = []) => 
     return !!provider;
   });
 
-  console.log('defaultProviders', defaultProviders);
-  console.log('additionalInstalledProviders', additionalInstalledProviders);
   return defaultProviders.concat(additionalInstalledProviders);
 };
 
