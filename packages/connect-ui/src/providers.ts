@@ -53,16 +53,16 @@ export const getInstalledProviders = (defaultProviders: WbipProvider[] = []) => 
 
   const registeredProviders = getRegisteredProviders();
 
-  const additionalInstalledProviders = defaultProviders.filter(defaultProvider => {
-    // already registered, don't add again
-    if (registeredProviders.find(rp => rp.id === defaultProvider.id)) return false;
+  const additionalInstalledProviders = registeredProviders.filter(rp => {
+    // already in default providers, don't add again
+    if (defaultProviders.find(dp => dp.id === rp.id)) return false;
 
     // check if default provider is installed (even if not registered)
-    const provider = getProviderFromId(defaultProvider.id);
+    const provider = getProviderFromId(rp.id);
     return !!provider;
   });
 
-  return registeredProviders.concat(additionalInstalledProviders);
+  return defaultProviders.concat(additionalInstalledProviders);
 };
 
 /**

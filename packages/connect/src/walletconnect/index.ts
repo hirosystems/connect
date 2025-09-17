@@ -1,4 +1,4 @@
-import { UniversalConnector } from '@reown/appkit-universal-connector';
+import { UniversalConnector, UniversalConnectorConfig } from '@reown/appkit-universal-connector';
 import {
   AddressEntry,
   GetAddressesResult,
@@ -8,7 +8,7 @@ import {
   SignMessageResult,
 } from '../methods';
 import { StacksProvider } from '../types/provider';
-import { config, stacksMainnet } from './config';
+import { DEFAULT_WALLETCONNECT_CONFIG, stacksMainnet } from './config';
 import { bitcoin } from '@reown/appkit/networks';
 
 function jsonRpcResponse<M extends keyof MethodsRaw>(result: unknown): JsonRpcResponse<M> {
@@ -168,10 +168,29 @@ class WalletConnectProvider implements StacksProvider {
   }
 }
 
-export const initializeWalletConnectProvider = async (projectId: string) => {
-  const provider = await UniversalConnector.init({ ...config, projectId });
+export async function initializeWalletConnectProvider(projectId: string): Promise<void>;
+export async function initializeWalletConnectProvider(
+  config: Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
+    Omit<UniversalConnectorConfig, 'metadata' | 'networks'>
+): Promise<void>;
+export async function initializeWalletConnectProvider(
+  arg:
+    | string
+    | (Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
+        Omit<UniversalConnectorConfig, 'metadata' | 'networks'>)
+): Promise<void> {
+  const { projectId, config } =
+    typeof arg === 'string'
+      ? { projectId: arg, config: undefined }
+      : { projectId: arg.projectId, config: arg };
+
+  const provider = await UniversalConnector.init({
+    ...DEFAULT_WALLETCONNECT_CONFIG,
+    ...config,
+    projectId,
+  });
 
   const walletConnectProvider = new WalletConnectProvider(provider);
 
   window['WalletConnectProvider'] = walletConnectProvider;
-};
+}

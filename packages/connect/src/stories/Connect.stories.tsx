@@ -108,7 +108,7 @@ export const WithMultipleApprovedProviders: Story = {
 export const WithApprovedAndCustomProviders: Story = {
   render: () => {
     const handleConnect = () => {
-      // Create a custom set of providers
+      // Create a custom set of (default) providers
       const customProviders = [
         {
           id: 'custom-wallet-1',
@@ -126,9 +126,19 @@ export const WithApprovedAndCustomProviders: Story = {
           icon: 'https://via.placeholder.com/48',
         },
       ];
+      (window as any).leather = { request: () => console.log('cool story bro') };
 
       return connect({
-        approvedProviderIds: ['leather', 'xverse'],
+        walletConnectConfig: {
+          projectId: WALLET_CONNECT_PROJECT_ID,
+          metadata: {
+            name: 'Custom Wallet',
+            description: 'Custom Wallet',
+            url: 'https://custom-wallet.com',
+            icons: ['https://custom-wallet.com/icon.png'],
+          },
+        },
+        approvedProviderIds: ['leather', 'xverse', 'WalletConnectProvider'],
         defaultProviders: customProviders,
         forceWalletSelect: true,
       });
@@ -138,7 +148,7 @@ export const WithApprovedAndCustomProviders: Story = {
       <ConnectPage customConnectFunction={handleConnect}>
         <p>
           This demo combines approvedProviderIds with custom defaultProviders. Only `Custom Leather`
-          should appear.
+          and `WalletConnect` should appear.
         </p>
       </ConnectPage>
     );
