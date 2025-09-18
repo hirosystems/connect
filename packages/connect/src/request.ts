@@ -71,7 +71,7 @@ export interface ConnectRequestOptions {
   approvedProviderIds?: string[];
 
   /**
-   * @deprecated Use `walletConnectConfig` instead. If `walletConnectConfig` is provided, `walletConnectProjectId` is ignored.
+   * @deprecated Use `walletConnect` instead. If `walletConnect` is provided, `walletConnectProjectId` is ignored.
    *
    * The project ID for WalletConnect.
    * If provided, the WalletConnect provider will be created with default metadata and networks.
@@ -84,10 +84,10 @@ export interface ConnectRequestOptions {
    * - `config.projectId` is required.
    * - `config.metadata` and `config.networks` are optional and will use default values if not provided.
    *
-   * If using `walletConnectConfig` alongside `approvedProviderIds`, make sure to include
+   * If using `walletConnect` alongside `approvedProviderIds`, make sure to include
    * `"WalletConnectProvider"` in the `approvedProviderIds` array.
    */
-  walletConnectConfig?: Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
+  walletConnect?: Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
     Omit<UniversalConnectorConfig, 'metadata' | 'networks'>;
 }
 
@@ -202,8 +202,8 @@ export async function request<M extends keyof Methods>(
   );
 
   // Handle WalletConnect optional provider
-  if (opts?.walletConnectConfig) {
-    await initializeWalletConnectProvider(opts.walletConnectConfig).catch(console.error);
+  if (opts?.walletConnect) {
+    await initializeWalletConnectProvider(opts.walletConnect).catch(console.error);
     opts.defaultProviders = [...opts.defaultProviders, WALLET_CONNECT_PROVIDER];
   } else if (opts?.walletConnectProjectId) {
     await initializeWalletConnectProvider(opts.walletConnectProjectId).catch(console.error);

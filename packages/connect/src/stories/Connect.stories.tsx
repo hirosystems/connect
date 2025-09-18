@@ -129,7 +129,7 @@ export const WithApprovedAndCustomProviders: Story = {
       (window as any).leather = { request: () => console.log('cool story bro') };
 
       return connect({
-        walletConnectConfig: {
+        walletConnect: {
           projectId: WALLET_CONNECT_PROJECT_ID,
           metadata: {
             name: 'Custom Wallet',
