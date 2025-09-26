@@ -109,7 +109,10 @@ class WalletConnectProvider implements StacksProvider {
     }
   }
 
-  private getTargetCaipNetworkId<M extends keyof MethodsRaw>(method: M, params?: MethodParamsRaw<M>) {
+  private getTargetCaipNetworkId<M extends keyof MethodsRaw>(
+    method: M,
+    params?: MethodParamsRaw<M>
+  ) {
     const accountMethods = ['getAddresses', 'stx_getAccounts', 'stx_getAddresses'];
     const network = 'network' in params ? (params.network as NetworkString) : undefined;
 
@@ -119,7 +122,6 @@ class WalletConnectProvider implements StacksProvider {
         testnet: stacksTestnet.caipNetworkId,
       }[network];
     }
-
 
     if (accountMethods.includes(method)) {
       return stacksMainnet.caipNetworkId;
