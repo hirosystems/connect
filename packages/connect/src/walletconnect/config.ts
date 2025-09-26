@@ -28,6 +28,15 @@ export const stacksMainnet: CustomCaipNetwork<'stacks'> = {
   rpcUrls: { default: { http: ['https://api.mainnet.hiro.so'] } },
 };
 
+export const stacksTestnet: CustomCaipNetwork<'stacks'> = {
+  id: 2,
+  chainNamespace: 'stacks' as const,
+  caipNetworkId: 'stacks:2147483648',
+  name: 'Stacks Testnet',
+  nativeCurrency: { name: 'STX', symbol: 'STX', decimals: 6 },
+  rpcUrls: { default: { http: ['https://api.testnet.hiro.so'] } },
+};
+
 export const DEFAULT_WALLETCONNECT_CONFIG: Omit<UniversalConnectorConfig, 'projectId'> = {
   metadata: {
     name: 'Universal Connector',
@@ -38,7 +47,7 @@ export const DEFAULT_WALLETCONNECT_CONFIG: Omit<UniversalConnectorConfig, 'proje
   networks: [
     {
       namespace: 'stacks',
-      chains: [stacksMainnet as CustomCaipNetwork],
+      chains: [stacksMainnet, stacksTestnet],
       methods: stacksMethods,
       events: ['stx_chainChanged', 'stx_accountsChanged'],
     },

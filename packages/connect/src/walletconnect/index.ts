@@ -5,10 +5,11 @@ import {
   JsonRpcResponse,
   MethodParamsRaw,
   MethodsRaw,
+  NetworkString,
   SignMessageResult,
 } from '../methods';
 import { StacksProvider } from '../types/provider';
-import { DEFAULT_WALLETCONNECT_CONFIG, stacksMainnet } from './config';
+import { DEFAULT_WALLETCONNECT_CONFIG, stacksMainnet, stacksTestnet } from './config';
 import { bitcoin } from '@reown/appkit/networks';
 
 function jsonRpcResponse<M extends keyof MethodsRaw>(result: unknown): JsonRpcResponse<M> {
@@ -108,8 +109,20 @@ class WalletConnectProvider implements StacksProvider {
     }
   }
 
-  private getTargetCaipNetworkId(method: keyof MethodsRaw) {
+  private getTargetCaipNetworkId<M extends keyof MethodsRaw>(
+    method: M,
+    params?: MethodParamsRaw<M>
+  ) {
     const accountMethods = ['getAddresses', 'stx_getAccounts', 'stx_getAddresses'];
+    const network = 'network' in params ? (params.network as NetworkString) : undefined;
+
+    if (network) {
+      return {
+        mainnet: stacksMainnet.caipNetworkId,
+        testnet: stacksTestnet.caipNetworkId,
+      }[network];
+    }
+
     if (accountMethods.includes(method)) {
       return stacksMainnet.caipNetworkId;
     }
@@ -133,7 +146,7 @@ class WalletConnectProvider implements StacksProvider {
   ): Promise<JsonRpcResponse<M>> {
     try {
       this.validateRpcMethod(method);
-      const caipNetworkId = this.getTargetCaipNetworkId(method);
+      const caipNetworkId = this.getTargetCaipNetworkId(method, params);
 
       switch (method) {
         case 'getAddresses':
