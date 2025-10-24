@@ -1,5 +1,20 @@
 # Change Log
 
+## 8.2.1
+
+### Patch Changes
+
+- [#465](https://github.com/hirosystems/connect/pull/465) [`745f1f0`](https://github.com/hirosystems/connect/commit/745f1f0cf5d462ca195d8ca20dc1897dbba483a2) Thanks [@tomiir](https://github.com/tomiir)! - Add support for testnet with WalletConnect wallets
+
+- [#462](https://github.com/hirosystems/connect/pull/462) [`18f6464`](https://github.com/hirosystems/connect/commit/18f6464d3f5bfdb4c8b01ee565c0705b6eb1cba5) Thanks [@janniks](https://github.com/janniks)! - Fix provider filtering order
+
+- [#462](https://github.com/hirosystems/connect/pull/462) [`18f6464`](https://github.com/hirosystems/connect/commit/18f6464d3f5bfdb4c8b01ee565c0705b6eb1cba5) Thanks [@janniks](https://github.com/janniks)! - Add preferred `walletConnect` option to ConnectRequestOptions. Deprecate `walletConnectProjectId` in favor of nested config object
+
+- [#462](https://github.com/hirosystems/connect/pull/462) [`18f6464`](https://github.com/hirosystems/connect/commit/18f6464d3f5bfdb4c8b01ee565c0705b6eb1cba5) Thanks [@janniks](https://github.com/janniks)! - Fix error handling of empty provider responses
+
+- Updated dependencies [[`18f6464`](https://github.com/hirosystems/connect/commit/18f6464d3f5bfdb4c8b01ee565c0705b6eb1cba5)]:
+  - @stacks/connect-ui@8.1.1
+
 ## 8.2.0
 
 ### Minor Changes

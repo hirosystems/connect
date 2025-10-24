@@ -1,5 +1,11 @@
 # Change Log
 
+## 8.1.1
+
+### Patch Changes
+
+- [#462](https://github.com/hirosystems/connect/pull/462) [`18f6464`](https://github.com/hirosystems/connect/commit/18f6464d3f5bfdb4c8b01ee565c0705b6eb1cba5) Thanks [@janniks](https://github.com/janniks)! - Fix provider filtering order
+
 ## 8.1.0
 
 ### Minor Changes
