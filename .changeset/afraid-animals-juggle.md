@@ -2,4 +2,4 @@
 '@stacks/connect': patch
 ---
 
-Adds support for testnet on WalletConnect wallet
+Add support for testnet with WalletConnect wallets
