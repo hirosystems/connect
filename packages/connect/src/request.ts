@@ -190,9 +190,8 @@ export async function request<M extends keyof Methods>(
 
   const opts = Object.assign(
     {
-      provider: getProvider(),
+      provider: null,
       defaultProviders: DEFAULT_PROVIDERS,
-
       forceWalletSelect: false,
       persistWalletSelect: true,
       enableOverrides: true,
@@ -209,6 +208,9 @@ export async function request<M extends keyof Methods>(
     await initializeWalletConnectProvider(opts.walletConnectProjectId).catch(console.error);
     opts.defaultProviders = [...opts.defaultProviders, WALLET_CONNECT_PROVIDER];
   }
+
+  // call getProvider() after all the providers have been initialized
+  opts.provider = getProvider();
 
   const req = wrapResultOverrides(
     opts.enableOverrides,
