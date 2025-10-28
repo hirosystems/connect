@@ -210,7 +210,7 @@ export async function request<M extends keyof Methods>(
   }
 
   // call getProvider() after all the providers have been initialized
-  opts.provider = getProvider();
+  opts.provider = opts.provider ?? getProvider();
 
   const req = wrapResultOverrides(
     opts.enableOverrides,
