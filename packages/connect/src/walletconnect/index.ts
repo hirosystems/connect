@@ -38,6 +38,11 @@ class WalletConnectProvider implements StacksProvider {
 
   private get stacksAddresses(): (AddressEntry & { path?: string; purpose?: string })[] {
     const session = this.connector.provider?.session;
+
+    if (!session?.namespaces?.stacks) {
+      return [];
+    }
+
     const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
     const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '[]');
     const stacksAddresses = session.namespaces.stacks.accounts.map(account => ({
@@ -50,11 +55,16 @@ class WalletConnectProvider implements StacksProvider {
       ...(stacksSessionAddresses || []),
     ].sort(a => (a.publicKey ? 1 : -1));
 
-    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
+    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values()) || [];
   }
 
   private get btcAddresses(): AddressEntry[] {
     const session = this.connector.provider?.session;
+
+    if (!session?.namespaces?.bip122) {
+      return [];
+    }
+
     const btcSessionAddressesString = session?.sessionProperties['bip122_getAccountAddresses'];
     const btcSessionAddresses = JSON.parse(btcSessionAddressesString || '{}');
     const btcAddresses = session.namespaces.bip122.accounts.map(account => ({
@@ -72,17 +82,18 @@ class WalletConnectProvider implements StacksProvider {
       // Sort by address length ascending (payment first)
       .sort((a, b) => a?.address.length - b?.address.length);
 
-    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
+    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values()) || [];
   }
 
   private async getAddresses(): Promise<GetAddressesResult> {
     let session = this.connector.provider?.session;
+
     if (!session) {
       session = await this.connect();
     }
 
-    const stacksAddresses = this.stacksAddresses || [];
-    const btcAddresses = this.btcAddresses || [];
+    const stacksAddresses = this.stacksAddresses;
+    const btcAddresses = this.btcAddresses;
     const addresses = [...stacksAddresses, ...btcAddresses];
 
     return { addresses };
@@ -192,6 +203,10 @@ export async function initializeWalletConnectProvider(
     | (Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
         Omit<UniversalConnectorConfig, 'metadata' | 'networks'>)
 ): Promise<void> {
+  if (window['WalletConnectProvider']) {
+    return;
+  }
+
   const { projectId, config } =
     typeof arg === 'string'
       ? { projectId: arg, config: undefined }

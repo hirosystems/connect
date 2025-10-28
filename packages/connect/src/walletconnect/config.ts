@@ -37,6 +37,20 @@ export const stacksTestnet: CustomCaipNetwork<'stacks'> = {
   rpcUrls: { default: { http: ['https://api.testnet.hiro.so'] } },
 };
 
+export const stacksNetworkConfig = {
+  namespace: 'stacks',
+  chains: [stacksMainnet, stacksTestnet],
+  methods: stacksMethods,
+  events: ['stx_chainChanged', 'stx_accountsChanged'],
+};
+
+export const bitcoinNetworkConfig = {
+  namespace: 'bip122',
+  chains: [bitcoin],
+  methods: ['signMessage', 'sendTransfer', 'signPsbt', 'getAccountAddresses'],
+  events: ['bip122_addressesChanged'],
+};
+
 export const DEFAULT_WALLETCONNECT_CONFIG: Omit<UniversalConnectorConfig, 'projectId'> = {
   metadata: {
     name: 'Universal Connector',
@@ -44,18 +58,5 @@ export const DEFAULT_WALLETCONNECT_CONFIG: Omit<UniversalConnectorConfig, 'proje
     url: 'https://appkit.reown.com',
     icons: ['https://appkit.reown.com/icon.png'],
   },
-  networks: [
-    {
-      namespace: 'stacks',
-      chains: [stacksMainnet, stacksTestnet],
-      methods: stacksMethods,
-      events: ['stx_chainChanged', 'stx_accountsChanged'],
-    },
-    {
-      namespace: 'bip122',
-      chains: [bitcoin],
-      methods: ['signMessage', 'sendTransfer', 'signPsbt', 'getAccountAddresses'],
-      events: ['bip122_addressesChanged'],
-    },
-  ],
+  networks: [stacksNetworkConfig, bitcoinNetworkConfig],
 };

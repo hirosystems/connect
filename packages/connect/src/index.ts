@@ -52,6 +52,14 @@ export {
 } from './storage';
 export { getStacksProvider, isStacksWalletInstalled } from './utils';
 
+// export pre-defined wallet networks for easy consumer network selection and usage
+export {
+  stacksNetworkConfig,
+  bitcoinNetworkConfig,
+  stacksMainnet,
+  stacksTestnet,
+} from './walletconnect/config';
+
 // TODO: (next)
 // We won't expose these types (TypeBox and Zod) until they are final and stable.
 // TypeBox
