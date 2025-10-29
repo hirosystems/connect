@@ -1,5 +1,5 @@
 ---
-'@stacks/connect': minor
+'@stacks/connect': patch
 ---
 
-Export `stacksNetworkConfig` and `bitcoinNetworkConfig` for easy WalletConnect network configuration. Add duplicate initialization prevention and null-safe checks for namespace access.
+Export `WalletConnect` namespace for easy WalletConnect network configuration.
