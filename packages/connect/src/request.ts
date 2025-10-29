@@ -209,7 +209,7 @@ export async function request<M extends keyof Methods>(
     opts.defaultProviders = [...opts.defaultProviders, WALLET_CONNECT_PROVIDER];
   }
 
-  // call getProvider() after all the providers have been initialized
+  // Call getProvider() after all the providers have been initialized
   opts.provider = opts.provider ?? getProvider();
 
   const req = wrapResultOverrides(
