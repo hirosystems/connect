@@ -9,8 +9,7 @@ import {
   SignMessageResult,
 } from '../methods';
 import { StacksProvider } from '../types/provider';
-import { DEFAULT_WALLETCONNECT_CONFIG, stacksMainnet, stacksTestnet } from './config';
-import { bitcoin } from '@reown/appkit/networks';
+import { Chains, Default } from './config';
 
 function jsonRpcResponse<M extends keyof MethodsRaw>(result: unknown): JsonRpcResponse<M> {
   return {
@@ -129,21 +128,21 @@ class WalletConnectProvider implements StacksProvider {
 
     if (network) {
       return {
-        mainnet: stacksMainnet.caipNetworkId,
-        testnet: stacksTestnet.caipNetworkId,
+        mainnet: Chains.Stacks.Mainnet.caipNetworkId,
+        testnet: Chains.Stacks.Testnet.caipNetworkId,
       }[network];
     }
 
     if (accountMethods.includes(method)) {
-      return stacksMainnet.caipNetworkId;
+      return Chains.Stacks.Mainnet.caipNetworkId;
     }
 
     if (this.connector.provider?.session?.namespaces?.stacks?.methods.includes(method)) {
-      return stacksMainnet.caipNetworkId;
+      return Chains.Stacks.Mainnet.caipNetworkId;
     }
 
     if (this.connector.provider?.session?.namespaces?.bip122?.methods.includes(method)) {
-      return bitcoin.caipNetworkId;
+      return Chains.Bitcoin.Mainnet.caipNetworkId;
     }
 
     throw new Error(
@@ -213,7 +212,7 @@ export async function initializeWalletConnectProvider(
       : { projectId: arg.projectId, config: arg };
 
   const provider = await UniversalConnector.init({
-    ...DEFAULT_WALLETCONNECT_CONFIG,
+    ...Default,
     ...config,
     projectId,
   });

@@ -52,13 +52,41 @@ export {
 } from './storage';
 export { getStacksProvider, isStacksWalletInstalled } from './utils';
 
-// export pre-defined wallet networks for easy consumer network selection and usage
-export {
-  stacksNetworkConfig,
-  bitcoinNetworkConfig,
-  stacksMainnet,
-  stacksTestnet,
-} from './walletconnect/config';
+/**
+ * Provides pre-configured network definitions and configurations for Stacks and Bitcoin networks.
+ *
+ * Exports `WalletConnect.Networks` and `WalletConnect.Chains` for easy network configuration.
+ * Exports `WalletConnect.Default` for the default configuration.
+ *
+ * @example
+ * ```typescript
+ * import { WalletConnect } from '@stacks/connect';
+ *
+ * request({
+ *   walletConnect: {
+ *     projectId: 'your-project-id',
+ *     networks: [WalletConnect.Networks.Stacks] // Only enable Stacks
+ *   };
+ * }, 'method', params);
+ * ```
+ *
+ *  * @example
+ * ```typescript
+ * import { WalletConnect } from '@stacks/connect';
+ *
+ * request({
+ *   walletConnect: {
+ *     projectId: 'your-project-id',
+ *       networks: [{
+ *         ...WalletConnect.Networks.Stacks,
+ *         chains: [WalletConnect.Chains.Stacks.Mainnet] // Only enable Stacks *Mainnet*
+ *       }]
+ *     },
+ *   };
+ * }, 'method', params);
+ * ```
+ */
+export * as WalletConnect from './walletconnect/config';
 
 // TODO: (next)
 // We won't expose these types (TypeBox and Zod) until they are final and stable.

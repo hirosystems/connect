@@ -15,6 +15,9 @@ export default [
       // Disabled due to `getTypeChecker` bug in plugin
       'stencil/strict-boolean-conditions': 'off',
 
+      // Allow namespaces
+      '@typescript-eslint/no-namespace': 'off',
+
       // Stencil
       'stencil/ban-side-effects': 'off',
       'stencil/ban-exported-const-enums': 'off',

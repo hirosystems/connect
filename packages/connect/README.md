@@ -403,7 +403,10 @@ const response = await request(
     defaultProviders?: WbipProvider[]; // Default wallets to display in modal
     approvedProviderIds?: string[];    // List of approved provider IDs to show in modal
 
-    walletConnectProjectId?: string;   // WalletConnect project ID
+    walletConnect?: {
+      projectId: string;               // WalletConnect project ID
+      // ... other options from WalletConnect `UniversalConnectorConfig` (from `@reown/appkit-universal-connector`)
+    };
   },
   'method',
   params
