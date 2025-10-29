@@ -9,8 +9,7 @@ import {
   SignMessageResult,
 } from '../methods';
 import { StacksProvider } from '../types/provider';
-import { DEFAULT_WALLETCONNECT_CONFIG, stacksMainnet, stacksTestnet } from './config';
-import { bitcoin } from '@reown/appkit/networks';
+import { Chains, Default } from './config';
 
 function jsonRpcResponse<M extends keyof MethodsRaw>(result: unknown): JsonRpcResponse<M> {
   return {
@@ -38,6 +37,9 @@ class WalletConnectProvider implements StacksProvider {
 
   private get stacksAddresses(): (AddressEntry & { path?: string; purpose?: string })[] {
     const session = this.connector.provider?.session;
+
+    if (!session?.namespaces?.stacks?.accounts) return [];
+
     const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
     const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '[]');
     const stacksAddresses = session.namespaces.stacks.accounts.map(account => ({
@@ -55,6 +57,9 @@ class WalletConnectProvider implements StacksProvider {
 
   private get btcAddresses(): AddressEntry[] {
     const session = this.connector.provider?.session;
+
+    if (!session?.namespaces?.bip122?.accounts) return [];
+
     const btcSessionAddressesString = session?.sessionProperties['bip122_getAccountAddresses'];
     const btcSessionAddresses = JSON.parse(btcSessionAddressesString || '{}');
     const btcAddresses = session.namespaces.bip122.accounts.map(account => ({
@@ -77,12 +82,13 @@ class WalletConnectProvider implements StacksProvider {
 
   private async getAddresses(): Promise<GetAddressesResult> {
     let session = this.connector.provider?.session;
+
     if (!session) {
       session = await this.connect();
     }
 
-    const stacksAddresses = this.stacksAddresses || [];
-    const btcAddresses = this.btcAddresses || [];
+    const stacksAddresses = this.stacksAddresses;
+    const btcAddresses = this.btcAddresses;
     const addresses = [...stacksAddresses, ...btcAddresses];
 
     return { addresses };
@@ -118,21 +124,21 @@ class WalletConnectProvider implements StacksProvider {
 
     if (network) {
       return {
-        mainnet: stacksMainnet.caipNetworkId,
-        testnet: stacksTestnet.caipNetworkId,
+        mainnet: Chains.Stacks.Mainnet.caipNetworkId,
+        testnet: Chains.Stacks.Testnet.caipNetworkId,
       }[network];
     }
 
     if (accountMethods.includes(method)) {
-      return stacksMainnet.caipNetworkId;
+      return Chains.Stacks.Mainnet.caipNetworkId;
     }
 
     if (this.connector.provider?.session?.namespaces?.stacks?.methods.includes(method)) {
-      return stacksMainnet.caipNetworkId;
+      return Chains.Stacks.Mainnet.caipNetworkId;
     }
 
     if (this.connector.provider?.session?.namespaces?.bip122?.methods.includes(method)) {
-      return bitcoin.caipNetworkId;
+      return Chains.Bitcoin.Mainnet.caipNetworkId;
     }
 
     throw new Error(
@@ -192,13 +198,15 @@ export async function initializeWalletConnectProvider(
     | (Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
         Omit<UniversalConnectorConfig, 'metadata' | 'networks'>)
 ): Promise<void> {
+  if (window['WalletConnectProvider']) return;
+
   const { projectId, config } =
     typeof arg === 'string'
       ? { projectId: arg, config: undefined }
       : { projectId: arg.projectId, config: arg };
 
   const provider = await UniversalConnector.init({
-    ...DEFAULT_WALLETCONNECT_CONFIG,
+    ...Default,
     ...config,
     projectId,
   });
