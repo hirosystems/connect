@@ -70,7 +70,7 @@ export { getStacksProvider, isStacksWalletInstalled } from './utils';
  * }, 'method', params);
  * ```
  *
- *  * @example
+ * @example
  * ```typescript
  * import { WalletConnect } from '@stacks/connect';
  *
