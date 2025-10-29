@@ -38,9 +38,7 @@ class WalletConnectProvider implements StacksProvider {
   private get stacksAddresses(): (AddressEntry & { path?: string; purpose?: string })[] {
     const session = this.connector.provider?.session;
 
-    if (!session?.namespaces?.stacks) {
-      return [];
-    }
+    if (!session?.namespaces?.stacks?.accounts) return [];
 
     const stacksSessionAddressesString = session?.sessionProperties['stacks_getAddresses'];
     const stacksSessionAddresses = JSON.parse(stacksSessionAddressesString || '[]');
@@ -54,15 +52,13 @@ class WalletConnectProvider implements StacksProvider {
       ...(stacksSessionAddresses || []),
     ].sort(a => (a.publicKey ? 1 : -1));
 
-    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values()) || [];
+    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
   }
 
   private get btcAddresses(): AddressEntry[] {
     const session = this.connector.provider?.session;
 
-    if (!session?.namespaces?.bip122) {
-      return [];
-    }
+    if (!session?.namespaces?.bip122?.accounts) return [];
 
     const btcSessionAddressesString = session?.sessionProperties['bip122_getAccountAddresses'];
     const btcSessionAddresses = JSON.parse(btcSessionAddressesString || '{}');
@@ -81,7 +77,7 @@ class WalletConnectProvider implements StacksProvider {
       // Sort by address length ascending (payment first)
       .sort((a, b) => a?.address.length - b?.address.length);
 
-    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values()) || [];
+    return Array.from(new Map(allAddresses.map(addr => [addr.address, addr])).values());
   }
 
   private async getAddresses(): Promise<GetAddressesResult> {
@@ -202,9 +198,7 @@ export async function initializeWalletConnectProvider(
     | (Partial<Pick<UniversalConnectorConfig, 'metadata' | 'networks'>> &
         Omit<UniversalConnectorConfig, 'metadata' | 'networks'>)
 ): Promise<void> {
-  if (window['WalletConnectProvider']) {
-    return;
-  }
+  if (window['WalletConnectProvider']) return;
 
   const { projectId, config } =
     typeof arg === 'string'
