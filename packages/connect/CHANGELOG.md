@@ -1,5 +1,15 @@
 # Change Log
 
+## 8.2.2
+
+### Patch Changes
+
+- [#470](https://github.com/hirosystems/connect/pull/470) [`47c259b`](https://github.com/hirosystems/connect/commit/47c259b547eb93f6e1f9ad620e23018714463a14) Thanks [@jfstn](https://github.com/jfstn)! - Export `WalletConnect` namespace for easy WalletConnect network configuration
+
+- [#469](https://github.com/hirosystems/connect/pull/469) [`73d9d49`](https://github.com/hirosystems/connect/commit/73d9d4904569093ac6f1f18c5acab350f060fa5f) Thanks [@jfstn](https://github.com/jfstn)! - Prevent wallet selection modal from showing unnecessarily when using WalletConnect
+
+- [#470](https://github.com/hirosystems/connect/pull/470) [`47c259b`](https://github.com/hirosystems/connect/commit/47c259b547eb93f6e1f9ad620e23018714463a14) Thanks [@jfstn](https://github.com/jfstn)! - Add duplicate WalletConnect Provider initialization prevention and null-safe checks for namespace access
+
 ## 8.2.1
 
 ### Patch Changes
